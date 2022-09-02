@@ -1,0 +1,12 @@
+{
+    "betterstats.gui.filters": "Filters",
+    "betterstats.gui.current_tab": "Tab",
+    "betterstats.gui.search": "Search",
+    "betterstats.gui.search.no_results": "No items matched your search...",
+    "betterstats.gui.hide_empty": "Hide empty stats",
+    "betterstats.gui.hide_empty.tooltip": "Hides general, food, and monster statistics that\ndo not have a value assigned to them yet.",
+    "betterstats.gui.show_item_names": "Show item names",
+    "betterstats.gui.show_item_names.tooltip": "Shows item names in the item statistic tooltips.",
+    "betterstats.gui.vanilla_stats_screen": "Show vanilla stats",
+    "betterstats.gui.close": "Close"
+}
