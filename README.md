@@ -38,3 +38,53 @@ This tab aims to help you achieve the "Monsters hunted" advancement. It shows yo
 Note: Just like in the "A balanced diet" tab, I do not know whether or not modded hostile mobs count or not. It is up to the mods and data packs to dictate that behavior. As such, all hostile mobs will be shown here, including modded ones.
 
 ![Screenshot_5](https://user-images.githubusercontent.com/66475965/188214353-fb7c48e6-9143-4c39-93a5-b06a6bbf0379.png)
+
+# Mod config
+To configure the mod, go to the `config` directory, and create the `betterstats.properties` file. In that file, you may define the desired config properties. Below is a list of properties you can use, their default values, and information on what they do.
+
+Notice: Regarding colors, the color properties take integers representing RGB color values that can be obtained using `java.awt.Color.getRGB()`. More info on how to use color properties will be below.
+
+```properties
+# This property keeps track of whether or not the user has seen the better statistic screen
+# before. It is used for drawing a red dot in the top right corner of the "Statistics" button.
+# In other words, if the user never saw the screen before, a small red dot will let them know
+# to click on the "Statistics" button.
+# I would like to ask any modpack creators/developers to keep this property at it's default
+# value when featuring this mod, so more people can see the mod. But in the end, it is up to you tho.
+SEEN_BSS=false
+
+# This one is an extra unused feature I decided to include. At first I was gonna use it, but
+# I then changed my mind, as I couldn't come up with a cool texture for the button.
+# When turned on, the `betterstats:textures/gui/stats_btn_bg.png` image will be drawn below
+# the "Statistics" button's text. You can use this to customize the button if you wish to.
+# Don't forget to keep the texture's edges transparent, so as to let the game's button outline
+# work properly. You can find the placeholder image you could use in the mod's `assets` folder.
+BSS_BTN_IMG=false
+
+# Used to remember whether or not the user hid empty stats using the filter checkbox.
+FILTER_HIDE_EMPTY_STATS=false
+
+# Used to remember whether or not the user chose to show item names using the filter checkbox.
+FILTER_SHOW_ITEM_NAMES=true
+
+# The text color used in the general statistics tab (used in some other places as well such
+# as rendering mob names as replacement for mob models in mob tabs, not used in tooltips)
+COLOR_STAT_GENERAL_TEXT=-1
+
+# The background color of a statistic entry. Any entry, from any tab.
+COLOR_STAT_BG=599045300
+
+# The outline color used for when you hover over a given statistic entry
+COLOR_STAT_OUTLINE=-4144960
+
+# The background color of the filters tab and the stats tab
+COLOR_CONTENTPANE_BG=2013265920
+
+# The color used for category names when statistic entries are categorized
+COLOR_CATEGORY_NAME_NORMAL=-922747136
+
+# Same as COLOR_CATEGORY_NAME_NORMAL except this is when the names are "glowing"/"brighter"
+COLOR_CATEGORY_NAME_HIGHLIGHTED=-256
+```
+
+As for obtaining integer numbers for given RGBA values, I have created a Java code snippet on the online compiler site that you can use right now to obtain the integer for any color you wish to use. You can see it by [clicking here](http://tpcg.io/_YRQJVE).
