@@ -98,10 +98,10 @@ public abstract class BSStatWidget extends FillWidget
 	}
 	// --------------------------------------------------
 	@Override
-	public boolean changeFocus(boolean lookForwards)
+	public void onFocusedChanged(boolean newFocused)
 	{
-		boolean b0 = super.changeFocus(lookForwards);
-		if(b0)
+		super.onFocusedChanged(newFocused);
+		if(newFocused && parent.getFocused() instanceof BSStatWidget)
 		{
 			//adjust the scroll so the element is visible when pressing Tab
 			double val = 0;
@@ -112,12 +112,12 @@ public abstract class BSStatWidget extends FillWidget
 				val = this.y - bottom + this.getHeight() + 5;
 			else if(this.y < top)
 				val -= Math.abs(top - this.y + 5);
+			else return;
 			
 			val = - val;
 			parent.statContentPane.scroll.setValue(parent.statContentPane.scroll.getValue() + val);
 			parent.statContentPane.onScroll_apply(parent.statContentPane.x, parent.statContentPane.y);
 		}
-		return b0;
 	}
 	// ==================================================
 }
