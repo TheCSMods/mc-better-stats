@@ -39,6 +39,9 @@ Note: Just like in the "A balanced diet" tab, I do not know whether or not modde
 
 ![Screenshot_5](https://user-images.githubusercontent.com/66475965/188214353-fb7c48e6-9143-4c39-93a5-b06a6bbf0379.png)
 
+# Debug Mode
+This is a special tab that you can only access by holding down the CTRL key while cycling tabs. I added this tab so I can more easily debug the mod while working on it. You can use any debug features in there yourself as well. As for the "Show everything" option, please keep in mind that it may cause lag spikes when used with large mods and mod-packs because of the amount of items/entities that may end up being shown on the screen. Those lag spikes are the main reason I chose NOT to show all item/mob stats even when the "Hide empty stats" checkbox is unchecked.
+
 # Mod config
 To configure the mod, go to the `config` directory, and create the `betterstats.properties` file. In that file, you may define the desired config properties. Below is a list of properties you can use, their default values, and information on what they do.
 
@@ -88,3 +91,39 @@ COLOR_CATEGORY_NAME_HIGHLIGHTED=-256
 ```
 
 As for obtaining integer numbers for given RGBA values, I have created a Java code snippet on the online compiler site that you can use right now to obtain the integer for any color you wish to use. You can see it by [clicking here](http://tpcg.io/_YRQJVE).
+
+## betterstats_mobStatRenderer.json (as of v1.1+)
+(Available as of v1.1)<br/>
+When rendering mob statistics, the mod tries it's best to position and scale the mob models correctly so as to make them fit the GUI box properly. However, not every mob model behaves the same, and as such, some modded mobs may appear positioned inappropriately, despite the mod's efforts to make it positioned and scaled appropriately.
+
+If you are someone who uses this mod, or a mod-pack creator/developer, you can use this config file to tell the mod how it should render certain entities. I have already tweaked some Vanilla entities to make them positioned appropriately. You can always override those tweaks using the config file.
+
+To get started, create the `betterstats_mobStatRenderer.json` file in the `config` directory, make sure it's contents are at least `{}` to avoid errors, and make sure you use the appropriate JSON syntax. Below is an example configuration:
+```json
+{
+    "minecraft:axolotl": { "MobStatGuiPosOffset": [10,-10] },
+    "minecraft:ghast": { "MobStatGuiPosOffset": [0,-25] },
+    "minecraft:spider": {  "MobStatGuiSize": 95 },
+    "minecraft:cave_spider": {  "MobStatGuiSize": 80 },
+    "minecraft:squid": {  "MobStatGuiPosOffset": [0,-25] },
+    "minecraft:glow_squid": { "MobStatGuiPosOffset": [0,-25] },
+
+    "minecraft:phantom": { "MobStatGuiSize": 60, "MobStatGuiPosOffset": [0,-20] },
+    "minecraft:turtle": { "MobStatGuiSize": 70, "MobStatGuiPosOffset": [0,0] },
+
+    "minecraft:ender_dragon": { "MobStatGuiSize": 300, "MobStatGuiPosOffset": [0,-20] },
+
+    "minecraft:slime": { "MobStatGuiSize": 400 },
+    "minecraft:magma_cube": { "MobStatGuiSize": 400 },
+    "minecraft:pufferfish": { "MobStatGuiSize": 150 }
+}
+```
+Each entry key is an `Identifier` for a given `LivingEntity`, for example `"minecraft:pig": { ... }`. Each entry can have certain properties defining how the entity in question will be rendered on a GUI mob statistic. Below is the list of those properties:
+
+### MobStatGuiSize (Integer)
+Before rendering mobs, the mod attempts to calculate which size it should use when rendering a given mob. This integer is a percentage value that multiplies the mod's chosen size number by `MobStatGuiSize / 100`. So for example, if the mod chose to render a mob using the size of `30`, and the value of this property was let's say `200`, then the final rendering size would be `30 * (200 / 100) = 60`, aka `60`.<br/>
+Example: `"MobStatGuiSize": 100`
+
+### MobStatGuiPosOffset (Integer array with the length of 2)
+This property offsets a given entity's GUI position relative to the mod's chosen position at which to render a mob at. The mod attempts to render a mob near the center of it's GUI statistic box. The X and Y values are also percentages, and those percentages are relative to the size of the GUI box. In v1.1, the size of the box is `50`, so a value of let's say `X = 100` would offset the entity by `50` in the X axis, because `50 * (100 / 100) = 50`, and so the final value would be `50 (chosen by the mod) + 50 (custom offset) = 100`. It is not recommended to use values `> 100 or < -100`.<br/>
+Example: `"MobStatGuiPosOffset": [0,-20]`
