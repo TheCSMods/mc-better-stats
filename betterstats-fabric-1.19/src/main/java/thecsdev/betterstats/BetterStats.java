@@ -10,6 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import thecsdev.betterstats.config.BSConfig;
+import thecsdev.betterstats.config.BSMobStatRenderConfig;
 import thecsdev.betterstats.server.BetterStatsServer;
 
 public abstract class BetterStats
@@ -39,6 +40,7 @@ public abstract class BetterStats
 		
 		//load properties
 		BSConfig.loadProperties();
+		BSMobStatRenderConfig.loadProperties();
 	}
 	
 	public static boolean validateInstance()

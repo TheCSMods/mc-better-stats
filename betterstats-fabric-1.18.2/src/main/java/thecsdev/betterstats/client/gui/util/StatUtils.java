@@ -37,12 +37,16 @@ public class StatUtils
 	// ==================================================
 	@SuppressWarnings("unchecked")
 	public static final ArrayList<StatType<Item>> ItemStatTypes = Lists.newArrayList(new StatType[] { Stats.BROKEN, Stats.CRAFTED, Stats.USED, Stats.PICKED_UP, Stats.DROPPED });
+	
+	public static boolean DEBUG_SHOW_EVERYTHING = false;
 	// ==================================================
 	public static final Function<SUItemStat, Boolean> ITEM_STAT_EMPTY_FILTER = arg0 ->
+			DEBUG_SHOW_EVERYTHING ||
 			arg0.crafted != 0 || arg0.used != 0 || arg0.broken != 0 ||
 			arg0.pickedUp != 0 || arg0.dropped != 0;
 	
 	public static final Function<SUMobStat, Boolean> MOB_STAT_EMPTY_FILTER = arg0 ->
+			DEBUG_SHOW_EVERYTHING ||
 			arg0.killed != 0 || arg0.killedBy != 0;
 	// ==================================================
 	public static ArrayList<SUGeneralStat> getGeneralStats(StatHandler statHandler)
@@ -263,7 +267,10 @@ public class StatUtils
 		
 		public SUMobStat(StatHandler statHandler, EntityType<?> entityType)
 		{
-			this.entity = entityType.create(MCClient.world);
+			if(entityType != EntityType.PLAYER)
+				this.entity = entityType.create(MCClient.world);
+			else this.entity = MCClient.player;
+			
 			this.entityType = entityType;
 			this.entityName = tt(entityType.getTranslationKey()).getString();
 			this.killed = statHandler.getStat(Stats.KILLED, entityType);

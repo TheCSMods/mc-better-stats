@@ -66,7 +66,8 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		Entities(tt("stat.mobsButton")),
 		
 		FoodStuffs(tt("advancements.husbandry.balanced_diet.title")),
-		MonstersHunted(tt("advancements.adventure.kill_all_mobs.title"));
+		MonstersHunted(tt("advancements.adventure.kill_all_mobs.title")),
+		Debug(tt("betterstats.gui.debug_mode"));
 		
 		private final Text text;
 		CurrentTab(Text text) { this.text = text; }
@@ -192,6 +193,12 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				.narration(btn -> ClickableWidget.getNarrationMessage(btn.getMessage()))
 				.build(mcpX + 5, mcpY + 30, mcpW - 10, 20, tt("betterstats.gui.current_tab"), (arg0, arg1) ->
 				{
+					if(arg1 == CurrentTab.Debug && !hasControlDown())
+					{
+						mcp_btn_tab.onPress();
+						return;
+					}
+					
 					CACHE_TAB = arg1;
 					this.update();
 				});
@@ -293,11 +300,13 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			case Entities: lY_dE = update_drawEntityStats(); break;
 			case FoodStuffs: lY_dE = update_drawFoodStats(); break;
 			case MonstersHunted: lY_dE = update_drawHuntingStats(); break;
+			case Debug: lY_dE = update_drawDebug(); break;
 			default: break;
 		}
 		
 		//update scroll and stuff based on lastY and drawnEntries
-		int lastY = lY_dE.width, drawnEntries = lY_dE.height;
+		int lastY = lY_dE != null ? lY_dE.width : 0;
+		int drawnEntries = lY_dE != null ? lY_dE.height : 0;
 		
 		if(drawnEntries > 0)
 		{
@@ -323,7 +332,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		String search = mcp_txt_search.getText();
 		int drawnEntries = 0;
 		int nextX = statContentPane.x + 5, nextY = statContentPane.y + 5;
-		int nextW = statContentPane.getWidth() - 10 - (8 /*scrollbar*/);
+		int nextW = statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 3;
 		int lastY = 0;
 		
 		//iterate all stats
@@ -635,6 +644,34 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		
 		//return
 		return new Dimension(lastY, drawnEntries);
+	}
+	
+	private Dimension update_drawDebug()
+	{
+		//stuff
+		int drawnEntries = 0;
+		int nextX = statContentPane.x + 5, nextY = statContentPane.y + 5;
+		int nextW = statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 3;
+		int lastY = 0;
+		
+		//create elements
+		ActionCheckboxWidget acw_showEverything = new ActionCheckboxWidget(
+				nextX, nextY,
+				nextW, 20,
+				tt("betterstats.gui.debug.show_everything"),
+				StatUtils.DEBUG_SHOW_EVERYTHING);
+		acw_showEverything.setChangedListener(arg0 -> StatUtils.DEBUG_SHOW_EVERYTHING = arg0.isChecked());
+		
+		//add elements
+		addCutDrawableChild(acw_showEverything, statContentPane);
+		
+		statContentPane.scroll.makeScrollable(statContentPane, acw_showEverything);
+		
+		drawnEntries += 1;
+		
+		//return
+		lastY = acw_showEverything.y + acw_showEverything.getHeight();
+		return new Dimension(drawnEntries, lastY);
 	}
 	// ==================================================
 }

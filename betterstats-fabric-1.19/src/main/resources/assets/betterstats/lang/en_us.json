@@ -8,5 +8,8 @@
     "betterstats.gui.show_item_names": "Show item names",
     "betterstats.gui.show_item_names.tooltip": "Shows item names in the item statistic tooltips.",
     "betterstats.gui.vanilla_stats_screen": "Show vanilla stats",
-    "betterstats.gui.close": "Close"
+    "betterstats.gui.close": "Close",
+
+    "betterstats.gui.debug_mode": "Debug Mode",
+    "betterstats.gui.debug.show_everything": "Show everything (possible lag spikes (if there are lots of mods))"
 }

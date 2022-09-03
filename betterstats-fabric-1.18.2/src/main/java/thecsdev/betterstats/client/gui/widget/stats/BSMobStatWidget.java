@@ -3,36 +3,55 @@ package thecsdev.betterstats.client.gui.widget.stats;
 import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.BetterStats.tt;
 
+import java.awt.Point;
+
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.text.Text;
 import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import thecsdev.betterstats.client.gui.util.GuiUtils;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUMobStat;
 import thecsdev.betterstats.config.BSConfig;
+import thecsdev.betterstats.config.BSMobStatRenderConfig;
 
 public class BSMobStatWidget extends BSStatWidget
 {
 	// ==================================================
-	public static final int defaultMobGuiSize = 38; //the value is 50 for 80x80px
+	//public static final int defaultMobGuiSize = 38; //the value is 50 for 80x80px - UNUSED
 	// --------------------------------------------------
 	public final SUMobStat mobStat;
 	public final String[] mobNameSplit;
 	
 	public final LivingEntity livingEntity;
-	public final int mobGuiSize;
+	// --------------------------------------------------
+	public final int cache_mobSize;
+	public final Point cache_mobOffset;
 	// ==================================================
-	public BSMobStatWidget(BetterStatsScreen parent, SUMobStat mobStat, int x, int y)
+	public BSMobStatWidget(BetterStatsScreen parent, SUMobStat mobStat, int x, int y) { this(parent, mobStat, x, y, 50); }
+	public BSMobStatWidget(BetterStatsScreen parent, SUMobStat mobStat, int x, int y, int width)
 	{
-		super(parent, x, y, 60, 60, BSConfig.COLOR_STAT_BG);
+		//define mob info and stuff
+		super(parent, x, y, width, width, BSConfig.COLOR_STAT_BG);
 		this.mobStat = mobStat;
 		this.mobNameSplit = mobStat.entityName.split("([\\r?\\n])|([ ]{1,})");
-		
 		livingEntity = (mobStat.entity instanceof LivingEntity) ? (LivingEntity) mobStat.entity : null;
-		mobGuiSize = getLivingEntityGUISize(livingEntity);
 		updateTooltip();
+		
+		if(livingEntity != null)
+			livingEntity.baseTick();
+		
+		//calculate the mob's gui size and offset in pixels, and then cache it
+		cache_mobSize = BSMobStatRenderConfig.getLivingEntityGUISize(livingEntity, width);
+		cache_mobOffset = BSMobStatRenderConfig.getLivingEntityGUIPos(livingEntity, width);
+	}
+	
+	@Override
+	@SuppressWarnings("deprecation") //idk, i'm gonna do this just in case
+	protected void finalize() throws Throwable
+	{
+		super.finalize();
+		mobStat.entity.discard();
 	}
 	// --------------------------------------------------
 	@Override
@@ -70,16 +89,16 @@ public class BSMobStatWidget extends BSStatWidget
 			scissorHeight -= Math.abs(bottom - scBottom);
 		
 		//render living_entity/entity_name
-		if(livingEntity != null)
-			GuiUtils.applyScissor(x, scissorY, width, scissorHeight, () ->
+		if(livingEntity != null && !livingEntity.isDead())
+			GuiUtils.applyScissor(x + 1, scissorY + 1, width - 2, scissorHeight - 2, () ->
 			{
 				int centerX = this.x + (this.width / 2);
 				int centerY = this.y + (this.height / 2);
 				
 				InventoryScreen.drawEntity(
-						centerX,
-						this.y + this.height - 7,
-						mobGuiSize,
+						this.x + cache_mobOffset.x,
+						this.y + cache_mobOffset.y,
+						cache_mobSize,
 						-rInt(mouseX, centerX), -rInt(mouseY, centerY),
 						livingEntity);
 			});
@@ -95,25 +114,5 @@ public class BSMobStatWidget extends BSStatWidget
 	}
 	
 	private static int rInt(int input, int relativeTo) { return input - relativeTo; }
-	
-	private static int getLivingEntityGUISize(LivingEntity e)
-	{
-		//if null, return default
-		if(e == null) return defaultMobGuiSize;
-		
-		//return size based on entity model size
-		float f1 = e.getType().getDimensions().width, f2 = e.getType().getDimensions().height;
-		double d0 = Math.sqrt((f1 * f1) + (f2 * f2));
-		if(d0 == 0) d0 = 0.1;
-		
-		//some mobs are too wide that even the
-		//formula above doesn't work properly on them...
-		//*looks at ender dragon*
-		if(e instanceof EnderDragonEntity)
-			d0 /= 2;
-		
-		//calculate and return
-		return (int) (defaultMobGuiSize / d0);
-	}
 	// ==================================================
 }

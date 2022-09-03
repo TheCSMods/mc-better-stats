@@ -123,7 +123,8 @@ public final class BSConfig
 	// ==================================================
 	public static File getPropertiesFile()
 	{
-		return new File(System.getProperty("user.dir") + "/config/" + BetterStats.ModID + ".properties");
+		return new File(System.getProperty("user.dir") +
+				"/config/" + BetterStats.ModID + ".properties");
 	}
 	// ==================================================
 	private static boolean smartBool(String arg0, boolean def)

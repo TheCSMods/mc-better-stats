@@ -29,7 +29,7 @@ import thecsdev.betterstats.util.math.PointAndSize;
 
 public class GuiUtils
 {
-	// --------------------------------------------------
+	// ==================================================
 	public static final Identifier PING_TEXTURE = new Identifier(BetterStats.ModID, "textures/gui/ping.png");
 	// --------------------------------------------------
 	public static final int COLOR_BLACK = Color.black.getRGB();
@@ -38,7 +38,7 @@ public class GuiUtils
 	public static final int COLOR_TOOLTIP_BGROUND = new Color(15,0,15).getRGB();
 	// --------------------------------------------------
 	private static final PointAndSize DEFAULT_TOOLTIP_OFFSET = new PointAndSize(5, 0, 0, 0);
-	// --------------------------------------------------
+	// ==================================================
 	public static void drawTooltip(MatrixStack matrices, int mouseX, int mouseY, Text text)
 	{
 		drawTooltip(matrices, mouseX, mouseY, text, DEFAULT_TOOLTIP_OFFSET);
@@ -92,7 +92,7 @@ public class GuiUtils
 		//return the tooltip size
 		return textSize;
 	}
-	// --------------------------------------------------
+	// ==================================================
 	public static void drawTexture(Identifier id, int x, int y, int w, int h)
 	{
 		Screen cs = BetterStatsClient.MCClient.currentScreen;
@@ -111,7 +111,7 @@ public class GuiUtils
 	    bufferBuilder.vertex(x, y, 0).texture(0, 0).color(255, 255, 255, 255).next();
 	    tessellator.draw();
 	}
-	
+	// --------------------------------------------------
 	public static void drawButtonPing(ClickableWidget widget) { drawButtonPing(widget, 6, 6); }
 	public static void drawButtonPing(ClickableWidget widget, int w, int h) { drawButtonPing(widget, w, h, -4, -2); }
 	public static void drawButtonPing(ClickableWidget widget, int w, int h, int offsetX, int offsetY)
@@ -133,7 +133,7 @@ public class GuiUtils
 			nextY += tr.fontHeight + 1;
 		}
 	}
-	// --------------------------------------------------
+	// ==================================================
 	//credit: Sodium Extra - code block taken from there
 	public static void applyScissor(int x, int y, int width, int height, Runnable renderingAction)
 	{
@@ -165,5 +165,5 @@ public class GuiUtils
 		}
 		return new Dimension(maxWidth, tr.getWrappedLinesHeight(textStr, maxWidth));
 	}
-	// --------------------------------------------------
+	// ==================================================
 }
