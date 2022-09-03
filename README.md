@@ -23,7 +23,7 @@ The items tab displays items in a visual grid of items, similar to how an invent
 ### Mobs
 Similar to the "Items" tab, the "Mobs" tab will also show mobs in a grid. The mobs are visually rendered on the GUI screen, so it is easier for you to find the mob you are looking for, and because it looks nicer. Just like with the items tab, to see the statistics for a given mob, place your cursor over the said mob, or use "Tab" to navigate to it using your keyboard. A tooltip text will show you the statistics.
 
-![Screenshot_3](https://user-images.githubusercontent.com/66475965/188212910-42c38e7b-dec2-4748-871e-0a0de3a2e5ca.png)
+![Screenshot_3](https://user-images.githubusercontent.com/66475965/188287966-69108493-a072-40df-adce-753302abce3d.png)
 
 ### A balanced diet
 This tab aims to help you achieve the "A balanced died" advancement. It does that by displaying all food items in grouped grids, similarly to how the "Items" tab does it. This tab will show you all food items, even the ones you haven't interacted with, and will also highlight the foods you already ate before, helping you identify which foods you need to eat next to earn the advancement. The filters can be used to hide foods you haven't interacted with, as well as look for specific foods with the search field.
@@ -37,7 +37,7 @@ This tab aims to help you achieve the "Monsters hunted" advancement. It shows yo
 
 Note: Just like in the "A balanced diet" tab, I do not know whether or not modded hostile mobs count or not. It is up to the mods and data packs to dictate that behavior. As such, all hostile mobs will be shown here, including modded ones.
 
-![Screenshot_5](https://user-images.githubusercontent.com/66475965/188214353-fb7c48e6-9143-4c39-93a5-b06a6bbf0379.png)
+![Screenshot_5](https://user-images.githubusercontent.com/66475965/188287976-d61922e3-e48a-431a-9a3a-3835aaf4b393.png)
 
 ### Debug Mode (as of v1.1)
 This is a special tab that you can only access by holding down the CTRL key while cycling tabs. I added this tab so I can more easily debug the mod while working on it. You can use any debug features in there yourself as well. As for the "Show everything" option, please keep in mind that it may cause lag spikes when used with large mods and mod-packs because of the amount of items/entities that may end up being shown on the screen. Those lag spikes are the main reason I chose NOT to show all item/mob stats even when the "Hide empty stats" checkbox is unchecked.
