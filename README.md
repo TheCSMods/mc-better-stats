@@ -39,7 +39,7 @@ Note: Just like in the "A balanced diet" tab, I do not know whether or not modde
 
 ![Screenshot_5](https://user-images.githubusercontent.com/66475965/188214353-fb7c48e6-9143-4c39-93a5-b06a6bbf0379.png)
 
-# Debug Mode
+# Debug Mode (as of v1.1)
 This is a special tab that you can only access by holding down the CTRL key while cycling tabs. I added this tab so I can more easily debug the mod while working on it. You can use any debug features in there yourself as well. As for the "Show everything" option, please keep in mind that it may cause lag spikes when used with large mods and mod-packs because of the amount of items/entities that may end up being shown on the screen. Those lag spikes are the main reason I chose NOT to show all item/mob stats even when the "Hide empty stats" checkbox is unchecked.
 
 # Mod config
