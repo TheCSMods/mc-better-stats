@@ -10,6 +10,14 @@ The new UI also features two extra statistic tabs, alongside Vanilla's three tab
 
 Below you can read some extra info on those tabs and see screenshots of what they look like.
 
+### Credits (regarding screenshots and the video)
+I decided to test the mod as well as take screenshots of the mod in my survival world from the [Better Minecraft](https://www.curseforge.com/minecraft/modpacks/better-mc-fabric) mod pack, so as to show that the mod works with modded features as well. The screenshots also feature the [Complementary Shaders](https://www.curseforge.com/minecraft/customization/complementary-shaders) being used alongside [Iris](https://modrinth.com/mod/iris), as well as the [BYG](https://modrinth.com/mod/biomesyougo) mod.
+
+### A short video
+Here is a short video showcasing the mod and what it looks like (click the image)</br>
+</br>
+[![Better Statistics Screen showcase](https://img.youtube.com/vi/AaC8J0G238c/0.jpg)](https://www.youtube.com/watch?v=AaC8J0G238c)
+
 ### General
 This tab does not add nor show anything special regarding general statistics other than the redesigned UI layout. The filters menu features a way for you to hide all general statistics that are currently set to '0', as well as a search bar that will help you look for a specific statistic.
 
