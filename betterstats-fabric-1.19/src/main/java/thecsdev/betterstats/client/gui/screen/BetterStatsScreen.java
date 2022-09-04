@@ -10,12 +10,14 @@ import static thecsdev.betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Sets;
@@ -27,11 +29,13 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.StatsListener;
 import net.minecraft.client.gui.screen.StatsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.mob.GiantEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
@@ -44,6 +48,7 @@ import thecsdev.betterstats.client.gui.util.StatUtils.SUGeneralStat;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUItemStat;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUMobStat;
 import thecsdev.betterstats.client.gui.widget.ActionCheckboxWidget;
+import thecsdev.betterstats.client.gui.widget.BetterStatsButtonWidget;
 import thecsdev.betterstats.client.gui.widget.CenteredTextWidget;
 import thecsdev.betterstats.client.gui.widget.FillWidget;
 import thecsdev.betterstats.client.gui.widget.FillWidget.FWBorderMode;
@@ -52,6 +57,10 @@ import thecsdev.betterstats.client.gui.widget.StringWidget;
 import thecsdev.betterstats.client.gui.widget.stats.BSGenetalStatWidget;
 import thecsdev.betterstats.client.gui.widget.stats.BSItemStatWidget;
 import thecsdev.betterstats.client.gui.widget.stats.BSMobStatWidget;
+import thecsdev.betterstats.config.BSConfig;
+import thecsdev.betterstats.config.BSProperty;
+import thecsdev.betterstats.config.BSPropertyColorInt;
+import thecsdev.betterstats.config.BSProperty.BSPCategory;
 
 public class BetterStatsScreen extends ScreenWithScissors implements StatsListener
 {
@@ -67,7 +76,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		
 		FoodStuffs(tt("advancements.husbandry.balanced_diet.title")),
 		MonstersHunted(tt("advancements.adventure.kill_all_mobs.title")),
-		Debug(tt("betterstats.gui.debug_mode"));
+		Debug(tt("menu.options"));
 		
 		private final Text text;
 		CurrentTab(Text text) { this.text = text; }
@@ -140,13 +149,6 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		
 		//when downloading is done, render the other elements
 		super.render(matrices, mouseX, mouseY, delta);
-	}
-	
-	@Override
-	public void tick()
-	{
-		super.tick();
-		if(mcp_txt_search != null) mcp_txt_search.tick();
 	}
 	// ==================================================
 	public FillWidget menuContentPane;
@@ -300,7 +302,10 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			case Entities: lY_dE = update_drawEntityStats(); break;
 			case FoodStuffs: lY_dE = update_drawFoodStats(); break;
 			case MonstersHunted: lY_dE = update_drawHuntingStats(); break;
-			case Debug: lY_dE = update_drawDebug(); break;
+			case Debug:
+				lY_dE = update_drawConfig(BSConfig.class, BSPCategory.All);
+				mcp_btn_tab.active = false;
+				break;
 			default: break;
 		}
 		
@@ -332,7 +337,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		String search = mcp_txt_search.getText();
 		int drawnEntries = 0;
 		int nextX = statContentPane.x + 5, nextY = statContentPane.y + 5;
-		int nextW = statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 3;
+		int nextW = statContentPane.getWidth() - 10 - 8/*statContentPane.scroll.barTransform.width - 3*/; //TODO
 		int lastY = 0;
 		
 		//iterate all stats
@@ -579,7 +584,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			boolean b0 = StringUtils.isAllBlank(search) ||
 					StringUtils.containsIgnoreCase(entityName, search);
 			boolean b1 = !FILTER_HIDE_EMPTY_STATS || StatUtils.MOB_STAT_EMPTY_FILTER.apply(mobStat);
-			boolean b2 = mobStat.entity instanceof Monster;
+			boolean b2 = mobStat.entity instanceof Monster && !(mobStat.entity instanceof GiantEntity);
 			return b0 && b1 && b2;
 		});
 		
@@ -646,7 +651,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		return new Dimension(lastY, drawnEntries);
 	}
 	
-	private Dimension update_drawDebug()
+	/*private Dimension update_drawDebug()
 	{
 		//stuff
 		int drawnEntries = 0;
@@ -658,19 +663,180 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		ActionCheckboxWidget acw_showEverything = new ActionCheckboxWidget(
 				nextX, nextY,
 				nextW, 20,
-				tt("betterstats.gui.debug.show_everything"),
-				StatUtils.DEBUG_SHOW_EVERYTHING);
-		acw_showEverything.setChangedListener(arg0 -> StatUtils.DEBUG_SHOW_EVERYTHING = arg0.isChecked());
+				tt("betterstats.gui.debug_mode.show_everything"),
+				BSConfig.DEBUG_SHOW_EVERYTHING);
+		acw_showEverything.setChangedListener(arg0 -> BSConfig.DEBUG_SHOW_EVERYTHING = arg0.isChecked());
+		nextY += acw_showEverything.getHeight() + 5;
+		
+		ActionCheckboxWidget acw_dinnerbone = new ActionCheckboxWidget(
+				nextX, nextY,
+				nextW, 20,
+				tt("betterstats.gui.debug_mode.dinnerbone_mode"),
+				BSConfig.DEBUG_DINNERBONE_MODE);
+		acw_dinnerbone.setChangedListener(arg0 -> BSConfig.DEBUG_DINNERBONE_MODE = arg0.isChecked());
+		nextY += acw_dinnerbone.getHeight() + 5;
 		
 		//add elements
-		addCutDrawableChild(acw_showEverything, statContentPane);
-		
 		statContentPane.scroll.makeScrollable(statContentPane, acw_showEverything);
+		statContentPane.scroll.makeScrollable(statContentPane, acw_dinnerbone);
+		
+		addCutDrawableChild(acw_showEverything, statContentPane);
+		addCutDrawableChild(acw_dinnerbone, statContentPane);
 		
 		drawnEntries += 1;
 		
 		//return
 		lastY = acw_showEverything.y + acw_showEverything.getHeight();
+		return new Dimension(drawnEntries, lastY);
+	}*/
+	
+	private Dimension update_drawConfig(Class<?> clazz, BSPCategory _category)
+	{
+		//stuff
+		int drawnEntries = 0;
+		int nextX = statContentPane.x + 10, nextY = statContentPane.y + 10;
+		int nextW = (statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 8) - 150;
+		int lastY = 0;
+		final ArrayList<Runnable> applications = Lists.newArrayList();
+		
+		//obtain categories to draw
+		BSPCategory[] categories;
+		if(_category == BSPCategory.All) categories = BSPCategory.values();
+		else categories = new BSPCategory[]{ _category };
+		
+		for(BSPCategory category : categories)
+		{
+			//ignore the 'All' category as it is not really a category to begin with
+			if(category == BSPCategory.All)
+				continue;
+			
+			//draw the category name
+			{
+				Text groupName = lt(category.toString());
+				final StringWidget lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
+				
+				statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
+				addCutDrawable(lbl_groupName, statContentPane);
+				
+				nextY += lbl_groupName.getHeight() + 5;
+				lastY = nextY;
+			}
+			
+			//iterate all static properties in the clazz
+			for(final Field clazzField : clazz.getDeclaredFields())
+			{
+				//check if the field is public static
+				if(!java.lang.reflect.Modifier.isPublic(clazzField.getModifiers()) ||
+						!java.lang.reflect.Modifier.isStatic(clazzField.getModifiers()))
+					continue;
+				
+				//---------- handle property annotiations
+				//draw regular BSProperty-ies
+				BSProperty bsp = clazzField.getAnnotation(BSProperty.class);
+				if(bsp != null)
+				{
+					if(bsp.category() != category) continue;
+					String name = StringUtils.isAllBlank(bsp.name()) ? clazzField.getName() : bsp.name();
+					
+					//handle booleans
+					if(boolean.class.isAssignableFrom(clazzField.getType()) || //i hate primitive types sometimes
+						Boolean.class.isAssignableFrom(clazzField.getType())) //but only sometimes
+					{
+						boolean val;
+						try { val = clazzField.getBoolean(null); } catch(Exception exc) { continue; }
+						
+						final CheckboxWidget el = new CheckboxWidget(nextX, nextY, nextW, 20, lt(name), val);
+						applications.add(() -> { try { clazzField.set(null, el.isChecked()); } catch(Exception exc) {} });
+						
+						statContentPane.scroll.makeScrollable(statContentPane, el);
+						addCutDrawableChild(el, statContentPane);
+						
+						nextY = el.y + el.getHeight() + 5;
+						lastY = nextY + 10;
+					}
+					continue;
+				}
+				
+				//draw BSPropertyColorInt-egers
+				BSPropertyColorInt bspci = clazzField.getAnnotation(BSPropertyColorInt.class);
+				if(bspci != null)
+				{
+					if(bspci.property().category() != category) continue;
+					String name = StringUtils.isAllBlank(bspci.property().name()) ? clazzField.getName() : bspci.property().name();
+					
+					//handle integers
+					if(int.class.isAssignableFrom(clazzField.getType()) || //i hate primitive types sometimes
+						Integer.class.isAssignableFrom(clazzField.getType())) //but only sometimes
+					{
+						int val;
+						try { val = clazzField.getInt(null); } catch(Exception exc) { continue; }
+						
+						TextRenderer tr = textRenderer;
+						Color color = new Color(val, true);
+						String colorTxt = color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "," + color.getAlpha();
+						
+						final TextFieldWidget el1 = new TextFieldWidget(tr,
+								statContentPane.x + 10 + nextW + 150 - (nextW/2), nextY,
+								nextW/2, 20,
+								lt(colorTxt));
+						el1.setText(colorTxt);
+						final StringWidget el2 = new StringWidget(
+								textRenderer, lt(name),
+								nextX, nextY + 10 - (tr.fontHeight / 2),
+								Color.white.getRGB());
+						
+						statContentPane.scroll.makeScrollable(statContentPane, el1);
+						addCutDrawableChild(el1, statContentPane);
+						statContentPane.scroll.makeScrollable(statContentPane, el2, el2.x, el2.y, arg0 -> { el2.y = (int) (arg0.y + arg0.scroll); });
+						addCutDrawable(el2, statContentPane);
+						
+						applications.add(() ->
+						{
+							try
+							{
+								String[] rgb = el1.getText().split(",");
+								int r = Integer.parseInt(rgb[0]);
+								int g = Integer.parseInt(rgb[1]);
+								int b = Integer.parseInt(rgb[2]);
+								int a = 255;
+								try { a = Integer.parseInt(rgb[3]); } catch(Exception e) {}
+								Color c = new Color(r,g,b,a);
+								clazzField.set(null, c.getRGB());
+							}
+							catch(Exception e) {}
+						});
+						
+						nextY = el1.y + el1.getHeight() + 5;
+						lastY = nextY + 10;
+					}
+					continue;
+				}
+			}
+			
+			//increase nextY before drawing the next category
+			nextY = lastY + 15;
+		}
+		
+		//draw an "Apply" button
+		ButtonWidget apply = new ButtonWidget(
+				statContentPane.x + 10 + nextW + 150 - 100, statContentPane.y + 10,
+				100, 20,
+				tt("gui.done"),
+				arg0 ->
+				{
+					applications.forEach(appl -> appl.run());
+					BSConfig.saveProperties();
+					BetterStatsButtonWidget.openBSS(this.parent);
+				});
+		ButtonWidget cancel = new ButtonWidget(
+				apply.x, apply.y + apply.getHeight() + 5,
+				apply.getWidth(), apply.getHeight(),
+				tt("gui.cancel"), arg0 -> BetterStatsButtonWidget.openBSS(this.parent));
+		
+		addCutDrawableChild(apply, statContentPane);
+		addCutDrawableChild(cancel, statContentPane);
+		
+		//return
 		return new Dimension(drawnEntries, lastY);
 	}
 	// ==================================================

@@ -11,6 +11,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
@@ -29,9 +30,27 @@ public class ScreenWithScissors extends Screen
 	public static final KeyBinding Key_Down = new KeyBinding("null", InputUtil.GLFW_KEY_DOWN, "null");
 	public static final KeyBinding Key_Left = new KeyBinding("null", InputUtil.GLFW_KEY_LEFT, "null");
 	public static final KeyBinding Key_Right = new KeyBinding("null", InputUtil.GLFW_KEY_RIGHT, "null");
+	public static final KeyBinding Key_Enter = new KeyBinding("null", InputUtil.GLFW_KEY_ENTER, "null");
+	public static final KeyBinding Key_KpEnter = new KeyBinding("null", InputUtil.GLFW_KEY_KP_ENTER, "null");
 	// ==================================================
 	protected ScreenWithScissors(Text title) { super(title); }
 	
+	@Override
+	public void tick()
+	{
+		super.tick();
+		for(Element child : this.children())
+		{
+			if(child instanceof TextFieldWidget)
+			{
+				TextFieldWidget tfw = (TextFieldWidget)child; 
+				if(getFocused() == tfw)
+					tfw.tick();
+				else tfw.setTextFieldFocused(false);
+			}
+		}
+	}
+	// --------------------------------------------------
 	protected Drawable applyScissors(Drawable drawable, FillWidget scissors)
 	{
 		this.drawablesForCutting.put(drawable, scissors);

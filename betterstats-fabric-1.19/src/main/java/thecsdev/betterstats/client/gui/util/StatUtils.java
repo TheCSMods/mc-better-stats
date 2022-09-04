@@ -31,22 +31,21 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import thecsdev.betterstats.config.BSConfig;
 
 public class StatUtils
 {
 	// ==================================================
 	@SuppressWarnings("unchecked")
 	public static final ArrayList<StatType<Item>> ItemStatTypes = Lists.newArrayList(new StatType[] { Stats.BROKEN, Stats.CRAFTED, Stats.USED, Stats.PICKED_UP, Stats.DROPPED });
-	
-	public static boolean DEBUG_SHOW_EVERYTHING = false;
 	// ==================================================
 	public static final Function<SUItemStat, Boolean> ITEM_STAT_EMPTY_FILTER = arg0 ->
-			DEBUG_SHOW_EVERYTHING ||
+			BSConfig.DEBUG_SHOW_EVERYTHING ||
 			arg0.crafted != 0 || arg0.used != 0 || arg0.broken != 0 ||
 			arg0.pickedUp != 0 || arg0.dropped != 0;
 	
 	public static final Function<SUMobStat, Boolean> MOB_STAT_EMPTY_FILTER = arg0 ->
-			DEBUG_SHOW_EVERYTHING ||
+			BSConfig.DEBUG_SHOW_EVERYTHING ||
 			arg0.killed != 0 || arg0.killedBy != 0;
 	// ==================================================
 	public static ArrayList<SUGeneralStat> getGeneralStats(StatHandler statHandler)
@@ -186,7 +185,7 @@ public class StatUtils
 				continue;
 			
 			//group the item by it's mod id
-			String itemModId = Registry.ITEM.getId(itemReg).getNamespace();
+			String itemModId = itemStat.itemId.getNamespace();
 			if(!result.containsKey(itemModId))
 				result.put(itemModId, Lists.newArrayList());
 			ArrayList<SUItemStat> resultList = result.get(itemModId);
@@ -235,6 +234,7 @@ public class StatUtils
 	{
 		public final Item item;
 		public final ItemStack itemStack;
+		public final Identifier itemId;
 		
 		public Integer mined;
 		public final int crafted, used, broken, pickedUp, dropped;
@@ -244,6 +244,7 @@ public class StatUtils
 			Block block = Block.getBlockFromItem(item);
 			this.item = item;
 			this.itemStack = item.getDefaultStack();
+			this.itemId = Registry.ITEM.getId(item);
 			
 			if(block != null && !block.getDefaultState().isAir())
 				this.mined = Integer.valueOf(statHandler.getStat(Stats.MINED, block));
@@ -268,7 +269,12 @@ public class StatUtils
 		public SUMobStat(StatHandler statHandler, EntityType<?> entityType)
 		{
 			if(entityType != EntityType.PLAYER)
+			{
 				this.entity = entityType.create(MCClient.world);
+				if(BSConfig.DEBUG_DINNERBONE_MODE)
+					this.entity.setCustomName(lt("Dinnerbone"));
+				this.entity.discard(); //possible memory leak fix
+			}
 			else this.entity = MCClient.player;
 			
 			this.entityType = entityType;

@@ -49,8 +49,7 @@ public class BetterStatsButtonWidget extends ButtonWidget
 					}
 					
 					//set the screen
-					BetterStatsScreen.CACHE_TAB = null; //clear the "cache" before opening
-					MCClient.setScreen(new BetterStatsScreen(parent, MCClient.player.getStatHandler()));
+					openBSS(parent);
 				},
 				TOOLTIP);
 	}
@@ -92,6 +91,13 @@ public class BetterStatsButtonWidget extends ButtonWidget
 		
 		//draw the ping
 		if(!SEEN_BSS) GuiUtils.drawButtonPing(this);
+	}
+	// ==================================================
+	public static void openBSS(Screen parent)
+	{
+		//set the screen
+		BetterStatsScreen.CACHE_TAB = null; //clear the "cache" before opening
+		MCClient.setScreen(new BetterStatsScreen(parent, MCClient.player.getStatHandler()));
 	}
 	// ==================================================
 }

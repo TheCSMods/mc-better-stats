@@ -13,15 +13,18 @@ import java.util.Properties;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import thecsdev.betterstats.BetterStats;
+import thecsdev.betterstats.config.BSProperty.BSPCategory;
 
 public final class BSConfig
 {
 	// ==================================================
 	//keeps track of whether or not the user has seen the new
 	//statistics screen by pressing the 'Statistics' button
+	@BSProperty
 	public static boolean SEEN_BSS;
 	
 	//whether or not to draw an extra background image for the 'Statistics' button
+	@BSProperty
 	public static boolean BSS_BTN_IMG;
 	
 	//BS screen menu filters
@@ -29,12 +32,15 @@ public final class BSConfig
 	public static boolean FILTER_SHOW_ITEM_NAMES;
 	
 	//BS screen GUI element colors
-	public static int COLOR_CONTENTPANE_BG;
-	public static int COLOR_STAT_GENERAL_TEXT;
-	public static int COLOR_STAT_BG;
-	public static int COLOR_STAT_OUTLINE;
-	public static int COLOR_CATEGORY_NAME_NORMAL;
-	public static int COLOR_CATEGORY_NAME_HIGHLIGHTED;
+	@BSPropertyColorInt public static int COLOR_CONTENTPANE_BG;
+	@BSPropertyColorInt public static int COLOR_STAT_GENERAL_TEXT;
+	@BSPropertyColorInt public static int COLOR_STAT_BG;
+	@BSPropertyColorInt public static int COLOR_STAT_OUTLINE;
+	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_NORMAL;
+	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_HIGHLIGHTED;
+	// --------------------------------------------------
+	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_SHOW_EVERYTHING = false;
+	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_DINNERBONE_MODE = false;
 	// ==================================================
 	public static void saveProperties()
 	{

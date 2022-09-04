@@ -13,6 +13,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Direction;
@@ -141,7 +142,10 @@ public abstract class ScreenWithScissorsMixin extends Screen
 		}
 		
 		//check for current selected element
-		if(!(getFocused() instanceof ClickableWidget)) return;
+		if(!(getFocused() instanceof ClickableWidget) ||
+				(getFocused() instanceof TextFieldWidget))
+			return;
+		
 		ClickableWidget focused = (ClickableWidget)getFocused();
 		Direction raycastDir;
 		boolean lookForwards = true;

@@ -45,14 +45,6 @@ public class BSMobStatWidget extends BSStatWidget
 		cache_mobSize = BSMobStatRenderConfig.getLivingEntityGUISize(livingEntity, width);
 		cache_mobOffset = BSMobStatRenderConfig.getLivingEntityGUIPos(livingEntity, width);
 	}
-	
-	@Override
-	@SuppressWarnings("deprecation") //idk, i'm gonna do this just in case
-	protected void finalize() throws Throwable
-	{
-		super.finalize();
-		mobStat.entity.discard();
-	}
 	// --------------------------------------------------
 	@Override
 	protected void onUpdateTooltip() { tooltip = onUpdateTooltip(mobStat); }
