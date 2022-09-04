@@ -135,3 +135,9 @@ Example: `"MobStatGuiSize": 100`
 ### MobStatGuiPosOffset (Integer array with the length of 2)
 This property offsets a given entity's GUI position relative to the mod's chosen position at which to render a mob at. The mod attempts to render a mob near the center of it's GUI statistic box. The X and Y values are also percentages, and those percentages are relative to the size of the GUI box. In v1.1, the size of the box is `50`, so a value of let's say `X = 100` would offset the entity by `50` in the X axis, because `50 * (100 / 100) = 50`, and so the final value would be `50 (chosen by the mod) + 50 (custom offset) = 100`. It is not recommended to use values `> 100 or < -100`.<br/>
 Example: `"MobStatGuiPosOffset": [0,-20]`
+
+##
+<p align=center>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/better-stats"><img alt="CurseForge" src="https://cf.way2muchnoise.eu/667464.svg"/></a>
+  <a href="https://modrinth.com/mod/better-stats"><img alt="Modrinth" src="https://img.shields.io/modrinth/dt/n6PXGAoM?label=Modrinth"></a>
+</p>
