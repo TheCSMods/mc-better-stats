@@ -4,6 +4,7 @@ import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.BetterStats.tt;
 import static thecsdev.betterstats.client.BetterStatsClient.MCClient;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -21,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -145,7 +147,8 @@ public class StatUtils
 			SUMobStat mobStat = new SUMobStat(statHandler, entityType);
 			
 			//filter
-			if(!filter.apply(mobStat)) continue;
+			if(!filter.apply(mobStat) || !(mobStat.entity instanceof LivingEntity))
+				continue;
 			
 			//obtain entity's mod id,
 			//obtain the result list, and
@@ -216,6 +219,20 @@ public class StatUtils
 		else return modId;
 	}
 	// ==================================================
+	public static String getBSConfigPropertyName(Class<?> clazz, Field property)
+	{
+		String key = "betterstats.config." + clazz.getSimpleName() + "." + property.getName();
+		String name = tt(key).getString();
+		
+		if(name.startsWith("ref="))
+			name = tt(name.substring(4)).getString();
+		
+		if(StringUtils.isAllBlank(name) || name.equals(key))
+			name = property.getName();
+		
+		return name;
+	}
+	// ==================================================
 	public static class SUGeneralStat
 	{
 		public final Text title;
@@ -275,10 +292,13 @@ public class StatUtils
 						entityType.create(MCClient.world) : //handle summonable entities
 						EntityType.MARKER.create(MCClient.world); //handle non-summonable entities
 				
-				//handle the rest
+				//handle dinnerbone mode
 				if(BSConfig.DEBUG_DINNERBONE_MODE)
 					this.entity.setCustomName(lt("Dinnerbone"));
-				this.entity.discard(); //possible memory leak fix
+				
+				//discard the entity so it doesn't take up ram for no reason
+				safelyDiscardEntity(entity);
+				
 			}
 			else this.entity = MCClient.player;
 			
@@ -286,6 +306,15 @@ public class StatUtils
 			this.entityName = tt(entityType.getTranslationKey()).getString();
 			this.killed = statHandler.getStat(Stats.KILLED, entityType);
 			this.killedBy = statHandler.getStat(Stats.KILLED_BY, entityType);
+		}
+		
+		public static void safelyDiscardEntity(Entity entity)
+		{
+			if(entity == null) return;
+			try { entity.discard(); }
+			catch(IllegalArgumentException | IllegalStateException | UnsupportedOperationException a) {}
+			//^ catch in case another mod messes up, not gonna catch anything else
+			//so as to avoid catching something i'm not supposed to catch
 		}
 	}
 	// ==================================================

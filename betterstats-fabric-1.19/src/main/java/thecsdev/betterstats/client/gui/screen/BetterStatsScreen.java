@@ -150,6 +150,40 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		//when downloading is done, render the other elements
 		super.render(matrices, mouseX, mouseY, delta);
 	}
+	
+	
+	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+	{
+		boolean b0 = super.keyPressed(keyCode, scanCode, modifiers);
+		boolean b1 = this.mcp_btn_tab != null && this.mcp_btn_tab.getValue() == CurrentTab.Debug;
+		if(!b1) return b0;
+		//handle scrolling for the Debug tab //TODO - Come up with a better solution
+		do
+		{
+			//get clickable widget
+			if(!(getFocused() instanceof ClickableWidget))
+				break;
+			ClickableWidget cw = (ClickableWidget)getFocused();
+			
+			//scroll ig
+			double val = 0;
+			int top = statContentPane.y;
+			int bottom = top + statContentPane.getHeight();
+			
+			if(cw.y + cw.getHeight() > bottom)
+				val = cw.y - bottom + cw.getHeight() + 5;
+			else if(cw.y < top)
+				val -= Math.abs(top - cw.y + 5);
+			else break;
+			
+			val = - val;
+			statContentPane.scroll.setValue(statContentPane.scroll.getValue() + val);
+			statContentPane.onScroll_apply(statContentPane.x, statContentPane.y);
+		}
+		while(false);
+		return b0;
+	}
 	// ==================================================
 	public FillWidget menuContentPane;
 	public FillWidget statContentPane;
@@ -184,7 +218,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				.withScroll(FWScrollbarType.AlwaysVertical, 0, 0);
 		
 		//menu buttons
-		mcp_lbl_filters = new CenteredTextWidget(textRenderer, tt("betterstats.gui.filters"),
+		mcp_lbl_filters = new CenteredTextWidget(textRenderer, tt("betterstats.gui.menu_item.filters"),
 				mcpX + (mcpW / 2),
 				mcpY + 5 + 7,
 				Color.white.getRGB());
@@ -193,9 +227,9 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				.values(CurrentTab.values())
 				.initially(CACHE_TAB == null ? CurrentTab.General : CACHE_TAB)
 				.narration(btn -> ClickableWidget.getNarrationMessage(btn.getMessage()))
-				.build(mcpX + 5, mcpY + 30, mcpW - 10, 20, tt("betterstats.gui.current_tab"), (arg0, arg1) ->
+				.build(mcpX + 5, mcpY + 30, mcpW - 10, 20, tt("betterstats.gui.menu_item.current_tab"), (arg0, arg1) ->
 				{
-					if(arg1 == CurrentTab.Debug && !hasControlDown())
+					if(arg1 == CurrentTab.Debug && (!BSConfig.BS_OPTIONS_GUI || !hasControlDown()))
 					{
 						mcp_btn_tab.onPress();
 						return;
@@ -208,14 +242,14 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		mcp_txt_search = new TextFieldWidget(textRenderer,
 				mcpX + 5 + 1, mcpY + 55,
 				mcpW - 10 - 2, 20,
-				tt("betterstats.gui.search"));
+				tt("betterstats.gui.menu_item.search"));
 		mcp_txt_search.setChangedListener(arg0 -> this.update());
 		
 		mcp_bool_hideEmpty = new ActionCheckboxWidget(
 				mcpX + 5, mcpY + 80,
 				mcpW - 10, 20,
-				tt("betterstats.gui.hide_empty"), FILTER_HIDE_EMPTY_STATS)
-				.withTooltip(tt("betterstats.gui.hide_empty.tooltip"));
+				tt("betterstats.gui.menu_item.hide_empty"), FILTER_HIDE_EMPTY_STATS)
+				.withTooltip(tt("betterstats.gui.menu_item.hide_empty.tooltip"));
 		mcp_bool_hideEmpty.setChangedListener(arg0 ->
 		{
 			FILTER_HIDE_EMPTY_STATS = arg0.isChecked();
@@ -225,8 +259,8 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		mcp_bool_showItemNames = new ActionCheckboxWidget(
 				mcpX + 5, mcpY + 105,
 				mcpW - 10, 20,
-				tt("betterstats.gui.show_item_names"), FILTER_SHOW_ITEM_NAMES)
-				.withTooltip(tt("betterstats.gui.show_item_names.tooltip"));
+				tt("betterstats.gui.menu_item.show_item_names"), FILTER_SHOW_ITEM_NAMES)
+				.withTooltip(tt("betterstats.gui.menu_item.show_item_names.tooltip"));
 		mcp_bool_showItemNames.setChangedListener(arg0 ->
 		{
 			FILTER_SHOW_ITEM_NAMES = arg0.isChecked();
@@ -250,13 +284,13 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		mcp_btn_vanilla = new ButtonWidget(
 				mcpX + 5, mcpY + mcpH - 50,
 				mcpW - 10, 20,
-				tt("betterstats.gui.vanilla_stats_screen"),
+				tt("betterstats.gui.menu_item.vanilla_stats_screen"),
 				btn -> client.setScreen(new StatsScreen(parent, statHandler)));
 		
 		mcp_btn_close = new ButtonWidget(
 				mcpX + 5, mcpY + mcpH - 25,
 				mcpW - 10, 20,
-				tt("betterstats.gui.close"),
+				tt("betterstats.gui.menu_item.close"),
 				btn -> { client.setScreen(parent); CACHE_TAB = null; });
 		
 		//add items - the order is important
@@ -651,53 +685,36 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		return new Dimension(lastY, drawnEntries);
 	}
 	
-	/*private Dimension update_drawDebug()
-	{
-		//stuff
-		int drawnEntries = 0;
-		int nextX = statContentPane.x + 5, nextY = statContentPane.y + 5;
-		int nextW = statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 3;
-		int lastY = 0;
-		
-		//create elements
-		ActionCheckboxWidget acw_showEverything = new ActionCheckboxWidget(
-				nextX, nextY,
-				nextW, 20,
-				tt("betterstats.gui.debug_mode.show_everything"),
-				BSConfig.DEBUG_SHOW_EVERYTHING);
-		acw_showEverything.setChangedListener(arg0 -> BSConfig.DEBUG_SHOW_EVERYTHING = arg0.isChecked());
-		nextY += acw_showEverything.getHeight() + 5;
-		
-		ActionCheckboxWidget acw_dinnerbone = new ActionCheckboxWidget(
-				nextX, nextY,
-				nextW, 20,
-				tt("betterstats.gui.debug_mode.dinnerbone_mode"),
-				BSConfig.DEBUG_DINNERBONE_MODE);
-		acw_dinnerbone.setChangedListener(arg0 -> BSConfig.DEBUG_DINNERBONE_MODE = arg0.isChecked());
-		nextY += acw_dinnerbone.getHeight() + 5;
-		
-		//add elements
-		statContentPane.scroll.makeScrollable(statContentPane, acw_showEverything);
-		statContentPane.scroll.makeScrollable(statContentPane, acw_dinnerbone);
-		
-		addCutDrawableChild(acw_showEverything, statContentPane);
-		addCutDrawableChild(acw_dinnerbone, statContentPane);
-		
-		drawnEntries += 1;
-		
-		//return
-		lastY = acw_showEverything.y + acw_showEverything.getHeight();
-		return new Dimension(drawnEntries, lastY);
-	}*/
-	
 	private Dimension update_drawConfig(Class<?> clazz, BSPCategory _category)
 	{
 		//stuff
 		int drawnEntries = 0;
 		int nextX = statContentPane.x + 10, nextY = statContentPane.y + 10;
-		int nextW = (statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 8) - 150;
+		int nextW = (statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 8) - 150; //TODO
 		int lastY = 0;
 		final ArrayList<Runnable> applications = Lists.newArrayList();
+		
+		//the apply and done buttons should be added fist
+		{
+			//draw an "Apply" button
+			ButtonWidget apply = new ButtonWidget(
+					statContentPane.x + 10 + nextW + 150 - 100, statContentPane.y + 10,
+					100, 20,
+					tt("gui.done"),
+					arg0 ->
+					{
+						applications.forEach(appl -> appl.run());
+						BSConfig.saveProperties();
+						BetterStatsButtonWidget.openBSS(this.parent);
+					});
+			ButtonWidget cancel = new ButtonWidget(
+					apply.x, apply.y + apply.getHeight() + 5,
+					apply.getWidth(), apply.getHeight(),
+					tt("gui.cancel"), arg0 -> BetterStatsButtonWidget.openBSS(this.parent));
+			
+			addCutDrawableChild(apply, statContentPane);
+			addCutDrawableChild(cancel, statContentPane);
+		}
 		
 		//obtain categories to draw
 		BSPCategory[] categories;
@@ -712,7 +729,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			
 			//draw the category name
 			{
-				Text groupName = lt(category.toString());
+				Text groupName = category.asText();
 				final StringWidget lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
 				
 				statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
@@ -720,6 +737,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				
 				nextY += lbl_groupName.getHeight() + 5;
 				lastY = nextY;
+				drawnEntries++;
 			}
 			
 			//iterate all static properties in the clazz
@@ -730,13 +748,15 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 						!java.lang.reflect.Modifier.isStatic(clazzField.getModifiers()))
 					continue;
 				
+				//obtain property name
+				String clazzFieldName = StatUtils.getBSConfigPropertyName(clazz, clazzField);
+				
 				//---------- handle property annotiations
 				//draw regular BSProperty-ies
 				BSProperty bsp = clazzField.getAnnotation(BSProperty.class);
 				if(bsp != null)
 				{
 					if(bsp.category() != category) continue;
-					String name = StringUtils.isAllBlank(bsp.name()) ? clazzField.getName() : bsp.name();
 					
 					//handle booleans
 					if(boolean.class.isAssignableFrom(clazzField.getType()) || //i hate primitive types sometimes
@@ -745,7 +765,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 						boolean val;
 						try { val = clazzField.getBoolean(null); } catch(Exception exc) { continue; }
 						
-						final CheckboxWidget el = new CheckboxWidget(nextX, nextY, nextW, 20, lt(name), val);
+						final CheckboxWidget el = new CheckboxWidget(nextX, nextY, nextW, 20, lt(clazzFieldName), val);
 						applications.add(() -> { try { clazzField.set(null, el.isChecked()); } catch(Exception exc) {} });
 						
 						statContentPane.scroll.makeScrollable(statContentPane, el);
@@ -753,6 +773,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 						
 						nextY = el.y + el.getHeight() + 5;
 						lastY = nextY + 10;
+						drawnEntries++;
 					}
 					continue;
 				}
@@ -762,7 +783,6 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				if(bspci != null)
 				{
 					if(bspci.property().category() != category) continue;
-					String name = StringUtils.isAllBlank(bspci.property().name()) ? clazzField.getName() : bspci.property().name();
 					
 					//handle integers
 					if(int.class.isAssignableFrom(clazzField.getType()) || //i hate primitive types sometimes
@@ -781,7 +801,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 								lt(colorTxt));
 						el1.setText(colorTxt);
 						final StringWidget el2 = new StringWidget(
-								textRenderer, lt(name),
+								textRenderer, lt(clazzFieldName),
 								nextX, nextY + 10 - (tr.fontHeight / 2),
 								Color.white.getRGB());
 						
@@ -808,6 +828,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 						
 						nextY = el1.y + el1.getHeight() + 5;
 						lastY = nextY + 10;
+						drawnEntries++;
 					}
 					continue;
 				}
@@ -817,27 +838,8 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			nextY = lastY + 15;
 		}
 		
-		//draw an "Apply" button
-		ButtonWidget apply = new ButtonWidget(
-				statContentPane.x + 10 + nextW + 150 - 100, statContentPane.y + 10,
-				100, 20,
-				tt("gui.done"),
-				arg0 ->
-				{
-					applications.forEach(appl -> appl.run());
-					BSConfig.saveProperties();
-					BetterStatsButtonWidget.openBSS(this.parent);
-				});
-		ButtonWidget cancel = new ButtonWidget(
-				apply.x, apply.y + apply.getHeight() + 5,
-				apply.getWidth(), apply.getHeight(),
-				tt("gui.cancel"), arg0 -> BetterStatsButtonWidget.openBSS(this.parent));
-		
-		addCutDrawableChild(apply, statContentPane);
-		addCutDrawableChild(cancel, statContentPane);
-		
 		//return
-		return new Dimension(drawnEntries, lastY);
+		return new Dimension(lastY, drawnEntries);
 	}
 	// ==================================================
 }

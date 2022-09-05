@@ -18,18 +18,22 @@ import thecsdev.betterstats.config.BSProperty.BSPCategory;
 public final class BSConfig
 {
 	// ==================================================
+	//when turned off, the Options tab goes bye bye
+	@BSProperty public static boolean BS_OPTIONS_GUI;
+	
 	//keeps track of whether or not the user has seen the new
 	//statistics screen by pressing the 'Statistics' button
-	@BSProperty
-	public static boolean SEEN_BSS;
+	@BSProperty public static boolean SEEN_BSS;
 	
 	//whether or not to draw an extra background image for the 'Statistics' button
-	@BSProperty
-	public static boolean BSS_BTN_IMG;
+	@BSProperty public static boolean BSS_BTN_IMG;
+	
+	//whether or not to allow the player to shift+click items and so on
+	@BSProperty public static boolean ALLOW_CHEATS;
 	
 	//BS screen menu filters
-	public static boolean FILTER_HIDE_EMPTY_STATS;
-	public static boolean FILTER_SHOW_ITEM_NAMES;
+	@BSProperty public static boolean FILTER_HIDE_EMPTY_STATS;
+	@BSProperty public static boolean FILTER_SHOW_ITEM_NAMES;
 	
 	//BS screen GUI element colors
 	@BSPropertyColorInt public static int COLOR_CONTENTPANE_BG;
@@ -58,6 +62,8 @@ public final class BSConfig
 			Properties prop = new Properties();
 			prop.setProperty("SEEN_BSS", Boolean.toString(SEEN_BSS));
 			prop.setProperty("BSS_BTN_IMG", Boolean.toString(BSS_BTN_IMG));
+			prop.setProperty("ALLOW_CHEATS", Boolean.toString(ALLOW_CHEATS));
+			prop.setProperty("BS_OPTIONS_GUI", Boolean.toString(BS_OPTIONS_GUI));
 			
 			prop.setProperty("FILTER_HIDE_EMPTY_STATS", Boolean.toString(FILTER_HIDE_EMPTY_STATS));
 			prop.setProperty("FILTER_SHOW_ITEM_NAMES", Boolean.toString(FILTER_SHOW_ITEM_NAMES));
@@ -107,6 +113,8 @@ public final class BSConfig
 			//read the properties
 			SEEN_BSS = smartBool(prop.getProperty("SEEN_BSS"), false);
 			BSS_BTN_IMG = smartBool(prop.getProperty("BSS_BTN_IMG"), false);
+			ALLOW_CHEATS = smartBool(prop.getProperty("ALLOW_CHEATS"), false);
+			BS_OPTIONS_GUI = smartBool(prop.getProperty("BS_OPTIONS_GUI"), true);
 			
 			FILTER_HIDE_EMPTY_STATS = smartBool(prop.getProperty("FILTER_HIDE_EMPTY_STATS"), false);
 			FILTER_SHOW_ITEM_NAMES = smartBool(prop.getProperty("FILTER_SHOW_ITEM_NAMES"), true);

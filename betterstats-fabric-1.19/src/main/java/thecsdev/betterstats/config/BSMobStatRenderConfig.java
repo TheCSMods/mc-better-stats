@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,6 +22,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
+import net.minecraft.util.registry.Registry;
 import thecsdev.betterstats.BetterStats;
 
 public class BSMobStatRenderConfig
@@ -30,26 +33,26 @@ public class BSMobStatRenderConfig
 	static
 	{
 		//internal registry entries
-		REGISTRY.put(EntityType.getId(EntityType.AXOLOTL), new Entry(new Point(10,-10)));
-		REGISTRY.put(EntityType.getId(EntityType.GHAST), new Entry(new Point(0,-25)));
-		REGISTRY.put(EntityType.getId(EntityType.SPIDER), new Entry(95));
-		REGISTRY.put(EntityType.getId(EntityType.CAVE_SPIDER), new Entry(80));
-		REGISTRY.put(EntityType.getId(EntityType.SQUID), new Entry(new Point(0,-25)));
-		REGISTRY.put(EntityType.getId(EntityType.GLOW_SQUID), new Entry(new Point(0,-25)));
+		put(EntityType.getId(EntityType.AXOLOTL), new Entry(new Point(10,-10)));
+		put(EntityType.getId(EntityType.GHAST), new Entry(new Point(0,-25)));
+		put(EntityType.getId(EntityType.SPIDER), new Entry(95));
+		put(EntityType.getId(EntityType.CAVE_SPIDER), new Entry(80));
+		put(EntityType.getId(EntityType.SQUID), new Entry(new Point(0,-25)));
+		put(EntityType.getId(EntityType.GLOW_SQUID), new Entry(new Point(0,-25)));
 		
 		//some mobs appear a bit larger than they should be
-		REGISTRY.put(EntityType.getId(EntityType.PHANTOM), new Entry(60, new Point(0, -20)));
-		REGISTRY.put(EntityType.getId(EntityType.TURTLE), new Entry(70));
+		put(EntityType.getId(EntityType.PHANTOM), new Entry(60, new Point(0, -20)));
+		put(EntityType.getId(EntityType.TURTLE), new Entry(70));
 		
 		//while some are so wide that they appear very small
-		REGISTRY.put(EntityType.getId(EntityType.ENDER_DRAGON), new Entry(300, new Point(0,-20)));
+		put(EntityType.getId(EntityType.ENDER_DRAGON), new Entry(300, new Point(0,-20)));
 		
 		//why does their model size return a large number while they appear tiny on the screen?
 		//oh well, these entries will fix that.
 		//oh wait, maybe it's because the following entities can expand in size? idk.
-		REGISTRY.put(EntityType.getId(EntityType.SLIME), new Entry(400));
-		REGISTRY.put(EntityType.getId(EntityType.MAGMA_CUBE), new Entry(400));
-		REGISTRY.put(EntityType.getId(EntityType.PUFFERFISH), new Entry(150));
+		put(EntityType.getId(EntityType.SLIME), new Entry(400));
+		put(EntityType.getId(EntityType.MAGMA_CUBE), new Entry(400));
+		put(EntityType.getId(EntityType.PUFFERFISH), new Entry(150));
 	}
 	// --------------------------------------------------
 	public static class Entry
@@ -65,6 +68,13 @@ public class BSMobStatRenderConfig
 			this.MobStatGuiSize = msGuiSize;
 			this.MobStatGuiPosOffset = msGuiPosOffset;
 		}
+	}
+	// --------------------------------------------------
+	public static Entry put(Identifier entityId, Entry entityEntry)
+	{
+		if(REGISTRY.containsKey(entityId))
+			REGISTRY.remove(entityId);
+		return REGISTRY.put(entityId, entityEntry);
 	}
 	// ==================================================
 	public static File getPropertiesFile()
@@ -87,8 +97,28 @@ public class BSMobStatRenderConfig
 			}
 			
 			//read the config
-			String jsonRaw = Files.readString(fProp.toPath());
-			JsonObject json = JsonHelper.deserialize(jsonRaw, true);
+			String rawJson = Files.readString(fProp.toPath());
+			loadProperties(rawJson);
+		}
+		catch(IOException ioExc)
+		{
+			String msg = "Unable to load the '" + ModID + "' mod config " + "for the '" + msr + "'.";
+			throw new CrashException(new CrashReport(msg, ioExc));
+		}
+		catch(Exception jsonExc)
+		{
+			LOGGER.error("Unable to load the '" + ModID + "' mod config " +
+					"for the '" + msr + "'. Is the JSON syntax is invalid?");
+		}
+	}
+	
+	public static void loadProperties(String rawJson)
+	{
+		String msr = BSMobStatRenderConfig.class.getSimpleName();
+		try
+		{
+			//read the config
+			JsonObject json = JsonHelper.deserialize(rawJson, true);
 			
 			//iterate all items
 			for(String jsonKey : json.keySet())
@@ -113,19 +143,24 @@ public class BSMobStatRenderConfig
 					p0.y = xy[1];
 				}
 				
-				//implement entry
+				//---------- implement entry
+				Entry entityEntry = new Entry(i0, p0);
+				boolean extendz = jsonKey.toLowerCase().startsWith("extends ");
+				if(extendz) jsonKey = jsonKey.substring(8);
 				Identifier entityId = new Identifier(jsonKey);
-				Entry entry = new Entry(i0, p0);
 				
-				if(REGISTRY.containsKey(entityId))
-					REGISTRY.remove(entityId);
-				REGISTRY.put(entityId, entry);
+				if(!extendz) put(entityId, entityEntry);
+				else
+				{
+					//obtain and create type
+					EntityType<?> entityType = Registry.ENTITY_TYPE.get(entityId);
+					if(!entityType.isSummonable()) continue; //has to be done
+					//warning - this is global scope, avoid client-side stuff at all costs
+					
+					//TODO - FINISH
+					throw new NotImplementedException("\"extends mod_id:mob_id\"is not implemented yet.");
+				}
 			}
-		}
-		catch(IOException ioExc)
-		{
-			String msg = "Unable to load the '" + ModID + "' mod config " + "for the '" + msr + "'.";
-			throw new CrashException(new CrashReport(msg, ioExc));
 		}
 		catch(Exception jsonExc)
 		{

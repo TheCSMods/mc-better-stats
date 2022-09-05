@@ -1,15 +1,35 @@
 {
-    "betterstats.gui.filters": "Filters",
-    "betterstats.gui.current_tab": "Tab",
-    "betterstats.gui.search": "Search",
-    "betterstats.gui.search.no_results": "No items matched your search...",
-    "betterstats.gui.hide_empty": "Hide empty stats",
-    "betterstats.gui.hide_empty.tooltip": "Hides general, food, and monster statistics that\ndo not have a value assigned to them yet.",
-    "betterstats.gui.show_item_names": "Show item names",
-    "betterstats.gui.show_item_names.tooltip": "Shows item names in the item statistic tooltips.",
-    "betterstats.gui.vanilla_stats_screen": "Show vanilla stats",
-    "betterstats.gui.close": "Close",
+    "betterstats.gui.menu_item.filters": "Filters",
+    "betterstats.gui.menu_item.current_tab": "Tab",
+    "betterstats.gui.menu_item.search": "Search",
+    "betterstats.gui.menu_item.hide_empty": "Hide empty stats",
+    "betterstats.gui.menu_item.hide_empty.tooltip": "Hides general, food, and monster statistics that\ndo not have a value assigned to them yet.",
+    "betterstats.gui.menu_item.show_item_names": "Show item names",
+    "betterstats.gui.menu_item.show_item_names.tooltip": "Shows item names in the item statistic tooltips.",
+
+    "betterstats.gui.menu_item.vanilla_stats_screen": "Show vanilla stats",
+    "betterstats.gui.menu_item.close": "Close",
     
-    "betterstats.gui.debug_mode.show_everything": "Show everything (possible lag spikes (if there are lots of mods))",
-    "betterstats.gui.debug_mode.dinnerbone_mode": "Dinnerbone mode"
+    "betterstats.gui.search.no_results": "No items matched your search...",
+
+    "betterstats.config.category.all": "All properties",
+    "betterstats.config.category.config": "Config properties",
+    "betterstats.config.category.debug": "Debug properties (doesn't save)",
+
+    "betterstats.config.BSConfig.BS_OPTIONS_GUI": "Enable BS Options GUI (CAREFUL!)",
+    "betterstats.config.BSConfig.SEEN_BSS": "Seen better stats",
+    "betterstats.config.BSConfig.BSS_BTN_IMG": "BS button image",
+    "betterstats.config.BSConfig.ALLOW_CHEATS": "Allow cheats (requires perm. lvl2 or OP)",
+    "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
+    "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",
+
+    "betterstats.config.BSConfig.COLOR_CONTENTPANE_BG": "Tab background color",
+    "betterstats.config.BSConfig.COLOR_STAT_GENERAL_TEXT": "Statistic text color",
+    "betterstats.config.BSConfig.COLOR_STAT_BG": "Statistic background color",
+    "betterstats.config.BSConfig.COLOR_STAT_OUTLINE": "Statistic outline color",
+    "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_NORMAL": "Category name color",
+    "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_HIGHLIGHTED": "Highlighted category name color",
+
+    "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING": "Show everything (may lag)",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE": "Dinnerbone mode"
 }

@@ -60,8 +60,6 @@ Notice: Regarding colors, the color properties take integers representing RGB co
 # before. It is used for drawing a red dot in the top right corner of the "Statistics" button.
 # In other words, if the user never saw the screen before, a small red dot will let them know
 # to click on the "Statistics" button.
-# I would like to ask any modpack creators/developers to keep this property at it's default
-# value when featuring this mod, so more people can see the mod. But in the end, it is up to you tho.
 SEEN_BSS=false
 
 # This one is an extra unused feature I decided to include. At first I was gonna use it, but

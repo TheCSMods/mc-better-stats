@@ -59,7 +59,7 @@ public class BSItemStatWidget extends BSStatWidget
 	public boolean mouseClicked(double mouseX, double mouseY, int button)
 	{
 		boolean b0 = super.mouseClicked(mouseX, mouseY, button);
-		boolean b1 = hovered && Screen.hasShiftDown() && button == 0 && slashGiveItem();
+		boolean b1 = hovered && BSConfig.ALLOW_CHEATS && Screen.hasShiftDown() && button == 0 && slashGiveItem();
 		return b0 || b1;
 	}
 	
@@ -70,7 +70,7 @@ public class BSItemStatWidget extends BSStatWidget
 		
 		boolean b1a = ScreenWithScissors.Key_Enter.matchesKey(keyCode, scanCode) ||
 				ScreenWithScissors.Key_KpEnter.matchesKey(keyCode, scanCode);
-		boolean b1 = isFocused() && b1a && Screen.hasShiftDown() && slashGiveItem();
+		boolean b1 = BSConfig.ALLOW_CHEATS && isFocused() && b1a && Screen.hasShiftDown() && slashGiveItem();
 		
 		return b0 || b1;
 	}
@@ -85,7 +85,7 @@ public class BSItemStatWidget extends BSStatWidget
 			int count = Screen.hasControlDown() ? 1 : itemStat.item.getMaxCount();
 			String id = itemStat.itemId.getNamespace() + ":" + itemStat.itemId.getPath();
 			String cmd = "/give @s " + id + " " + count;
-			MCClient.player.sendCommand(cmd);
+			BetterStatsClient.sendChat(cmd);
 			BetterStatsClient.beepItem();
 			return true;
 		}
