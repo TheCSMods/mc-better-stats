@@ -270,7 +270,12 @@ public class StatUtils
 		{
 			if(entityType != EntityType.PLAYER)
 			{
-				this.entity = entityType.create(MCClient.world);
+				//"summon" and assign the entity (entity may not be null!)
+				this.entity = entityType.isSummonable() ?
+						entityType.create(MCClient.world) : //handle summonable entities
+						EntityType.MARKER.create(MCClient.world); //handle non-summonable entities
+				
+				//handle the rest
 				if(BSConfig.DEBUG_DINNERBONE_MODE)
 					this.entity.setCustomName(lt("Dinnerbone"));
 				this.entity.discard(); //possible memory leak fix
