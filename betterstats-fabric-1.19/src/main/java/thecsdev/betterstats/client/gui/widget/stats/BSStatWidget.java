@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import thecsdev.betterstats.client.gui.util.GuiUtils;
 import thecsdev.betterstats.client.gui.widget.FillWidget;
+import thecsdev.betterstats.config.BSConfig;
 import thecsdev.betterstats.util.math.PointAndSize;
 
 public abstract class BSStatWidget extends FillWidget
@@ -17,6 +18,9 @@ public abstract class BSStatWidget extends FillWidget
 	public final BetterStatsScreen parent;
 	protected Text tooltip;
 	private int tooltipLines, tooltipZ;
+	// --------------------------------------------------
+	//a special flag for when an error takes place while handling a stat
+	protected int errored = 0;
 	// ==================================================
 	public BSStatWidget(BetterStatsScreen parent, int x, int y, int width, int height, int color)
 	{
@@ -26,7 +30,7 @@ public abstract class BSStatWidget extends FillWidget
 		//updateTooltip(); -- bad idea, update manually instead
 	}
 	// --------------------------------------------------
-	public BSStatWidget setTooltipZOffset(int z) { this.tooltipZ = Math.abs(z); return this; }
+	public BSStatWidget setTooltipZOffset(int z) { this.tooltipZ = Math.abs(z) % 100; return this; }
 	
 	public final void updateTooltip()
 	{
@@ -37,6 +41,21 @@ public abstract class BSStatWidget extends FillWidget
 		else this.tooltipLines = 0;
 	}
 	protected void onUpdateTooltip() { tooltip = null; }
+	
+	protected void setErrored(int errorFlag)
+	{
+		if(this.errored == errorFlag) return;
+		this.errored = errorFlag;
+		this.color = (errored == 0 || ignoreErrorMessages()) ?
+				BSConfig.COLOR_STAT_BG : BSConfig.COLOR_STAT_BG_ERRORED;
+		updateTooltip();
+	}
+	
+	protected boolean ignoreErrorMessages()
+	{
+		return !BSConfig.BS_OPTIONS_GUI ||
+				BSConfig.COLOR_STAT_BG == BSConfig.COLOR_STAT_BG_ERRORED;
+	}
 	// ==================================================
 	@Override
 	public final void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
@@ -58,6 +77,9 @@ public abstract class BSStatWidget extends FillWidget
 	
 	public abstract void onRenderStat(MatrixStack matrices, int mouseX, int mouseY, float delta);
 	
+	@Override
+	public boolean isHovered() { return super.isHovered(); }
+		
 	@Override
 	public final void renderTooltip(MatrixStack matrices, int mouseX, int mouseY)
 	{

@@ -11,25 +11,40 @@
     "betterstats.gui.menu_item.close": "Close",
     
     "betterstats.gui.search.no_results": "No items matched your search...",
+    "betterstats.gui.stat.mob.error": "This Entity threw an Exception (error) while\nattempting to render it. See the Options tab\nfor more info.",
 
     "betterstats.config.category.all": "All properties",
     "betterstats.config.category.config": "Config properties",
     "betterstats.config.category.debug": "Debug properties (doesn't save)",
 
     "betterstats.config.BSConfig.BS_OPTIONS_GUI": "Enable BS Options GUI (CAREFUL!)",
+    "betterstats.config.BSConfig.BS_OPTIONS_GUI.tooltip": "When disabled, this Options tab will become\ninaccessible. Proceed with caution.",
     "betterstats.config.BSConfig.SEEN_BSS": "Seen better stats",
+    "betterstats.config.BSConfig.SEEN_BSS.tooltip": "Keeps track of whether or not you have seen\nthe Better Statistics Screen before.",
     "betterstats.config.BSConfig.BSS_BTN_IMG": "BS button image",
     "betterstats.config.BSConfig.ALLOW_CHEATS": "Allow cheats (requires perm. lvl2 or OP)",
+    "betterstats.config.BSConfig.ALLOW_CHEATS.tooltip": "Allows you to shift+[click/enter] items in\nitem stats to /give them to yourself.\nRequires /give permission.",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS": "Ignore entity render errors",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Some modded entities might not support the way\nthis mod handles and renders them, resulting in\nerrors. This option tries to ignore those errors.\n\nFor example, some entities may always assume they\nare in a ServerWorld, while this mod renders them\non the screen using the ClientWorld.\n\nPlease see COLOR_STAT_BG_ERRORED.",
+
     "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
     "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",
+
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_TEXT": "Tooltip text color",
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_BG": "Tooltip background color",
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_OUTLINE": "Tooltip outline color",
 
     "betterstats.config.BSConfig.COLOR_CONTENTPANE_BG": "Tab background color",
     "betterstats.config.BSConfig.COLOR_STAT_GENERAL_TEXT": "Statistic text color",
     "betterstats.config.BSConfig.COLOR_STAT_BG": "Statistic background color",
+    "betterstats.config.BSConfig.COLOR_STAT_BG_ERRORED": "Errored stat. background color",
+    "betterstats.config.BSConfig.COLOR_STAT_BG_ERRORED.tooltip": "The stat. background color that will be used in\nthe event that something goes wrong while\nrendering a given statistic (mostly for mob stats).\n\nIf you set this color to the same color as\nCOLOR_STAT_BG, tooltips for stats will not\nshow any errors that occur (if they occur).",
     "betterstats.config.BSConfig.COLOR_STAT_OUTLINE": "Statistic outline color",
     "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_NORMAL": "Category name color",
     "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_HIGHLIGHTED": "Highlighted category name color",
 
     "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING": "Show everything (may lag)",
-    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE": "Dinnerbone mode"
+    "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING.tooltip": "Shows all statistics entries, regardless\nof their values.",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE": "Dinnerbone mode",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE.tooltip": "Mobs in mob statistics go upside-down."
 }

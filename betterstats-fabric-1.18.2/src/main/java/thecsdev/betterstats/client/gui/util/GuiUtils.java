@@ -4,8 +4,10 @@ import static net.minecraft.client.gui.DrawableHelper.drawTextWithShadow;
 import static net.minecraft.client.gui.DrawableHelper.fill;
 import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.client.BetterStatsClient.MCClient;
+import static thecsdev.betterstats.config.BSConfig.COLOR_TOOLTIP_BG;
+import static thecsdev.betterstats.config.BSConfig.COLOR_TOOLTIP_OUTLINE;
+import static thecsdev.betterstats.config.BSConfig.COLOR_TOOLTIP_TEXT;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -31,11 +33,6 @@ public class GuiUtils
 {
 	// ==================================================
 	public static final Identifier PING_TEXTURE = new Identifier(BetterStats.ModID, "textures/gui/ping.png");
-	// --------------------------------------------------
-	public static final int COLOR_BLACK = Color.black.getRGB();
-	public static final int COLOR_WHITE = Color.white.getRGB();
-	public static final int COLOR_TOOLTIP_OUTLINE = new Color(27,0,62).getRGB();
-	public static final int COLOR_TOOLTIP_BGROUND = new Color(15,0,15).getRGB();
 	// --------------------------------------------------
 	private static final PointAndSize DEFAULT_TOOLTIP_OFFSET = new PointAndSize(5, 0, 0, 0);
 	// ==================================================
@@ -78,13 +75,13 @@ public class GuiUtils
 		
 		//fill in a tooltip square background
 		fill(matrices, mouseX, mouseY, mouseX + textSize.width, mouseY + textSize.height, COLOR_TOOLTIP_OUTLINE);
-		fill(matrices, mouseX + 2, mouseY + 2, mouseX + textSize.width - 2, mouseY + textSize.height - 2, COLOR_TOOLTIP_BGROUND);
+		fill(matrices, mouseX + 2, mouseY + 2, mouseX + textSize.width - 2, mouseY + textSize.height - 2, COLOR_TOOLTIP_BG);
 		
 		//draw text
 		int lineY = 0;
 		for (String line : lines)
 		{
-			drawTextWithShadow(matrices, tr, lt(line), mouseX + 5, mouseY + 5 + lineY, COLOR_WHITE);
+			drawTextWithShadow(matrices, tr, lt(line), mouseX + 5, mouseY + 5 + lineY, COLOR_TOOLTIP_TEXT);
 			lineY += /*tr.getWrappedLinesHeight(line, textSize.width)*/ tr.fontHeight;
 			lineY++;
 		}

@@ -1,5 +1,6 @@
 package thecsdev.betterstats.client.gui.util;
 
+import static thecsdev.betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS;
 import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.BetterStats.tt;
 import static thecsdev.betterstats.client.BetterStatsClient.MCClient;
@@ -232,6 +233,20 @@ public class StatUtils
 		
 		return name;
 	}
+	
+	public static String getBSConfigPropertyTooltip(Class<?> clazz, Field property)
+	{
+		String key = "betterstats.config." + clazz.getSimpleName() + "." + property.getName() + ".tooltip";
+		String name = tt(key).getString();
+		
+		if(name.startsWith("ref="))
+			name = tt(name.substring(4)).getString();
+		
+		if(StringUtils.isAllBlank(name) || name.equals(key))
+			name = "";
+		
+		return property.getName() + (!StringUtils.isAllBlank(name) ? ("\n" + name) : "");
+	}
 	// ==================================================
 	public static class SUGeneralStat
 	{
@@ -282,6 +297,7 @@ public class StatUtils
 		public final EntityType<?> entityType;
 		
 		public final int killed, killedBy;
+		public boolean errored = false;
 		
 		public SUMobStat(StatHandler statHandler, EntityType<?> entityType)
 		{
@@ -289,12 +305,16 @@ public class StatUtils
 			{
 				//"summon" and assign the entity (entity may not be null!)
 				this.entity = entityType.isSummonable() ?
-						entityType.create(MCClient.world) : //handle summonable entities
+						safelyCreateEntity(entityType) : //handle summonable entities
 						EntityType.MARKER.create(MCClient.world); //handle non-summonable entities
 				
 				//handle dinnerbone mode
-				if(BSConfig.DEBUG_DINNERBONE_MODE)
-					this.entity.setCustomName(lt("Dinnerbone"));
+				try
+				{
+					if(BSConfig.DEBUG_DINNERBONE_MODE)
+						this.entity.setCustomName(lt("Dinnerbone"));
+				}
+				catch(Exception e) {}
 				
 				//discard the entity so it doesn't take up ram for no reason
 				safelyDiscardEntity(entity);
@@ -308,13 +328,27 @@ public class StatUtils
 			this.killedBy = statHandler.getStat(Stats.KILLED_BY, entityType);
 		}
 		
-		public static void safelyDiscardEntity(Entity entity)
+		public Entity safelyCreateEntity(EntityType<?> et)
+		{
+			if(et == null) return EntityType.MARKER.create(MCClient.world);
+			try { return et.create(MCClient.world); }
+			catch(Exception exc)
+			{
+				if(!IGNORE_ENTITY_RENDER_ERRORS) throw exc;
+				errored = true;
+				return EntityType.MARKER.create(MCClient.world);
+			}
+		}
+		
+		public void safelyDiscardEntity(Entity entity)
 		{
 			if(entity == null) return;
 			try { entity.discard(); }
-			catch(IllegalArgumentException | IllegalStateException | UnsupportedOperationException a) {}
-			//^ catch in case another mod messes up, not gonna catch anything else
-			//so as to avoid catching something i'm not supposed to catch
+			catch(Exception exc)
+			{
+				if(!IGNORE_ENTITY_RENDER_ERRORS) throw exc;
+				errored = true;
+			}
 		}
 	}
 	// ==================================================

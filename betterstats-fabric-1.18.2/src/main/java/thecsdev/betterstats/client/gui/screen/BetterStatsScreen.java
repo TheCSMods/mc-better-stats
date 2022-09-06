@@ -29,7 +29,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.StatsListener;
 import net.minecraft.client.gui.screen.StatsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -59,8 +58,8 @@ import thecsdev.betterstats.client.gui.widget.stats.BSItemStatWidget;
 import thecsdev.betterstats.client.gui.widget.stats.BSMobStatWidget;
 import thecsdev.betterstats.config.BSConfig;
 import thecsdev.betterstats.config.BSProperty;
-import thecsdev.betterstats.config.BSPropertyColorInt;
 import thecsdev.betterstats.config.BSProperty.BSPCategory;
+import thecsdev.betterstats.config.BSPropertyColorInt;
 
 public class BetterStatsScreen extends ScreenWithScissors implements StatsListener
 {
@@ -389,7 +388,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			//create and add a FillWidget for the entry background
 			BSGenetalStatWidget bg = (BSGenetalStatWidget) new BSGenetalStatWidget(this, nextX, nextY, nextW, statEntry)
 					.setTooltipZOffset(drawnEntries);
-			statContentPane.scroll.makeScrollable(statContentPane, bg);
+			statContentPane.scroll.makeScrollable(bg);
 			addCutDrawableChild(bg, statContentPane);
 			
 			//increase next Y
@@ -419,7 +418,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			//create label
 			Text groupName = groupEntry.getKey() != null ? groupEntry.getKey().getDisplayName() : lt("*");
 			StringWidget lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
-			statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
+			statContentPane.scroll.makeScrollable(lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
 			addCutDrawable(lbl_groupName, statContentPane);
 			
 			nextY += lbl_groupName.getHeight() + 5;
@@ -446,7 +445,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				lastY = nextY + bg.getHeight();
 				
 				//apply scroll and add
-				statContentPane.scroll.makeScrollable(statContentPane, bg);
+				statContentPane.scroll.makeScrollable(bg);
 				addCutDrawableChild(bg, statContentPane);
 			}
 			
@@ -479,7 +478,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			{
 				Text groupName = lt(StatUtils.getModNameFromID(groupEntry.getKey()));
 				StringWidget lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
-				statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
+				statContentPane.scroll.makeScrollable(lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
 				addCutDrawable(lbl_groupName, statContentPane);
 				
 				nextY += lbl_groupName.getHeight() + 5;
@@ -507,7 +506,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				lastY = nextY + bg.getHeight();
 				
 				//apply scroll and add
-				statContentPane.scroll.makeScrollable(statContentPane, bg);
+				statContentPane.scroll.makeScrollable(bg);
 				addCutDrawableChild(bg, statContentPane);
 			}
 			
@@ -551,7 +550,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_NORMAL);
 				
 				final StringWidget lbl = lbl_groupName;
-				statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl.y = (int) (arg0.y + arg0.scroll); });
+				statContentPane.scroll.makeScrollable(lbl_groupName, nextX, nextY, arg0 -> { lbl.y = (int) (arg0.y + arg0.scroll); });
 				addCutDrawable(lbl_groupName, statContentPane);
 				
 				nextY += lbl_groupName.getHeight() + 5;
@@ -585,7 +584,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				lastY = nextY + bg.getHeight();
 				
 				//apply scroll and add
-				statContentPane.scroll.makeScrollable(statContentPane, bg);
+				statContentPane.scroll.makeScrollable(bg);
 				addCutDrawableChild(bg, statContentPane);
 			}
 			
@@ -635,7 +634,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_NORMAL);
 				
 				StringWidget lbl = lbl_groupName;
-				statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl.y = (int) (arg0.y + arg0.scroll); });
+				statContentPane.scroll.makeScrollable(lbl_groupName, nextX, nextY, arg0 -> { lbl.y = (int) (arg0.y + arg0.scroll); });
 				addCutDrawable(lbl_groupName, statContentPane);
 				
 				nextY += lbl_groupName.getHeight() + 5;
@@ -669,7 +668,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				lastY = nextY + bg.getHeight();
 				
 				//apply scroll and add
-				statContentPane.scroll.makeScrollable(statContentPane, bg);
+				statContentPane.scroll.makeScrollable(bg);
 				addCutDrawableChild(bg, statContentPane);
 			}
 			
@@ -690,7 +689,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		//stuff
 		int drawnEntries = 0;
 		int nextX = statContentPane.x + 10, nextY = statContentPane.y + 10;
-		int nextW = (statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 8) - 150; //TODO
+		int nextW = (statContentPane.getWidth() - 10 - statContentPane.scroll.barTransform.width - 8) - 150;
 		int lastY = 0;
 		final ArrayList<Runnable> applications = Lists.newArrayList();
 		
@@ -712,6 +711,9 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 					apply.getWidth(), apply.getHeight(),
 					tt("gui.cancel"), arg0 -> BetterStatsButtonWidget.openBSS(this.parent));
 			
+			
+			statContentPane.scroll.makeScrollable(apply);
+			statContentPane.scroll.makeScrollable(cancel);
 			addCutDrawableChild(apply, statContentPane);
 			addCutDrawableChild(cancel, statContentPane);
 		}
@@ -732,7 +734,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				Text groupName = category.asText();
 				final StringWidget lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
 				
-				statContentPane.scroll.makeScrollable(statContentPane, lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
+				statContentPane.scroll.makeScrollable(lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
 				addCutDrawable(lbl_groupName, statContentPane);
 				
 				nextY += lbl_groupName.getHeight() + 5;
@@ -765,10 +767,11 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 						boolean val;
 						try { val = clazzField.getBoolean(null); } catch(Exception exc) { continue; }
 						
-						final CheckboxWidget el = new CheckboxWidget(nextX, nextY, nextW, 20, lt(clazzFieldName), val);
+						final ActionCheckboxWidget el = new ActionCheckboxWidget(nextX, nextY, nextW, 20, lt(clazzFieldName), val)
+								.withTooltip(StatUtils.getBSConfigPropertyTooltip(clazz, clazzField));
 						applications.add(() -> { try { clazzField.set(null, el.isChecked()); } catch(Exception exc) {} });
 						
-						statContentPane.scroll.makeScrollable(statContentPane, el);
+						statContentPane.scroll.makeScrollable(el);
 						addCutDrawableChild(el, statContentPane);
 						
 						nextY = el.y + el.getHeight() + 5;
@@ -804,10 +807,11 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 								textRenderer, lt(clazzFieldName),
 								nextX, nextY + 10 - (tr.fontHeight / 2),
 								Color.white.getRGB());
+						el2.setTooltip(lt(StatUtils.getBSConfigPropertyTooltip(clazz, clazzField)));
 						
-						statContentPane.scroll.makeScrollable(statContentPane, el1);
+						statContentPane.scroll.makeScrollable(el1);
 						addCutDrawableChild(el1, statContentPane);
-						statContentPane.scroll.makeScrollable(statContentPane, el2, el2.x, el2.y, arg0 -> { el2.y = (int) (arg0.y + arg0.scroll); });
+						statContentPane.scroll.makeScrollable(el2, el2.x, el2.y, arg0 -> { el2.y = (int) (arg0.y + arg0.scroll); });
 						addCutDrawable(el2, statContentPane);
 						
 						applications.add(() ->

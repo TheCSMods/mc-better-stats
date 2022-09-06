@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,7 +20,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
-import net.minecraft.util.registry.Registry;
 import thecsdev.betterstats.BetterStats;
 
 public class BSMobStatRenderConfig
@@ -143,23 +140,10 @@ public class BSMobStatRenderConfig
 					p0.y = xy[1];
 				}
 				
-				//---------- implement entry
+				//implement entry
 				Entry entityEntry = new Entry(i0, p0);
-				boolean extendz = jsonKey.toLowerCase().startsWith("extends ");
-				if(extendz) jsonKey = jsonKey.substring(8);
 				Identifier entityId = new Identifier(jsonKey);
-				
-				if(!extendz) put(entityId, entityEntry);
-				else
-				{
-					//obtain and create type
-					EntityType<?> entityType = Registry.ENTITY_TYPE.get(entityId);
-					if(!entityType.isSummonable()) continue; //has to be done
-					//warning - this is global scope, avoid client-side stuff at all costs
-					
-					//TODO - FINISH
-					throw new NotImplementedException("\"extends mod_id:mob_id\"is not implemented yet.");
-				}
+				put(entityId, entityEntry);
 			}
 		}
 		catch(Exception jsonExc)

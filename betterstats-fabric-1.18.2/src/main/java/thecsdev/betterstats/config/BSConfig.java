@@ -31,14 +31,24 @@ public final class BSConfig
 	//whether or not to allow the player to shift+click items and so on
 	@BSProperty public static boolean ALLOW_CHEATS;
 	
+	//recommended not to do this. ignores any errors
+	//modded entities may throw while they are being rendered
+	@BSProperty public static boolean IGNORE_ENTITY_RENDER_ERRORS;
+	
 	//BS screen menu filters
 	@BSProperty public static boolean FILTER_HIDE_EMPTY_STATS;
 	@BSProperty public static boolean FILTER_SHOW_ITEM_NAMES;
+	
+	//tooltip colors
+	@BSPropertyColorInt public static int COLOR_TOOLTIP_TEXT;
+	@BSPropertyColorInt public static int COLOR_TOOLTIP_BG;
+	@BSPropertyColorInt public static int COLOR_TOOLTIP_OUTLINE;
 	
 	//BS screen GUI element colors
 	@BSPropertyColorInt public static int COLOR_CONTENTPANE_BG;
 	@BSPropertyColorInt public static int COLOR_STAT_GENERAL_TEXT;
 	@BSPropertyColorInt public static int COLOR_STAT_BG;
+	@BSPropertyColorInt public static int COLOR_STAT_BG_ERRORED;
 	@BSPropertyColorInt public static int COLOR_STAT_OUTLINE;
 	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_NORMAL;
 	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_HIGHLIGHTED;
@@ -64,12 +74,18 @@ public final class BSConfig
 			prop.setProperty("BSS_BTN_IMG", Boolean.toString(BSS_BTN_IMG));
 			prop.setProperty("ALLOW_CHEATS", Boolean.toString(ALLOW_CHEATS));
 			prop.setProperty("BS_OPTIONS_GUI", Boolean.toString(BS_OPTIONS_GUI));
+			prop.setProperty("IGNORE_ENTITY_RENDER_ERRORS", Boolean.toString(IGNORE_ENTITY_RENDER_ERRORS));
 			
 			prop.setProperty("FILTER_HIDE_EMPTY_STATS", Boolean.toString(FILTER_HIDE_EMPTY_STATS));
 			prop.setProperty("FILTER_SHOW_ITEM_NAMES", Boolean.toString(FILTER_SHOW_ITEM_NAMES));
 			
+			prop.setProperty("COLOR_TOOLTIP_TEXT", Integer.toString(COLOR_TOOLTIP_TEXT));
+			prop.setProperty("COLOR_TOOLTIP_BG", Integer.toString(COLOR_TOOLTIP_BG));
+			prop.setProperty("COLOR_TOOLTIP_OUTLINE", Integer.toString(COLOR_TOOLTIP_OUTLINE));
+			
 			prop.setProperty("COLOR_STAT_GENERAL_TEXT", Integer.toString(COLOR_STAT_GENERAL_TEXT));
 			prop.setProperty("COLOR_STAT_BG", Integer.toString(COLOR_STAT_BG));
+			prop.setProperty("COLOR_STAT_BG_ERRORED", Integer.toString(COLOR_STAT_BG_ERRORED));
 			prop.setProperty("COLOR_STAT_OUTLINE", Integer.toString(COLOR_STAT_OUTLINE));
 			prop.setProperty("COLOR_CONTENTPANE_BG", Integer.toString(COLOR_CONTENTPANE_BG));
 			prop.setProperty("COLOR_CATEGORY_NAME_NORMAL", Integer.toString(COLOR_CATEGORY_NAME_NORMAL));
@@ -115,12 +131,18 @@ public final class BSConfig
 			BSS_BTN_IMG = smartBool(prop.getProperty("BSS_BTN_IMG"), false);
 			ALLOW_CHEATS = smartBool(prop.getProperty("ALLOW_CHEATS"), false);
 			BS_OPTIONS_GUI = smartBool(prop.getProperty("BS_OPTIONS_GUI"), true);
+			IGNORE_ENTITY_RENDER_ERRORS = smartBool(prop.getProperty("IGNORE_ENTITY_RENDER_ERRORS"), true);
 			
 			FILTER_HIDE_EMPTY_STATS = smartBool(prop.getProperty("FILTER_HIDE_EMPTY_STATS"), false);
 			FILTER_SHOW_ITEM_NAMES = smartBool(prop.getProperty("FILTER_SHOW_ITEM_NAMES"), true);
 			
+			COLOR_TOOLTIP_TEXT = smartInt(prop.getProperty("COLOR_TOOLTIP_TEXT"), Color.white.getRGB());
+			COLOR_TOOLTIP_BG = smartInt(prop.getProperty("COLOR_TOOLTIP_BG"), new Color(15,0,15).getRGB());
+			COLOR_TOOLTIP_OUTLINE = smartInt(prop.getProperty("COLOR_TOOLTIP_OUTLINE"), new Color(27,0,62).getRGB());
+			
 			COLOR_STAT_GENERAL_TEXT = smartInt(prop.getProperty("COLOR_STAT_GENERAL_TEXT"), Color.white.getRGB());
 			COLOR_STAT_BG = smartInt(prop.getProperty("COLOR_STAT_BG"), new Color(180,180,180, 35).getRGB());
+			COLOR_STAT_BG_ERRORED = smartInt(prop.getProperty("COLOR_STAT_BG_ERRORED"), new Color(255,150,150, 45).getRGB());
 			COLOR_STAT_OUTLINE = smartInt(prop.getProperty("COLOR_STAT_OUTLINE"), Color.lightGray.getRGB());
 			COLOR_CONTENTPANE_BG = smartInt(prop.getProperty("COLOR_CONTENTPANE_BG"), new Color(0, 0, 0, 120).getRGB());
 			COLOR_CATEGORY_NAME_NORMAL = smartInt(prop.getProperty("COLOR_CATEGORY_NAME_NORMAL"), new Color(255, 255, 0, 200).getRGB());

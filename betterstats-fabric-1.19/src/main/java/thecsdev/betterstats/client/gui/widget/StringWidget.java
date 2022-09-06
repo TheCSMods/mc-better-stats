@@ -22,6 +22,7 @@ public class StringWidget extends CenteredTextWidget
 	@Override
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
 	{
+		updateHovered(mouseX, mouseY);
 		drawStringWithShadow(matrices, textRenderer, text.getString(), x, y, color);
 	}
 	// ==================================================

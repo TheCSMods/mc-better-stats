@@ -19,6 +19,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Direction;
 import thecsdev.betterstats.client.gui.screen.ScreenWithScissors;
 import thecsdev.betterstats.client.gui.widget.FillWidget;
+import thecsdev.betterstats.client.gui.widget.TooltipProvider;
 import thecsdev.betterstats.client.gui.widget.stats.BSStatWidget;
 
 @Mixin(ScreenWithScissors.class)
@@ -99,7 +100,7 @@ public abstract class ScreenWithScissorsMixin extends Screen
 		
 		//render elements
 		for(Drawable child : ((ScreenMixin)(Object)this).getDrawables())
-		{
+		{			
 			if(dfc.containsKey(child))
 				dfc.get(child).applyScissor(child, matrices, mouseX, mouseY, delta);
 			else child.render(matrices, mouseX, mouseY, delta);
@@ -108,14 +109,20 @@ public abstract class ScreenWithScissorsMixin extends Screen
 		//---------- render element tooltips
 		//z-index-offset (items render at 100)
 		matrices.push();
-		matrices.translate(0, 0, 200 + Math.abs(this.itemRenderer.zOffset));
-		for(Selectable child : ((ScreenMixin)(Object)this).getSelectables())
+		matrices.translate(0, 0, 100 + Math.abs(this.itemRenderer.zOffset));
+		for(Drawable child : ((ScreenMixin)(Object)this).getDrawables())
 		{
 			if(child instanceof ClickableWidget)
 			{
 				ClickableWidget cwChild = (ClickableWidget)child;
 				if(cwChild.isHovered())
 					cwChild.renderTooltip(matrices, mouseX, mouseY);
+			}
+			else if(child instanceof TooltipProvider)
+			{
+				TooltipProvider cwChild = (TooltipProvider)child;
+				if(cwChild.tp_isHovered())
+					cwChild.tp_renderTooltip(matrices, mouseX, mouseY);
 			}
 		}
 		matrices.pop();

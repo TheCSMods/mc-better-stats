@@ -277,14 +277,14 @@ public class FillWidget extends ClickableWidget implements Selectable, Drawable,
 			this.max = 0;
 		}
 
-		public FWScrollEntry makeScrollable(FillWidget fillWidget, ClickableWidget target)
+		public FWScrollEntry makeScrollable(ClickableWidget target)
 		{
 			FWScrollEntry a = new FWScrollEntry(target);
 			entries.add(a);
 			return a;
 		}
 
-		public FWScrollEntry makeScrollable(FillWidget fillWidget, Drawable target, int x, int y, Consumer<FWScrollEntry> applyScroll)
+		public FWScrollEntry makeScrollable(Drawable target, int x, int y, Consumer<FWScrollEntry> applyScroll)
 		{
 			FWScrollEntry a = new FWScrollEntry(target, x, y, applyScroll);
 			entries.add(a);

@@ -1,5 +1,6 @@
 package thecsdev.betterstats.client.gui.widget.stats;
 
+import static thecsdev.betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS;
 import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.BetterStats.tt;
 
@@ -8,6 +9,7 @@ import java.awt.Point;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import thecsdev.betterstats.client.gui.util.GuiUtils;
@@ -38,8 +40,10 @@ public class BSMobStatWidget extends BSStatWidget
 		livingEntity = (mobStat.entity instanceof LivingEntity) ? (LivingEntity) mobStat.entity : null;
 		updateTooltip();
 		
-		if(livingEntity != null)
+		if(!(livingEntity instanceof PlayerEntity))
 			livingEntity.baseTick();
+		if(mobStat.errored)
+			setErrored(1);
 		
 		//calculate the mob's gui size and offset in pixels, and then cache it
 		cache_mobSize = BSMobStatRenderConfig.getLivingEntityGUISize(livingEntity, width);
@@ -47,19 +51,22 @@ public class BSMobStatWidget extends BSStatWidget
 	}
 	// --------------------------------------------------
 	@Override
-	protected void onUpdateTooltip() { tooltip = onUpdateTooltip(mobStat); }
+	protected void onUpdateTooltip() { tooltip = onUpdateTooltip(this, mobStat); }
 	
-	public static Text onUpdateTooltip(SUMobStat mobStat)
+	public static Text onUpdateTooltip(BSMobStatWidget widget, SUMobStat mobStat)
 	{
 		String s0 = tt("stat_type.minecraft.killed.none", mobStat.entityName).getString();
 		String s1 = tt("stat_type.minecraft.killed_by.none", mobStat.entityName).getString();
+		String s2 = "";
 		
 		if(mobStat.killed != 0)
 			s0 = tt("stat_type.minecraft.killed", Integer.toString(mobStat.killed), mobStat.entityName).getString();
 		if(mobStat.killedBy != 0)
 			s1 = tt("stat_type.minecraft.killed_by", mobStat.entityName, Integer.toString(mobStat.killedBy)).getString();
+		if(widget.errored != 0 && !widget.ignoreErrorMessages())
+			s2 = "\n" + tt("betterstats.gui.stat.mob.error").getString();
 		
-		return lt(s0 + "\n" + s1);
+		return lt(s0 + "\n" + s1 + "\n" + s2);
 	}
 	// ==================================================
 	@Override
@@ -81,18 +88,26 @@ public class BSMobStatWidget extends BSStatWidget
 			scissorHeight -= Math.abs(bottom - scBottom);
 		
 		//render living_entity/entity_name
-		if(livingEntity != null && !livingEntity.isDead())
+		if(livingEntity != null && !livingEntity.isDead() && errored < 2)
 			GuiUtils.applyScissor(x + 1, scissorY + 1, width - 2, scissorHeight - 2, () ->
 			{
 				int centerX = this.x + (this.width / 2);
 				int centerY = this.y + (this.height / 2);
 				
-				InventoryScreen.drawEntity(
-						this.x + cache_mobOffset.x,
-						this.y + cache_mobOffset.y,
-						cache_mobSize,
-						-rInt(mouseX, centerX), -rInt(mouseY, centerY),
-						livingEntity);
+				try
+				{
+					InventoryScreen.drawEntity(
+							this.x + cache_mobOffset.x,
+							this.y + cache_mobOffset.y,
+							cache_mobSize,
+							-rInt(mouseX, centerX), -rInt(mouseY, centerY),
+							livingEntity);
+				}
+				catch(Exception exc)
+				{
+					if(!IGNORE_ENTITY_RENDER_ERRORS) throw exc;
+					setErrored(2);
+				}
 			});
 		else
 			GuiUtils.applyScissor(x, scissorY, width, scissorHeight, () ->
