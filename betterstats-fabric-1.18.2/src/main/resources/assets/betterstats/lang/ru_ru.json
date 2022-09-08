@@ -25,7 +25,7 @@
     "betterstats.config.BSConfig.ALLOW_CHEATS": "Разрешить читы (нужны права ур. 2 или оператор)",
     "betterstats.config.BSConfig.ALLOW_CHEATS.tooltip": "Позволить выдавать себе предметы при помощи\nShift+[ЛКМ/Enter] в разделе статистики предметов\nдля их быстрого получения.\nТребуется право использовать /give.",
     "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS": "Игнорировать ошибки визуализации сущностей",
-    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Некоторые сущности из других модов\nмогут не поддерживать способ, которым\nBetter Statistics Screen получает и\nвизуализирует их модель, приводя к ошибкам.\nЭта настройка попытается игнорировать их.\n\nНапример, некоторые сущности\nпредполагается использовать только\nв мире на стороне сервера, в то время\nкак этот мод попытается отобразить их\nс использованием клиентского мира.",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Некоторые сущности из других модов\nмогут не поддерживать способ, которым\nBetter Statistics Screen получает и\nвизуализирует их модель, приводя к ошибкам.\nЭта настройка попытается игнорировать их.\n\nНапример, некоторые сущности\nпредполагается использовать только\nв мире на стороне сервера, в то время\nкак этот мод попытается отобразить их\nс использованием клиентского мира.\n\nСм. также COLOR_STAT_BG_ERRORED.",
 
     "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
     "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",
