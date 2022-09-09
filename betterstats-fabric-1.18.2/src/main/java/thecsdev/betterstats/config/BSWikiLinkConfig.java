@@ -154,13 +154,42 @@ public class BSWikiLinkConfig
 		boolean b0 = mobOrItemId != null && wikiType != null;
 		boolean b1 = REGISTRY.get(mobOrItemId.getNamespace()) != null;
 		boolean b2 = BSConfig.ENABLE_WIKI_LINKS;
-		return b0 && b1 && b2;
+		boolean b3 = BetterStats.isClient();
+		return b0 && b1 && b2 && b3;
 	}
 	
-	public static boolean openUrl(Identifier mobOrItemId, WikiType wikiType)
+	public static boolean openUrl(final Identifier mobOrItemId, final WikiType wikiType)
 	{
+		//requires b3 check to pass, aka requires Client environment
 		if(!canOpenUrl(mobOrItemId, wikiType)) return false;
-		return REGISTRY.get(mobOrItemId.getNamespace()).openWiki(wikiType, mobOrItemId.getPath());
+		
+		//show confirmation screen
+		try
+		{
+			//get current screen
+			final net.minecraft.client.gui.screen.Screen s0 =
+					thecsdev.betterstats.client.BetterStatsClient.MCClient.currentScreen;
+			
+			//create confirm screen
+			final Entry entry = REGISTRY.get(mobOrItemId.getNamespace());
+			net.minecraft.client.gui.screen.Screen s1 =
+				new net.minecraft.client.gui.screen.ConfirmChatLinkScreen(
+					pass ->
+					{
+						if(pass)
+							entry.openWiki(wikiType, mobOrItemId.getPath());
+						thecsdev.betterstats.client.BetterStatsClient.MCClient.setScreen(s0);
+					},
+					entry.getWikiUrl(wikiType, mobOrItemId.getPath()),
+					false);
+			
+			//set confirm screen
+			thecsdev.betterstats.client.BetterStatsClient.MCClient.setScreen(s1);
+			
+			//return
+			return true;
+		}
+		catch(NoClassDefFoundError | NullPointerException err) { return false; }
 	}
 	// ==================================================
 }
