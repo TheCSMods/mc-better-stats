@@ -47,92 +47,11 @@ Note: Just like in the "A balanced diet" tab, I do not know whether or not modde
 
 ![Screenshot_5](https://user-images.githubusercontent.com/66475965/188287976-d61922e3-e48a-431a-9a3a-3835aaf4b393.png)
 
-### Debug Mode (as of v1.1)
-This is a special tab that you can only access by holding down the CTRL key while cycling tabs. I added this tab so I can more easily debug the mod while working on it. You can use any debug features in there yourself as well. As for the "Show everything" option, please keep in mind that it may cause lag spikes when used with large mods and mod-packs because of the amount of items/entities that may end up being shown on the screen. Those lag spikes are the main reason I chose NOT to show all item/mob stats even when the "Hide empty stats" checkbox is unchecked.
+### Options tab
+This is a special tab that you can only access by holding down the CTRL key while cycling tabs. From here, you can configure the mod using an in-game config GUI. You can also access some debug features from there as well. Those debug features are there so I can debug the mod easier while developing it. Be careful when enabling the debug option that shows all item and mob stats, as it can cause lag spikes when there are many mods installed.
 
-# Mod config
-To configure the mod, go to the `config` directory, and create the `betterstats.properties` file. In that file, you may define the desired config properties. Below is a list of properties you can use, their default values, and information on what they do.
-
-Notice: Regarding colors, the color properties take integers representing RGB color values that can be obtained using `java.awt.Color.getRGB()`. More info on how to use color properties will be below.
-
-```properties
-# This property keeps track of whether or not the user has seen the better statistic screen
-# before. It is used for drawing a red dot in the top right corner of the "Statistics" button.
-# In other words, if the user never saw the screen before, a small red dot will let them know
-# to click on the "Statistics" button.
-SEEN_BSS=false
-
-# This one is an extra unused feature I decided to include. At first I was gonna use it, but
-# I then changed my mind, as I couldn't come up with a cool texture for the button.
-# When turned on, the `betterstats:textures/gui/stats_btn_bg.png` image will be drawn below
-# the "Statistics" button's text. You can use this to customize the button if you wish to.
-# Don't forget to keep the texture's edges transparent, so as to let the game's button outline
-# work properly. You can find the placeholder image you could use in the mod's `assets` folder.
-BSS_BTN_IMG=false
-
-# Used to remember whether or not the user hid empty stats using the filter checkbox.
-FILTER_HIDE_EMPTY_STATS=false
-
-# Used to remember whether or not the user chose to show item names using the filter checkbox.
-FILTER_SHOW_ITEM_NAMES=true
-
-# The text color used in the general statistics tab (used in some other places as well such
-# as rendering mob names as replacement for mob models in mob tabs, not used in tooltips)
-COLOR_STAT_GENERAL_TEXT=-1
-
-# The background color of a statistic entry. Any entry, from any tab.
-COLOR_STAT_BG=599045300
-
-# The outline color used for when you hover over a given statistic entry
-COLOR_STAT_OUTLINE=-4144960
-
-# The background color of the filters tab and the stats tab
-COLOR_CONTENTPANE_BG=2013265920
-
-# The color used for category names when statistic entries are categorized
-COLOR_CATEGORY_NAME_NORMAL=-922747136
-
-# Same as COLOR_CATEGORY_NAME_NORMAL except this is when the names are "glowing"/"brighter"
-COLOR_CATEGORY_NAME_HIGHLIGHTED=-256
-```
-
-As for obtaining integer numbers for given RGBA values, I have created a Java code snippet on the online compiler site that you can use right now to obtain the integer for any color you wish to use. You can see it by [clicking here](http://tpcg.io/_YRQJVE).
-
-## betterstats_mobStatRenderer.json (as of v1.1+)
-(Available as of v1.1)<br/>
-When rendering mob statistics, the mod tries it's best to position and scale the mob models correctly so as to make them fit the GUI box properly. However, not every mob model behaves the same, and as such, some modded mobs may appear positioned inappropriately, despite the mod's efforts to make it positioned and scaled appropriately.
-
-If you are someone who uses this mod, or a mod-pack creator/developer, you can use this config file to tell the mod how it should render certain entities. I have already tweaked some Vanilla entities to make them positioned appropriately. You can always override those tweaks using the config file.
-
-To get started, create the `betterstats_mobStatRenderer.json` file in the `config` directory, make sure it's contents are at least `{}` to avoid errors, and make sure you use the appropriate JSON syntax. Below is an example configuration:
-```json
-{
-    "minecraft:axolotl": { "MobStatGuiPosOffset": [10,-10] },
-    "minecraft:ghast": { "MobStatGuiPosOffset": [0,-25] },
-    "minecraft:spider": {  "MobStatGuiSize": 95 },
-    "minecraft:cave_spider": {  "MobStatGuiSize": 80 },
-    "minecraft:squid": {  "MobStatGuiPosOffset": [0,-25] },
-    "minecraft:glow_squid": { "MobStatGuiPosOffset": [0,-25] },
-
-    "minecraft:phantom": { "MobStatGuiSize": 60, "MobStatGuiPosOffset": [0,-20] },
-    "minecraft:turtle": { "MobStatGuiSize": 70, "MobStatGuiPosOffset": [0,0] },
-
-    "minecraft:ender_dragon": { "MobStatGuiSize": 300, "MobStatGuiPosOffset": [0,-20] },
-
-    "minecraft:slime": { "MobStatGuiSize": 400 },
-    "minecraft:magma_cube": { "MobStatGuiSize": 400 },
-    "minecraft:pufferfish": { "MobStatGuiSize": 150 }
-}
-```
-Each entry key is an `Identifier` for a given `LivingEntity`, for example `"minecraft:pig": { ... }`. Each entry can have certain properties defining how the entity in question will be rendered on a GUI mob statistic. Below is the list of those properties:
-
-### MobStatGuiSize (Integer)
-Before rendering mobs, the mod attempts to calculate which size it should use when rendering a given mob. This integer is a percentage value that multiplies the mod's chosen size number by `MobStatGuiSize / 100`. So for example, if the mod chose to render a mob using the size of `30`, and the value of this property was let's say `200`, then the final rendering size would be `30 * (200 / 100) = 60`, aka `60`.<br/>
-Example: `"MobStatGuiSize": 100`
-
-### MobStatGuiPosOffset (Integer array with the length of 2)
-This property offsets a given entity's GUI position relative to the mod's chosen position at which to render a mob at. The mod attempts to render a mob near the center of it's GUI statistic box. The X and Y values are also percentages, and those percentages are relative to the size of the GUI box. In v1.1, the size of the box is `50`, so a value of let's say `X = 100` would offset the entity by `50` in the X axis, because `50 * (100 / 100) = 50`, and so the final value would be `50 (chosen by the mod) + 50 (custom offset) = 100`. It is not recommended to use values `> 100 or < -100`.<br/>
-Example: `"MobStatGuiPosOffset": [0,-20]`
+# Configuring the mod
+Information about configuring the mod has been moved to the Wiki, as it is too long to fit in here.
 
 ##
 <p align=center>
