@@ -96,7 +96,7 @@ public class BetterStatsButtonWidget extends ButtonWidget
 	public static void openBSS(Screen parent)
 	{
 		//set the screen
-		BetterStatsScreen.CACHE_TAB = null; //clear the "cache" before opening
+		BetterStatsScreen.clearCache(); //clear the "cache" before opening
 		MCClient.setScreen(new BetterStatsScreen(parent, MCClient.player.getStatHandler()));
 	}
 	// ==================================================

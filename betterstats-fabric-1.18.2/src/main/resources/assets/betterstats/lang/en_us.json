@@ -9,6 +9,7 @@
 
     "betterstats.gui.menu_item.vanilla_stats_screen": "Show vanilla stats",
     "betterstats.gui.menu_item.close": "Close",
+    "betterstats.gui.menu_item.changelogs": "Changelogs",
     
     "betterstats.gui.search.no_results": "No items matched your search...",
     "betterstats.gui.stat.mob.error": "This Entity threw an Exception (error) while\nattempting to render it. See the Options tab\nfor more info.",
@@ -16,6 +17,7 @@
     "betterstats.config.category.all": "All properties",
     "betterstats.config.category.config": "Config properties",
     "betterstats.config.category.config.general": "General",
+    "betterstats.config.category.config.help": "Help",
     "betterstats.config.category.config.filters": "Filters",
     "betterstats.config.category.config.colors": "Colors",
     "betterstats.config.category.debug": "Debug properties (doesn't save)",
@@ -29,6 +31,11 @@
     "betterstats.config.BSConfig.ALLOW_CHEATS.tooltip": "Allows you to shift+[click/enter] items in\nitem stats to /give them to yourself.\nRequires /give permission.",
     "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS": "Ignore entity render errors",
     "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Some modded entities might not support the way\nthis mod handles and renders them, resulting in\nerrors. This option tries to ignore those errors.\n\nFor example, some entities may always assume they\nare in a ServerWorld, while this mod renders them\non the screen using the ClientWorld.\n\nPlease see COLOR_STAT_BG_ERRORED.",
+    
+    "betterstats.config.BSConfig.ENABLE_WIKI_LINKS": "Enable Wiki links",
+    "betterstats.config.BSConfig.ENABLE_WIKI_LINKS.tooltip": "When enabled, middle-mouse clicking an item\nstat will take you to that item's Wiki article if\nthere is one defined.",
+    "betterstats.config.BSConfig.ENABLE_REI_LINKS": "Enable REI links",
+    "betterstats.config.BSConfig.ENABLE_REI_LINKS.tooltip": "When enabled, you will be able to left/right\nmouse click an item stat to open the REI\nscreen for the given item.\n\nRequires the REI mod to be installed.",
 
     "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
     "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",
@@ -49,5 +56,7 @@
     "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING": "Show everything (may lag)",
     "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING.tooltip": "Shows all statistics entries, regardless\nof their values.",
     "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE": "Dinnerbone mode",
-    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE.tooltip": "Mobs in mob statistics go upside-down."
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE.tooltip": "Mobs in mob statistics go upside-down.",
+    "betterstats.config.BSConfig.DEBUG_LOG_SCREEN_CHANGES": "Log Screen changes",
+    "betterstats.config.BSConfig.DEBUG_LOG_SCREEN_CHANGES.tooltip": "When enabled, MinecraftClient.setScreen(...)\ncalls will be logged."
 }

@@ -95,12 +95,10 @@ public class FillWidget extends ClickableWidget implements Selectable, Drawable,
 	public boolean isHovered() { return isFocused() || this.hovered; }
 	@Override public boolean isMouseOver(double mouseX, double mouseY) { return this.hovered; }
 	// --------------------------------------------------
-	public void onScroll_apply(double mouseX, double mouseY)
+	public void onScroll_apply()
 	{
 		scroll.entries.forEach(entry ->
 		{
-			entry.mouseX = mouseX;
-			entry.mouseY = mouseY;
 			entry.scroll = scroll.value;
 			entry.applyScroll.accept(entry); 
 		});
@@ -109,7 +107,7 @@ public class FillWidget extends ClickableWidget implements Selectable, Drawable,
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
 		this.scroll.setValue(this.scroll.value + (amount * scroll.sensitivity));
-		onScroll_apply(mouseX, mouseY);
+		onScroll_apply();
 		return true;
 	}
 	
@@ -154,7 +152,7 @@ public class FillWidget extends ClickableWidget implements Selectable, Drawable,
 			val = MathHelper.lerp(val, scroll.min, scroll.max);
 			
 			scroll.setValue(val);
-			onScroll_apply(mouseX, mouseY);
+			onScroll_apply();
 			return true;
 		}
 		return false;
@@ -314,7 +312,7 @@ public class FillWidget extends ClickableWidget implements Selectable, Drawable,
 		public final Drawable target;
 		
 		public final Consumer<FWScrollEntry> applyScroll;
-		public double mouseX, mouseY, scroll;
+		public double scroll;
 		
 		public FWScrollEntry(ClickableWidget target) { this(target, target.x, target.y, null); }
 		public FWScrollEntry(Drawable target, int x, int y, Consumer<FWScrollEntry> applyScroll)

@@ -147,7 +147,7 @@ public abstract class BSStatWidget extends FillWidget
 			
 			val = - val;
 			parent.statContentPane.scroll.setValue(parent.statContentPane.scroll.getValue() + val);
-			parent.statContentPane.onScroll_apply(parent.statContentPane.x, parent.statContentPane.y);
+			parent.statContentPane.onScroll_apply();
 		}
 	}
 	// ==================================================

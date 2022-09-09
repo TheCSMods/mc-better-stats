@@ -16,12 +16,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Sets;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
@@ -77,17 +79,22 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		
 		FoodStuffs(tt("advancements.husbandry.balanced_diet.title")),
 		MonstersHunted(tt("advancements.adventure.kill_all_mobs.title")),
-		Debug(tt("menu.options"));
+		
+		Debug(tt("menu.options")),
+		Changelogs(tt("betterstats.gui.menu_item.changelogs"));
 		
 		private final Text text;
 		CurrentTab(Text text) { this.text = text; }
 		public Text asText() { return text; }
 	}
 	// --------------------------------------------------
-	//an attempt to preserve the selected tab when the Minecraft
-	//window is being resized. for whatever reason, Minecraft
-	//completely redraws a Screen when it's window is interacted with
+	//an attempt to preserve the selected tab and other info
+	//when the Minecraft window is being resized. for whatever
+	//reason, Minecraft completely redraws a Screen when it's
+	//window is interacted with
 	public static CurrentTab CACHE_TAB = CurrentTab.General;
+	public static String CACHE_SEARCH = "";
+	public static double CACHE_SCROLL = 0;
 	// --------------------------------------------------
 	public final Screen parent;
 	public final StatHandler statHandler;
@@ -102,14 +109,14 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		downloadingStats = true; //must be true
 	}
 	
-	@Override
-	public boolean shouldPause() { return true; }
+	@Override public boolean shouldPause() { return true; }
+	@Override public void close() { super.close(); clearCache(); }
 	
-	@Override
-	public void close()
+	public static void clearCache()
 	{
-		super.close();
-		BetterStatsScreen.CACHE_TAB = null;
+		CACHE_TAB = null;
+		CACHE_SEARCH = "";
+		CACHE_SCROLL = 0;
 	}
 
 	public TextRenderer getTextRenderer() { return this.textRenderer; }
@@ -152,7 +159,6 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 		super.render(matrices, mouseX, mouseY, delta);
 	}
 	
-	
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
@@ -180,10 +186,17 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			
 			val = - val;
 			statContentPane.scroll.setValue(statContentPane.scroll.getValue() + val);
-			statContentPane.onScroll_apply(statContentPane.x, statContentPane.y);
+			statContentPane.onScroll_apply();
 		}
 		while(false);
 		return b0;
+	}
+	
+	@Override
+	public void resize(MinecraftClient client, int width, int height)
+	{
+		CACHE_SCROLL = 0;
+		super.resize(client, width, height);
 	}
 	// ==================================================
 	public FillWidget menuContentPane;
@@ -230,7 +243,8 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				.narration(btn -> ClickableWidget.getNarrationMessage(btn.getMessage()))
 				.build(mcpX + 5, mcpY + 30, mcpW - 10, 20, tt("betterstats.gui.menu_item.current_tab"), (arg0, arg1) ->
 				{
-					if(arg1 == CurrentTab.Debug && (!BSConfig.BS_OPTIONS_GUI || !hasControlDown()))
+					if((arg1 == CurrentTab.Debug && (!BSConfig.BS_OPTIONS_GUI || !hasControlDown())) ||
+						arg1 == CurrentTab.Changelogs)
 					{
 						mcp_btn_tab.onPress();
 						return;
@@ -244,7 +258,8 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				mcpX + 5 + 1, mcpY + 55,
 				mcpW - 10 - 2, 20,
 				tt("betterstats.gui.menu_item.search"));
-		mcp_txt_search.setChangedListener(arg0 -> this.update());
+		mcp_txt_search.setText((CACHE_SEARCH != null) ? CACHE_SEARCH : "");
+		mcp_txt_search.setChangedListener(arg0 -> { this.update(); CACHE_SEARCH = arg0; });
 		
 		mcp_bool_hideEmpty = new ActionCheckboxWidget(
 				mcpX + 5, mcpY + 80,
@@ -344,6 +359,11 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			default: break;
 		}
 		
+		//scroll grabber (a widget that does nothing but cache the scroll)
+		StringWidget sGrabber = new StringWidget(textRenderer, lt(" "), -50, -50, -1);
+		statContentPane.scroll.makeScrollable(sGrabber, -50, -50, arg0 -> CACHE_SCROLL = arg0.scroll);
+		//addCutDrawable(sGrabber, statContentPane);
+		
 		//update scroll and stuff based on lastY and drawnEntries
 		int lastY = lY_dE != null ? lY_dE.width : 0;
 		int drawnEntries = lY_dE != null ? lY_dE.height : 0;
@@ -364,6 +384,10 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 					statContentPane.y + (statContentPane.getHeight() / 2),
 					Color.white.getRGB()), statContentPane);
 		}
+		
+		//apply cached scroll
+		statContentPane.scroll.setValue(CACHE_SCROLL);
+		statContentPane.onScroll_apply();
 	}
 	
 	private Dimension update_drawGeneralStats()
@@ -808,6 +832,40 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 						addCutDrawableChild(el, statContentPane);
 						
 						nextY = el.y + el.getHeight() + 5;
+						lastY = nextY + 10;
+						drawnEntries++;
+					}
+					
+					//handle strings
+					else if(clazzField.getClass().equals(String.class))
+					{
+						String val;
+						try { val = Objects.toString(clazzField.get(null)); } catch(Exception exc) { continue; }
+						
+						TextRenderer tr = textRenderer;
+						
+						final TextFieldWidget el1 = new TextFieldWidget(tr,
+								statContentPane.x + 10 + nextW + 150 - (nextW/2), nextY,
+								nextW/2, 20, lt(""));
+						el1.setText(val);
+						final StringWidget el2 = new StringWidget(
+								textRenderer, lt(clazzFieldName),
+								nextX, nextY + 10 - (tr.fontHeight / 2),
+								Color.white.getRGB());
+						el2.setTooltip(lt(StatUtils.getBSConfigPropertyTooltip(clazz, clazzField)));
+						
+						statContentPane.scroll.makeScrollable(el1);
+						addCutDrawableChild(el1, statContentPane);
+						statContentPane.scroll.makeScrollable(el2, el2.x, el2.y, arg0 -> { el2.y = (int) (arg0.y + arg0.scroll); });
+						addCutDrawable(el2, statContentPane);
+						
+						applications.add(() ->
+						{
+							try { clazzField.set(null, el1.getText()); }
+							catch(Exception e) {}
+						});
+						
+						nextY = el1.y + el1.getHeight() + 5;
 						lastY = nextY + 10;
 						drawnEntries++;
 					}

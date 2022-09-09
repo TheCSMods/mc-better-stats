@@ -62,8 +62,9 @@ public class BSItemStatWidget extends BSStatWidget
 		boolean b0 = super.mouseClicked(mouseX, mouseY, button);
 		boolean b1 = hovered && BSConfig.ALLOW_CHEATS && Screen.hasShiftDown() && button == 0 && slashGiveItem();
 		boolean b2 = hovered && button == 2 && openWikiArticle();
+		boolean b3 = hovered && !b1 && (button == 0 || button == 1) && openREICraftingInfo(button);
 		
-		return b0 || b1 || b2;
+		return b0 || b1 || b2 || b3;
 	}
 	
 	@Override
@@ -95,9 +96,32 @@ public class BSItemStatWidget extends BSStatWidget
 		return false;
 	}
 	
-	public boolean openWikiArticle()
+	public boolean openWikiArticle() { return BSWikiLinkConfig.openUrl(itemStat.itemId, BSWikiLinkConfig.WikiType.ItemWiki); }
+	
+	public boolean openREICraftingInfo(int mouseButton)
 	{
-		return BSWikiLinkConfig.openUrl(itemStat.itemId, BSWikiLinkConfig.WikiType.ItemWiki);
+		if(!BSConfig.ENABLE_REI_LINKS) return false;
+		//idk if including packages causes NoClassDefFoundError, so i will avoid doing that.
+		//i am trying to make REI an optional mod here...
+		try
+		{
+			//create a new ViewSearchBuilder
+			me.shedaniel.rei.api.client.view.ViewSearchBuilder builder =
+					me.shedaniel.rei.api.client.view.ViewSearchBuilder.builder();
+			
+			//get entry stack
+			me.shedaniel.rei.api.common.entry.EntryStack<?> entryStack =
+					me.shedaniel.rei.api.common.util.EntryStacks.of(itemStat.itemStack);
+			
+			//add recipes and usages
+			if(mouseButton == 0) builder.addRecipesFor(entryStack);
+			if(mouseButton == 1) builder.addUsagesFor(entryStack);
+			
+			//open view and return
+			me.shedaniel.rei.api.client.ClientHelper.getInstance().openView(builder);
+			return true;
+		}
+		catch(NoClassDefFoundError exc) { return false; }
 	}
 	// ==================================================
 }

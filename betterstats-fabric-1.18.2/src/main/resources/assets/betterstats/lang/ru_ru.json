@@ -9,6 +9,7 @@
 
     "betterstats.gui.menu_item.vanilla_stats_screen": "Ванильная статистика",
     "betterstats.gui.menu_item.close": "Закрыть",
+    "betterstats.gui.menu_item.changelogs": "Журналы изменений",
     
     "betterstats.gui.search.no_results": "По вашему запросу результатов не найдено...",
     "betterstats.gui.stat.mob.error": "Эта сущность вызвала исключение (ошибку) при попытке\nвизуализации. Подробнее см. на вкладке отладки.",
@@ -16,6 +17,7 @@
     "betterstats.config.category.all": "Все",
     "betterstats.config.category.config": "Настройки",
     "betterstats.config.category.config.general": "Общие настройки",
+    "betterstats.config.category.config.help": "Помощь",
     "betterstats.config.category.config.filters": "Фильтры",
     "betterstats.config.category.config.colors": "Цвета",
     "betterstats.config.category.debug": "Отладка (не безопасно)",

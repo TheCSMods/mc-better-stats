@@ -40,7 +40,9 @@ public final class BSConfig
 	
 	//when enabled, the mod will be able to open wiki article
 	//links for given statistic entries
+	@BSConfigHeader("help")
 	@BSProperty public static boolean ENABLE_WIKI_LINKS = true;
+	@BSProperty public static boolean ENABLE_REI_LINKS = true;
 	
 	//BS screen menu filters
 	@BSConfigHeader("filters")
@@ -64,6 +66,7 @@ public final class BSConfig
 	// --------------------------------------------------
 	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_SHOW_EVERYTHING = false;
 	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_DINNERBONE_MODE = false;
+	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_LOG_SCREEN_CHANGES = false;
 	// ==================================================
 	public static void saveProperties() { saveProperties(BSConfig.class); }
 	public static void saveProperties(Class<?> configClazz)
@@ -138,6 +141,8 @@ public final class BSConfig
 					configField.set(null, smartBool(value));
 				else if(configField.getType().equals(Integer.TYPE))
 					configField.set(null, Integer.parseInt(value));
+				else if(configField.getType().equals(String.class))
+					configField.set(null, value);
 			}
 			
 			//log
