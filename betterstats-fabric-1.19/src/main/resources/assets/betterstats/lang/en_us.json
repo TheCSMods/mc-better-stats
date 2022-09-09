@@ -15,6 +15,9 @@
 
     "betterstats.config.category.all": "All properties",
     "betterstats.config.category.config": "Config properties",
+    "betterstats.config.category.config.general": "General",
+    "betterstats.config.category.config.filters": "Filters",
+    "betterstats.config.category.config.colors": "Colors",
     "betterstats.config.category.debug": "Debug properties (doesn't save)",
 
     "betterstats.config.BSConfig.BS_OPTIONS_GUI": "Enable BS Options GUI (CAREFUL!)",
@@ -25,7 +28,7 @@
     "betterstats.config.BSConfig.ALLOW_CHEATS": "Allow cheats (requires perm. lvl2 or OP)",
     "betterstats.config.BSConfig.ALLOW_CHEATS.tooltip": "Allows you to shift+[click/enter] items in\nitem stats to /give them to yourself.\nRequires /give permission.",
     "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS": "Ignore entity render errors",
-    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Some modded entities might not support the way\nthis mod handles and renders them, resulting in\nerrors. This option tries to ignore those errors.\n\nFor example, some entities may always assume they\nare in a ServerWorld, while this mod renders them\non the screen using the ClientWorld.",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Some modded entities might not support the way\nthis mod handles and renders them, resulting in\nerrors. This option tries to ignore those errors.\n\nFor example, some entities may always assume they\nare in a ServerWorld, while this mod renders them\non the screen using the ClientWorld.\n\nPlease see COLOR_STAT_BG_ERRORED.",
 
     "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
     "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",

@@ -4,6 +4,8 @@ import static thecsdev.betterstats.config.BSConfig.COLOR_STAT_OUTLINE;
 
 import java.awt.Dimension;
 
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
@@ -29,8 +31,15 @@ public abstract class BSStatWidget extends FillWidget
 		withBorder(FWBorderMode.Hover, COLOR_STAT_OUTLINE);
 		//updateTooltip(); -- bad idea, update manually instead
 	}
+	
+	@Override
+	public void appendNarrations(NarrationMessageBuilder builder)
+	{
+		if(tooltip == null) return;
+		builder.put(NarrationPart.TITLE, tooltip.getString().replaceAll("\\r?\\n", ", "));
+	}
 	// --------------------------------------------------
-	public BSStatWidget setTooltipZOffset(int z) { this.tooltipZ = Math.abs(z) % 100; return this; }
+	public BSStatWidget setTooltipZOffset(int z) { this.tooltipZ = Math.abs(z) % 90; return this; }
 	
 	public final void updateTooltip()
 	{

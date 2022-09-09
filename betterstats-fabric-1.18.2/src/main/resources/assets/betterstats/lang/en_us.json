@@ -15,6 +15,9 @@
 
     "betterstats.config.category.all": "All properties",
     "betterstats.config.category.config": "Config properties",
+    "betterstats.config.category.config.general": "General",
+    "betterstats.config.category.config.filters": "Filters",
+    "betterstats.config.category.config.colors": "Colors",
     "betterstats.config.category.debug": "Debug properties (doesn't save)",
 
     "betterstats.config.BSConfig.BS_OPTIONS_GUI": "Enable BS Options GUI (CAREFUL!)",

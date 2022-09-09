@@ -109,7 +109,7 @@ public abstract class ScreenWithScissorsMixin extends Screen
 		//---------- render element tooltips
 		//z-index-offset (items render at 100)
 		matrices.push();
-		matrices.translate(0, 0, 100 + Math.abs(this.itemRenderer.zOffset));
+		matrices.translate(0, 0, 110 + Math.abs(this.itemRenderer.zOffset));
 		for(Drawable child : ((ScreenMixin)(Object)this).getDrawables())
 		{
 			if(child instanceof ClickableWidget)

@@ -13,6 +13,7 @@ import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import thecsdev.betterstats.client.gui.screen.ScreenWithScissors;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUItemStat;
 import thecsdev.betterstats.config.BSConfig;
+import thecsdev.betterstats.config.BSWikiLinkConfig;
 
 public class BSItemStatWidget extends BSStatWidget
 {
@@ -60,7 +61,9 @@ public class BSItemStatWidget extends BSStatWidget
 	{
 		boolean b0 = super.mouseClicked(mouseX, mouseY, button);
 		boolean b1 = hovered && BSConfig.ALLOW_CHEATS && Screen.hasShiftDown() && button == 0 && slashGiveItem();
-		return b0 || b1;
+		boolean b2 = hovered && button == 2 && openWikiArticle();
+		
+		return b0 || b1 || b2;
 	}
 	
 	@Override
@@ -90,6 +93,11 @@ public class BSItemStatWidget extends BSStatWidget
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean openWikiArticle()
+	{
+		return BSWikiLinkConfig.openUrl(itemStat.itemId, BSWikiLinkConfig.WikiType.ItemWiki);
 	}
 	// ==================================================
 }

@@ -14,12 +14,13 @@ public @interface BSProperty
 {
 	public enum BSPCategory
 	{
-		All(tt("betterstats.config.category.all")),
-		Config(tt("betterstats.config.category.config")),
-		Debug(tt("betterstats.config.category.debug"));
+		All("betterstats.config.category.all"),
+		Config("betterstats.config.category.config"),
+		Debug("betterstats.config.category.debug");
 		
-		private final Text text;
-		BSPCategory(Text text) { this.text = text; }
+		public final Text text;
+		public final String textKey;
+		BSPCategory(String key) { this.textKey = key; this.text = tt(key); }
 		public Text asText() { return text; }
 	}
 	BSPCategory category() default BSPCategory.Config;

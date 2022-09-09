@@ -35,6 +35,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.GiantEntity;
+import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
@@ -57,6 +58,7 @@ import thecsdev.betterstats.client.gui.widget.stats.BSGenetalStatWidget;
 import thecsdev.betterstats.client.gui.widget.stats.BSItemStatWidget;
 import thecsdev.betterstats.client.gui.widget.stats.BSMobStatWidget;
 import thecsdev.betterstats.config.BSConfig;
+import thecsdev.betterstats.config.BSConfigHeader;
 import thecsdev.betterstats.config.BSProperty;
 import thecsdev.betterstats.config.BSProperty.BSPCategory;
 import thecsdev.betterstats.config.BSPropertyColorInt;
@@ -617,7 +619,9 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 			boolean b0 = StringUtils.isAllBlank(search) ||
 					StringUtils.containsIgnoreCase(entityName, search);
 			boolean b1 = !FILTER_HIDE_EMPTY_STATS || StatUtils.MOB_STAT_EMPTY_FILTER.apply(mobStat);
-			boolean b2 = mobStat.entity instanceof Monster && !(mobStat.entity instanceof GiantEntity);
+			boolean b2 = mobStat.entity instanceof Monster &&
+					!(mobStat.entity instanceof GiantEntity) &&
+					!(mobStat.entity instanceof IllusionerEntity);
 			return b0 && b1 && b2;
 		});
 		
@@ -730,19 +734,22 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				continue;
 			
 			//draw the category name
+			StringWidget lbl_groupName = null;
 			{
 				Text groupName = category.asText();
-				final StringWidget lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
+				lbl_groupName = new StringWidget(textRenderer, groupName, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
 				
-				statContentPane.scroll.makeScrollable(lbl_groupName, nextX, nextY, arg0 -> { lbl_groupName.y = (int) (arg0.y + arg0.scroll); });
-				addCutDrawable(lbl_groupName, statContentPane);
+				final StringWidget finalGn = lbl_groupName;
+				statContentPane.scroll.makeScrollable(finalGn, nextX, nextY, arg0 -> { finalGn.y = (int) (arg0.y + arg0.scroll); });
+				addCutDrawable(finalGn, statContentPane);
 				
-				nextY += lbl_groupName.getHeight() + 5;
+				nextY += finalGn.getHeight() + 5;
 				lastY = nextY;
 				drawnEntries++;
 			}
 			
 			//iterate all static properties in the clazz
+			int drawnCategoryEntries = 0;
 			for(final Field clazzField : clazz.getDeclaredFields())
 			{
 				//check if the field is public static
@@ -752,14 +759,40 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				
 				//obtain property name
 				String clazzFieldName = StatUtils.getBSConfigPropertyName(clazz, clazzField);
+				BSPCategory bspc = BSConfig.getPropertyCategory(clazzField);
+				if(bspc != category) continue;
+				
+				//draw any headers
+				BSConfigHeader header = clazzField.getAnnotation(BSConfigHeader.class);
+				if(header != null) do
+				{
+					//obtain name text
+					Text headerTxt = lt(category.asText().getString() + " - " + tt(category.textKey + "." + header.value()).getString());
+					
+					//handle no entries before this header
+					if(drawnCategoryEntries < 1)
+					{
+						lbl_groupName.setText(headerTxt);
+						break;
+					}
+					
+					//create a new header label
+					nextY = lastY + 10;
+					final StringWidget swHeader = new StringWidget(textRenderer, headerTxt, nextX, nextY, COLOR_CATEGORY_NAME_HIGHLIGHTED);
+					statContentPane.scroll.makeScrollable(swHeader, nextX, nextY, arg0 -> { swHeader.y = (int) (arg0.y + arg0.scroll); });
+					addCutDrawable(swHeader, statContentPane);
+					nextY += swHeader.getHeight() + 5;
+					lastY = nextY;
+					
+				}
+				while(false);
+				drawnCategoryEntries++;
 				
 				//---------- handle property annotiations
 				//draw regular BSProperty-ies
 				BSProperty bsp = clazzField.getAnnotation(BSProperty.class);
 				if(bsp != null)
 				{
-					if(bsp.category() != category) continue;
-					
 					//handle booleans
 					if(boolean.class.isAssignableFrom(clazzField.getType()) || //i hate primitive types sometimes
 						Boolean.class.isAssignableFrom(clazzField.getType())) //but only sometimes
@@ -785,8 +818,6 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				BSPropertyColorInt bspci = clazzField.getAnnotation(BSPropertyColorInt.class);
 				if(bspci != null)
 				{
-					if(bspci.property().category() != category) continue;
-					
 					//handle integers
 					if(int.class.isAssignableFrom(clazzField.getType()) || //i hate primitive types sometimes
 						Integer.class.isAssignableFrom(clazzField.getType())) //but only sometimes

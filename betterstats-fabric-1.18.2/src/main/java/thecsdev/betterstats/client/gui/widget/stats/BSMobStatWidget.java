@@ -1,13 +1,14 @@
 package thecsdev.betterstats.client.gui.widget.stats;
 
-import static thecsdev.betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS;
 import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.BetterStats.tt;
+import static thecsdev.betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS;
 
 import java.awt.Point;
 
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -16,6 +17,7 @@ import thecsdev.betterstats.client.gui.util.GuiUtils;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUMobStat;
 import thecsdev.betterstats.config.BSConfig;
 import thecsdev.betterstats.config.BSMobStatRenderConfig;
+import thecsdev.betterstats.config.BSWikiLinkConfig;
 
 public class BSMobStatWidget extends BSStatWidget
 {
@@ -67,6 +69,14 @@ public class BSMobStatWidget extends BSStatWidget
 			s2 = "\n" + tt("betterstats.gui.stat.mob.error").getString();
 		
 		return lt(s0 + "\n" + s1 + "\n" + s2);
+	}
+	// --------------------------------------------------
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button)
+	{
+		boolean b0 = super.mouseClicked(mouseX, mouseY, button);
+		boolean b1 = hovered && button == 2 && openWikiArticle();
+		return b0 || b1;
 	}
 	// ==================================================
 	@Override
@@ -121,5 +131,11 @@ public class BSMobStatWidget extends BSStatWidget
 	}
 	
 	private static int rInt(int input, int relativeTo) { return input - relativeTo; }
+	// ==================================================
+	public boolean openWikiArticle()
+	{
+		return BSWikiLinkConfig.openUrl(EntityType.getId(mobStat.entityType),
+				BSWikiLinkConfig.WikiType.MobWiki);
+	}
 	// ==================================================
 }

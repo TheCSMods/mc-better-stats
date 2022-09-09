@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Objects;
 import java.util.Properties;
 
 import net.minecraft.util.crash.CrashException;
@@ -19,44 +21,52 @@ public final class BSConfig
 {
 	// ==================================================
 	//when turned off, the Options tab goes bye bye
-	@BSProperty public static boolean BS_OPTIONS_GUI;
+	@BSConfigHeader("general")
+	@BSProperty public static boolean BS_OPTIONS_GUI = true;
 	
 	//keeps track of whether or not the user has seen the new
 	//statistics screen by pressing the 'Statistics' button
-	@BSProperty public static boolean SEEN_BSS;
+	@BSProperty public static boolean SEEN_BSS = false;
 	
 	//whether or not to draw an extra background image for the 'Statistics' button
-	@BSProperty public static boolean BSS_BTN_IMG;
+	@BSProperty public static boolean BSS_BTN_IMG = false;
 	
 	//whether or not to allow the player to shift+click items and so on
-	@BSProperty public static boolean ALLOW_CHEATS;
+	@BSProperty public static boolean ALLOW_CHEATS = false;
 	
 	//recommended not to do this. ignores any errors
 	//modded entities may throw while they are being rendered
-	@BSProperty public static boolean IGNORE_ENTITY_RENDER_ERRORS;
+	@BSProperty public static boolean IGNORE_ENTITY_RENDER_ERRORS = true;
+	
+	//when enabled, the mod will be able to open wiki article
+	//links for given statistic entries
+	@BSProperty public static boolean ENABLE_WIKI_LINKS = true;
 	
 	//BS screen menu filters
-	@BSProperty public static boolean FILTER_HIDE_EMPTY_STATS;
-	@BSProperty public static boolean FILTER_SHOW_ITEM_NAMES;
+	@BSConfigHeader("filters")
+	@BSProperty public static boolean FILTER_HIDE_EMPTY_STATS = false;
+	@BSProperty public static boolean FILTER_SHOW_ITEM_NAMES = true;
 	
 	//tooltip colors
-	@BSPropertyColorInt public static int COLOR_TOOLTIP_TEXT;
-	@BSPropertyColorInt public static int COLOR_TOOLTIP_BG;
-	@BSPropertyColorInt public static int COLOR_TOOLTIP_OUTLINE;
+	@BSConfigHeader("colors")
+	@BSPropertyColorInt public static int COLOR_TOOLTIP_TEXT = Color.white.getRGB();
+	@BSPropertyColorInt public static int COLOR_TOOLTIP_BG = new Color(15,0,15).getRGB();
+	@BSPropertyColorInt public static int COLOR_TOOLTIP_OUTLINE = new Color(27,0,62).getRGB();
 	
 	//BS screen GUI element colors
-	@BSPropertyColorInt public static int COLOR_CONTENTPANE_BG;
-	@BSPropertyColorInt public static int COLOR_STAT_GENERAL_TEXT;
-	@BSPropertyColorInt public static int COLOR_STAT_BG;
-	@BSPropertyColorInt public static int COLOR_STAT_BG_ERRORED;
-	@BSPropertyColorInt public static int COLOR_STAT_OUTLINE;
-	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_NORMAL;
-	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_HIGHLIGHTED;
+	@BSPropertyColorInt public static int COLOR_CONTENTPANE_BG = new Color(0, 0, 0, 120).getRGB();
+	@BSPropertyColorInt public static int COLOR_STAT_GENERAL_TEXT = Color.white.getRGB();
+	@BSPropertyColorInt public static int COLOR_STAT_BG = new Color(180,180,180, 35).getRGB();
+	@BSPropertyColorInt public static int COLOR_STAT_BG_ERRORED = new Color(255,150,150, 45).getRGB();
+	@BSPropertyColorInt public static int COLOR_STAT_OUTLINE = Color.lightGray.getRGB();
+	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_NORMAL = new Color(255, 255, 0, 200).getRGB();
+	@BSPropertyColorInt public static int COLOR_CATEGORY_NAME_HIGHLIGHTED = Color.yellow.getRGB();
 	// --------------------------------------------------
 	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_SHOW_EVERYTHING = false;
 	@BSProperty(category = BSPCategory.Debug) public static boolean DEBUG_DINNERBONE_MODE = false;
 	// ==================================================
-	public static void saveProperties()
+	public static void saveProperties() { saveProperties(BSConfig.class); }
+	public static void saveProperties(Class<?> configClazz)
 	{
 		try
 		{
@@ -70,26 +80,14 @@ public final class BSConfig
 			
 			//create a Properties instance and store the properties
 			Properties prop = new Properties();
-			prop.setProperty("SEEN_BSS", Boolean.toString(SEEN_BSS));
-			prop.setProperty("BSS_BTN_IMG", Boolean.toString(BSS_BTN_IMG));
-			prop.setProperty("ALLOW_CHEATS", Boolean.toString(ALLOW_CHEATS));
-			prop.setProperty("BS_OPTIONS_GUI", Boolean.toString(BS_OPTIONS_GUI));
-			prop.setProperty("IGNORE_ENTITY_RENDER_ERRORS", Boolean.toString(IGNORE_ENTITY_RENDER_ERRORS));
-			
-			prop.setProperty("FILTER_HIDE_EMPTY_STATS", Boolean.toString(FILTER_HIDE_EMPTY_STATS));
-			prop.setProperty("FILTER_SHOW_ITEM_NAMES", Boolean.toString(FILTER_SHOW_ITEM_NAMES));
-			
-			prop.setProperty("COLOR_TOOLTIP_TEXT", Integer.toString(COLOR_TOOLTIP_TEXT));
-			prop.setProperty("COLOR_TOOLTIP_BG", Integer.toString(COLOR_TOOLTIP_BG));
-			prop.setProperty("COLOR_TOOLTIP_OUTLINE", Integer.toString(COLOR_TOOLTIP_OUTLINE));
-			
-			prop.setProperty("COLOR_STAT_GENERAL_TEXT", Integer.toString(COLOR_STAT_GENERAL_TEXT));
-			prop.setProperty("COLOR_STAT_BG", Integer.toString(COLOR_STAT_BG));
-			prop.setProperty("COLOR_STAT_BG_ERRORED", Integer.toString(COLOR_STAT_BG_ERRORED));
-			prop.setProperty("COLOR_STAT_OUTLINE", Integer.toString(COLOR_STAT_OUTLINE));
-			prop.setProperty("COLOR_CONTENTPANE_BG", Integer.toString(COLOR_CONTENTPANE_BG));
-			prop.setProperty("COLOR_CATEGORY_NAME_NORMAL", Integer.toString(COLOR_CATEGORY_NAME_NORMAL));
-			prop.setProperty("COLOR_CATEGORY_NAME_HIGHLIGHTED", Integer.toString(COLOR_CATEGORY_NAME_HIGHLIGHTED));
+			for(Field configField : configClazz.getDeclaredFields())
+			{
+				BSPCategory bspc = getPropertyCategory(configField);
+				if(bspc == null || bspc == BSPCategory.Debug) continue;
+				
+				try { prop.setProperty(configField.getName(), Objects.toString(configField.get(null))); }
+				catch(Exception e) { throw new IOException("Unable to read config values."); }
+			}
 			
 			//save the properties
 			FileOutputStream fos = new FileOutputStream(fProp);
@@ -105,7 +103,8 @@ public final class BSConfig
 		}
 	}
 	
-	public static void loadProperties()
+	public static void loadProperties() { loadProperties(BSConfig.class); }
+	public static void loadProperties(Class<?> configClazz)
 	{
 		try
 		{
@@ -127,31 +126,24 @@ public final class BSConfig
 			}
 			
 			//read the properties
-			SEEN_BSS = smartBool(prop.getProperty("SEEN_BSS"), false);
-			BSS_BTN_IMG = smartBool(prop.getProperty("BSS_BTN_IMG"), false);
-			ALLOW_CHEATS = smartBool(prop.getProperty("ALLOW_CHEATS"), false);
-			BS_OPTIONS_GUI = smartBool(prop.getProperty("BS_OPTIONS_GUI"), true);
-			IGNORE_ENTITY_RENDER_ERRORS = smartBool(prop.getProperty("IGNORE_ENTITY_RENDER_ERRORS"), true);
-			
-			FILTER_HIDE_EMPTY_STATS = smartBool(prop.getProperty("FILTER_HIDE_EMPTY_STATS"), false);
-			FILTER_SHOW_ITEM_NAMES = smartBool(prop.getProperty("FILTER_SHOW_ITEM_NAMES"), true);
-			
-			COLOR_TOOLTIP_TEXT = smartInt(prop.getProperty("COLOR_TOOLTIP_TEXT"), Color.white.getRGB());
-			COLOR_TOOLTIP_BG = smartInt(prop.getProperty("COLOR_TOOLTIP_BG"), new Color(15,0,15).getRGB());
-			COLOR_TOOLTIP_OUTLINE = smartInt(prop.getProperty("COLOR_TOOLTIP_OUTLINE"), new Color(27,0,62).getRGB());
-			
-			COLOR_STAT_GENERAL_TEXT = smartInt(prop.getProperty("COLOR_STAT_GENERAL_TEXT"), Color.white.getRGB());
-			COLOR_STAT_BG = smartInt(prop.getProperty("COLOR_STAT_BG"), new Color(180,180,180, 35).getRGB());
-			COLOR_STAT_BG_ERRORED = smartInt(prop.getProperty("COLOR_STAT_BG_ERRORED"), new Color(255,150,150, 45).getRGB());
-			COLOR_STAT_OUTLINE = smartInt(prop.getProperty("COLOR_STAT_OUTLINE"), Color.lightGray.getRGB());
-			COLOR_CONTENTPANE_BG = smartInt(prop.getProperty("COLOR_CONTENTPANE_BG"), new Color(0, 0, 0, 120).getRGB());
-			COLOR_CATEGORY_NAME_NORMAL = smartInt(prop.getProperty("COLOR_CATEGORY_NAME_NORMAL"), new Color(255, 255, 0, 200).getRGB());
-			COLOR_CATEGORY_NAME_HIGHLIGHTED = smartInt(prop.getProperty("COLOR_CATEGORY_NAME_HIGHLIGHTED"), Color.yellow.getRGB());
+			for(Field configField : configClazz.getDeclaredFields())
+			{
+				BSPCategory bspc = getPropertyCategory(configField);
+				if(bspc == null || bspc == BSPCategory.Debug) continue;
+				
+				String value = prop.getProperty(configField.getName(), null);
+				if(value == null) continue;
+				
+				if(configField.getType().equals(Boolean.TYPE))
+					configField.set(null, smartBool(value));
+				else if(configField.getType().equals(Integer.TYPE))
+					configField.set(null, Integer.parseInt(value));
+			}
 			
 			//log
 			LOGGER.info("Loaded '" + ModID + "' config.");
 		}
-		catch(IOException ioExc)
+		catch(IOException | IllegalAccessException ioExc)
 		{
 			throw new CrashException(new CrashReport("Unable to load the '" + ModID + "' mod config.", ioExc));
 		}
@@ -162,25 +154,22 @@ public final class BSConfig
 		return new File(System.getProperty("user.dir") +
 				"/config/" + BetterStats.ModID + ".properties");
 	}
-	// ==================================================
-	private static boolean smartBool(String arg0, boolean def)
+	// --------------------------------------------------
+	public static BSPCategory getPropertyCategory(Field propertyField)
 	{
-		if(arg0 == null) return def;
+		BSProperty bsp = propertyField.getAnnotation(BSProperty.class);
+		BSPropertyColorInt bspci = propertyField.getAnnotation(BSPropertyColorInt.class);
+		if(bsp != null) return bsp.category();
+		else if(bspci != null) return bspci.property().category();
+		else return null;
+	}
+	// ==================================================
+	private static boolean smartBool(String arg0)
+	{
+		if(arg0 == null) throw new IllegalArgumentException(arg0);
 		String a = arg0.split(" ")[0].toLowerCase();
 		return (a.startsWith("true") || a.startsWith("ye") ||
 				a.startsWith("ok") || a.startsWith("sur")) && a.length() <= 5;
 	}
-	
-	private static int smartInt(String arg0, int def)
-	{
-		try { return Integer.parseInt(arg0); }
-		catch(Exception e) { return def; }
-	}
-	
-	/*private static int smartInt(String arg0, int min, int max, int def)
-	{
-		try { return MathHelper.clamp(Integer.parseInt(arg0), min, max); }
-		catch(Exception e) { return MathHelper.clamp(def, min, max); }
-	}*/
 	// ==================================================
 }

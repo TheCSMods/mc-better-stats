@@ -1,8 +1,11 @@
 package thecsdev.betterstats.client.gui.widget.stats;
 
+import static thecsdev.betterstats.BetterStats.lt;
 import static thecsdev.betterstats.config.BSConfig.COLOR_STAT_GENERAL_TEXT;
 
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.util.math.MatrixStack;
 import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import thecsdev.betterstats.client.gui.util.GuiUtils;
@@ -20,7 +23,12 @@ public class BSGenetalStatWidget extends BSStatWidget
 		super(parent, x, y, width, GuiUtils.getTextSize(parent.getTextRenderer(), stat.title).height + 6, BSConfig.COLOR_STAT_BG);
 		this.textRenderer = parent.getTextRenderer();
 		this.stat = stat;
+		
+		setMessage(lt(stat.title.getString() + ", " + stat.txtValue.getString() + "."));
 	}
+	
+	@Override
+	public void appendNarrations(NarrationMessageBuilder builder) { builder.put(NarrationPart.TITLE, getNarrationMessage()); }
 	
 	@Override
 	public void onRenderStat(MatrixStack matrices, int mouseX, int mouseY, float delta)
