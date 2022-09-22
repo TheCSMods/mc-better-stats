@@ -160,36 +160,24 @@ public class BSWikiLinkConfig
 	
 	public static boolean openUrl(final Identifier mobOrItemId, final WikiType wikiType)
 	{
-		//requires b3 check to pass, aka requires Client environment
 		if(!canOpenUrl(mobOrItemId, wikiType)) return false;
 		
-		//show confirmation screen
 		try
 		{
-			//get current screen
-			final net.minecraft.client.gui.screen.Screen s0 =
-					thecsdev.betterstats.client.BetterStatsClient.MCClient.currentScreen;
-			
-			//create confirm screen
 			final Entry entry = REGISTRY.get(mobOrItemId.getNamespace());
-			net.minecraft.client.gui.screen.Screen s1 =
-				new net.minecraft.client.gui.screen.ConfirmChatLinkScreen(
-					pass ->
-					{
-						if(pass)
-							entry.openWiki(wikiType, mobOrItemId.getPath());
-						thecsdev.betterstats.client.BetterStatsClient.MCClient.setScreen(s0);
-					},
-					entry.getWikiUrl(wikiType, mobOrItemId.getPath()),
-					false);
+			if(entry == null) return false;
 			
-			//set confirm screen
-			thecsdev.betterstats.client.BetterStatsClient.MCClient.setScreen(s1);
-			
-			//return
+			entry.openWiki(wikiType, mobOrItemId.getPath());
 			return true;
 		}
-		catch(NoClassDefFoundError | NullPointerException err) { return false; }
+		catch(Exception exc) { return false; }
+	}
+	
+	public static String getUrl(Identifier mobOrItemId, WikiType wikiType, String defaultValue)
+	{
+		Entry entry = REGISTRY.get(mobOrItemId.getNamespace());
+		if(entry == null) return defaultValue;
+		return entry.getWikiUrl(wikiType, mobOrItemId.getPath());
 	}
 	// ==================================================
 }

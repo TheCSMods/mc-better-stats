@@ -6,18 +6,23 @@ import static thecsdev.betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS;
 
 import java.awt.Point;
 
+import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import thecsdev.betterstats.client.BetterStatsClient;
 import thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import thecsdev.betterstats.client.gui.util.GuiUtils;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUMobStat;
 import thecsdev.betterstats.config.BSConfig;
 import thecsdev.betterstats.config.BSMobStatRenderConfig;
 import thecsdev.betterstats.config.BSWikiLinkConfig;
+import thecsdev.betterstats.config.BSWikiLinkConfig.WikiType;
 
 public class BSMobStatWidget extends BSStatWidget
 {
@@ -132,10 +137,38 @@ public class BSMobStatWidget extends BSStatWidget
 	
 	private static int rInt(int input, int relativeTo) { return input - relativeTo; }
 	// ==================================================
+	/** will show a confirmation screen */
 	public boolean openWikiArticle()
 	{
-		return BSWikiLinkConfig.openUrl(EntityType.getId(mobStat.entityType),
-				BSWikiLinkConfig.WikiType.MobWiki);
+		//requires b3 check to pass, aka requires Client environment
+		Identifier entityId = EntityType.getId(mobStat.entityType);
+		if(!BSWikiLinkConfig.canOpenUrl(entityId, WikiType.MobWiki))
+			return false;
+		
+		//show confirmation screen
+		try
+		{
+			//get current screen
+			final Screen s0 = BetterStatsClient.MCClient.currentScreen;
+			
+			//create confirm screen
+			Screen s1 = new ConfirmChatLinkScreen(
+					pass ->
+					{
+						if(pass)
+							BSWikiLinkConfig.openUrl(entityId, WikiType.MobWiki);
+						BetterStatsClient.MCClient.setScreen(s0);
+					},
+					BSWikiLinkConfig.getUrl(entityId, WikiType.MobWiki, "N/A"),
+					false);
+			
+			//set confirm screen
+			BetterStatsClient.MCClient.setScreen(s1);
+			
+			//return
+			return true;
+		}
+		catch(NoClassDefFoundError | NullPointerException err) { return false; }
 	}
 	// ==================================================
 }

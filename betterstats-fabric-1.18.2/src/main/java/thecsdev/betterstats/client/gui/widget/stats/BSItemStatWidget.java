@@ -5,6 +5,7 @@ import static thecsdev.betterstats.BetterStats.tt;
 import static thecsdev.betterstats.client.BetterStatsClient.MCClient;
 import static thecsdev.betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES;
 
+import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -14,6 +15,7 @@ import thecsdev.betterstats.client.gui.screen.ScreenWithScissors;
 import thecsdev.betterstats.client.gui.util.StatUtils.SUItemStat;
 import thecsdev.betterstats.config.BSConfig;
 import thecsdev.betterstats.config.BSWikiLinkConfig;
+import thecsdev.betterstats.config.BSWikiLinkConfig.WikiType;
 
 public class BSItemStatWidget extends BSStatWidget
 {
@@ -96,7 +98,38 @@ public class BSItemStatWidget extends BSStatWidget
 		return false;
 	}
 	
-	public boolean openWikiArticle() { return BSWikiLinkConfig.openUrl(itemStat.itemId, BSWikiLinkConfig.WikiType.ItemWiki); }
+	/** will show a confirmation screen */
+	public boolean openWikiArticle()
+	{
+		//requires b3 check to pass, aka requires Client environment
+		if(!BSWikiLinkConfig.canOpenUrl(itemStat.itemId, WikiType.ItemWiki))
+			return false;
+		
+		//show confirmation screen
+		try
+		{
+			//get current screen
+			final Screen s0 = BetterStatsClient.MCClient.currentScreen;
+			
+			//create confirm screen
+			Screen s1 = new ConfirmChatLinkScreen(
+					pass ->
+					{
+						if(pass)
+							BSWikiLinkConfig.openUrl(itemStat.itemId, WikiType.ItemWiki);
+						BetterStatsClient.MCClient.setScreen(s0);
+					},
+					BSWikiLinkConfig.getUrl(itemStat.itemId, WikiType.ItemWiki, "N/A"),
+					false);
+			
+			//set confirm screen
+			BetterStatsClient.MCClient.setScreen(s1);
+			
+			//return
+			return true;
+		}
+		catch(NoClassDefFoundError | NullPointerException err) { return false; }
+	}
 	
 	public boolean openREICraftingInfo(int mouseButton)
 	{
