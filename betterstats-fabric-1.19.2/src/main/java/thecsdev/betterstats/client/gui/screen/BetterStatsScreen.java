@@ -26,7 +26,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.StatsListener;
 import net.minecraft.client.gui.screen.StatsScreen;
@@ -291,7 +291,7 @@ public class BetterStatsScreen extends ScreenWithScissors implements StatsListen
 				mcpX + 5, mcpY + mcpH - 75,
 				mcpW - 10, 20,
 				tt("menu.sendFeedback"),
-				btn -> this.client.setScreen(new ConfirmChatLinkScreen(arg0 ->
+				btn -> this.client.setScreen(new ConfirmLinkScreen(arg0 ->
 				{
 					if(arg0) Util.getOperatingSystem().open(BetterStats.FeedbackSite);
 					this.client.setScreen(this);

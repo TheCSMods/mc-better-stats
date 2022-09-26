@@ -1,0 +1,54 @@
+{
+    "betterstats.gui.menu_item.filters": "Фильтры",
+    "betterstats.gui.menu_item.current_tab": "Вкладка",
+    "betterstats.gui.menu_item.search": "Поиск",
+    "betterstats.gui.menu_item.hide_empty": "Ненулевая статистика",
+    "betterstats.gui.menu_item.hide_empty.tooltip": "Скрыть пункты статистики, не обладающие\nкакими-либо значениями.",
+    "betterstats.gui.menu_item.show_item_names": "Названия предметов",
+    "betterstats.gui.menu_item.show_item_names.tooltip": "Показывать названия в подсказке\nстатистики предметов.",
+
+    "betterstats.gui.menu_item.vanilla_stats_screen": "Ванильная статистика",
+    "betterstats.gui.menu_item.close": "Закрыть",
+    
+    "betterstats.gui.search.no_results": "По вашему запросу результатов не найдено...",
+    "betterstats.gui.stat.mob.error": "Эта сущность вызвала исключение (ошибку) при попытке\nвизуализации. Подробнее см. на вкладке отладки.",
+
+    "betterstats.config.category.all": "Все",
+    "betterstats.config.category.config": "Настройки",
+    "betterstats.config.category.config.general": "Общие настройки",
+    "betterstats.config.category.config.help": "Помощь",
+    "betterstats.config.category.config.filters": "Фильтры",
+    "betterstats.config.category.config.colors": "Цвета",
+    "betterstats.config.category.debug": "Отладка (не безопасно)",
+
+    "betterstats.config.BSConfig.BS_OPTIONS_GUI": "Вкладка настроек (будьте осторожны!)",
+    "betterstats.config.BSConfig.BS_OPTIONS_GUI.tooltip": "При отключении вкладка станет недоступной.\nБудьте осторожны с этой настройкой.",
+    "betterstats.config.BSConfig.SEEN_BSS": "Отслеживание открытия",
+    "betterstats.config.BSConfig.SEEN_BSS.tooltip": "Помечать кнопку статистики, если вы ещё\nне видели Better Statistics Screen.",
+    "betterstats.config.BSConfig.BSS_BTN_IMG": "Украшенная кнопка",
+    "betterstats.config.BSConfig.ALLOW_CHEATS": "Разрешить читы (нужны права ур. 2 или оператор)",
+    "betterstats.config.BSConfig.ALLOW_CHEATS.tooltip": "Позволить выдавать себе предметы при помощи\nShift+[ЛКМ/Enter] в разделе статистики предметов\nдля их быстрого получения.\nТребуется право использовать /give.",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS": "Игнорировать ошибки визуализации сущностей",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Некоторые сущности из других модов\nмогут не поддерживать способ, которым\nBetter Statistics Screen получает и\nвизуализирует их модель, приводя к ошибкам.\nЭта настройка попытается игнорировать их.\n\nНапример, некоторые сущности\nпредполагается использовать только\nв мире на стороне сервера, в то время\nкак этот мод попытается отобразить их\nс использованием клиентского мира.\n\nСм. также COLOR_STAT_BG_ERRORED.",
+
+    "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
+    "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",
+
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_TEXT": "Цвет текста в подсказке",
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_BG": "Цвет фона в подсказке",
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_OUTLINE": "Цвет контура подсказки",
+
+    "betterstats.config.BSConfig.COLOR_CONTENTPANE_BG": "Цвет фона вкладок",
+    "betterstats.config.BSConfig.COLOR_STAT_GENERAL_TEXT": "Цвет текста статистики",
+    "betterstats.config.BSConfig.COLOR_STAT_BG": "Цвет фона статистики",
+    "betterstats.config.BSConfig.COLOR_STAT_BG_ERRORED": "Цвет фона статистики с ошибками",
+    "betterstats.config.BSConfig.COLOR_STAT_BG_ERRORED.tooltip": "Цвет фона статистики, который будет использоваться\nв случае ошибки визуализации того или иного элемента\n(чаще всего, мобов).\n\nЕсли назначить такой же цвет, что и у COLOR_STAT_BG,\nподсказки к статистике не будут отображать ошибок\nпри их возникновении.",
+    "betterstats.config.BSConfig.COLOR_STAT_OUTLINE": "Цвет контура статистики",
+    "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_NORMAL": "Цвет названия категории",
+    "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_HIGHLIGHTED": "Цвет названия выделенной категории",
+
+    "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING": "Показать всё (возможны зависания)",
+    "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING.tooltip": "Отображать всю статистику\nнезависимо от её значений.",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE": "Режим Dinnerbone",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE.tooltip": "Мобы в окошках статистики будут перевёрнутыми."
+}

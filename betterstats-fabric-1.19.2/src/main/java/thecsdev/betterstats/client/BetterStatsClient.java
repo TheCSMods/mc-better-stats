@@ -17,7 +17,7 @@ public final class BetterStatsClient extends BetterStats implements ClientModIni
 	public static void sendChat(String msg)
 	{
 		if(!msg.startsWith("/"))
-			MCClient.player.sendChatMessage(msg);
+			MCClient.player.sendMessage(BetterStats.lt(msg));
 		else MCClient.player.sendCommand(msg.substring(1));
 	}
 }

@@ -33,10 +33,10 @@ dependencies
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
 	//REI, CC, MM
-	//modApi "me.shedaniel.cloth:cloth-config-fabric:8.2.88" //broken - must exclude fabric api
-	modApi "me.shedaniel:RoughlyEnoughItems-fabric:9.1.530"
-	modApi("me.shedaniel.cloth:cloth-config-fabric:7.0.73") { exclude(group: "net.fabricmc.fabric-api") }
-	modApi "com.terraformersmc:modmenu:4.0.4"
+	modApi "me.shedaniel:RoughlyEnoughItems-fabric:9.1.546"
+	modApi "dev.architectury:architectury-fabric:6.2.46"
+	modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88") { exclude(group: "net.fabricmc.fabric-api") }
+	modApi "com.terraformersmc:modmenu:4.0.5"
 	
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

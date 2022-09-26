@@ -5,7 +5,7 @@ import static thecsdev.betterstats.BetterStats.tt;
 import static thecsdev.betterstats.client.BetterStatsClient.MCClient;
 import static thecsdev.betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES;
 
-import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -112,7 +112,7 @@ public class BSItemStatWidget extends BSStatWidget
 			final Screen s0 = BetterStatsClient.MCClient.currentScreen;
 			
 			//create confirm screen
-			Screen s1 = new ConfirmChatLinkScreen(
+			Screen s1 = new ConfirmLinkScreen(
 					pass ->
 					{
 						if(pass)

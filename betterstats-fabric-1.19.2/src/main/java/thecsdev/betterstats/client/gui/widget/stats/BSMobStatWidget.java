@@ -6,7 +6,7 @@ import static thecsdev.betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS;
 
 import java.awt.Point;
 
-import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -152,7 +152,7 @@ public class BSMobStatWidget extends BSStatWidget
 			final Screen s0 = BetterStatsClient.MCClient.currentScreen;
 			
 			//create confirm screen
-			Screen s1 = new ConfirmChatLinkScreen(
+			Screen s1 = new ConfirmLinkScreen(
 					pass ->
 					{
 						if(pass)
