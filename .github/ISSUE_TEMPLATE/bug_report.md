@@ -14,7 +14,7 @@ A clear description of what the bug is.
 Steps to reproduce the behavior:
 1. Go to the statistics screen
 2. Do something completely unexpected that breaks the mod
-3. To insure there is a big, install an incompatible mod, just for good measure
+3. To insure there is a bug, install an incompatible mod, just for good measure
 4. See the bug/error/crash
 5. Replace the above template steps with the actual steps
 
