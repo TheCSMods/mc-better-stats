@@ -1,0 +1,62 @@
+{
+    "betterstats.gui.menu_item.filters": "Filtros",
+    "betterstats.gui.menu_item.current_tab": "Guia",
+    "betterstats.gui.menu_item.search": "Procurar",
+    "betterstats.gui.menu_item.hide_empty": "Ocultar estatísticas vazias",
+    "betterstats.gui.menu_item.hide_empty.tooltip": "Oculta estatísticas gerais, de comida e de monstros que\nainda não têm um valor atribuído a eles.",
+    "betterstats.gui.menu_item.show_item_names": "Mostrar nomes de itens",
+    "betterstats.gui.menu_item.show_item_names.tooltip": "Mostra os nomes dos itens nas dicas de estatísticas do item.",
+
+    "betterstats.gui.menu_item.vanilla_stats_screen": "Mostrar estatísticas do Vanilla",
+    "betterstats.gui.menu_item.close": "Fechar",
+    "betterstats.gui.menu_item.changelogs": "Registros de mudanças",
+    
+    "betterstats.gui.search.no_results": "Nenhum item corresponde à sua pesquisa...",
+    "betterstats.gui.stat.mob.error": "Esta Entidade lançou uma Exceção (erro) enquanto\ntentando renderizá-lo. Consulte a guia Opções\npara mais informações.",
+
+    "betterstats.config.category.all": "Todas as propriedades",
+    "betterstats.config.category.config": "Propriedades de configuração",
+    "betterstats.config.category.config.general": "Geral",
+    "betterstats.config.category.config.help": "Ajuda",
+    "betterstats.config.category.config.filters": "Filtros",
+    "betterstats.config.category.config.colors": "Cores",
+    "betterstats.config.category.debug": "Propriedades de depuração (não salva)",
+
+    "betterstats.config.BSConfig.BS_OPTIONS_GUI": "Habilite a GUI de opções do BS (CUIDADO!)",
+    "betterstats.config.BSConfig.BS_OPTIONS_GUI.tooltip": "Quando desativada, esta guia Opções se tornará\ninacessível. Prossiga com cuidado.",
+    "betterstats.config.BSConfig.SEEN_BSS": "Estatísticas melhores",
+    "betterstats.config.BSConfig.SEEN_BSS.tooltip": "Monitora se você viu ou não\nA tela Melhores estatísticas antes.",
+    "betterstats.config.BSConfig.BSS_BTN_IMG": "imagem do botão BS",
+    "betterstats.config.BSConfig.ALLOW_CHEATS": "Permitir cheats (requer perm. lvl2 ou OP)",
+    "betterstats.config.BSConfig.ALLOW_CHEATS.tooltip": "Permite que você mude + [clique/inserir] itens em\nestatísticas do item para /give a si mesmo.\nRequer /give permissão.",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS": "Ignorar erros de renderização de entidade",
+    "betterstats.config.BSConfig.IGNORE_ENTITY_RENDER_ERRORS.tooltip": "Algumas entidades modificadas podem não suportar o caminho\neste mod manipula e renderiza, resultando em\nerros. Esta opção tenta ignorar esses erros.\n\nPor exemplo, algumas entidades podem sempre assumir que\nestão em um ServerWorld, enquanto este mod os renderiza\nna tela usando o ClientWorld.\n\nPor favor, veja COLOR_STAT_BG_ERRORED.",
+    
+    "betterstats.config.BSConfig.ENABLE_WIKI_LINKS": "Habilitar links Wiki",
+    "betterstats.config.BSConfig.ENABLE_WIKI_LINKS.tooltip": "Quando ativado, clicar com o botão do meio do mouse em uma estatística de item\nirá levá-lo ao artigo Wiki desse item se\nexiste um definido.",
+    "betterstats.config.BSConfig.ENABLE_REI_LINKS": "Ativar links REI",
+    "betterstats.config.BSConfig.ENABLE_REI_LINKS.tooltip": "Quando ativado, você será capaz de mover para a esquerda/direita\nclique com o mouse em uma estatística de item para abrir o REI\ntela para o item fornecido.\n\nRequer que o mod REI seja instalado.",
+
+    "betterstats.config.BSConfig.FILTER_HIDE_EMPTY_STATS": "ref=betterstats.gui.menu_item.hide_empty",
+    "betterstats.config.BSConfig.FILTER_SHOW_ITEM_NAMES": "ref=betterstats.gui.menu_item.show_item_names",
+
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_TEXT": "Cor do texto da dica",
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_BG": "Cor de fundo da dica",
+    "betterstats.config.BSConfig.COLOR_TOOLTIP_OUTLINE": "Cor do contorno da dica",
+
+    "betterstats.config.BSConfig.COLOR_CONTENTPANE_BG": "Cor de fundo da guia",
+    "betterstats.config.BSConfig.COLOR_STAT_GENERAL_TEXT": "Cor do texto estatístico",
+    "betterstats.config.BSConfig.COLOR_STAT_BG": "Cor de fundo da estatística",
+    "betterstats.config.BSConfig.COLOR_STAT_BG_ERRORED": "Estatística com erro. cor de fundo",
+    "betterstats.config.BSConfig.COLOR_STAT_BG_ERRORED.tooltip": "A estatística. cor de fundo que será usada em\no evento de algo dar errado enquanto\nrenderizando uma determinada estatística (principalmente para estatísticas de mobs).\n\nSe você definir esta cor para a mesma cor que\nCOLOR_STAT_BG, dicas de ferramentas para estatísticas não\nmostrar quaisquer erros que ocorram (se ocorrerem).",
+    "betterstats.config.BSConfig.COLOR_STAT_OUTLINE": "Cor do contorno da estatística",
+    "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_NORMAL": "Cor do nome da categoria",
+    "betterstats.config.BSConfig.COLOR_CATEGORY_NAME_HIGHLIGHTED": "Cor do nome da categoria destacada",
+
+    "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING": "Mostrar tudo (pode causar lag)",
+    "betterstats.config.BSConfig.DEBUG_SHOW_EVERYTHING.tooltip": "Mostra todas as entradas de estatísticas, independentemente\nde seus valores.",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE": "Dinnerbone modo",
+    "betterstats.config.BSConfig.DEBUG_DINNERBONE_MODE.tooltip": "Mobs em estatísticas de mob ficam de cabeça para baixo.",
+    "betterstats.config.BSConfig.DEBUG_LOG_SCREEN_CHANGES": "Alterações na tela de registro",
+    "betterstats.config.BSConfig.DEBUG_LOG_SCREEN_CHANGES.tooltip": "Quando ativado, MinecraftClient.setScreen(...)\nas chamadas serão registradas."
+}
