@@ -1,0 +1,10 @@
+{
+	"betterstats.gui.filters": "Filters",
+	"betterstats.gui.show_empty_stats": "Show empty stats",
+	"betterstats.gui.no_stats_yet": "There are no stats to show yet...",
+	
+	"betterstats.gui.menu_bar.view": "View",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Show vanilla stats",
+	"betterstats.gui.menu_bar.about": "About",
+	"betterstats.gui.menu_bar.about.source": "Source Code"
+}
