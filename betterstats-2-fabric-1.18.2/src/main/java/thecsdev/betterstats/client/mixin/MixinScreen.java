@@ -11,7 +11,7 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 
 @Mixin(Screen.class)
-public abstract class ScreenMixin
+public interface MixinScreen
 {
 	@Accessor("selected")
 	public abstract Selectable getSelected();
