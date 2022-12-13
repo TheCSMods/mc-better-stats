@@ -83,7 +83,14 @@ publishing
 {
 	publications
 	{
-		mavenJava(MavenPublication) { from components.java }
+		mavenJava(MavenPublication)
+		{
+			groupId(project.maven_group)
+		    artifactId(project.mod_id)
+		    version(project.mod_version)
+		    
+			from components.java
+		}
 	}
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.

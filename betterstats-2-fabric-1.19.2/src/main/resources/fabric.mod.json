@@ -22,7 +22,7 @@
 		"client": ["${project.mod_entrypoint_client}"],
 		"server": ["${project.mod_entrypoint_server}"]
 	},
-	"mixins": ["betterstats.client.mixins.json"],
+	"mixins": ["betterstats.client.mixin.json", "betterstats.client.mixin.trackers.json"],
 
 	"jars": [ { "file":"${project.mod_jar_tcdcommons}" } ],
 	"depends":
@@ -31,7 +31,7 @@
 		"minecraft": "${project.mod_depends_minecraft}",
 		"java": "${project.mod_depends_java}"
 	},
-	"recommends": { "tcdcommons": "*", "modmenu": "*" },
+	"recommends": { "tcdcommons": "2.x", "modmenu": "*" },
 	
 	"custom":
 	{
