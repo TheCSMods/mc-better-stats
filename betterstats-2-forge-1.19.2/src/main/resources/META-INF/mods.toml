@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/TheCSDev/mc-better-stats/issues" #optional
 [[mods]] #mandatory
 displayName="Better Statistics Screen" #mandatory
 modId="betterstats" #mandatory
-version="2.1.1+1.18.2" #mandatory
+version="2.1.1+1.19.2" #mandatory
 authors="TheCSDev" #optional
 credits="See authors." #optional
 displayURL="https://github.com/TheCSDev/mc-better-stats" #optional
@@ -26,7 +26,7 @@ description='''Improves the statistics screen and makes it more useful.'''
     modId="minecraft"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.19.2,1.19.3)"
     ordering="NONE"
     side="BOTH"
 
