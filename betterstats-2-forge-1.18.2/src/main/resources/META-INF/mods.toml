@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/TheCSDev/mc-better-stats/issues" #optional
 [[mods]] #mandatory
 displayName="Better Statistics Screen" #mandatory
 modId="betterstats" #mandatory
-version="2.1.1+1.18.2" #mandatory
+version="2.2+1.18.2" #mandatory
 authors="TheCSDev" #optional
 credits="See authors." #optional
 displayURL="https://github.com/TheCSDev/mc-better-stats" #optional
@@ -35,6 +35,6 @@ description='''Improves the statistics screen and makes it more useful.'''
     mandatory=true #mandatory
     versionRange="[2,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-    ordering="BEFORE"
+    ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"

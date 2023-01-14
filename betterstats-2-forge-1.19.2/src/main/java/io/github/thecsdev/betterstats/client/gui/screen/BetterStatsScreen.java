@@ -90,7 +90,7 @@ public class BetterStatsScreen extends TScreenPlus implements StatsUpdateListene
 	 */
 	public void sendStatsRequest()
 	{
-		panel_download.setVisible(true);
+		if(this.panel_download != null) panel_download.setVisible(true);
 		sendStatsRequestPacket();
 	}
 	
@@ -158,12 +158,16 @@ public class BetterStatsScreen extends TScreenPlus implements StatsUpdateListene
 		//after initialization of all necessary elements is
 		//done, start off by sending a request
 		if(STATUS_RECIEVED) onStatsUpdated();
+		else panel_download.setVisible(true);
 	}
 	// --------------------------------------------------
 	public @Override void onStatsUpdated()
 	{
 		//update the status flag
 		STATUS_RECIEVED = true;
+		//null check
+		if(this.panel_download == null || this.panel_stats == null)
+			return;
 		
 		//hide the downloading panel
 		//and show the statistics panel

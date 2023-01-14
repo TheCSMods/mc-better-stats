@@ -13,6 +13,7 @@ import io.github.thecsdev.betterstats.client.gui_hud.screen.BshsAutoRequest;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.network.Connection;
+import net.minecraft.network.ConnectionProtocol;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
@@ -36,8 +37,8 @@ public abstract class MixinClientConnection
 	/**
 	 * Client-side listener for C2S packets.
 	 */
-	@Inject(method = "sendPacket", at = @At("HEAD"))
-	public void onPreSendImmediately(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>> callback, CallbackInfo ci)
+	@Inject(method = "doSendPacket", at = @At("HEAD"))
+	public void onPreSendImmediately(Packet<?> packet, @Nullable GenericFutureListener<? extends Future<? super Void>> p_178305_, ConnectionProtocol p_178306_, ConnectionProtocol p_178307_, CallbackInfo ci)
 	{
 		//ensure client-side for both physical and logical side
 		if(!BetterStats.isClient() || this.receiving != PacketFlow.CLIENTBOUND)

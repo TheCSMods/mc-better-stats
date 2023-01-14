@@ -1,0 +1,19 @@
+{
+	"jars":
+	[
+		{
+			"identifier":
+			{
+				"group": "io.github.thecsdev",
+				"artifact": "tcdcommons"
+			},
+			"version":
+			{
+				"range": "[2.1,)",
+				"artifactVersion": "2.1+1.18.2"
+			},
+			"path": "META-INF/jarjar/tcdcommons-2.1+1.18.2.jar",
+			"isObfuscated": false
+		}
+	]
+}
