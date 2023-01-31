@@ -73,6 +73,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			bss.getStatPanel().init_stats();
 		});
 		btn_tab.setEnumValueToLabel(val -> ((CurrentTab)val).asText());
+		btn_tab.setDrawsVanillaButton(true);
 		addTChild(btn_tab, false);
 		
 		//search bar
@@ -102,6 +103,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			var btn_close = new TButtonWidget(nextX(), bY, nextW(), 20,
 					translatable("gui.done"),
 					btn -> getClient().setScreen(bss.parent));
+			btn_close.setDrawsVanillaButton(true);
 			addTChild(btn_close, false);
 		}
 		
