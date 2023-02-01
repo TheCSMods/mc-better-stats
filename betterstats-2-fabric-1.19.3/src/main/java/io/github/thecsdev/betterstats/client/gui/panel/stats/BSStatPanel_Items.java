@@ -1,11 +1,14 @@
 package io.github.thecsdev.betterstats.client.gui.panel.stats;
 
+import static io.github.thecsdev.betterstats.util.StatUtils.getModName;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
+
+import com.google.common.collect.Lists;
 
 import io.github.thecsdev.betterstats.api.registry.BetterStatsRegistry;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
@@ -40,6 +43,36 @@ public class BSStatPanel_Items extends BSStatPanel
 	@Override
 	public void init(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
+		//by default, item stats are grouped by item groups
+		switch(getFilterGroupBy())
+		{
+			case Mod: initByModGroups(statHandler, statFilter); break;
+			case None: initByNoGroups(statHandler, statFilter); break;
+			default: initByItemGroups(statHandler, statFilter); break;
+		}
+	}
+	
+	protected void initByNoGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	{
+		//get stats
+		var itemStats = StatUtils.getItemStatsByMods(statHandler, statFilter.and(getStatPredicate()));
+		ArrayList<StatUtilsItemStat> allItems = Lists.newArrayList();
+		//merge stats
+		for(String iGroup : itemStats.keySet())
+			allItems.addAll(itemStats.get(iGroup));
+		//init all
+		if(itemStats.size() > 0)
+		{
+			init_groupLabel(literal("*"));
+			init_itemStats(allItems);
+			init_totalStats(itemStats.values());
+		}
+		//if there are no stats...
+		else init_noResults();
+	}
+	
+	protected void initByItemGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	{
 		var itemStats = StatUtils.getItemStats(statHandler, statFilter.and(getStatPredicate()));
 		for(ItemGroup iGroup : itemStats.keySet())
 		{
@@ -52,6 +85,19 @@ public class BSStatPanel_Items extends BSStatPanel
 		else init_totalStats(itemStats.values());
 	}
 	
+	protected void initByModGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	{
+		var itemStats = StatUtils.getItemStatsByMods(statHandler, statFilter.and(getStatPredicate()));
+		for(String iGroup : itemStats.keySet())
+		{
+			init_groupLabel(literal(getModName(iGroup)));
+			init_itemStats(itemStats.get(iGroup));
+		}
+		//if there are no stats...
+		if(itemStats.size() == 0) init_noResults();
+		else init_totalStats(itemStats.values());
+	}
+	// --------------------------------------------------
 	protected void init_itemStats(ArrayList<StatUtilsItemStat> itemStats)
 	{
 		//declare the starting XY

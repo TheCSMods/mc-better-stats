@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
+import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.GroupStatsBy;
 import io.github.thecsdev.betterstats.client.gui.widget.BSScrollBarWidget;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
@@ -70,6 +71,16 @@ public abstract class BSStatPanel extends BSPanel
 	}
 	// ==================================================
 	public int getStatOutlineColor() { return 1; }
+	
+	/**
+	 * Returns the current {@link BetterStatsScreen#filter_groupBy}.
+	 */
+	public GroupStatsBy getFilterGroupBy()
+	{
+		if(!(this.screen instanceof BetterStatsScreen))
+			return GroupStatsBy.Default;
+		else return ((BetterStatsScreen)this.screen).filter_groupBy;
+	}
 	// ==================================================
 	/**
 	 * Use this to create and add all of the statistics

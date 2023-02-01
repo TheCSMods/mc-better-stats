@@ -1,11 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.panel.stats;
 
-import static io.github.thecsdev.betterstats.util.StatUtils.getModName;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-
 import java.util.function.Predicate;
 
-import io.github.thecsdev.betterstats.util.StatUtils;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsItemStat;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -21,15 +17,12 @@ public class BSStatPanel_BalancedDiet extends BSStatPanel_Items
 	@Override
 	public void init(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
-		var itemStats = StatUtils.getItemStatsByMods(statHandler, statFilter.and(getStatPredicate()));
-		for(String iGroup : itemStats.keySet())
+		//as for balanced diet stats, items are grouped by mod groups by default
+		switch(getFilterGroupBy())
 		{
-			init_groupLabel(literal(getModName(iGroup)));
-			init_itemStats(itemStats.get(iGroup));
+			case None: initByNoGroups(statHandler, statFilter); break;
+			default: initByModGroups(statHandler, statFilter); break;
 		}
-		//if there are no stats...
-		if(itemStats.size() == 0) init_noResults();
-		else init_totalStats(itemStats.values());
 	}
 	// --------------------------------------------------
 	@Override

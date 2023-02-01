@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Lists;
+
 import io.github.thecsdev.betterstats.api.registry.BetterStatsRegistry;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
@@ -43,6 +45,35 @@ public class BSStatPanel_Mobs extends BSStatPanel
 	@Override
 	public void init(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
+		//by default, group by mods
+		switch(getFilterGroupBy())
+		{
+			case None: initByNoGroups(statHandler, statFilter); break;
+			default: initByModGroups(statHandler, statFilter); break;
+		}
+	}
+	
+	protected void initByNoGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	{
+		//get mob stats
+		var mobStats = StatUtils.getMobStats(statHandler, statFilter.and(getStatPredicate()));
+		ArrayList<StatUtilsMobStat> allMobs = Lists.newArrayList();
+		//merge mob stats
+		for(var mobGroup : mobStats.keySet())
+			allMobs.addAll(mobStats.get(mobGroup));
+		//init
+		if(mobStats.size() > 0)
+		{
+			init_groupLabel(literal("*"));
+			init_mobStats(allMobs);
+			init_totalStats(mobStats.values());
+		}
+		//if there are no stats...
+		else init_noResults();
+	}
+	
+	protected void initByModGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	{
 		var mobStats = StatUtils.getMobStats(statHandler, statFilter.and(getStatPredicate()));
 		for(var mobGroup : mobStats.keySet())
 		{
@@ -54,7 +85,7 @@ public class BSStatPanel_Mobs extends BSStatPanel
 		//else init total stats as well
 		else init_totalStats(mobStats.values());
 	}
-	
+	// --------------------------------------------------
 	protected void init_mobStats(ArrayList<StatUtilsMobStat> mobStats)
 	{
 		//declare the starting XY

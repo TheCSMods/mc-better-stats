@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.function.Predicate;
@@ -7,6 +8,7 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.client.gui.other.BSTooltipElement;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Downloading;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Statistics;
@@ -22,6 +24,7 @@ import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.text.MutableText;
+import net.minecraft.util.Identifier;
 
 public class BetterStatsScreen extends TScreenPlus implements StatsListener
 {
@@ -39,7 +42,18 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 		CurrentTab(MutableText text) { this.text = text; }
 		public MutableText asText() { return text; }
 	}
+	public static enum GroupStatsBy
+	{
+		Default(literal("Default")),
+		Mod(literal("Mod")),
+		None(literal("None"));
+
+		private final MutableText text;
+		GroupStatsBy(MutableText text) { this.text = text; }
+		public MutableText asText() { return text; }
+	}
 	// --------------------------------------------------
+	public static final Identifier BSS_WIDGETS_TEXTURE = new Identifier(BetterStats.getModID(), "textures/gui/widgets.png");
 	public static final String FEEDBACK_URL = "https://github.com/TheCSDev/mc-better-stats";
 	// ==================================================
 	protected boolean STATUS_RECIEVED;
@@ -54,6 +68,7 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	public String     filter_searchTerm;
 	public double     filter_statsScroll;
 	public static boolean filter_showEmpty = false;
+	public GroupStatsBy filter_groupBy;
 	// ==================================================
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.
@@ -72,6 +87,7 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 		this.filter_currentTab = CurrentTab.General;
 		this.filter_searchTerm = "";
 		this.filter_statsScroll = 0;
+		this.filter_groupBy = GroupStatsBy.Default;
 	}
 	
 	@SubjectToChange

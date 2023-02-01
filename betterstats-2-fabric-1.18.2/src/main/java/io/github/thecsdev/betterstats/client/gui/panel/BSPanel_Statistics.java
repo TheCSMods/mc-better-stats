@@ -80,7 +80,7 @@ public class BSPanel_Statistics extends BSPanel
 		this.panel_menuBar.init(this.betterStats);
 	}
 	
-	protected void init_leftMenu()
+	public void init_leftMenu()
 	{
 		//null check and clear the previous menu
 		if(this.panel_leftMenu == null) return;
