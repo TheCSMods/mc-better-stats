@@ -3,6 +3,8 @@ package io.github.thecsdev.betterstats.client.gui.panel;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel;
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_BalancedDiet;
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_General;
@@ -22,6 +24,7 @@ public class BSPanel_Statistics extends BSPanel
 	protected BSPanel_StatisticsMenuBar panel_menuBar;
 	protected BSPanel_StatisticsFilters panel_leftMenu;
 	protected BSPanel                   panel_rightMenu;
+	protected BSStatPanel               panel_stats;
 	protected BSScrollBarWidget         scroll_left;
 	// --------------------------------------------------
 	//prevent the garbage collector from collecting these event handlers
@@ -36,6 +39,8 @@ public class BSPanel_Statistics extends BSPanel
 	// --------------------------------------------------
 	@Override
 	public boolean canBeAddedTo(TParentElement parent) { return parent == this.betterStats; }
+	// --------------------------------------------------
+	public @Nullable BSStatPanel getCurrentStatPanel() { return this.panel_stats; }
 	// ==================================================
 	public void init()
 	{
@@ -50,6 +55,7 @@ public class BSPanel_Statistics extends BSPanel
 		panel_menuBar = new BSPanel_StatisticsMenuBar(mcpX, 0, Math.abs(mcpX - (scpX + scpW)), 15);
 		panel_leftMenu = new BSPanel_StatisticsFilters(mcpX, mcpY, mcpW, mcpH);
 		panel_rightMenu = new BSPanel(scpX + 4, scpY, scpW - 4, scpH);
+		panel_stats = null;
 		
 		//add panel elements
 		addTChild(panel_menuBar);
@@ -66,9 +72,9 @@ public class BSPanel_Statistics extends BSPanel
 		addTChild(scroll_left);
 		
 		//and now for the menus and statistics
-		init_menuBar();
-		init_leftMenu();
-		init_stats();
+		init_menuBar(); //1
+		init_stats(); //2
+		init_leftMenu(); //3
 	}
 	
 	protected void init_menuBar()
@@ -103,25 +109,25 @@ public class BSPanel_Statistics extends BSPanel
 		{
 			case General:
 				sPanel = new BSStatPanel_General(panel_rightMenu);
-				sPanel.init(bssSh, bssSp);
+				sPanel.init(betterStats, bssSh, bssSp);
 				break;
 			case Items:
 				sPanel = new BSStatPanel_Items(panel_rightMenu);
-				sPanel.init(bssSh, bssSp);
+				sPanel.init(betterStats, bssSh, bssSp);
 				break;
 			case Entities:
 				sPanel = new BSStatPanel_Mobs(panel_rightMenu);
-				sPanel.init(bssSh, bssSp);
+				sPanel.init(betterStats, bssSh, bssSp);
 				break;
 			case MonstersHunted:
 				//use a different filter here
 				sPanel = new BSStatPanel_MonsterHunter(panel_rightMenu);
-				sPanel.init(bssSh, betterStats.getStatPredicate_searchFilter());
+				sPanel.init(betterStats, bssSh, betterStats.getStatPredicate_searchFilter());
 				break;
 			case FoodStuffs:
 				//use a different filter here
 				sPanel = new BSStatPanel_BalancedDiet(panel_rightMenu);
-				sPanel.init(bssSh, betterStats.getStatPredicate_searchFilter());
+				sPanel.init(betterStats, bssSh, betterStats.getStatPredicate_searchFilter());
 				break;
 			default:
 				panel_rightMenu.clearTChildren();
@@ -135,6 +141,8 @@ public class BSPanel_Statistics extends BSPanel
 			__handler0 = sPanel.getEvents().SCROLL_V
 					.addWeakEventHandler(dY -> betterStats.filter_statsScroll = scroll.getValue());
 		}
+		//assign stat current panel
+		this.panel_stats = sPanel;
 	}
 	// ==================================================
 	@Override

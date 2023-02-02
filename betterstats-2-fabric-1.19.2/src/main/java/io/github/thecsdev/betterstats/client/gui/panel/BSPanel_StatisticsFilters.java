@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.panel;
 
 import static io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.BSS_WIDGETS_TEXTURE;
 import static io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.filter_showEmpty;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.function.Consumer;
@@ -18,6 +19,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TCheckboxWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TTextFieldWidget;
 
 public class BSPanel_StatisticsFilters extends BSPanel
@@ -28,6 +30,8 @@ public class BSPanel_StatisticsFilters extends BSPanel
 	protected Consumer<String> __handler1;
 	// --------------------------------------------------
 	public @Nullable TSelectEnumWidget<CurrentTab> btn_tab;
+	public @Nullable TSelectEnumWidget<GroupStatsBy> btn_groupBy;
+	public @Nullable TSelectWidget btn_sortBy;
 	// ==================================================
 	public BSPanel_StatisticsFilters(int x, int y, int width, int height)
 	{
@@ -73,7 +77,9 @@ public class BSPanel_StatisticsFilters extends BSPanel
 		{
 			bss.filter_currentTab = (CurrentTab) tab;
 			bss.filter_statsScroll = 0;
+			//first finish initializing the stats
 			bss.getStatPanel().init_stats();
+			//then re-initialize this menu
 			bss.getStatPanel().init_leftMenu();
 		});
 		btn_tab.setEnumValueToLabel(val -> ((CurrentTab)val).asText());
@@ -106,13 +112,13 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			img_group.setTexture(BSS_WIDGETS_TEXTURE, 256, 256);
 			img_group.setTextureUVs(0, 0, 20, 20);
 			
-			var btn_group = new TSelectEnumWidget<>(
+			btn_groupBy = new TSelectEnumWidget<>(
 					nextX() + 25, nextY(), nextW() - 25, 20,
 					GroupStatsBy.class);
-			btn_group.setEnabled(bss.filter_currentTab != CurrentTab.General);
-			btn_group.setEnumValueToLabel(val -> ((GroupStatsBy)val).asText());
-			btn_group.setSelected(bss.filter_groupBy, false);
-			btn_group.setOnSelectionChange(newGroup ->
+			btn_groupBy.setEnabled(bss.filter_currentTab != CurrentTab.General);
+			btn_groupBy.setEnumValueToLabel(val -> ((GroupStatsBy)val).asText());
+			btn_groupBy.setSelected(bss.filter_groupBy, false);
+			btn_groupBy.setOnSelectionChange(newGroup ->
 			{
 				bss.filter_groupBy = (GroupStatsBy) newGroup;
 				bss.filter_statsScroll = 0;
@@ -120,28 +126,29 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			});
 			
 			addTChild(img_group, false);
-			addTChild(btn_group, false);
+			addTChild(btn_groupBy, false);
 		}
 		
-		//TODO - sort by
+		//sort by
 		{
 			var img_sort = new TTextureElement(nextX(), nextY(), 20, 20);
 			img_sort.setTexture(BSS_WIDGETS_TEXTURE, 256, 256);
 			img_sort.setTextureUVs(0, 20, 20, 20);
 			
-			var btn_sort = new TSelectEnumWidget<>(
-					nextX() + 25, nextY(), nextW() - 25, 20,
-					GroupStatsBy.class);
-			btn_sort.setEnabled(false); //TODO - Work on this feature
-			btn_sort.setEnumValueToLabel(val -> ((GroupStatsBy)val).asText());
-			btn_sort.setSelected(GroupStatsBy.Default, false);
-			btn_sort.setOnSelectionChange(newSort ->
+			btn_sortBy = (bss.getStatPanel().getCurrentStatPanel() != null) ?
+					bss.getStatPanel().getCurrentStatPanel()
+						.createFilterSortByWidget(bss, nextX() + 25, nextY(), nextW() - 25, 20) :
+					null;
+			if(btn_sortBy == null)
 			{
-				bss.getStatPanel().init_stats();
-			});
+				btn_sortBy = new TSelectWidget(nextX() + 25, nextY(), nextW() - 25, 20);
+				btn_sortBy.setEnabled(false);
+				btn_sortBy.addDropdownOption(literal("-"), null);
+				btn_sortBy.setMessage(literal("-"));
+			}
 			
 			addTChild(img_sort, false);
-			addTChild(btn_sort, false);
+			addTChild(btn_sortBy, false);
 		}
 		
 		//bottom
@@ -159,8 +166,8 @@ public class BSPanel_StatisticsFilters extends BSPanel
 		removeTChild(blank);
 	}
 	// ==================================================
-	private int nextX() { return getTpeX() + getScrollPadding(); }
-	private int nextY() { return getLastTChild(false).getTpeEndY() + 5; }
-	private int nextW() { return getTpeWidth() - (getScrollPadding() * 2); }
+	public int nextX() { return getTpeX() + getScrollPadding(); }
+	public int nextY() { return getLastTChild(false).getTpeEndY() + 5; }
+	public int nextW() { return getTpeWidth() - (getScrollPadding() * 2); }
 	// ==================================================
 }

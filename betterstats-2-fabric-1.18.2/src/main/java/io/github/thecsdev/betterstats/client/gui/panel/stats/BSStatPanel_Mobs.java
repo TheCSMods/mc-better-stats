@@ -6,6 +6,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -13,6 +14,7 @@ import com.google.common.collect.Lists;
 
 import io.github.thecsdev.betterstats.api.registry.BetterStatsRegistry;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
+import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.widget.BSHudStatWidget_Entity;
 import io.github.thecsdev.betterstats.util.StatUtils;
@@ -24,12 +26,26 @@ import io.github.thecsdev.tcdcommons.api.client.gui.panel.TContextMenuPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.stat.StatHandler;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.registry.Registry;
 
 public class BSStatPanel_Mobs extends BSStatPanel
 {
+	// ==================================================
+	public static enum BSStatPanelMobs_SortBy
+	{
+		Default(literal("-")),
+		Kills(translatable("betterstats.hud.entity.kills")),
+		Deaths(translatable("betterstats.hud.entity.deaths"));
+		
+		private final MutableText text;
+		BSStatPanelMobs_SortBy(MutableText text) { this.text = text; }
+		public MutableText asText() { return text; }
+	}
 	// ==================================================
 	public BSStatPanel_Mobs(int x, int y, int width, int height) { super(x, y, width, height); }
 	public BSStatPanel_Mobs(TPanelElement parentToFill) { super(parentToFill); }
@@ -41,19 +57,32 @@ public class BSStatPanel_Mobs extends BSStatPanel
 		//assume the stat is a mob stat
 		return stat -> (stat instanceof StatUtilsMobStat);
 	}
+	
+	public @Override TSelectWidget createFilterSortByWidget(BetterStatsScreen bss, int x, int y, int width, int height)
+	{
+		var sw = new TSelectEnumWidget<BSStatPanelMobs_SortBy>(x, y, width, height, BSStatPanelMobs_SortBy.class);
+		sw.setSelected(bss.cache.getAs("BSStatPanelMobs_SortBy", BSStatPanelMobs_SortBy.class, BSStatPanelMobs_SortBy.Default), false);
+		sw.setEnumValueToLabel(newVal -> ((BSStatPanelMobs_SortBy)newVal).asText());
+		sw.setOnSelectionChange(newVal ->
+		{
+			bss.cache.set("BSStatPanelMobs_SortBy", newVal);
+			bss.getStatPanel().init_stats();
+		});
+		return sw;
+	}
 	// ==================================================
 	@Override
-	public void init(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	public void init(BetterStatsScreen bss, StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
 		//by default, group by mods
 		switch(getFilterGroupBy())
 		{
-			case None: initByNoGroups(statHandler, statFilter); break;
-			default: initByModGroups(statHandler, statFilter); break;
+			case None: initByNoGroups(bss, statHandler, statFilter); break;
+			default: initByModGroups(bss, statHandler, statFilter); break;
 		}
 	}
 	
-	protected void initByNoGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	protected void initByNoGroups(BetterStatsScreen bss, StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
 		//get mob stats
 		var mobStats = StatUtils.getMobStats(statHandler, statFilter.and(getStatPredicate()));
@@ -65,20 +94,20 @@ public class BSStatPanel_Mobs extends BSStatPanel
 		if(mobStats.size() > 0)
 		{
 			init_groupLabel(literal("*"));
-			init_mobStats(allMobs);
+			init_mobStats(bss, allMobs);
 			init_totalStats(mobStats.values());
 		}
 		//if there are no stats...
 		else init_noResults();
 	}
 	
-	protected void initByModGroups(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	protected void initByModGroups(BetterStatsScreen bss, StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
 		var mobStats = StatUtils.getMobStats(statHandler, statFilter.and(getStatPredicate()));
 		for(var mobGroup : mobStats.keySet())
 		{
 			init_groupLabel(literal(getModName(mobGroup)));
-			init_mobStats(mobStats.get(mobGroup));
+			init_mobStats(bss, mobStats.get(mobGroup));
 		}
 		//if there are no stats...
 		if(mobStats.size() == 0) init_noResults();
@@ -86,8 +115,16 @@ public class BSStatPanel_Mobs extends BSStatPanel
 		else init_totalStats(mobStats.values());
 	}
 	// --------------------------------------------------
-	protected void init_mobStats(ArrayList<StatUtilsMobStat> mobStats)
+	protected void init_mobStats(BetterStatsScreen bss, ArrayList<StatUtilsMobStat> mobStats)
 	{
+		//sort the stats
+		switch(bss.cache.getAs("BSStatPanelMobs_SortBy", BSStatPanelMobs_SortBy.class, BSStatPanelMobs_SortBy.Default))
+		{
+			case Kills: Collections.sort(mobStats, (o1, o2) -> Integer.compare(o2.killed, o1.killed)); break;
+			case Deaths: Collections.sort(mobStats, (o1, o2) -> Integer.compare(o2.killedBy, o1.killedBy)); break;
+			default: break;
+		}
+		
 		//declare the starting XY
 		int nextX = getTpeX() + getScrollPadding();
 		int nextY = getTpeY() + getScrollPadding();

@@ -16,11 +16,15 @@ import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.FocusOrigin;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.text.Text;
 
+/**
+ * A panel that holds player statistics.
+ */
 public abstract class BSStatPanel extends BSPanel
 {
 	// ==================================================
@@ -29,6 +33,9 @@ public abstract class BSStatPanel extends BSPanel
 			COLOR_NORMAL_FOCUSED = -5570561,
 			COLOR_GOLD_FOCUSED = Color.YELLOW.getRGB();
 	// --------------------------------------------------
+	/**
+	 * The scroll bar associated with this stat panel.
+	 */
 	protected final BSScrollBarWidget scroll_this;
 	// ==================================================
 	public BSStatPanel(TPanelElement parentToFill)
@@ -45,7 +52,33 @@ public abstract class BSStatPanel extends BSPanel
 		setSmoothScroll(true);
 	}
 	// ==================================================
+	/**
+	 * Returns the {@link #scroll_this} scroll bar for this {@link BSStatPanel}.
+	 */
 	public final BSScrollBarWidget getVerticalScrollBar() { return this.scroll_this; }
+	
+	/**
+	 * Returns the color of the outline for stats shown on this panel.
+	 */
+	public int getStatOutlineColor() { return 1; }
+	
+	/**
+	 * Returns the current {@link BetterStatsScreen#filter_groupBy}.
+	 */
+	public GroupStatsBy getFilterGroupBy()
+	{
+		if(!(this.screen instanceof BetterStatsScreen))
+			return GroupStatsBy.Default;
+		else return ((BetterStatsScreen)this.screen).filter_groupBy;
+	}
+	
+	/**
+	 * Creates and returns a {@link TSelectWidget} that will be used to
+	 * sort statistics shown on this {@link BSStatPanel}.<br/><br/>
+	 * <b>Do not</b> add the {@link TSelectWidget} to the given
+	 * {@link BetterStatsScreen}. Return it instead!
+	 */
+	public abstract TSelectWidget createFilterSortByWidget(BetterStatsScreen bss, int x, int y, int width, int height);
 	// ==================================================
 	@Override
 	public void setPosition(int x, int y, int flags)
@@ -70,26 +103,18 @@ public abstract class BSStatPanel extends BSPanel
 		}
 	}
 	// ==================================================
-	public int getStatOutlineColor() { return 1; }
-	
-	/**
-	 * Returns the current {@link BetterStatsScreen#filter_groupBy}.
-	 */
-	public GroupStatsBy getFilterGroupBy()
-	{
-		if(!(this.screen instanceof BetterStatsScreen))
-			return GroupStatsBy.Default;
-		else return ((BetterStatsScreen)this.screen).filter_groupBy;
-	}
-	// ==================================================
 	/**
 	 * Use this to create and add all of the statistics
 	 * related {@link TElement}s onto this {@link BSStatPanel}.
 	 * @param statHandler The {@link StatHandler} containing all the stats.
 	 * @param statFilter The {@link Predicate} that filters out certain stats.
 	 */
-	public abstract void init(StatHandler statHandler, Predicate<StatUtilsStat> statFilter);
+	public abstract void init(BetterStatsScreen bss, StatHandler statHandler, Predicate<StatUtilsStat> statFilter);
 	// --------------------------------------------------
+	/**
+	 * Initializes a statistics group label.
+	 * @param groupName The name of the group.
+	 */
 	protected TLabelElement init_groupLabel(Text groupName)
 	{
 		//calculate initial XY

@@ -9,6 +9,10 @@
 	"betterstats.hud.hint.esc_close": "Press Escape (ESC) to close this screen.",
 	
 	"betterstats.gui.filters": "Filters",
+	"betterstats.gui.filters.group_by.default": "Default",
+	"betterstats.gui.filters.group_by.mod": "Mod",
+	"betterstats.gui.filters.group_by.none": "All",
+	
 	"betterstats.gui.show_empty_stats": "Show empty stats",
 	"betterstats.gui.no_stats_yet": "There are no stats to show yet...",
 	

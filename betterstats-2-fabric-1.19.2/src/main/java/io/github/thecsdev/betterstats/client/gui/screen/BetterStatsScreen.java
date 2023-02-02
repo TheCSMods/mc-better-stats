@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.function.Predicate;
@@ -15,6 +14,7 @@ import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Statistics;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
+import io.github.thecsdev.tcdcommons.api.util.GenericProperties;
 import io.github.thecsdev.tcdcommons.api.util.SubjectToChange;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -44,9 +44,9 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	}
 	public static enum GroupStatsBy
 	{
-		Default(literal("Default")),
-		Mod(literal("Mod")),
-		None(literal("None"));
+		Default(translatable("betterstats.gui.filters.group_by.default")),
+		Mod(translatable("betterstats.gui.filters.group_by.mod")),
+		None(translatable("betterstats.gui.filters.group_by.none"));
 
 		private final MutableText text;
 		GroupStatsBy(MutableText text) { this.text = text; }
@@ -69,6 +69,8 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	public double     filter_statsScroll;
 	public static boolean filter_showEmpty = false;
 	public GroupStatsBy filter_groupBy;
+	// --------------------------------------------------
+	public final GenericProperties cache = new GenericProperties();
 	// ==================================================
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.

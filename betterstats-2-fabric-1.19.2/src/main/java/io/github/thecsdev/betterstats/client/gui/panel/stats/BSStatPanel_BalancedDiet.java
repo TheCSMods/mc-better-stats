@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.panel.stats;
 
 import java.util.function.Predicate;
 
+import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsItemStat;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -15,13 +16,13 @@ public class BSStatPanel_BalancedDiet extends BSStatPanel_Items
 	public BSStatPanel_BalancedDiet(TPanelElement parentToFill) { super(parentToFill); }
 	// ==================================================
 	@Override
-	public void init(StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
+	public void init(BetterStatsScreen bss, StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
 		//as for balanced diet stats, items are grouped by mod groups by default
 		switch(getFilterGroupBy())
 		{
-			case None: initByNoGroups(statHandler, statFilter); break;
-			default: initByModGroups(statHandler, statFilter); break;
+			case None: initByNoGroups(bss, statHandler, statFilter); break;
+			default: initByModGroups(bss, statHandler, statFilter); break;
 		}
 	}
 	// --------------------------------------------------
