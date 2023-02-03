@@ -72,6 +72,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 		
 		//tab selector
 		btn_tab = new TSelectEnumWidget<>(nextX(), nextY(), nextW(), 20, CurrentTab.class);
+		btn_tab.setDrawsVanillaButton(true);
 		btn_tab.setSelected(bss.filter_currentTab, false);
 		btn_tab.setOnSelectionChange(tab ->
 		{
@@ -83,7 +84,6 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			bss.getStatPanel().init_leftMenu();
 		});
 		btn_tab.setEnumValueToLabel(val -> ((CurrentTab)val).asText());
-		btn_tab.setDrawsVanillaButton(true);
 		addTChild(btn_tab, false);
 		
 		//search bar
@@ -115,6 +115,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			btn_groupBy = new TSelectEnumWidget<>(
 					nextX() + 25, nextY(), nextW() - 25, 20,
 					GroupStatsBy.class);
+			btn_groupBy.setDrawsVanillaButton(true);
 			btn_groupBy.setEnabled(bss.filter_currentTab != CurrentTab.General);
 			btn_groupBy.setEnumValueToLabel(val -> ((GroupStatsBy)val).asText());
 			btn_groupBy.setSelected(bss.filter_groupBy, false);
@@ -146,6 +147,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 				btn_sortBy.addDropdownOption(literal("-"), null);
 				btn_sortBy.setMessage(literal("-"));
 			}
+			btn_sortBy.setDrawsVanillaButton(true);
 			
 			addTChild(img_sort, false);
 			addTChild(btn_sortBy, false);
