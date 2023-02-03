@@ -1,0 +1,27 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.hud": "Інтерфейс статистики (Beta)",
+	"betterstats.hud.entity.kills": "Убивств",
+	"betterstats.hud.entity.deaths": "Смертей",
+	"betterstats.hud.hint.add_widget": "Правий клік миші по статистиці ([Shift]+ПКМ), щоб додати його сюди.",
+	"betterstats.hud.hint.del_widget": "Натисніть Backspace (<-) щоб видалити наведений запис.",
+	"betterstats.hud.hint.esc_close": "Натисність Escape (ESC) щоб закрити вікно.",
+	
+	"betterstats.gui.filters": "Фільтри",
+	"betterstats.gui.filters.group_by.default": "За-замовчуванням",
+	"betterstats.gui.filters.group_by.mod": "Мод",
+	"betterstats.gui.filters.group_by.none": "Всі",
+	
+	"betterstats.gui.show_empty_stats": "Показати пусту статистику",
+	"betterstats.gui.no_stats_yet": "Поки що немає статистики для показу...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "Прикріпити до інтерфейсу (Beta)",
+	"betterstats.gui.ctx_menu.close": "Закрити",
+	
+	"betterstats.gui.menu_bar.view": "Перегляд",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Показати ванільну статистику",
+	"betterstats.gui.menu_bar.about": "Про",
+	"betterstats.gui.menu_bar.about.source": "Вихідний код",
+	"betterstats.gui.menu_bar.mods_other": "Інші (моди)"
+}
