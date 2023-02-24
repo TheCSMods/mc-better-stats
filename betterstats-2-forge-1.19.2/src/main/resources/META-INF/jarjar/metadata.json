@@ -10,9 +10,9 @@
 			"version":
 			{
 				"range": "[2.1,)",
-				"artifactVersion": "2.1+1.19.2"
+				"artifactVersion": "2.2+1.19.2"
 			},
-			"path": "META-INF/jarjar/tcdcommons-2.1+1.19.2.jar",
+			"path": "META-INF/jarjar/tcdcommons-2.2+1.19.2.jar",
 			"isObfuscated": false
 		}
 	]

@@ -21,7 +21,6 @@ import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.stats.StatsCounter;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -122,7 +121,7 @@ public final class StatUtils
 		{
 			//(system) filter
 			if(entityType != EntityType.PLAYER &&
-					(!entityType.canSummon() || entityType.getCategory() == MobCategory.MISC))
+					(!entityType.canSummon()/* || entityType.getCategory() == MobCategory.MISC*/))
 				continue;
 			
 			//create the mob stat

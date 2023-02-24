@@ -17,7 +17,6 @@ import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.stat.Stat;
@@ -118,7 +117,7 @@ public final class StatUtils
 		{
 			//(system) filter
 			if(entityType != EntityType.PLAYER &&
-					(!entityType.isSummonable() || entityType.getSpawnGroup() == SpawnGroup.MISC))
+					(!entityType.isSummonable()/* || entityType.getSpawnGroup() == SpawnGroup.MISC*/))
 				continue;
 			
 			//create the mob stat
