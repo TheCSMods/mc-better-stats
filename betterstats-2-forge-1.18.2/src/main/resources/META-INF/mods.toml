@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/TheCSDev/mc-better-stats/issues" #optional
 [[mods]] #mandatory
 displayName="Better Statistics Screen" #mandatory
 modId="betterstats" #mandatory
-version="2.2.1+1.18.2" #mandatory
+version="2.2.2+1.18.2" #mandatory
 authors="TheCSDev" #optional
 credits="See authors." #optional
 displayURL="https://github.com/TheCSDev/mc-better-stats" #optional

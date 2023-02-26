@@ -21,6 +21,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.stats.StatsCounter;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BSStatPanel_Mobs extends BSStatPanel
@@ -34,7 +35,18 @@ public class BSStatPanel_Mobs extends BSStatPanel
 	{
 		//make sure it is a mob stat, as some subclasses
 		//assume the stat is a mob stat
-		return stat -> (stat instanceof StatUtilsMobStat);
+		return stat ->
+		{
+			//check instance type
+			if(!(stat instanceof StatUtilsMobStat))
+				return false;
+			//check entity type (included non-empty non-living entities)
+			var ent = TEntityRendererElement.getCachedEntityFromType(((StatUtilsMobStat)stat).entityType);
+			if(!(ent instanceof LivingEntity) && stat.isEmpty())
+				return false;
+			//return true if all checks pass
+			return true;
+		};
 	}
 	// ==================================================
 	@Override

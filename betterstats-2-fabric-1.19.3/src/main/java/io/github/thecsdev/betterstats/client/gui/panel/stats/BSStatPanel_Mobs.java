@@ -29,6 +29,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.text.MutableText;
@@ -55,7 +56,18 @@ public class BSStatPanel_Mobs extends BSStatPanel
 	{
 		//make sure it is a mob stat, as some subclasses
 		//assume the stat is a mob stat
-		return stat -> (stat instanceof StatUtilsMobStat);
+		return stat ->
+		{
+			//check instance type
+			if(!(stat instanceof StatUtilsMobStat))
+				return false;
+			//check entity type (included non-empty non-living entities)
+			var ent = TEntityRendererElement.getCachedEntityFromType(((StatUtilsMobStat)stat).entityType);
+			if(!(ent instanceof LivingEntity) && stat.isEmpty())
+				return false;
+			//return true if all checks pass
+			return true;
+		};
 	}
 	
 	public @Override TSelectWidget createFilterSortByWidget(BetterStatsScreen bss, int x, int y, int width, int height)
