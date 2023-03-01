@@ -45,7 +45,7 @@ public abstract class MixinGameMenuScreen extends Screen
 	private ButtonWidget betterstats_snipeButton(Text buttonText)
 	{
 		return betterstats_snipeButton(buttonText,
-				((MixinScreen)(Object)this).getSelectables()
+				dev.architectury.hooks.client.screen.ScreenHooks.getRenderables(this)
 				.stream()
 				.map(e -> (Element)e)
 				.toList());

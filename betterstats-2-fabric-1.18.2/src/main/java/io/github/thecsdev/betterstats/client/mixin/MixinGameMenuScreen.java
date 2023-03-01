@@ -61,7 +61,8 @@ public abstract class MixinGameMenuScreen extends Screen
 		ButtonWidget foundBtn = null;
 		
 		//iterate all drawables
-		for(Drawable drawable : ((MixinScreen)(Object)this).getDrawables())
+		//for(Drawable drawable : ((MixinScreen)(Object)this).getDrawables())
+		for(Drawable drawable : dev.architectury.hooks.client.screen.ScreenHooks.getRenderables(this))
 		{
 			//ignore non-buttons
 			if(!(drawable instanceof ButtonWidget))

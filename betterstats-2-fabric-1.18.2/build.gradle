@@ -19,6 +19,7 @@ repositories
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.architectury.dev/" }
 	maven { url "https://maven.terraformersmc.com/releases/" }
 }
 
@@ -41,6 +42,9 @@ dependencies
 	
 	// TCDCommons
 	modApi(files("src/main/resources/${project.mod_jar_tcdcommons}"))
+	
+	// Architectury API
+	modApi "dev.architectury:architectury-fabric:${project.architectury_version}"
 	
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

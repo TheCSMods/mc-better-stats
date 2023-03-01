@@ -40,11 +40,11 @@ dependencies
 	// Roughly Enough Items
 	modApi "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 	
-	// Architectury
-	modApi "dev.architectury:architectury-fabric:${project.architectury_version}"
-	
 	// TCDCommons
 	modApi(files("src/main/resources/${project.mod_jar_tcdcommons}"))
+	
+	// Architectury API
+	modApi "dev.architectury:architectury-fabric:${project.architectury_version}"
 	
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
