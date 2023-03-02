@@ -3,6 +3,6 @@
 	"minVersion": "0.8",
 	"package": "io.github.thecsdev.betterstats.client.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"client": ["MixinGameMenuScreen", "MixinButtonWidget"],
+	"client": [],
 	"injectors": { "defaultRequire": 1 }
 }
