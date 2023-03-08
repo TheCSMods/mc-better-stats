@@ -1,0 +1,24 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.hud": "Интерфейс статистики (Beta)",
+	"betterstats.hud.entity.kills": "Убийств",
+	"betterstats.hud.entity.deaths": "Смертей",
+	"betterstats.hud.hint.add_widget": "Нажмите ПКМ на графу ([Shift]+ПКМ), чтобы добавить её сюда.",
+	"betterstats.hud.hint.del_widget": "Нажмите Backspace чтобы убрать hovered entry.",
+	"betterstats.hud.hint.esc_close": "Нажмите ESC для закрытия этого экрана.",
+	
+	"betterstats.gui.filters": "Фильтры",
+	"betterstats.gui.show_empty_stats": "Показывать пустые графы",
+	"betterstats.gui.no_stats_yet": "Здесь пока нечего показывать...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "Закрепить (Бета)",
+	"betterstats.gui.ctx_menu.close": "Закрыть",
+	
+	"betterstats.gui.menu_bar.view": "Обзор",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Оригинальная статистика",
+	
+	"betterstats.gui.menu_bar.about": "О моде",
+	"betterstats.gui.menu_bar.about.source": "Исходный код",
+	"betterstats.gui.menu_bar.mods_other": "Другое (моды)"
+}
