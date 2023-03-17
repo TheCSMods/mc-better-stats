@@ -1,0 +1,24 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.hud": "統計情報をHUDに表示する（ベータ）",
+	"betterstats.hud.entity.kills": "倒した回数",
+	"betterstats.hud.entity.deaths": "死亡した回数",
+	"betterstats.hud.hint.add_widget": "統計情報を右クリック（[Shift]+RMB）すると、ここに追加できます。",
+	"betterstats.hud.hint.del_widget": "マウスオーバーした状態でBackspace（<-）を押すと、その項目を削除できます。",
+	"betterstats.hud.hint.esc_close": "この画面を閉じるには、Escape（ESC）を押してください。",
+	
+	"betterstats.gui.filters": "フィルター",
+	"betterstats.gui.show_empty_stats": "空の統計情報を表示する",
+	"betterstats.gui.no_stats_yet": "表示できる統計情報がまだありません…",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "HUDにピン留めする（ベータ）",
+	"betterstats.gui.ctx_menu.close": "閉じる",
+	
+	"betterstats.gui.menu_bar.view": "表示",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "バニラの統計画面を表示する",
+    
+	"betterstats.gui.menu_bar.about": "このModについて",
+	"betterstats.gui.menu_bar.about.source": "ソースコード",
+	"betterstats.gui.menu_bar.mods_other": "その他 (Mods)"
+}
