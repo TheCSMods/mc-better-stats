@@ -75,6 +75,7 @@ local.properties
 
 # Package Files #
 *.jar
+!**/src/main/resources/**/*.jar
 *.war
 *.nar
 *.ear
