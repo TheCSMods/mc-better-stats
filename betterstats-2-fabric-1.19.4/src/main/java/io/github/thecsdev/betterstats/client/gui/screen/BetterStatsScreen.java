@@ -3,7 +3,6 @@ package io.github.thecsdev.betterstats.client.gui.screen;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -24,9 +23,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper.Impl;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.stat.StatHandler;
@@ -104,12 +100,13 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	
 	//prevent sending a status request every time this window
 	//updates. instead, send it only once
-	@SuppressWarnings("unchecked")
 	public @Override void onOpened()
 	{
 		if(!STATUS_RECIEVED) sendStatsRequest();
 		//as of 1.19.3, item groups need a manual update
-		ItemGroups.updateDisplayContext(FeatureSet.of(FeatureFlags.VANILLA), true, WrapperLookup.of((Stream<Impl<?>>) Registries.ITEM.getReadOnlyWrapper()));
+		@SuppressWarnings("resource")
+		var wl = MinecraftClient.getInstance().player.world.getRegistryManager();
+		ItemGroups.updateDisplayContext(FeatureSet.of(FeatureFlags.VANILLA), true, wl);
 	}
 	// --------------------------------------------------
 	public @Override boolean shouldRenderInGameHud() { return false; }
