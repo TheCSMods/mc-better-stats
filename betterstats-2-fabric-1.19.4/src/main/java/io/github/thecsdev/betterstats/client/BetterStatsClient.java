@@ -106,7 +106,6 @@ public final class BetterStatsClient extends BetterStats implements ClientModIni
 			if(selectable instanceof GridWidget)
 			{
 				GridWidget grid = (GridWidget)selectable;
-				//return betterstats_snipeButton(buttonText, (List<Element>)grid.children());
 				var gridCh = TGuiHooks.getGridWidgetChildren(grid).stream().map(i -> (Element)i).toList();
 				return betterstats_snipeButton(buttonText, gridCh);
 			}
