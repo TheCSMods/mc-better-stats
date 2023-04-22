@@ -9,6 +9,7 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BshsAutoRequest;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.events.screen.TGameMenuScreenEvent;
 import io.github.thecsdev.tcdcommons.api.client.hooks.TGuiHooks;
 import io.github.thecsdev.tcdcommons.api.events.TNetworkEvent;
@@ -77,12 +78,15 @@ public final class BetterStatsClient extends BetterStats implements ClientModIni
 			{
 				var bshs = BetterStatsHudScreen.getInstance(); //do not create new instances
 				if(bshs != null && bshs.flag_tickChildren < 1)
-					bshs.flag_tickChildren = 5; //schedule the widget update
+					bshs.flag_tickChildren = 3; //schedule the widget update
 			}
 			
 			//return
 			return EventResult.pass();
 		});
+
+		//init stuff
+		BetterStatsClientNetworkHandler.init();
 	}
 	// ==================================================
 	private ButtonWidget betterstats_snipeButton(Screen screen, Text buttonText)

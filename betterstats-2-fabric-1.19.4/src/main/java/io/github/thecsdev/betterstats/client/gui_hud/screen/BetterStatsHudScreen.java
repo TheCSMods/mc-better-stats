@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import com.google.common.collect.Sets;
 
 import io.github.thecsdev.betterstats.client.gui_hud.widget.BSHudStatWidget;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
@@ -91,6 +92,8 @@ public final class BetterStatsHudScreen extends TScreen
 		//dispose of this screen if there are no widgets on it
 		if(findTChildOfType(BSHudStatWidget.class, false) == null)
 			InGameHud_Screens.remove(HUD_ID, this);
+		//update the server on the prefs
+		BetterStatsClientNetworkHandler.c2s_sendPrefs();
 	}
 	// ==================================================
 	public <T extends BSHudStatWidget> T addHudStatWidget(T widget)

@@ -32,7 +32,7 @@ public final class BshsAutoRequest
 	public static boolean isReady() { return flag_cooldown < 1 && flag_moved && flag_handSwung; }
 	public static void resetFlags()
 	{
-		flag_cooldown = 300;
+		flag_cooldown = 400;
 		flag_moved = false;
 		flag_handSwung = false;
 	}

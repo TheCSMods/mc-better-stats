@@ -3,6 +3,7 @@ package io.github.thecsdev.betterstats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 
@@ -33,6 +34,9 @@ public class BetterStats extends Object
 		
 		//log stuff
 		LOGGER.info("Initializing '" + getModName() + "' as '" + getClass().getSimpleName() + "'.");
+		
+		//init stuff
+		BetterStatsNetworkHandler.init();
 	}
 	// --------------------------------------------------
 	/** Returns the Fabric {@link ModContainer} containing information about this mod. */
