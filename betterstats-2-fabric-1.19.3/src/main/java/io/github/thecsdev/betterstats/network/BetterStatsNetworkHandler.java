@@ -174,6 +174,10 @@ public final class BetterStatsNetworkHandler
 		var prefs = PlayerPrefs.getIfPresent(player.getUuidAsString());
 		if(prefs == null) { s2c_requestPrefs(player, false); return; }
 		else if(!prefs.betterStatsInstalled || !prefs.enabled) return;
+		//cooldown system to prevent spam
+		var curr = System.currentTimeMillis();
+		if(curr - prefs._lastItemUpdate < PlayerPreferences._updateCooldown) return;
+		prefs._lastItemUpdate = curr;
 		//obtain stats
 		var iStats = new StatUtils.StatUtilsItemStat(player.getStatHandler(), item);
 		//create packet
@@ -197,6 +201,10 @@ public final class BetterStatsNetworkHandler
 		var prefs = PlayerPrefs.getIfPresent(player.getUuidAsString());
 		if(prefs == null) { s2c_requestPrefs(player, false); return; }
 		else if(!prefs.betterStatsInstalled || !prefs.enabled) return;
+		//cooldown system to prevent spam
+		var curr = System.currentTimeMillis();
+		if(curr - prefs._lastMobUpdate < PlayerPreferences._updateCooldown) return;
+		prefs._lastMobUpdate = curr;
 		//obtain stats
 		var eStats = new StatUtils.StatUtilsMobStat(player.getStatHandler(), entityType);
 		//create packet
@@ -216,6 +224,9 @@ public final class BetterStatsNetworkHandler
 	//TODO - Implement feature for viewing other player's stats
 	private static class PlayerPreferences
 	{
+		public static final short _updateCooldown = 500;
+		public long _lastItemUpdate = 0;
+		public long _lastMobUpdate = 0;
 		public boolean betterStatsInstalled = false;
 		public boolean enabled = false;
 	}
