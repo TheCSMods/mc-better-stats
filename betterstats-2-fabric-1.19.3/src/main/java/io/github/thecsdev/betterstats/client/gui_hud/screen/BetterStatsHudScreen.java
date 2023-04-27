@@ -13,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Sets;
 
+import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.widget.BSHudStatWidget;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
@@ -33,18 +35,20 @@ public final class BetterStatsHudScreen extends TScreen
 	// --------------------------------------------------
 	protected Screen parent;
 	protected TButtonWidget btn_done, btn_accurate;
+	protected TTextureElement img_accurate;
 	protected final BooleanConsumer confsc_callback = (accepted ->
 	{
 		respondToPrefs = accepted;
 		getClient().setScreen(this);
+		updateImgAccurate();
 	});
 	protected final Text confsc_title = literal("Enable '"+getModID()+"' communication with the server");
 	protected final Text confsc_msg = literal("IMPORTANT:\n"
-			+ "By enabling this feature, the server will find out you have '"+getModID()+"' installed. "
-			+ "For privacy reasons, do not use this feature on servers that may not want you to use this mod.\n\n"
-			+ "Enabling this makes the 'hud stats' feature more 'real-time' by having '"+getModID()+"' "
-			+ "communicate with the server. Keep in mind that 'betterstats' needs to be installed on the server "
-			+ "as well in order for this feature to work.");
+			+ "By enabling this feature, the server will detect that you have '"+getModID()+"' installed."
+			+ "To protect your privacy, do not use this feature on servers that may not allow this mod.\n\n"
+			+ "Enabling this feature makes the Heads-Up Display (HUD) stats more accurate and real-time "
+			+ "by allowing '"+getModID()+"' to communicate with the server. Note that '"+getModID()+"' "
+			+ "must also be installed on the server for this feature to work");
 	// --------------------------------------------------
 	/**
 	 * Set this flag to a value greater than 0 to schedule
@@ -154,6 +158,12 @@ public final class BetterStatsHudScreen extends TScreen
 		return false;
 	}
 	// ==================================================
+	protected void updateImgAccurate()
+	{
+		if(img_accurate != null)
+			if(respondToPrefs) img_accurate.setTextureUVs(20, 20, 20, 20);
+			else img_accurate.setTextureUVs(20, 0, 20, 20);
+	}
 	protected @Override void init()
 	{
 		//create the done button
@@ -184,12 +194,22 @@ public final class BetterStatsHudScreen extends TScreen
 			{
 				var confsc = new ConfirmScreen(confsc_callback, confsc_title, confsc_msg);
 				getClient().setScreen(confsc);
+				return;
 			}
-			//indicator - TODO - improve
-			btn.setMessage(respondToPrefs ? literal("1") : literal("0"));
+			//indicator
+			updateImgAccurate();
 		});
 		btn_accurate.setDrawsVanillaButton(true);
+		btn_accurate.setTooltip(literal("Enables more accurate and real-time stats in the HUD."));
 		addTChild(btn_accurate);
+
+		//accuracy button sprite
+		img_accurate = new TTextureElement(2, 2, 16, 16);
+		img_accurate.setZOffset(btn_accurate.getZOffset() + 1);
+		img_accurate.setTexture(BetterStatsScreen.BSS_WIDGETS_TEXTURE, 256, 256);
+		img_accurate.setTextureUVs(20, 0, 20, 20);
+		btn_accurate.addTChild(img_accurate, true);
+		updateImgAccurate();
 		
 		//re-add stat widget entries
 		this.stat_widgets.remove(null);
