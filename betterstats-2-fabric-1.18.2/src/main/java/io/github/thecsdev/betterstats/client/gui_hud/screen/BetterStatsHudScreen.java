@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui_hud.screen;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.gui_hud.widget.BSHudStatWidget.SIZE;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.respondToPrefs;
 import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -17,9 +18,12 @@ import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHan
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public final class BetterStatsHudScreen extends TScreen
@@ -28,7 +32,19 @@ public final class BetterStatsHudScreen extends TScreen
 	public static final Identifier HUD_ID = new Identifier(getModID(), "hud");
 	// --------------------------------------------------
 	protected Screen parent;
-	protected TButtonWidget btn_done;
+	protected TButtonWidget btn_done, btn_accurate;
+	protected final BooleanConsumer confsc_callback = (accepted ->
+	{
+		respondToPrefs = accepted;
+		getClient().setScreen(this);
+	});
+	protected final Text confsc_title = literal("Enable '"+getModID()+"' communication with the server");
+	protected final Text confsc_msg = literal("IMPORTANT:\n"
+			+ "By enabling this feature, the server will find out you have '"+getModID()+"' installed. "
+			+ "For privacy reasons, do not use this feature on servers that may not want you to use this mod.\n\n"
+			+ "Enabling this makes the 'hud stats' feature more 'real-time' by having '"+getModID()+"' "
+			+ "communicate with the server. Keep in mind that 'betterstats' needs to be installed on the server "
+			+ "as well in order for this feature to work.");
 	// --------------------------------------------------
 	/**
 	 * Set this flag to a value greater than 0 to schedule
@@ -145,6 +161,7 @@ public final class BetterStatsHudScreen extends TScreen
 				getTpeWidth() / 2 - 50, getTpeHeight() / 2 - 10,
 				100, 20,
 				translatable("gui.done"), btn -> close());
+		btn_done.setDrawsVanillaButton(true);
 		addTChild(btn_done);
 		
 		//initialize done button tooltip
@@ -156,6 +173,24 @@ public final class BetterStatsHudScreen extends TScreen
 				"2. " + txt_hint_b.getString() + "\n" +
 				"3. " + txt_hint_c.getString());
 		btn_done.setTooltip(txt_hint);
+		
+		//create the accuracy button
+		btn_accurate = new TButtonWidget(btn_done.getTpeEndX() + 5, btn_done.getTpeY(), 20, 20, null, btn ->
+		{
+			//disabling
+			if(respondToPrefs) respondToPrefs = false;
+			//enabling ('else if' is important)
+			else if(getClient().isInSingleplayer()) respondToPrefs = true;
+			else
+			{
+				var confsc = new ConfirmScreen(confsc_callback, confsc_title, confsc_msg);
+				getClient().setScreen(confsc);
+			}
+			//indicator - TODO - improve
+			btn.setMessage(respondToPrefs ? literal("1") : literal("0"));
+		});
+		btn_accurate.setDrawsVanillaButton(true);
+		addTChild(btn_accurate);
 		
 		//re-add stat widget entries
 		this.stat_widgets.remove(null);
@@ -185,6 +220,7 @@ public final class BetterStatsHudScreen extends TScreen
 		//----- handle other stuff
 		//done button visibility
 		btn_done.setVisible(getClient().currentScreen == this);
+		btn_accurate.setVisible(btn_done.getVisible());
 		//tick the BetterStatsHudScreen auto requester
 		BshsAutoRequest.tick();
 	}
