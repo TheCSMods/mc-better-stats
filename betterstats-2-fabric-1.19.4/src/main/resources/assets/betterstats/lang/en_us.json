@@ -8,6 +8,10 @@
 	"betterstats.hud.hint.del_widget": "Press Backspace (<-) to remove a hovered entry.",
 	"betterstats.hud.hint.esc_close": "Press Escape (ESC) to close this screen.",
 	
+	"betterstats.hud.accuracy_mode_warning.title": "Enable 'betterstats' communication with the server",
+	"betterstats.hud.accuracy_mode_warning.message": "IMPORTANT:\nBy enabling this feature, the server will detect that you have 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow this mod.\n\nEnabling this feature makes the Heads-Up Display (HUD) stats more accurate and real-time by allowing 'betterstats' to communicate with the server. Note that 'betterstats' must also be installed on the server for this feature to work.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Enables more accurate and real-time stats in the HUD.",
+	
 	"betterstats.gui.filters": "Filters",
 	"betterstats.gui.filters.group_by.default": "Default",
 	"betterstats.gui.filters.group_by.mod": "Mod",

@@ -42,13 +42,8 @@ public final class BetterStatsHudScreen extends TScreen
 		getClient().setScreen(this);
 		updateImgAccurate();
 	});
-	protected final Text confsc_title = literal("Enable '"+getModID()+"' communication with the server");
-	protected final Text confsc_msg = literal("IMPORTANT:\n"
-			+ "By enabling this feature, the server will detect that you have '"+getModID()+"' installed."
-			+ "To protect your privacy, do not use this feature on servers that may not allow this mod.\n\n"
-			+ "Enabling this feature makes the Heads-Up Display (HUD) stats more accurate and real-time "
-			+ "by allowing '"+getModID()+"' to communicate with the server. Note that '"+getModID()+"' "
-			+ "must also be installed on the server for this feature to work");
+	protected final Text confsc_title = translatable("betterstats.hud.accuracy_mode_warning.title", getModID());
+	protected final Text confsc_msg = translatable("betterstats.hud.accuracy_mode_warning.message", getModID());
 	// --------------------------------------------------
 	/**
 	 * Set this flag to a value greater than 0 to schedule
@@ -106,6 +101,7 @@ public final class BetterStatsHudScreen extends TScreen
 		//set screen to parent
 		getClient().setScreen(this.parent);
 		//tick this screen and its elements
+		this.flag_tickChildren = 0;
 		this.tick();
 		//dispose of the parent, as it is no longer needed
 		this.parent = null;
@@ -200,7 +196,7 @@ public final class BetterStatsHudScreen extends TScreen
 			updateImgAccurate();
 		});
 		btn_accurate.setDrawsVanillaButton(true);
-		btn_accurate.setTooltip(literal("Enables more accurate and real-time stats in the HUD."));
+		btn_accurate.setTooltip(translatable("betterstats.hud.accuracy_mode_warning.tooltip"));
 		addTChild(btn_accurate);
 		
 		//accuracy button sprite
@@ -220,9 +216,12 @@ public final class BetterStatsHudScreen extends TScreen
 			//and then re-position it
 			entry.rePositionToAnchor();
 		}
+		
+		//tick this screen and its elements
+		this.flag_tickChildren = 0;
+		this.tick();
 	}
 	// --------------------------------------------------
-	@SuppressWarnings("resource")
 	public @Override void tick()
 	{
 		//tick super
@@ -237,16 +236,17 @@ public final class BetterStatsHudScreen extends TScreen
 		}
 		
 		//----- handle other stuff
-		//done button visibility
-		btn_done.setVisible(getClient().currentScreen == this);
-		btn_accurate.setVisible(btn_done.getVisible());
 		//tick the BetterStatsHudScreen auto requester
 		BshsAutoRequest.tick();
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "resource" })
 	public final void tickChildren()
 	{
+		//done button visibility
+		btn_done.setVisible(getClient().currentScreen == this);
+		btn_accurate.setVisible((!getClient().isInSingleplayer()) && btn_done.getVisible());
+		//children tick
 		forEachChild(child -> { child.tick(); return false; }, true);
 	}
 	// ==================================================
