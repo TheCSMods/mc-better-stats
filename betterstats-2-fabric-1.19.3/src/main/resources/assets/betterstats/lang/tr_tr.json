@@ -1,0 +1,31 @@
+{
+	"betterstats": "Daha İyi İstatistik Ekranı",
+	
+	"betterstats.hud": "İstatistik HUD'u",
+	"betterstats.hud.entity.kills": "Öldürme",
+	"betterstats.hud.entity.deaths": "Ölüm",
+	"betterstats.hud.hint.add_widget": "Bir istatistiği buraya eklemek için sağ tıklayın ([Shift]+Sağ Tık).",
+	"betterstats.hud.hint.del_widget": "Bir istatistiği kaldırmak için Geri tuşuna (<-) basın.",
+	"betterstats.hud.hint.esc_close": "Bu ekranı kapatmak için Escape (ESC) tuşuna basın.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "Sunucu ile 'betterstats' iletişimini etkinleştirin",
+	"betterstats.hud.accuracy_mode_warning.message": "ÖNEMLİ:\nBu özelliği etkinleştirerek, sunucu 'betterstats' yüklü olduğunuzu algılayacaktır. Gizliliğinizi korumak için, bu özelliği etkinleştirmeyin ve bu modu izin vermeyen sunucularda kullanmayın.\n\nBu özellik, 'betterstats'ın sunucu ile iletişim kurmasına izin vererek, Heads-Up Display (HUD) istatistiklerini daha doğru ve gerçek zamanlı hale getirir. Bu özelliğin çalışması için sunucuda da 'betterstats' yüklü olması gerekir.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD'daki istatistikleri daha doğru ve gerçek zamanlı hale getirir.",
+	
+	"betterstats.gui.filters": "Filtreler",
+	"betterstats.gui.filters.group_by.default": "Varsayılan",
+	"betterstats.gui.filters.group_by.mod": "Mod",
+	"betterstats.gui.filters.group_by.none": "Tümü",
+	
+	"betterstats.gui.show_empty_stats": "Boş istatistikleri göster",
+	"betterstats.gui.no_stats_yet": "Henüz gösterilecek istatistik yok...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "HUD'a sabitle",
+	"betterstats.gui.ctx_menu.close": "Kapat",
+	
+	"betterstats.gui.menu_bar.view": "Görünüm",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Vanilya istatistiklerini göster",
+	"betterstats.gui.menu_bar.about": "Hakkında",
+	"betterstats.gui.menu_bar.about.source": "Kaynak Kodu",
+	"betterstats.gui.menu_bar.mods_other": "Diğer (modlar)"
+}

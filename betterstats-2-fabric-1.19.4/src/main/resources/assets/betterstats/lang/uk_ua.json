@@ -1,12 +1,16 @@
 {
-	"betterstats": "Better Statistics Screen",
+	"betterstats": "Екран кращої статистики",
 	
-	"betterstats.hud": "Інтерфейс статистики (Beta)",
+	"betterstats.hud": "Інтерфейс статистики",
 	"betterstats.hud.entity.kills": "Убивств",
 	"betterstats.hud.entity.deaths": "Смертей",
 	"betterstats.hud.hint.add_widget": "Правий клік миші по статистиці ([Shift]+ПКМ), щоб додати його сюди.",
 	"betterstats.hud.hint.del_widget": "Натисніть Backspace (<-) щоб видалити наведений запис.",
 	"betterstats.hud.hint.esc_close": "Натисність Escape (ESC) щоб закрити вікно.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "Увімкнути комунікацію з сервером для 'betterstats'",
+	"betterstats.hud.accuracy_mode_warning.message": "ВАЖЛИВО:\nАктивувавши цю функцію, сервер виявить, що ви маєте встановлений мод 'betterstats'. Щоб захистити свою приватність, не використовуйте цю функцію на серверах, які можуть не дозволяти використання цього моду.\n\nАктивація цієї функції забезпечує більш точну та в режимі реального часу статистику в головному вікні інформації (HUD), дозволяючи 'betterstats' комунікувати з сервером. Зверніть увагу, що мод 'betterstats' також повинен бути встановлений на сервері для правильної роботи цієї функції.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Увімкнути більш точну та в режимі реального часу статистику в головному вікні інформації (HUD).",
 	
 	"betterstats.gui.filters": "Фільтри",
 	"betterstats.gui.filters.group_by.default": "За-замовчуванням",
@@ -16,7 +20,7 @@
 	"betterstats.gui.show_empty_stats": "Показати пусту статистику",
 	"betterstats.gui.no_stats_yet": "Поки що немає статистики для показу...",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "Прикріпити до інтерфейсу (Beta)",
+	"betterstats.gui.ctx_menu.pin_to_hud": "Прикріпити до інтерфейсу",
 	"betterstats.gui.ctx_menu.close": "Закрити",
 	
 	"betterstats.gui.menu_bar.view": "Перегляд",

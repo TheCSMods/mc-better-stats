@@ -1,12 +1,16 @@
 {
-	"betterstats": "Better Statistics Screen",
+	"betterstats": "ベタースタット画面",
 	
-	"betterstats.hud": "統計情報をHUDに表示する（ベータ）",
+	"betterstats.hud": "統計情報をHUDに表示する",
 	"betterstats.hud.entity.kills": "倒した回数",
 	"betterstats.hud.entity.deaths": "死亡した回数",
 	"betterstats.hud.hint.add_widget": "統計情報を右クリック（[Shift]+RMB）すると、ここに追加できます。",
 	"betterstats.hud.hint.del_widget": "マウスオーバーした状態でBackspace（<-）を押すと、その項目を削除できます。",
 	"betterstats.hud.hint.esc_close": "この画面を閉じるには、Escape（ESC）を押してください。",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "サーバーとの通信を'betterstats'で有効にする",
+	"betterstats.hud.accuracy_mode_warning.message": "重要:\nこの機能を有効にすることにより、サーバー側で'betterstats'が導入されていることが検知されます。個人情報保護のため、この機能を許可しないサーバーでは使用しないでください。\n\nこの機能を有効にすることで、ヘッドアップディスプレイ（HUD）の統計情報がより正確でリアルタイムになります。'betterstats'がサーバー側にも導入されている必要があることに注意してください。",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD内の統計情報をより正確でリアルタイムにする。",
 	
 	"betterstats.gui.filters": "フィルター",
 	"betterstats.gui.filters.group_by.default": "デフォルト",
@@ -16,7 +20,7 @@
 	"betterstats.gui.show_empty_stats": "空の統計情報を表示する",
 	"betterstats.gui.no_stats_yet": "表示できる統計情報がまだありません…",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "HUDにピン留めする（ベータ）",
+	"betterstats.gui.ctx_menu.pin_to_hud": "HUDにピン留めする",
 	"betterstats.gui.ctx_menu.close": "閉じる",
 	
 	"betterstats.gui.menu_bar.view": "表示",

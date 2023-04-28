@@ -1,0 +1,31 @@
+{
+	"betterstats": "Лучший экран статистики",
+	
+	"betterstats.hud": "Статистика hud",
+	"betterstats.hud.entity.kills": "Убийства",
+	"betterstats.hud.entity.deaths": "Смерти",
+	"betterstats.hud.hint.add_widget": "Щелкните правой кнопкой мыши по статистике ([Shift]+правая кнопка мыши), чтобы добавить ее здесь.",
+	"betterstats.hud.hint.del_widget": "Нажмите клавишу Backspace (<-) для удаления выбранной записи.",
+	"betterstats.hud.hint.esc_close": "Нажмите клавишу Escape (ESC), чтобы закрыть это окно.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "Включить связь 'betterstats' с сервером",
+	"betterstats.hud.accuracy_mode_warning.message": "ВАЖНО:\nВключение этой функции позволит серверу обнаружить установленный 'betterstats'. Чтобы защитить свою конфиденциальность, не используйте эту функцию на серверах, которые могут запретить этот мод.\n\nВключение этой функции делает статистику в окне Heads-Up Display (HUD) более точной и в режиме реального времени, позволяя 'betterstats' связываться с сервером. Обратите внимание, что для работы этой функции на сервере также должен быть установлен 'betterstats'.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Включает более точную и в режиме реального времени статистику в HUD.",
+	
+	"betterstats.gui.filters": "Фильтры",
+	"betterstats.gui.filters.group_by.default": "По умолчанию",
+	"betterstats.gui.filters.group_by.mod": "По модам",
+	"betterstats.gui.filters.group_by.none": "Все",
+	
+	"betterstats.gui.show_empty_stats": "Показывать пустые записи",
+	"betterstats.gui.no_stats_yet": "Пока нет данных...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "Закрепить на hud",
+	"betterstats.gui.ctx_menu.close": "Закрыть",
+	
+	"betterstats.gui.menu_bar.view": "Просмотр",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Показать статистику Vanilla",
+	"betterstats.gui.menu_bar.about": "Информация",
+	"betterstats.gui.menu_bar.about.source": "Исходный код",
+	"betterstats.gui.menu_bar.mods_other": "Другие (моды)"
+}

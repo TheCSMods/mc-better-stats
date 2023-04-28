@@ -1,18 +1,26 @@
 {
-	"betterstats": "Better Statistics Screen",
+	"betterstats": "更好的统计屏幕",
 	
-	"betterstats.hud": "统计 hud (Beta)",
+	"betterstats.hud": "统计 hud",
 	"betterstats.hud.entity.kills": "击杀数",
 	"betterstats.hud.entity.deaths": "死亡数",
 	"betterstats.hud.hint.add_widget": "右键点击一个统计数据 ([Shift]+鼠标右键) 以添加至此处。",
 	"betterstats.hud.hint.del_widget": "按 Backspace (<-) 可以删除一个悬停的条目。",
 	"betterstats.hud.hint.esc_close": "按 Escape（ESC）关闭此屏幕。",
 	
-	"betterstats.gui.filters": "过滤",
-	"betterstats.gui.show_empty_stats": "显示空的统计数据",
-	"betterstats.gui.no_stats_yet": "目前还没有统计数据显示...",
+	"betterstats.hud.accuracy_mode_warning.title": "启用与服务器的 'betterstats' 通信",
+	"betterstats.hud.accuracy_mode_warning.message": "重要提示：\n启用此功能后，服务器将检测到您已安装 'betterstats'。为保护您的隐私，请勿在可能不允许此模组的服务器上使用此功能。\n\n启用此功能可通过允许 'betterstats' 与服务器通信使 Heads-Up Display (HUD) 统计数据更加准确和实时。请注意，此功能还要求在服务器上安装 'betterstats' 才能正常使用。",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "在 HUD 中启用更准确和实时的统计数据。",
+
+	"betterstats.gui.filters": "筛选",
+	"betterstats.gui.filters.group_by.default": "默认",
+	"betterstats.gui.filters.group_by.mod": "模组",
+	"betterstats.gui.filters.group_by.none": "全部",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "置顶至 hud (Beta)",
+	"betterstats.gui.show_empty_stats": "显示空白数据",
+	"betterstats.gui.no_stats_yet": "暂无数据",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "置顶至 hud",
 	"betterstats.gui.ctx_menu.close": "关闭",
 	
 	"betterstats.gui.menu_bar.view": "查看",

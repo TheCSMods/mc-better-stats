@@ -1,12 +1,16 @@
 {
 	"betterstats": "Painel de Estatísticas Melhorado",
 	
-	"betterstats.hud": "Painel de Estatísticas (Beta)",
+	"betterstats.hud": "Painel de Estatísticas",
 	"betterstats.hud.entity.kills": "Baixas",
 	"betterstats.hud.entity.deaths": "Mortes",
 	"betterstats.hud.hint.add_widget": "Clique com o botão direito em uma estatística ([Shift]+RMB) para adicioná-la aqui.",
 	"betterstats.hud.hint.del_widget": "Pressione Backspace (<-) para remover uma estatística selecionada",
 	"betterstats.hud.hint.esc_close": "Pressione (ESC) para fechar esta tela.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "Ativar a comunicação do 'betterstats' com o servidor",
+	"betterstats.hud.accuracy_mode_warning.message": "IMPORTANTE:\nAo ativar esta função, o servidor detectará que você tem o 'betterstats' instalado. Para proteger sua privacidade, não utilize essa função em servidores que possam não permitir este mod.\n\nAtivar essa função torna as estatísticas da interface Heads-Up Display (HUD) mais precisas e em tempo real, permitindo que o 'betterstats' se comunique com o servidor. Note que o 'betterstats' também deve estar instalado no servidor para que essa função funcione.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Ativa estatísticas mais precisas e em tempo real na Heads-Up Display (HUD).",
 	
 	"betterstats.gui.filters": "Filtros",
 	"betterstats.gui.filters.group_by.default": "Padrão",
@@ -14,9 +18,9 @@
 	"betterstats.gui.filters.group_by.none": "Todos",
 	
 	"betterstats.gui.show_empty_stats": "Mostrar estatísticas vazias",
-	"betterstats.gui.no_stats_yet": "Ainda não há estatísticas para mostrar...",
+	"betterstats.gui.no_stats_yet": "Ainda não há estatísticas para exibir...",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "Fixar no painel (Beta)",
+	"betterstats.gui.ctx_menu.pin_to_hud": "Fixar no painel",
 	"betterstats.gui.ctx_menu.close": "Fechar",
 	
 	"betterstats.gui.menu_bar.view": "Visualizar",

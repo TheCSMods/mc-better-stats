@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.client.network;
 
+import static io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen.HUD_ID;
+import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_PREFS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_REQ_PREFS;
@@ -30,7 +32,11 @@ public final class BetterStatsClientNetworkHandler
 	{
 		//by default, do not respond to S2C_REQ_PREFS
 		respondToPrefs = false;
-		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register((cp) -> respondToPrefs = false);
+		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register((cp) ->
+		{
+			respondToPrefs = false;
+			InGameHud_Screens.remove(HUD_ID); //TODO - temporary bug fix for switching worlds/servers
+		});
 		//handle S2C_REQ_PREFS
 		NetworkManager.registerReceiver(Side.S2C, S2C_REQ_PREFS, (payload, context) -> c2s_sendPrefs());
 	}

@@ -1,7 +1,7 @@
 {
 	"betterstats": "Better Statistics Screen",
 	
-	"betterstats.hud": "Statistics hud (Beta)",
+	"betterstats.hud": "Statistics hud",
 	"betterstats.hud.entity.kills": "Kills",
 	"betterstats.hud.entity.deaths": "Deaths",
 	"betterstats.hud.hint.add_widget": "Right click a statistic ([Shift]+RMB) to add it here.",
@@ -20,7 +20,7 @@
 	"betterstats.gui.show_empty_stats": "Show empty stats",
 	"betterstats.gui.no_stats_yet": "There are no stats to show yet...",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "Pin to hud (Beta)",
+	"betterstats.gui.ctx_menu.pin_to_hud": "Pin to hud",
 	"betterstats.gui.ctx_menu.close": "Close",
 	
 	"betterstats.gui.menu_bar.view": "View",
