@@ -1,5 +1,5 @@
 {
-	"betterstats": "ベタースタット画面",
+	"betterstats": "Better Statistics Screen",
 	
 	"betterstats.hud": "統計情報をHUDに表示する",
 	"betterstats.hud.entity.kills": "倒した回数",
@@ -8,9 +8,9 @@
 	"betterstats.hud.hint.del_widget": "マウスオーバーした状態でBackspace（<-）を押すと、その項目を削除できます。",
 	"betterstats.hud.hint.esc_close": "この画面を閉じるには、Escape（ESC）を押してください。",
 	
-	"betterstats.hud.accuracy_mode_warning.title": "サーバーとの通信を'betterstats'で有効にする",
-	"betterstats.hud.accuracy_mode_warning.message": "重要:\nこの機能を有効にすることにより、サーバー側で'betterstats'が導入されていることが検知されます。個人情報保護のため、この機能を許可しないサーバーでは使用しないでください。\n\nこの機能を有効にすることで、ヘッドアップディスプレイ（HUD）の統計情報がより正確でリアルタイムになります。'betterstats'がサーバー側にも導入されている必要があることに注意してください。",
-	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD内の統計情報をより正確でリアルタイムにする。",
+	"betterstats.hud.accuracy_mode_warning.title": "サーバーとの「betterstats」通信を有効にする",
+	"betterstats.hud.accuracy_mode_warning.message": "重要：\nこの機能を有効にすると、「betterstats」を導入していることがサーバーに検知されます。個人情報保護のため、この機能が許可されていないサーバーでは使用しないでください。\n\nこの機能を有効にすることで、ヘッドアップディスプレイ（HUD）の統計情報がより正確でリアルタイムになります。この機能を利用するには「betterstats」がサーバーにも導入されている必要があります。",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD内の統計情報をより正確でリアルタイムにします。",
 	
 	"betterstats.gui.filters": "フィルター",
 	"betterstats.gui.filters.group_by.default": "デフォルト",
