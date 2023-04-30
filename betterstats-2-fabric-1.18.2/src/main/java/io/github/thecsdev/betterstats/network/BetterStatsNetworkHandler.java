@@ -34,6 +34,7 @@ import net.minecraft.util.Identifier;
 public final class BetterStatsNetworkHandler
 {
 	// ==================================================
+	public static final Identifier S2C_I_HAVE_BSS; //server tells the client it has bss installed
 	public static final Identifier S2C_REQ_PREFS; //server asks client for their preferences
 	public static final Identifier C2S_PREFS; //client tells the server their preferences
 	// --------------------------------------------------
@@ -48,6 +49,7 @@ public final class BetterStatsNetworkHandler
 	static
 	{
 		//init packet IDs
+		S2C_I_HAVE_BSS = new Identifier(BetterStats.getModID(), "s2c_bss");
 		S2C_REQ_PREFS = new Identifier(BetterStats.getModID(), "s2c_rp");
 		C2S_PREFS = new Identifier(BetterStats.getModID(), "c2s_p");
 		
@@ -59,8 +61,8 @@ public final class BetterStatsNetworkHandler
 		//handle receiving packets
 		initNetworkReceivers();
 		
-		//ask for prefs. on player join, and clear cache on player leave
-		//PlayerEvent.PLAYER_JOIN.register(player -> s2c_requestPrefs(player, false)); - Player not initialized yet.
+		//handle player prefs
+		PlayerEvent.PLAYER_JOIN.register(player -> s2c_iHaveBSS(player));
 		PlayerEvent.PLAYER_RESPAWN.register((player, endPortal) -> s2c_requestPrefs(player, false));
 		PlayerEvent.PLAYER_QUIT.register(player -> PlayerPrefs.invalidate(player.getUuidAsString()));
 		
@@ -130,7 +132,7 @@ public final class BetterStatsNetworkHandler
 		NetworkManager.registerReceiver(Side.C2S, C2S_PREFS, (payload, context) ->
 		{
 			var player = (ServerPlayerEntity)context.getPlayer();
-			var prefs = getPlayerPrefs(player);
+			var prefs = getOrCreatePlayerPrefs(player);
 			prefs.betterStatsInstalled = true;
 			try { prefs.enabled = payload.readBoolean(); }
 			catch(Exception e) { LOGGER.debug("Failed to handle '" + C2S_PREFS + "' packet; " + e.getMessage()); }
@@ -142,12 +144,22 @@ public final class BetterStatsNetworkHandler
 	 * Will create a new {@link PlayerPreferences} instance if one doesn't exist.
 	 * @param player The player in question.
 	 */
-	private static PlayerPreferences getPlayerPrefs(ServerPlayerEntity player)
+	private static PlayerPreferences getOrCreatePlayerPrefs(ServerPlayerEntity player)
 	{
 		var uuid = player.getUuidAsString();
 		var get = PlayerPrefs.getIfPresent(uuid);
 		if(get == null) PlayerPrefs.put(uuid, get = new PlayerPreferences());
 		return get;
+	}
+	
+	/**
+	 * Tell a client the server has BSS installed.
+	 */
+	public static void s2c_iHaveBSS(ServerPlayerEntity player)
+	{
+		var data = new PacketByteBuf(Unpooled.EMPTY_BUFFER);
+		try { player.networkHandler.sendPacket(new CustomPayloadS2CPacket(S2C_I_HAVE_BSS, data)); }
+		catch(Exception e) { LOGGER.debug("Failed to send '" + S2C_I_HAVE_BSS + "' packet; " + e.getMessage()); }
 	}
 	
 	/**

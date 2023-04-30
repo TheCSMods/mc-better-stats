@@ -3,6 +3,7 @@ package io.github.thecsdev.betterstats.client.gui_hud.screen;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.gui_hud.widget.BSHudStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.respondToPrefs;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -245,7 +246,7 @@ public final class BetterStatsHudScreen extends TScreen
 	{
 		//done button visibility
 		btn_done.setVisible(getClient().currentScreen == this);
-		btn_accurate.setVisible((!getClient().isInSingleplayer()) && btn_done.getVisible());
+		btn_accurate.setVisible(btn_done.getVisible() && (!getClient().isInSingleplayer() && serverHasBSS));
 		//children tick
 		forEachChild(child -> { child.tick(); return false; }, true);
 	}

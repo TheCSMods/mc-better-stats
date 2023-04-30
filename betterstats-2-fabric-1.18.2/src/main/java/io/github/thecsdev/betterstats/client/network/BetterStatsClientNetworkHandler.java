@@ -4,6 +4,7 @@ import static io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHu
 import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_PREFS;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_I_HAVE_BSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_REQ_PREFS;
 
 import dev.architectury.event.events.client.ClientPlayerEvent;
@@ -22,7 +23,8 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 public final class BetterStatsClientNetworkHandler
 {
 	// ==================================================
-	public static boolean respondToPrefs = false;
+	public static boolean respondToPrefs;
+	public static boolean serverHasBSS;
 	// ==================================================
 	protected BetterStatsClientNetworkHandler() {}
 	public static void init() {/*calls static*/}
@@ -32,12 +34,15 @@ public final class BetterStatsClientNetworkHandler
 	{
 		//by default, do not respond to S2C_REQ_PREFS
 		respondToPrefs = false;
+		serverHasBSS = false;
 		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register((cp) ->
 		{
 			respondToPrefs = false;
+			serverHasBSS = false;
 			InGameHud_Screens.remove(HUD_ID); //TODO - temporary bug fix for switching worlds/servers
 		});
 		//handle S2C_REQ_PREFS
+		NetworkManager.registerReceiver(Side.S2C, S2C_I_HAVE_BSS, (payload, context) -> serverHasBSS = true);
 		NetworkManager.registerReceiver(Side.S2C, S2C_REQ_PREFS, (payload, context) -> c2s_sendPrefs());
 	}
 	// ==================================================
@@ -49,7 +54,7 @@ public final class BetterStatsClientNetworkHandler
 		
 		//create prefs. packet
 		var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeBoolean(BetterStatsHudScreen.getInstance() != null); //boolean - enabled
+		data.writeBoolean(respondToPrefs && BetterStatsHudScreen.getInstance() != null); //boolean - enabled
 		var packet = new CustomPayloadC2SPacket(C2S_PREFS, data);
 		//send packet
 		try { MinecraftClient.getInstance().getNetworkHandler().sendPacket(packet); }
