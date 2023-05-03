@@ -27,5 +27,7 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Show vanilla stats",
 	"betterstats.gui.menu_bar.about": "About",
 	"betterstats.gui.menu_bar.about.source": "Source Code",
-	"betterstats.gui.menu_bar.mods_other": "Other (mods)"
+	"betterstats.gui.menu_bar.mods_other": "Other (mods)",
+	
+	"gui.coming_soon": "Coming soon..."
 }

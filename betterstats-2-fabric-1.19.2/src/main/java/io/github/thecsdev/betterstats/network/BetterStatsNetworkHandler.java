@@ -133,7 +133,11 @@ public final class BetterStatsNetworkHandler
 			var player = (ServerPlayerEntity)context.getPlayer();
 			var prefs = getOrCreatePlayerPrefs(player);
 			prefs.betterStatsInstalled = true;
-			try { prefs.enabled = payload.readBoolean(); }
+			try
+			{
+				prefs.statsHudAccuracyMode = payload.readBoolean();
+				prefs.showStatsToOthers = payload.readBoolean();
+			}
 			catch(Exception e) { LOGGER.debug("Failed to handle '" + C2S_PREFS + "' packet; " + e.getMessage()); }
 		});
 	}
@@ -184,7 +188,7 @@ public final class BetterStatsNetworkHandler
 		//check for player prefs
 		var prefs = PlayerPrefs.getIfPresent(player.getUuidAsString());
 		if(prefs == null) { s2c_requestPrefs(player, false); return; }
-		else if(!prefs.betterStatsInstalled || !prefs.enabled) return;
+		else if(!prefs.betterStatsInstalled || !prefs.statsHudAccuracyMode) return;
 		//cooldown system to prevent spam
 		var curr = System.currentTimeMillis();
 		if(curr - prefs._lastItemUpdate < PlayerPreferences._updateCooldown) return;
@@ -211,7 +215,7 @@ public final class BetterStatsNetworkHandler
 		//check for player prefs
 		var prefs = PlayerPrefs.getIfPresent(player.getUuidAsString());
 		if(prefs == null) { s2c_requestPrefs(player, false); return; }
-		else if(!prefs.betterStatsInstalled || !prefs.enabled) return;
+		else if(!prefs.betterStatsInstalled || !prefs.statsHudAccuracyMode) return;
 		//cooldown system to prevent spam
 		var curr = System.currentTimeMillis();
 		if(curr - prefs._lastMobUpdate < PlayerPreferences._updateCooldown) return;
@@ -232,14 +236,17 @@ public final class BetterStatsNetworkHandler
 	 * Keeps track of any preferences a player may have about
 	 * how the server should handle their statistics.
 	 */
-	//TODO - Implement feature for viewing other player's stats
 	private static class PlayerPreferences
 	{
+		// ----------------------------------------------
 		public static final short _updateCooldown = 500;
 		public long _lastItemUpdate = 0;
 		public long _lastMobUpdate = 0;
+		// ----------------------------------------------
 		public boolean betterStatsInstalled = false;
-		public boolean enabled = false;
+		public boolean statsHudAccuracyMode = false;
+		public boolean showStatsToOthers = true;
+		// ----------------------------------------------
 	}
 	// ==================================================
 }

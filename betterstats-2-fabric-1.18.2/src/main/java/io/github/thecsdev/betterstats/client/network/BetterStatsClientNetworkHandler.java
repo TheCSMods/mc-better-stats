@@ -54,7 +54,8 @@ public final class BetterStatsClientNetworkHandler
 		
 		//create prefs. packet
 		var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeBoolean(respondToPrefs && BetterStatsHudScreen.getInstance() != null); //boolean - enabled
+		data.writeBoolean(respondToPrefs && BetterStatsHudScreen.getInstance() != null); //boolean - statsHudAccuracyMode
+		data.writeBoolean(false); //boolean - showStatsToOthers
 		var packet = new CustomPayloadC2SPacket(C2S_PREFS, data);
 		//send packet
 		try { MinecraftClient.getInstance().getNetworkHandler().sendPacket(packet); }
