@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.screen;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
@@ -78,16 +79,23 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.
 	 * @param parent The screen that was open before this one.
-	 * @param localStatHandler The statistics handler for the local player.
+	 */
+	@SuppressWarnings("resource")
+	public BetterStatsScreen(Screen parent) { this(parent, MinecraftClient.getInstance().player.getStatHandler()); }
+	
+	/**
+	 * Creates a {@link BetterStatsScreen} instance.
+	 * @param parent The screen that was open before this one.
+	 * @param statHandler The statistics handler for the local player.
 	 * @throws NullPointerException The {@link StatHandler} must not be null.
 	 */
-	public BetterStatsScreen(Screen parent)
+	public BetterStatsScreen(Screen parent, StatHandler statHandler)
 	{
 		super(translatable("gui.stats"));
 		this.STATUS_RECIEVED = false;
 		this.client = MinecraftClient.getInstance(); //need this
 		this.parent = parent;
-		this.localStatHandler = this.client.player.getStatHandler();
+		this.localStatHandler = Objects.requireNonNull(statHandler);
 		
 		this.filter_currentTab = CurrentTab.General;
 		this.filter_searchTerm = "";

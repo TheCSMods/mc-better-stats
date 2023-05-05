@@ -25,6 +25,8 @@ import net.minecraft.text.Text;
 public final class BetterStatsClient extends BetterStats implements ClientModInitializer
 {
 	// ==================================================
+	public static boolean DEBUG_MODE = false;
+	// ==================================================
 	@Override
 	public void onInitializeClient()
 	{

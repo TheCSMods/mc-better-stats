@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.DEBUG_MODE;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -80,7 +81,11 @@ public class BetterStatsConfigScreen extends TScreen
 		
 		//create some config GUI
 		var config_builder = new TConfigGuiBuilder(panel_config, null);
-		config_builder.addLabel(translatable("gui.coming_soon"), HorizontalAlignment.CENTER);
+		config_builder.addBoolean(
+				translatable("generator.minecraft.debug_all_block_states"),
+				DEBUG_MODE,
+				newVal -> DEBUG_MODE = newVal);
+		//config_builder.addLabel(translatable("gui.coming_soon"), HorizontalAlignment.CENTER);
 		config_builder.addButton(TConfigGuiBuilder.TXT_SAVE, btn ->
 		{
 			config_builder.applyAllConfigChanges();
