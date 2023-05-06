@@ -1,5 +1,8 @@
 package io.github.thecsdev.betterstats.client.gui.panel;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
+
+import java.awt.Color;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -14,6 +17,8 @@ import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_Monster
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui.widget.BSScrollBarWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.TParentElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class BSPanel_Statistics extends BSPanel
@@ -75,6 +80,18 @@ public class BSPanel_Statistics extends BSPanel
 		init_menuBar(); //1
 		init_stats(); //2
 		init_leftMenu(); //3
+		
+		//create label for target player name
+		var str_playerName = literal(this.betterStats.targetProfile.getProfileDisplayName());
+		var str_playerName_w = getTextRenderer().getWidth(str_playerName) + 5;
+		var lbl_playerName = new TLabelElement(
+				panel_menuBar.getTpeEndX() - (str_playerName_w + 5), panel_menuBar.getTpeY() + 1,
+				str_playerName_w, panel_menuBar.getTpeHeight());
+		lbl_playerName.setZOffset(panel_menuBar.getZOffset() + 5);
+		lbl_playerName.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+		lbl_playerName.setColor(Color.YELLOW.getRGB(), Color.YELLOW.getRGB());
+		lbl_playerName.setText(str_playerName);
+		addTChild(lbl_playerName, false);
 	}
 	
 	protected void init_menuBar()

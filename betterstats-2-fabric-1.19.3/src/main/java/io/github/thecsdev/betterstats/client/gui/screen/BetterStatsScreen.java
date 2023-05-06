@@ -12,6 +12,7 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.client.gui.other.BSTooltipElement;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Downloading;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Statistics;
+import io.github.thecsdev.betterstats.network.BSNetworkProfile;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
@@ -63,7 +64,7 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	protected boolean STATUS_RECIEVED;
 	// --------------------------------------------------
 	public final Screen parent;
-	protected final StatHandler localStatHandler;
+	public final BSNetworkProfile targetProfile;
 	// --------------------------------------------------
 	protected BSPanel_Downloading panel_download;
 	protected BSPanel_Statistics panel_stats;
@@ -80,22 +81,21 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	 * Creates a {@link BetterStatsScreen} instance.
 	 * @param parent The screen that was open before this one.
 	 */
-	@SuppressWarnings("resource")
-	public BetterStatsScreen(Screen parent) { this(parent, MinecraftClient.getInstance().player.getStatHandler()); }
+	public BetterStatsScreen(Screen parent) { this(parent, BSNetworkProfile.ofLocalClient()); }
 	
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.
 	 * @param parent The screen that was open before this one.
-	 * @param statHandler The statistics handler for the local player.
+	 * @param targetProfile The statistics handler for the local player.
 	 * @throws NullPointerException The {@link StatHandler} must not be null.
 	 */
-	public BetterStatsScreen(Screen parent, StatHandler statHandler)
+	public BetterStatsScreen(Screen parent, BSNetworkProfile targetProfile)
 	{
 		super(translatable("gui.stats"));
 		this.STATUS_RECIEVED = false;
 		this.client = MinecraftClient.getInstance(); //need this
 		this.parent = parent;
-		this.localStatHandler = Objects.requireNonNull(statHandler);
+		this.targetProfile = Objects.requireNonNull(targetProfile);
 		
 		this.filter_currentTab = CurrentTab.General;
 		this.filter_searchTerm = "";
@@ -145,7 +145,7 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 	 * Returns the {@link StatHandler} whose stats this
 	 * {@link BetterStatsScreen} chooses to show on the screen.
 	 */
-	public StatHandler getStatHandler() { return this.localStatHandler; } 
+	public StatHandler getStatHandler() { return this.targetProfile.stats; }
 	
 	/**
 	 * Returns the currently used stat panel.
