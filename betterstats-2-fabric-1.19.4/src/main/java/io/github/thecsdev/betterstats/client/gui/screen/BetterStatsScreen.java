@@ -8,10 +8,13 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.authlib.GameProfile;
+
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.client.gui.other.BSTooltipElement;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Downloading;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Statistics;
+import io.github.thecsdev.betterstats.client.network.BStatsListener;
 import io.github.thecsdev.betterstats.network.BSNetworkProfile;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
@@ -20,7 +23,6 @@ import io.github.thecsdev.tcdcommons.api.util.GenericProperties;
 import io.github.thecsdev.tcdcommons.api.util.SubjectToChange;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.StatsListener;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
@@ -31,7 +33,7 @@ import net.minecraft.stat.StatHandler;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Identifier;
 
-public class BetterStatsScreen extends TScreenPlus implements StatsListener
+public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 {
 	// ==================================================
 	public static enum CurrentTab
@@ -192,13 +194,16 @@ public class BetterStatsScreen extends TScreenPlus implements StatsListener
 		
 		//after initialization of all necessary elements is
 		//done, start off by sending a request
-		if(STATUS_RECIEVED) onStatsReady();
+		if(STATUS_RECIEVED) onStatsReady(this.targetProfile);
 	}
 	// --------------------------------------------------
-	public @Override void onStatsReady()
+	public @Override GameProfile getListenerTargetGameProfile() { return this.targetProfile.gameProfile; }
+	public @Override void onStatsReady(BSNetworkProfile profile)
 	{
 		//update the status flag
 		STATUS_RECIEVED = true;
+		if(this.targetProfile.stats != profile.stats)
+			this.targetProfile.putAllStats(profile.stats);
 		
 		//hide the downloading panel
 		//and show the statistics panel

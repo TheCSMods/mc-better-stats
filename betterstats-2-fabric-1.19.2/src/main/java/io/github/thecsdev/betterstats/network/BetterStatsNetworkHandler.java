@@ -133,11 +133,7 @@ public final class BetterStatsNetworkHandler
 			var player = (ServerPlayerEntity)context.getPlayer();
 			var prefs = getOrCreatePlayerPrefs(player);
 			prefs.betterStatsInstalled = true;
-			try
-			{
-				prefs.statsHudAccuracyMode = payload.readBoolean();
-				prefs.showStatsToOthers = payload.readBoolean();
-			}
+			try { prefs.statsHudAccuracyMode = payload.readBoolean(); }
 			catch(Exception e) { LOGGER.debug("Failed to handle '" + C2S_PREFS + "' packet; " + e.getMessage()); }
 		});
 	}
@@ -245,7 +241,6 @@ public final class BetterStatsNetworkHandler
 		// ----------------------------------------------
 		public boolean betterStatsInstalled = false;
 		public boolean statsHudAccuracyMode = false;
-		public boolean showStatsToOthers = true;
 		// ----------------------------------------------
 	}
 	// ==================================================

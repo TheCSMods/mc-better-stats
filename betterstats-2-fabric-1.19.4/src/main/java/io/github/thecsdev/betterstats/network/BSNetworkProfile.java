@@ -70,13 +70,13 @@ public final class BSNetworkProfile
 		return new BSNetworkProfile(player.getGameProfile(), player.getStatHandler());
 	}
 	// --------------------------------------------------
-	public @Override int hashCode() { return this.gameProfile.hashCode() + this.stats.hashCode(); }
+	public @Override int hashCode() { return this.gameProfile.hashCode(); }
 	public @Override boolean equals(Object obj)
 	{
 		if(!(obj instanceof BSNetworkProfile))
 			return false;
 		var o = (BSNetworkProfile)obj;
-		return (Objects.equals(this.gameProfile, o.gameProfile)/* && Objects.equals(this.stats, o.stats)*/);
+		return (this == obj) || Objects.equals(this.gameProfile, o.gameProfile);
 	}
 	// ==================================================
 	/**
@@ -141,6 +141,17 @@ public final class BSNetworkProfile
 	}
 	// ==================================================
 	/**
+	 * Returns true if this {@link #gameProfile} belongs
+	 * to the local player from the {@link net.mincraft.client.MinecraftClient}.
+	 */
+	@SuppressWarnings("resource")
+	public boolean isLocalClient()
+	{
+		try { return net.minecraft.client.MinecraftClient.getInstance().player.getGameProfile().equals(this.gameProfile); }
+		catch(Throwable e) { return false; }
+	}
+	// --------------------------------------------------
+	/**
 	 * Returns the {@link String} that should be used as the
 	 * GUI "display name" for a given player based on the
 	 * data present in their {@link #gameProfile}.
@@ -150,6 +161,18 @@ public final class BSNetworkProfile
 		if(this.gameProfile.getName() != null)
 			return this.gameProfile.getName();
 		else return this.gameProfile.getId().toString();
+	}
+	// --------------------------------------------------
+	/**
+	 * Puts all stats from a given {@link StatHandler}
+	 * to the current {@link #stats} of this {@link BSNetworkProfile}.
+	 * @param statHandler The stats to add to {@link #stats}.
+	 */
+	public void putAllStats(StatHandler statHandler)
+	{
+		var shMap = TCommonHooks.getStatHandlerStatMap(statHandler);
+		var sMap = TCommonHooks.getStatHandlerStatMap(this.stats);
+		sMap.putAll(shMap);
 	}
 	// ==================================================
 }
