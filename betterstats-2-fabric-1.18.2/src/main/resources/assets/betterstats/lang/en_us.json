@@ -29,5 +29,5 @@
 	"betterstats.gui.menu_bar.about.source": "Source Code",
 	"betterstats.gui.menu_bar.mods_other": "Other (mods)",
 	
-	"gui.coming_soon": "Coming soon..."
+	"betterstats.gui.config.debug_mode": "Debug mode"
 }

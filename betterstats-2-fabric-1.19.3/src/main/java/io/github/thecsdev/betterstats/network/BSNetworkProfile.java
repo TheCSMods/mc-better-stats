@@ -3,6 +3,8 @@ package io.github.thecsdev.betterstats.network;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.tcdcommons.api.hooks.TCommonHooks;
@@ -63,11 +65,21 @@ public final class BSNetworkProfile
 	/**
 	 * Returns the {@link BSNetworkProfile} of a {@link ServerPlayerEntity}.
 	 * @param player The player based on who the {@link BSNetworkProfile} will be created.
-	 * @throws NullPointerException
 	 */
-	public static BSNetworkProfile ofServerPlayer(ServerPlayerEntity player)
+	public static BSNetworkProfile ofServerPlayer(@Nullable ServerPlayerEntity player)
 	{
-		return new BSNetworkProfile(player.getGameProfile(), player.getStatHandler());
+		if(player == null) return ofNull();
+		else return new BSNetworkProfile(player.getGameProfile(), player.getStatHandler());
+	}
+	
+	/**
+	 * Retruns a {@link BSNetworkProfile} will a null
+	 * {@link GameProfile} and an empty {@link StatHandler}.
+	 */
+	public static BSNetworkProfile ofNull()
+	{
+		var gameProfile = new GameProfile(new UUID(0, 0), null);
+		return new BSNetworkProfile(gameProfile, new StatHandler());
 	}
 	// --------------------------------------------------
 	public @Override int hashCode() { return this.gameProfile.hashCode(); }
@@ -86,21 +98,8 @@ public final class BSNetworkProfile
 	 */
 	public void writePacket(PacketByteBuf pbb)
 	{
-		//write profile uuid
-		if(this.gameProfile.getId() != null)
-		{
-			pbb.writeBoolean(true);
-			pbb.writeUuid(this.gameProfile.getId());
-		}
-		else pbb.writeBoolean(false);
-		
-		//write profile name
-		if(this.gameProfile.getName() != null)
-		{
-			pbb.writeBoolean(true);
-			pbb.writeString(this.gameProfile.getName());
-		}
-		else pbb.writeBoolean(false);
+		//write game profile
+		writeGameProfile(pbb, this.gameProfile);
 		
 		//write stats
 		var stats = TCommonHooks.getStatHandlerStatMap(this.stats);
@@ -113,22 +112,10 @@ public final class BSNetworkProfile
 	 */
 	public static BSNetworkProfile readPacket(PacketByteBuf pbb)
 	{
-		//prepare
-		UUID profileId = null;
-		String profileName = null;
-		
-		//read game profile uuid
-		var hasDefinedUUID = pbb.readBoolean();
-		if(hasDefinedUUID) profileId = pbb.readUuid();
-		
-		//read game profile name
-		var hasDefinedName = pbb.readBoolean();
-		if(hasDefinedName) profileName = pbb.readString();
-		
-		//create game profile
-		if(profileId == null && profileName == null)
-			profileId = new UUID(0, 0);
-		var gameProfile = new GameProfile(profileId, profileName);
+		//read game profile
+		GameProfile gameProfile = readGameProfile(pbb);
+		if(gameProfile == null)
+			gameProfile = new GameProfile(new UUID(0, 0), null);
 		
 		//read statistics
 		var stats = new StatHandler();
@@ -138,6 +125,40 @@ public final class BSNetworkProfile
 		
 		//create and return
 		return new BSNetworkProfile(gameProfile, stats);
+	}
+	// --------------------------------------------------
+	public static void writeGameProfile(PacketByteBuf buf, @Nullable GameProfile gameProfile)
+	{
+		//handle null
+		if(gameProfile == null)
+		{
+			buf.writeBoolean(false);
+			buf.writeBoolean(false);
+			return;
+		}
+		//get uuid and name
+		var uid = gameProfile.getId();
+		var una = gameProfile.getName();
+		//write uuid
+		buf.writeBoolean(uid != null);
+		if(uid != null) buf.writeUuid(uid);
+		//write name
+		buf.writeBoolean(una != null);
+		if(una != null) buf.writeString(una);
+	}
+	
+	public static @Nullable GameProfile readGameProfile(PacketByteBuf buf)
+	{
+		//define
+		UUID uid = null;
+		String una = null;
+		//read
+		if(buf.readBoolean()) uid = buf.readUuid();
+		if(buf.readBoolean()) una = buf.readString();
+		//handle null
+		if(uid == null && una == null) return null;
+		//construct
+		else return new GameProfile(uid, una);
 	}
 	// ==================================================
 	/**

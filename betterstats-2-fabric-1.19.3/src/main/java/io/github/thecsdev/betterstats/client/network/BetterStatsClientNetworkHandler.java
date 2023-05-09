@@ -5,6 +5,7 @@ import static io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHu
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_PREFS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_I_HAVE_BSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_REQ_PREFS;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_STATS;
 import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 
 import java.util.Objects;
@@ -69,10 +70,15 @@ public final class BetterStatsClientNetworkHandler
 		//handle receiving stats
 		TNetworkEvent.RECEIVE_PACKET_POST.register((packet, side) ->
 		{
+			//handle BSNetworkProfile-s over the vanilla packet protocol
 			if(!(packet instanceof StatisticsS2CPacket) || side != NetworkSide.CLIENTBOUND)
 				return;
 			onReceivedBSNetworkProfile(BSNetworkProfile.ofLocalClient());
 		});
+		NetworkManager.registerReceiver(Side.S2C, S2C_STATS, (payload, context) ->
+			//handle BSNetworkProfile-s over the S2C_STATS protocol
+			onReceivedBSNetworkProfile(BSNetworkProfile.readPacket(payload))
+		);
 	}
 	
 	private static boolean onReceivedBSNetworkProfile(BSNetworkProfile profile)

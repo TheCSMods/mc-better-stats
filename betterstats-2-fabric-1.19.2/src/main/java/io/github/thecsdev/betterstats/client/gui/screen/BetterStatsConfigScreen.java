@@ -82,10 +82,9 @@ public class BetterStatsConfigScreen extends TScreen
 		//create some config GUI
 		var config_builder = new TConfigGuiBuilder(panel_config, null);
 		config_builder.addBoolean(
-				translatable("generator.minecraft.debug_all_block_states"),
+				translatable("betterstats.gui.config.debug_mode"),
 				DEBUG_MODE,
 				newVal -> DEBUG_MODE = newVal);
-		//config_builder.addLabel(translatable("gui.coming_soon"), HorizontalAlignment.CENTER);
 		config_builder.addButton(TConfigGuiBuilder.TXT_SAVE, btn ->
 		{
 			config_builder.applyAllConfigChanges();

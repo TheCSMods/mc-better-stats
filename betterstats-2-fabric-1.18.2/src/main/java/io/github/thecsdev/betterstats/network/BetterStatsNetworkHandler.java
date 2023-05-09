@@ -35,8 +35,12 @@ public final class BetterStatsNetworkHandler
 {
 	// ==================================================
 	public static final Identifier S2C_I_HAVE_BSS; //server tells the client it has bss installed
+	//
 	public static final Identifier S2C_REQ_PREFS; //server asks client for their preferences
 	public static final Identifier C2S_PREFS; //client tells the server their preferences
+	//
+	public static final Identifier C2S_REQ_STATS; //client asks the server for another player's stats
+	public static final Identifier S2C_STATS; //server sends the client another player's stats
 	// --------------------------------------------------
 	/**
 	 * A Map of player UUIDs and {@link PlayerPreferences} for the given players.
@@ -49,9 +53,15 @@ public final class BetterStatsNetworkHandler
 	static
 	{
 		//init packet IDs
-		S2C_I_HAVE_BSS = new Identifier(BetterStats.getModID(), "s2c_bss");
-		S2C_REQ_PREFS = new Identifier(BetterStats.getModID(), "s2c_rp");
-		C2S_PREFS = new Identifier(BetterStats.getModID(), "c2s_p");
+		final var modId = BetterStats.getModID();
+		//
+		S2C_I_HAVE_BSS = new Identifier(modId, "s2c_bss");
+		//
+		S2C_REQ_PREFS = new Identifier(modId, "s2c_rp");
+		C2S_PREFS = new Identifier(modId, "c2s_p");
+		//
+		C2S_REQ_STATS = new Identifier(modId, "c2s_rs");
+		S2C_STATS = new Identifier(modId, "s2c_s");
 		
 		//init the map that keeps track of privacy prefs.
 		PlayerPrefs = CacheBuilder.newBuilder()
@@ -136,6 +146,30 @@ public final class BetterStatsNetworkHandler
 			prefs.betterStatsInstalled = true;
 			try { prefs.statsHudAccuracyMode = payload.readBoolean(); }
 			catch(Exception e) { LOGGER.debug("Failed to handle '" + C2S_PREFS + "' packet; " + e.getMessage()); }
+		});
+		//handle stat requests
+		NetworkManager.registerReceiver(Side.C2S, C2S_REQ_STATS, (payload, context) ->
+		{
+			try
+			{
+				//get player and server
+				var player = (ServerPlayerEntity)context.getPlayer();
+				var playerMgr = player.getServer().getPlayerManager();
+				
+				//read target profile
+				var gameProfile = BSNetworkProfile.readGameProfile(payload);
+				if(gameProfile == null) { s2c_stats(player, null); return; }
+				
+				//find target player
+				ServerPlayerEntity target = null;
+				if(gameProfile.getId() != null)
+					target = playerMgr.getPlayer(gameProfile.getId());
+				else target = playerMgr.getPlayer(gameProfile.getName());
+				
+				//send stats of target player
+				s2c_stats(player, target);
+			}
+			catch(Exception e) { LOGGER.debug("Failed to handle '" + C2S_REQ_STATS + "' packet; " + e.getMessage()); }
 		});
 	}
 	// ==================================================
@@ -227,6 +261,19 @@ public final class BetterStatsNetworkHandler
 		//send packet
 		try { player.networkHandler.sendPacket(packet); }
 		catch(Exception e) { LOGGER.debug("Failed to send 'StatisticsS2CPacket' packet; " + e.getMessage()); }
+	}
+	// --------------------------------------------------
+	public static void s2c_stats(ServerPlayerEntity player, ServerPlayerEntity whoseStatsToSend)
+	{
+		//obtain data, and write it to a packet byte-buffer
+		var bsnp = BSNetworkProfile.ofServerPlayer(whoseStatsToSend);
+		var data = new PacketByteBuf(Unpooled.buffer());
+		bsnp.writePacket(data);
+		//create packet
+		var packet = new CustomPayloadS2CPacket(S2C_STATS, data);
+		//send packet
+		try { player.networkHandler.sendPacket(packet); }
+		catch(Exception e) { LOGGER.debug("Failed to send '" + S2C_STATS + "' packet; " + e.getMessage()); }
 	}
 	// ==================================================
 	/**
