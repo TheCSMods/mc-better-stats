@@ -1,6 +1,8 @@
 package io.github.thecsdev.betterstats.client.gui_hud.screen;
 
-import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
+import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
 
 public final class BshsAutoRequest
 {
@@ -24,7 +26,8 @@ public final class BshsAutoRequest
 	
 	private static void sendRequest()
 	{
-		BetterStatsScreen.sendStatsRequestPacket();
+		var packet = new ClientStatusC2SPacket(Mode.REQUEST_STATS);
+		MinecraftClient.getInstance().getNetworkHandler().sendPacket(packet);
 		resetFlags();
 	}
 	// --------------------------------------------------

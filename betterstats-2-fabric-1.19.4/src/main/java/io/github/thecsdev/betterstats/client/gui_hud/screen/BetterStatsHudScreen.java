@@ -2,7 +2,7 @@ package io.github.thecsdev.betterstats.client.gui_hud.screen;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.gui_hud.widget.BSHudStatWidget.SIZE;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.respondToPrefs;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.enableBSSProtocol;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
@@ -39,7 +39,7 @@ public final class BetterStatsHudScreen extends TScreen
 	protected TTextureElement img_accurate;
 	protected final BooleanConsumer confsc_callback = (accepted ->
 	{
-		respondToPrefs = accepted;
+		enableBSSProtocol = accepted;
 		getClient().setScreen(this);
 		updateImgAccurate();
 	});
@@ -158,7 +158,7 @@ public final class BetterStatsHudScreen extends TScreen
 	protected void updateImgAccurate()
 	{
 		if(img_accurate != null)
-			if(respondToPrefs) img_accurate.setTextureUVs(20, 20, 20, 20);
+			if(enableBSSProtocol) img_accurate.setTextureUVs(20, 20, 20, 20);
 			else img_accurate.setTextureUVs(20, 0, 20, 20);
 	}
 	protected @Override void init()
@@ -185,9 +185,9 @@ public final class BetterStatsHudScreen extends TScreen
 		btn_accurate = new TButtonWidget(btn_done.getTpeEndX() + 5, btn_done.getTpeY(), 20, 20, null, btn ->
 		{
 			//disabling
-			if(respondToPrefs) respondToPrefs = false;
+			if(enableBSSProtocol) enableBSSProtocol = false;
 			//enabling ('else if' is important)
-			else if(getClient().isInSingleplayer()) respondToPrefs = true;
+			else if(getClient().isInSingleplayer()) enableBSSProtocol = true;
 			else
 			{
 				var confsc = new ConfirmScreen(confsc_callback, confsc_title, confsc_msg);

@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsConfigScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.CurrentTab;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.GroupStatsBy;
@@ -17,7 +16,6 @@ import io.github.thecsdev.tcdcommons.api.client.gui.other.TBlankElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
-import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TCheckboxWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
@@ -40,30 +38,11 @@ public class BSPanel_StatisticsFilters extends BSPanel
 		setSmoothScroll(true);
 	}
 	// ==================================================
-	//@SuppressWarnings("resource") //getClient() is safe to call
 	public void init(final BetterStatsScreen bss)
 	{
 		//blank placeholder element (used for getLastTChild())
 		var blank = new TBlankElement(getTpeX(), getTpeY() + 5, 0, 0);
 		addTChild(blank, false);
-		
-		//nametag label
-		/*{
-			BSPanel p = new BSPanel(10, 10, getTpeWidth() - 20, 20);
-			var lbl = new TLabelElement(0, 0, getTpeWidth() - 20, 20);
-			lbl.setHorizontalAlignment(HorizontalAlignment.CENTER);
-			lbl.setText(getClient().player.getDisplayName());
-			p.addTChild(lbl);
-			addTChild(p);
-		}
-		//avatar showcase
-		{
-			int w = getTpeWidth() - 20;
-			BSPanel p = new BSPanel(getTpeX() + 10, getLastTChild(false).getTpeEndY() + 3, w, w);
-			var er = new TEntityRendererElement(10, 10, w - 20, w - 20, EntityType.PLAYER);
-			p.addTChild(er);
-			addTChild(p, false);
-		}*/
 		
 		//filters label
 		var lbl_filters = new TLabelElement(nextX(), nextY(), nextW(), 20);
@@ -152,30 +131,6 @@ public class BSPanel_StatisticsFilters extends BSPanel
 			
 			addTChild(img_sort, false);
 			addTChild(btn_sortBy, false);
-		}
-		
-		//bottom
-		{
-			int bY = getTpeEndY() - getScrollPadding() - 20;
-			
-			//close
-			var btn_close = new TButtonWidget(nextX(), bY, nextW() - 21, 20,
-					translatable("gui.done"),
-					btn -> getClient().setScreen(bss.parent));
-			btn_close.setDrawsVanillaButton(true);
-			addTChild(btn_close, false);
-			
-			//options
-			var btn_options = new TButtonWidget(btn_close.getTpeEndX() + 1, btn_close.getTpeY(), 20, 20, null, null);
-			btn_options.setDrawsVanillaButton(true);
-			btn_options.setTooltip(translatable("options.title"));
-			btn_options.setOnClick(btn -> getClient().setScreen(new BetterStatsConfigScreen(bss)));
-			addTChild(btn_options, false);
-			
-			var img_options = new TTextureElement(4, 4, 12, 12);
-			img_options.setTexture(BSS_WIDGETS_TEXTURE, 256, 256);
-			img_options.setTextureUVs(0, 40, 20, 20);
-			btn_options.addTChild(img_options, true);
 		}
 		
 		//remove the blank element as it is no longer needed

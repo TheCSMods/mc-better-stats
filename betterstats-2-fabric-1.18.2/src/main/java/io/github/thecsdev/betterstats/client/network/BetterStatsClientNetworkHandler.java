@@ -34,8 +34,8 @@ import net.minecraft.network.packet.s2c.play.StatisticsS2CPacket;
 public final class BetterStatsClientNetworkHandler
 {
 	// ==================================================
-	public static boolean respondToPrefs;
 	public static boolean serverHasBSS;
+	public static boolean enableBSSProtocol;
 	private static final Cache<String, BSNetworkProfile> ProfileCache;
 	// ==================================================
 	protected BetterStatsClientNetworkHandler() {}
@@ -56,11 +56,11 @@ public final class BetterStatsClientNetworkHandler
 	private static void initNetworkReceivers()
 	{
 		//by default, do not respond to S2C_REQ_PREFS
-		respondToPrefs = false;
+		enableBSSProtocol = false;
 		serverHasBSS = false;
 		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register((cp) ->
 		{
-			respondToPrefs = false;
+			enableBSSProtocol = false;
 			serverHasBSS = false;
 			InGameHud_Screens.remove(HUD_ID); //TODO - temporary bug fix for switching worlds/servers
 		});
@@ -114,7 +114,7 @@ public final class BetterStatsClientNetworkHandler
 		return true;
 	}
 	// ==================================================
-	public static boolean comms() { return (respondToPrefs || MinecraftClient.getInstance().isInSingleplayer()); }
+	public static boolean comms() { return (enableBSSProtocol || MinecraftClient.getInstance().isInSingleplayer()); }
 	public static boolean c2s_sendPrefs()
 	{
 		//only send C2S_PREFS when allowed to
@@ -122,7 +122,7 @@ public final class BetterStatsClientNetworkHandler
 		
 		//create prefs. packet
 		var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeBoolean(respondToPrefs && BetterStatsHudScreen.getInstance() != null); //boolean - statsHudAccuracyMode
+		data.writeBoolean(enableBSSProtocol && BetterStatsHudScreen.getInstance() != null); //boolean - statsHudAccuracyMode
 		var packet = new CustomPayloadC2SPacket(C2S_PREFS, data);
 		//send packet
 		try { MinecraftClient.getInstance().getNetworkHandler().sendPacket(packet); }

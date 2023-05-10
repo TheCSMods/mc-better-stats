@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.client.gui.panel.network.BSNetworkSearchPanel;
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel;
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_BalancedDiet;
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_General;
@@ -31,6 +32,7 @@ public class BSPanel_Statistics extends BSPanel
 	protected BSPanel                   panel_rightMenu;
 	protected BSStatPanel               panel_stats;
 	protected BSScrollBarWidget         scroll_left;
+	protected BSNetworkSearchPanel      panel_networkSearch;
 	// --------------------------------------------------
 	//prevent the garbage collector from collecting these event handlers
 	protected Consumer<Integer> __handler0;
@@ -58,14 +60,16 @@ public class BSPanel_Statistics extends BSPanel
 		//menu bar panel,
 		//left and right menu panels
 		panel_menuBar = new BSPanel_StatisticsMenuBar(mcpX, 0, Math.abs(mcpX - (scpX + scpW)), 15);
-		panel_leftMenu = new BSPanel_StatisticsFilters(mcpX, mcpY, mcpW, mcpH);
+		panel_leftMenu = new BSPanel_StatisticsFilters(mcpX, mcpY, mcpW, mcpH - 25);
 		panel_rightMenu = new BSPanel(scpX + 4, scpY, scpW - 4, scpH);
 		panel_stats = null;
+		panel_networkSearch = new BSNetworkSearchPanel(mcpX, mcpY + mcpH - 20, mcpW + 8, 20);
 		
 		//add panel elements
 		addTChild(panel_menuBar);
 		addTChild(panel_leftMenu);
 		addTChild(panel_rightMenu);
+		addTChild(panel_networkSearch);
 		
 		//scroll bar
 		scroll_left = new BSScrollBarWidget(
@@ -80,6 +84,7 @@ public class BSPanel_Statistics extends BSPanel
 		init_menuBar(); //1
 		init_stats(); //2
 		init_leftMenu(); //3
+		panel_networkSearch.init(this.betterStats);
 		
 		//create label for target player name
 		var str_playerName = literal(this.betterStats.targetProfile.getProfileDisplayName());

@@ -1,5 +1,8 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.enableBSSProtocol;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_REQ_STATS;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
@@ -21,12 +24,15 @@ import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
 import io.github.thecsdev.tcdcommons.api.util.GenericProperties;
 import io.github.thecsdev.tcdcommons.api.util.SubjectToChange;
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
+import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.stat.StatHandler;
@@ -135,12 +141,35 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	 * {@link Mode#REQUEST_STATS}. Aka it sends a statistics
 	 * request to the server.
 	 * @throws RuntimeException If something goes wrong while sending the packet.
+	 * @return True if the request was sent successfully.
 	 */
-	public static void sendStatsRequestPacket()
+	public boolean sendStatsRequestPacket()
 	{
-		var client = MinecraftClient.getInstance();
+		//prepare
+		var client = getClient();
+		var localPlayer = client.player;
+		if(localPlayer == null) return false;
+		
+		//bss network protocol method
+		var targetGameProfile = this.getListenerTargetGameProfile();
+		if(!Objects.equals(targetGameProfile, localPlayer.getGameProfile())) //if not requesting localPlayer stats
+		{
+			//make sure bss is installed on the server, and
+			//that the client is okay with sending bss requests to it
+			if(!serverHasBSS || !enableBSSProtocol) return false;
+			//create packet
+			var data = new PacketByteBuf(Unpooled.buffer());
+			BSNetworkProfile.writeGameProfile(data, targetGameProfile);
+			var packet = new CustomPayloadC2SPacket(C2S_REQ_STATS, data);
+			//send packet and return
+			client.getNetworkHandler().sendPacket(packet);
+			return true;
+		}
+		
+		//vanilla network protocol method //if requesting localPlayer stats
 		var packet = new ClientStatusC2SPacket(Mode.REQUEST_STATS);
 		client.getNetworkHandler().sendPacket(packet);
+		return true;
 	}
 	// ==================================================
 	/**

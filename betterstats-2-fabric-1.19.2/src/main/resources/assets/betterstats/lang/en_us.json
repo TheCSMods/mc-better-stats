@@ -29,5 +29,8 @@
 	"betterstats.gui.menu_bar.about.source": "Source Code",
 	"betterstats.gui.menu_bar.mods_other": "Other (mods)",
 	
+	"betterstats.gui.network.btn_radio.tooltip": "Toggle 'betterstats' server connection",
+	"betterstats.gui.network.btn_radio.warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well.",
+	
 	"betterstats.gui.config.debug_mode": "Debug mode"
 }
