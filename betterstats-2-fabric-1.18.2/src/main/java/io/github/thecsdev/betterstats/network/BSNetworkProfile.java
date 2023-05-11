@@ -81,6 +81,15 @@ public final class BSNetworkProfile
 		var gameProfile = new GameProfile(new UUID(0, 0), null);
 		return new BSNetworkProfile(gameProfile, new StatHandler());
 	}
+	
+	/**
+	 * Returns a {@link BSNetworkProfile} with a non-null
+	 * {@link GameProfile} and an empty {@link StatHandler}.
+	 */
+	public static BSNetworkProfile ofGameProfile(GameProfile gameProfile)
+	{
+		return new BSNetworkProfile(gameProfile, new StatHandler());
+	}
 	// --------------------------------------------------
 	public @Override int hashCode() { return this.gameProfile.hashCode(); }
 	public @Override boolean equals(Object obj)

@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.enableBSSProtocol;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_REQ_STATS;
@@ -86,7 +87,7 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	 * Creates a {@link BetterStatsScreen} instance.
 	 * @param parent The screen that was open before this one.
 	 */
-	public BetterStatsScreen(Screen parent) { this(parent, BSNetworkProfile.ofLocalClient()); }
+	public BetterStatsScreen(Screen parent) { this(parent, null); }
 	
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.
@@ -94,13 +95,15 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	 * @param targetProfile The statistics handler for the local player.
 	 * @throws NullPointerException The {@link StatHandler} must not be null.
 	 */
-	public BetterStatsScreen(Screen parent, BSNetworkProfile targetProfile)
+	public BetterStatsScreen(Screen parent, GameProfile targetProfile)
 	{
 		super(translatable("gui.stats"));
 		this.STATUS_RECIEVED = false;
 		this.client = MinecraftClient.getInstance(); //need this
 		this.parent = parent;
-		this.targetProfile = Objects.requireNonNull(targetProfile);
+		if(targetProfile == null) targetProfile = this.client.player.getGameProfile();
+		this.targetProfile = Objects.equals(targetProfile, this.client.player.getGameProfile()) ?
+				BSNetworkProfile.ofLocalClient() : BSNetworkProfile.ofGameProfile(targetProfile);
 		
 		this.filter_currentTab = CurrentTab.General;
 		this.filter_searchTerm = "";
@@ -140,7 +143,8 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		//prepare
 		var client = getClient();
 		var localPlayer = client.player;
-		if(localPlayer == null) return false;
+		if(localPlayer == null)
+			throw new IllegalStateException("getClient().player is null");
 		
 		//bss network protocol method
 		var targetGameProfile = this.getListenerTargetGameProfile();
@@ -155,12 +159,14 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 			var packet = new CustomPayloadC2SPacket(C2S_REQ_STATS, data);
 			//send packet and return
 			client.getNetworkHandler().sendPacket(packet);
+			LOGGER.debug("Client requesting stats from server using CustomPayloadC2SPacket.");
 			return true;
 		}
 		
 		//vanilla network protocol method //if requesting localPlayer stats
 		var packet = new ClientStatusC2SPacket(Mode.REQUEST_STATS);
 		client.getNetworkHandler().sendPacket(packet);
+		LOGGER.debug("Client requesting stats from server using ClientStatusC2SPacket.");
 		return true;
 	}
 	// ==================================================
@@ -217,12 +223,13 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	}
 	// --------------------------------------------------
 	public @Override GameProfile getListenerTargetGameProfile() { return this.targetProfile.gameProfile; }
-	public @Override void onStatsReady(BSNetworkProfile profile)
+	public @Override void onStatsReady(BSNetworkProfile recievedProfile)
 	{
 		//update the status flag
 		STATUS_RECIEVED = true;
-		if(this.targetProfile.stats != profile.stats)
-			this.targetProfile.putAllStats(profile.stats);
+		LOGGER.debug("Client received stats from server for: " + recievedProfile);
+		if(this.targetProfile.stats != recievedProfile.stats)
+			this.targetProfile.putAllStats(recievedProfile.stats);
 		
 		//hide the downloading panel
 		//and show the statistics panel

@@ -92,7 +92,7 @@ public class BetterStatsConfigScreen extends TScreen
 		});
 	}
 	// ==================================================
-	private static class BSCSPanel extends BSPanel 
+	public static class BSCSPanel extends BSPanel 
 	{
 		public BSCSPanel(int x, int y, int width, int height) { super(x, y, width, height); }
 		protected @Override void renderBackground(MatrixStack matrices, int mouseX, int mouseY, float deltaTime) {

@@ -33,6 +33,7 @@ public class BetterStatsConfigScreen extends TScreen
 	}
 	public @Override boolean shouldRenderInGameHud() { return false; }
 	protected @Override void onClosed() { getClient().setScreen(this.parent); }
+	// --------------------------------------------------
 	public @Override void renderBackground(MatrixStack matrices)
 	{
 		if(this.parent != null)
@@ -92,7 +93,7 @@ public class BetterStatsConfigScreen extends TScreen
 		});
 	}
 	// ==================================================
-	private static class BSCSPanel extends BSPanel 
+	public static class BSCSPanel extends BSPanel 
 	{
 		public BSCSPanel(int x, int y, int width, int height) { super(x, y, width, height); }
 		protected @Override void renderBackground(MatrixStack matrices, int mouseX, int mouseY, float deltaTime) {

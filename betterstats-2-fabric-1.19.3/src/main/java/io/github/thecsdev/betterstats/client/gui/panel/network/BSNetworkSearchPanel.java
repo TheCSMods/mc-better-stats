@@ -1,10 +1,12 @@
 package io.github.thecsdev.betterstats.client.gui.panel.network;
 
 import static io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.BSS_WIDGETS_TEXTURE;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.enableBSSProtocol;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
+import io.github.thecsdev.betterstats.client.gui.screen.BSPlayerLookupScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsConfigScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
@@ -86,7 +88,7 @@ public class BSNetworkSearchPanel extends BSPanel
 			this.init(bss);
 		});
 		addTChild(btn_radio, false);
-		btn_radio.setVisible(!getClient().isInSingleplayer());
+		btn_radio.setVisible(!getClient().isInSingleplayer() && serverHasBSS);
 		
 		var img_radio = new TTextureElement(4, 4, 12, 12);
 		img_radio.setTexture(BSS_WIDGETS_TEXTURE, 256, 256);
@@ -96,8 +98,8 @@ public class BSNetworkSearchPanel extends BSPanel
 		//player stat lookup
 		var btn_pstat = new TButtonWidget(btn_radio.getTpeX() - 20, getTpeY(), 20, 20, null, null);
 		btn_pstat.setDrawsVanillaButton(true);
-		btn_pstat.setTooltip(translatable("todo.insert_tooltip"));
-		btn_pstat.setOnClick(btn -> {});
+		btn_pstat.setTooltip(translatable("betterstats.gui.network.btn_pstat.tooltip"));
+		btn_pstat.setOnClick(btn -> getClient().setScreen(new BSPlayerLookupScreen(bss)));
 		addTChild(btn_pstat, false);
 		btn_pstat.setVisible(btn_radio.getVisible() && enableBSSProtocol);
 		
