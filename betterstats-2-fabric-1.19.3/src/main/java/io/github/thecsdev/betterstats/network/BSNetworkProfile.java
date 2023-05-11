@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.tcdcommons.api.hooks.TCommonHooks;
+import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -94,10 +95,24 @@ public final class BSNetworkProfile
 	public @Override int hashCode() { return this.gameProfile.hashCode(); }
 	public @Override boolean equals(Object obj)
 	{
-		if(!(obj instanceof BSNetworkProfile))
-			return false;
+		//basic checks
+		if(obj == this) return true;
+		else if(!(obj instanceof BSNetworkProfile)) return false;
+		//cast and compare
 		var o = (BSNetworkProfile)obj;
-		return (this == obj) || Objects.equals(this.gameProfile, o.gameProfile);
+		return compareGameProfiles(this.gameProfile, o.gameProfile);
+	}
+	public static boolean compareGameProfiles(GameProfile gpA, GameProfile gpB)
+	{
+		//gather info for profile comparing
+		var idA = gpA.getId();
+		var idB = gpB.getId();
+		var nameA = gpA.getName();
+		var nameB = gpB.getName();
+		//compare profiles and return
+		var a = (idA != null && idB != null) && Objects.equals(idA, idB);
+		var b = (nameA != null && nameB != null) && Objects.equals(nameA, nameB);
+		return (a || b);
 	}
 	// ==================================================
 	/**
@@ -111,8 +126,12 @@ public final class BSNetworkProfile
 		writeGameProfile(pbb, this.gameProfile);
 		
 		//write stats
-		var stats = TCommonHooks.getStatHandlerStatMap(this.stats);
-		new StatisticsS2CPacket(stats).write(pbb);
+		var statsPbb = new PacketByteBuf(Unpooled.buffer());
+		new StatisticsS2CPacket(TCommonHooks.getStatHandlerStatMap(this.stats)).write(statsPbb);
+		
+		pbb.writeInt(statsPbb.readableBytes());
+		pbb.writeBytes(statsPbb);
+		statsPbb.release(); //avoid memory leaks
 	}
 	
 	/**
@@ -123,14 +142,17 @@ public final class BSNetworkProfile
 	{
 		//read game profile
 		GameProfile gameProfile = readGameProfile(pbb);
-		if(gameProfile == null)
-			gameProfile = new GameProfile(new UUID(0, 0), null);
+		if(gameProfile == null) gameProfile = new GameProfile(new UUID(0, 0), null);
 		
 		//read statistics
+		int statsPbbSize = pbb.readInt();
+		PacketByteBuf statsPbb = new PacketByteBuf(pbb.readBytes(statsPbbSize));
+		
 		var stats = new StatHandler();
 		var statsMap = TCommonHooks.getStatHandlerStatMap(stats);
-		for(var sEntry : ((Object2IntMap<Stat<?>>) new StatisticsS2CPacket(pbb).getStatMap()).object2IntEntrySet())
+		for(var sEntry : ((Object2IntMap<Stat<?>>) new StatisticsS2CPacket(statsPbb).getStatMap()).object2IntEntrySet())
 			statsMap.put(sEntry.getKey(), sEntry.getIntValue());
+		statsPbb.release(); //avoid memory leaks
 		
 		//create and return
 		return new BSNetworkProfile(gameProfile, stats);

@@ -32,6 +32,8 @@
 	"betterstats.gui.network.btn_radio.tooltip": "Toggle 'betterstats' server connection",
 	"betterstats.gui.network.btn_radio.warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well.",
 	"betterstats.gui.network.btn_pstat.tooltip": "View another player's statistics",
+	"betterstats.gui.network.stats_request.timed_out": "Request timed out...",
+	"betterstats.gui.network.stats_request.player_404": "Requested player not found...",
 	
 	"betterstats.gui.config.debug_mode": "Debug mode"
 }

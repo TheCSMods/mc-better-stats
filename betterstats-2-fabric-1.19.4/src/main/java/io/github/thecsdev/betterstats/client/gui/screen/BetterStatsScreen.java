@@ -71,6 +71,7 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	public static final String FEEDBACK_URL = "https://github.com/TheCSDev/mc-better-stats";
 	// ==================================================
 	protected boolean STATUS_RECIEVED;
+	protected int STATUS_TIMEOUT;
 	// --------------------------------------------------
 	public final Screen parent;
 	public final BSNetworkProfile targetProfile;
@@ -102,6 +103,7 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	{
 		super(translatable("gui.stats"));
 		this.STATUS_RECIEVED = false;
+		this.STATUS_TIMEOUT = 0;
 		this.client = MinecraftClient.getInstance(); //need this
 		this.parent = parent;
 		if(targetProfile == null) targetProfile = this.client.player.getGameProfile();
@@ -130,6 +132,19 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	// --------------------------------------------------
 	public @Override boolean shouldRenderInGameHud() { return false; }
 	// --------------------------------------------------
+	public @Override void tick()
+	{
+		if(this.STATUS_RECIEVED || this.STATUS_TIMEOUT > 60)
+			return;
+		else if(this.STATUS_TIMEOUT < 60)
+			this.STATUS_TIMEOUT++;
+		else if(this.STATUS_TIMEOUT == 60)
+		{
+			this.panel_download.onTimedOut();
+			this.STATUS_TIMEOUT++;
+		}
+	}
+	
 	/**
 	 * Sends a {@link ClientStatusC2SPacket} to the server
 	 * with the {@link ClientStatusC2SPacket.Mode.REQUEST_STATS} mode,
@@ -137,6 +152,10 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	 */
 	public void sendStatsRequest()
 	{
+		this.STATUS_RECIEVED = false;
+		this.STATUS_TIMEOUT = 0;
+		this.panel_download.onSendRequest();
+		
 		panel_download.setVisible(true);
 		sendStatsRequestPacket();
 	}
@@ -158,8 +177,9 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		
 		//bss network protocol method
 		var targetGameProfile = this.getListenerTargetGameProfile();
-		if(!Objects.equals(targetGameProfile, localPlayer.getGameProfile())) //if not requesting localPlayer stats
+		if(!BSNetworkProfile.compareGameProfiles(targetGameProfile, localPlayer.getGameProfile()))
 		{
+			// ---------- if not requesting localPlayer stats
 			//make sure bss is installed on the server, and
 			//that the client is okay with sending bss requests to it
 			if(!serverHasBSS || !enableBSSProtocol) return false;
@@ -249,6 +269,12 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		//initialize the statistics panel
 		panel_stats.clearTChildren();
 		if(getStatHandler() != null) panel_stats.init();
+	}
+	public @Override void onStatsPlayerNotFound()
+	{
+		if(this.panel_download != null)
+			this.panel_download.onPlayer404();
+		this.STATUS_TIMEOUT = 256;
 	}
 	// ==================================================
 	public @Override void renderBackground(MatrixStack matrices) { /*no background*/ }

@@ -23,4 +23,11 @@ public interface BStatsListener
 	 * @param profile The {@link BSNetworkProfile} containing the profile info and stats.
 	 */
 	public abstract void onStatsReady(BSNetworkProfile profile);
+	
+	/**
+	 * Called when the server fails to find an online player
+	 * with the requested {@link #getListenerTargetGameProfile()}
+	 * while retrieving their statistics.
+	 */
+	public abstract void onStatsPlayerNotFound();
 }

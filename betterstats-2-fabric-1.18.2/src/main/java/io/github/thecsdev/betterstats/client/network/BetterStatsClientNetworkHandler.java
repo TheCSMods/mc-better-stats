@@ -8,8 +8,10 @@ import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_STATS;
 import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClientRegistry.InGameHud_Screens;
 
-import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import org.spongepowered.include.com.google.common.base.Objects;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -106,7 +108,9 @@ public final class BetterStatsClientNetworkHandler
 		if(screen instanceof BStatsListener)
 		{
 			var bsl = (BStatsListener)screen;
-			if(Objects.equals(bsl.getListenerTargetGameProfile(), profile.gameProfile))
+			if(Objects.equal(profile.gameProfile.getId(), new UUID(0, 0)))
+				client.executeSync(() -> bsl.onStatsPlayerNotFound()); //TODO - Thread safety!
+			else if(BSNetworkProfile.compareGameProfiles(bsl.getListenerTargetGameProfile(), profile.gameProfile))
 				client.executeSync(() -> bsl.onStatsReady(profile)); //TODO - Thread safety!
 		}
 		
