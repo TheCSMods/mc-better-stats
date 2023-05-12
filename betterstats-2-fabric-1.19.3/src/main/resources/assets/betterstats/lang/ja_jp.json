@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "バニラの統計画面を表示する",
 	"betterstats.gui.menu_bar.about": "このModについて",
 	"betterstats.gui.menu_bar.about.source": "ソースコード",
-	"betterstats.gui.menu_bar.mods_other": "その他 (Mods)"
+	"betterstats.gui.menu_bar.mods_other": "その他 (Mods)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "トグル 'betterstats' サーバー接続",
+	"betterstats.gui.network.btn_radio.warning": "重要：\nこの機能を有効にすると、サーバーは 'betterstats' がインストールされた変更されたクライアントを使用していることを検出します。変更されたクライアントまたはこの mod を許可しないサーバーでこの機能を使用しないように注意してください。\n\nこの機能を有効にすると、サーバーにもこの mod がインストールされている場合に使用できる追加機能がいくつか追加されます。",
+	"betterstats.gui.network.btn_pstat.tooltip": "他のプレイヤーの統計を表示する",
+	"betterstats.gui.network.stats_request.timed_out": "リクエストがタイムアウトしました...",
+	"betterstats.gui.network.stats_request.player_404": "リクエストされたプレイヤーが見つかりませんでした...",
+
+	"betterstats.gui.config.debug_mode": "デバッグモード"
 }

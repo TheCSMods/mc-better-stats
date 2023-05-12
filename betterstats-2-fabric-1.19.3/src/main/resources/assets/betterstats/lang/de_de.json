@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Zeige Standardstatistiken",
 	"betterstats.gui.menu_bar.about": "Über",
 	"betterstats.gui.menu_bar.about.source": "Quellcode",
-	"betterstats.gui.menu_bar.mods_other": "Andere (Mods)"
+	"betterstats.gui.menu_bar.mods_other": "Andere (Mods)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Schalte 'betterstats' Serververbindung um",
+	"betterstats.gui.network.btn_radio.warning": "WICHTIG:\nDurch Aktivieren dieses Features wird der Server erkennen, dass du einen modifizierten Client mit 'betterstats' installiert verwendest. Um deine Privatsphäre zu schützen, solltest du diese Funktion nicht auf Servern nutzen, die möglicherweise keine modifizierten Clients oder diesen Mod zulassen.\n\nDurch Aktivieren dieses Features werden einige zusätzliche Funktionen hinzugefügt, die verfügbar sind, wenn der Mod auf dem Server installiert ist.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Statistiken eines anderen Spielers anzeigen",
+	"betterstats.gui.network.stats_request.timed_out": "Anfrage abgelaufen...",
+	"betterstats.gui.network.stats_request.player_404": "Angefragter Spieler nicht gefunden...",
+	
+	"betterstats.gui.config.debug_mode": "Debug-Modus"
 }

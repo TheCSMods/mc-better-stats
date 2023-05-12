@@ -6,7 +6,6 @@ import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNet
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_REQ_STATS;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +18,7 @@ import io.github.thecsdev.betterstats.client.gui.other.BSTooltipElement;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Downloading;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Statistics;
 import io.github.thecsdev.betterstats.client.network.BStatsListener;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.betterstats.network.BSNetworkProfile;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
@@ -96,19 +96,24 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.
 	 * @param parent The screen that was open before this one.
-	 * @param targetProfile The statistics handler for the local player.
+	 * @param gameProfile The requested player whose stats will be shown.
 	 * @throws NullPointerException The {@link StatHandler} must not be null.
 	 */
-	public BetterStatsScreen(Screen parent, GameProfile targetProfile)
+	public BetterStatsScreen(Screen parent, GameProfile gameProfile)
 	{
 		super(translatable("gui.stats"));
 		this.STATUS_RECIEVED = false;
 		this.STATUS_TIMEOUT = 0;
 		this.client = MinecraftClient.getInstance(); //need this
 		this.parent = parent;
-		if(targetProfile == null) targetProfile = this.client.player.getGameProfile();
-		this.targetProfile = Objects.equals(targetProfile, this.client.player.getGameProfile()) ?
-				BSNetworkProfile.ofLocalClient() : BSNetworkProfile.ofGameProfile(targetProfile);
+		
+		if(gameProfile == null) gameProfile = this.client.player.getGameProfile();
+		var targetProfile = BetterStatsClientNetworkHandler.getCachedProfile(gameProfile);
+		if(targetProfile == null)
+			targetProfile = BSNetworkProfile.compareGameProfiles(gameProfile, this.client.player.getGameProfile()) ?
+					BSNetworkProfile.ofLocalClient() : BSNetworkProfile.ofGameProfile(gameProfile);
+		else this.STATUS_RECIEVED = true;
+		this.targetProfile = targetProfile;
 		
 		this.filter_currentTab = CurrentTab.General;
 		this.filter_searchTerm = "";
@@ -155,7 +160,8 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		this.panel_download.onSendRequest();
 		
 		panel_download.setVisible(true);
-		sendStatsRequestPacket();
+		if(!sendStatsRequestPacket())
+			this.panel_download.onTimedOut();
 	}
 	
 	/**
@@ -170,8 +176,7 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		//prepare
 		var client = getClient();
 		var localPlayer = client.player;
-		if(localPlayer == null)
-			throw new IllegalStateException("getClient().player is null");
+		if(localPlayer == null) return false;
 		
 		//bss network protocol method
 		var targetGameProfile = this.getListenerTargetGameProfile();

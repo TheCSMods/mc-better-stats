@@ -208,11 +208,12 @@ public final class BSNetworkProfile
 	 * GUI "display name" for a given player based on the
 	 * data present in their {@link #gameProfile}.
 	 */
-	public String getProfileDisplayName()
+	public String getProfileDisplayName() { return getGameProfileDisplayName(this.gameProfile); }
+	public static String getGameProfileDisplayName(GameProfile gameProfile)
 	{
-		if(this.gameProfile.getName() != null)
-			return this.gameProfile.getName();
-		else return this.gameProfile.getId().toString();
+		if(gameProfile.getName() != null)
+			return gameProfile.getName();
+		else return gameProfile.getId().toString();
 	}
 	// --------------------------------------------------
 	/**

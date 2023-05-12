@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Mostrar estatísticas baunilha",
 	"betterstats.gui.menu_bar.about": "Sobre",
 	"betterstats.gui.menu_bar.about.source": "Código fonte",
-	"betterstats.gui.menu_bar.mods_other": "Outros (mods)"
+	"betterstats.gui.menu_bar.mods_other": "Outros (mods)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Alternar conexão do servidor 'betterstats'",
+	"betterstats.gui.network.btn_radio.warning": "IMPORTANTE:\nAo habilitar essa função, o servidor descobrirá que você está usando um cliente modificado com o 'betterstats' instalado. Para proteger sua privacidade, não use essa função em servidores que não permitem clientes modificados ou este mod.\n\nHabilitar essa função adiciona alguns recursos extras que estão disponíveis quando o mod está instalado no servidor também.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Visualizar estatísticas de outro jogador",
+	"betterstats.gui.network.stats_request.timed_out": "Tempo esgotado...",
+	"betterstats.gui.network.stats_request.player_404": "Jogador solicitado não encontrado...",
+
+	"betterstats.gui.config.debug_mode": "Modo de depuração"
 }

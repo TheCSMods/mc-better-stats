@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Показати ванільну статистику",
 	"betterstats.gui.menu_bar.about": "Про",
 	"betterstats.gui.menu_bar.about.source": "Вихідний код",
-	"betterstats.gui.menu_bar.mods_other": "Інші (моди)"
+	"betterstats.gui.menu_bar.mods_other": "Інші (моди)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Перемикайте підключення до сервера 'betterstats'",
+	"betterstats.gui.network.btn_radio.warning": "ВАЖЛИВО:\nВключення цієї функції дозволить серверу дізнатися, що ви використовуєте модифікований клієнт з встановленим 'betterstats'. Щоб захистити свою конфіденційність, не використовуйте цю функцію на серверах, які не дозволяють модифіковані клієнти або цей мод.\n\nУвімкнення цієї функції додає деякі додаткові функції, які доступні, коли мод встановлений також на сервері.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Переглядайте статистику іншого гравця",
+	"betterstats.gui.network.stats_request.timed_out": "Час запиту вичерпано ...",
+	"betterstats.gui.network.stats_request.player_404": "Запитаний гравець не знайдений ...",
+
+	"betterstats.gui.config.debug_mode": "Режим налагодження"
 }

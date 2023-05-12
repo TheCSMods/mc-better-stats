@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Показать статистику Vanilla",
 	"betterstats.gui.menu_bar.about": "Информация",
 	"betterstats.gui.menu_bar.about.source": "Исходный код",
-	"betterstats.gui.menu_bar.mods_other": "Другие (моды)"
+	"betterstats.gui.menu_bar.mods_other": "Другие (моды)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Переключить подключение к серверу 'betterstats'",
+	"betterstats.gui.network.btn_radio.warning": "ВАЖНО:\nВключение этой функции позволит серверу обнаружить, что вы используете модифицированный клиент с установленным 'betterstats'. Чтобы защитить свою конфиденциальность, не используйте эту функцию на серверах, которые не разрешают модифицированные клиенты или этот мод.\n\nВключение этой функции добавляет некоторые дополнительные функции, которые также доступны, если мод установлен на сервере.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Просмотреть статистику другого игрока",
+	"betterstats.gui.network.stats_request.timed_out": "Запрос не отвечает...",
+	"betterstats.gui.network.stats_request.player_404": "Запрашиваемый игрок не найден...",
+
+	"betterstats.gui.config.debug_mode": "Режим отладки"
 }

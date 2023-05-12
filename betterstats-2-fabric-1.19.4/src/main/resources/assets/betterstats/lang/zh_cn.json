@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "显示原版统计数据",
 	"betterstats.gui.menu_bar.about": "关于",
 	"betterstats.gui.menu_bar.about.source": "源代码",
-	"betterstats.gui.menu_bar.mods_other": "其他 （模组）"
+	"betterstats.gui.menu_bar.mods_other": "其他 （模组）",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "切换 'betterstats' 服务器连接",
+	"betterstats.gui.network.btn_radio.warning": "重要提示：\n启用此功能会让服务器知道您正在使用安装了 'betterstats' 的修改版客户端。为了保护您的隐私，请勿在可能不允许修改版客户端或此模组的服务器上使用此功能。\n\n启用此功能会添加一些额外的功能，当该模组在服务器上安装时也可用。",
+	"betterstats.gui.network.btn_pstat.tooltip": "查看其他玩家的统计信息",
+	"betterstats.gui.network.stats_request.timed_out": "请求超时...",
+	"betterstats.gui.network.stats_request.player_404": "未找到请求的玩家...",
+
+	"betterstats.gui.config.debug_mode": "调试模式"
 }

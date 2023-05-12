@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Прикажи основне статистике",
 	"betterstats.gui.menu_bar.about": "О апликаци",
 	"betterstats.gui.menu_bar.about.source": "Изворни код",
-	"betterstats.gui.menu_bar.mods_other": "Други (модови)"
+	"betterstats.gui.menu_bar.mods_other": "Други (модови)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Прекидач 'betterstats' везе са сервером",
+	"betterstats.gui.network.btn_radio.warning": "ВАЖНО:\nУколико омогућите ову функцију, сервер ће детектовати да користите модификовани клијент са 'betterstats' модом инсталираним. Како бисте заштитили своју приватност, не користите ову функцију на серверима који не дозвољавају модификоване клијенте или овај мод.\n\nОмогућавањем ове функције додају се додатне опције које су доступне када је мод инсталиран на серверу.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Погледајте статистику другог играча",
+	"betterstats.gui.network.stats_request.timed_out": "Захтев је истекао...",
+	"betterstats.gui.network.stats_request.player_404": "Захтевани играч није пронађен...",
+
+	"betterstats.gui.config.debug_mode": "Режим за отклањање грешака"
 }

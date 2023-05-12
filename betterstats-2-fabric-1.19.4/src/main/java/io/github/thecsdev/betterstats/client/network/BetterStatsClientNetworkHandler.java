@@ -11,10 +11,12 @@ import static io.github.thecsdev.tcdcommons.api.client.registry.TCDCommonsClient
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.include.com.google.common.base.Objects;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.mojang.authlib.GameProfile;
 
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.networking.NetworkManager;
@@ -42,6 +44,15 @@ public final class BetterStatsClientNetworkHandler
 	// ==================================================
 	protected BetterStatsClientNetworkHandler() {}
 	public static void init() {/*calls static*/}
+	// --------------------------------------------------
+	public static @Nullable BSNetworkProfile getCachedProfile(GameProfile gameProfile)
+	{
+		if(gameProfile == null) return null;
+		var gpn = BSNetworkProfile.getGameProfileDisplayName(gameProfile);
+		var profile = ProfileCache.getIfPresent(gpn);
+		if(profile != null && profile.isLocalClient()) return null;
+		else return profile;
+	}
 	// ==================================================
 	static
 	{

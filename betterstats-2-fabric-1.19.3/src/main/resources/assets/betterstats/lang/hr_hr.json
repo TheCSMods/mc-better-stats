@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Prikaži osnovne statistike",
 	"betterstats.gui.menu_bar.about": "O aplikaciji",
 	"betterstats.gui.menu_bar.about.source": "Izvorni kod",
-	"betterstats.gui.menu_bar.mods_other": "Ostalo (modovi)"
+	"betterstats.gui.menu_bar.mods_other": "Ostalo (modovi)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Uključi/isključi 'betterstats' vezu sa serverom",
+	"betterstats.gui.network.btn_radio.warning": "VAŽNO:\nUključivanjem ove značajke, server će otkriti da koristite modifikaciju klijenta s instaliranim 'betterstats'om. Kako biste zaštitili svoju privatnost, ne koristite ovu značajku na poslužiteljima koji možda ne dopuštaju modifikacije klijenata ili ovaj mod.\n\nUključivanjem ove značajke dodaju se dodatne značajke koje su dostupne i kada je mod instaliran na serveru.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Pogledaj statistiku drugog igrača",
+	"betterstats.gui.network.stats_request.timed_out": "Zahtjev je istekao...",
+	"betterstats.gui.network.stats_request.player_404": "Traženi igrač nije pronađen...",
+
+	"betterstats.gui.config.debug_mode": "Način rada za otklanjanje pogrešaka"
 }

@@ -27,5 +27,13 @@
 	"betterstats.gui.menu_bar.view.vanilla_stats": "Vanilya istatistiklerini göster",
 	"betterstats.gui.menu_bar.about": "Hakkında",
 	"betterstats.gui.menu_bar.about.source": "Kaynak Kodu",
-	"betterstats.gui.menu_bar.mods_other": "Diğer (modlar)"
+	"betterstats.gui.menu_bar.mods_other": "Diğer (modlar)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "'betterstats' sunucu bağlantısını aç/kapat",
+	"betterstats.gui.network.btn_radio.warning": "ÖNEMLİ:\nBu özelliği etkinleştirerek, sunucu 'betterstats' yüklü değiştirilmiş bir istemci kullandığınızı tespit edebilir. Gizliliğinizi korumak için bu özelliği, değiştirilmiş istemcilere veya bu mod'a izin vermeyen sunucularda kullanmayın.\n\nBu özelliği etkinleştirmek, sunucuya yüklendiğinde kullanılabilen ek özellikler ekler.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Başka bir oyuncunun istatistiklerini görüntüleyin",
+	"betterstats.gui.network.stats_request.timed_out": "İstek zaman aşımına uğradı...",
+	"betterstats.gui.network.stats_request.player_404": "İstenen oyuncu bulunamadı...",
+
+	"betterstats.gui.config.debug_mode": "Hata ayıklama modu"
 }
