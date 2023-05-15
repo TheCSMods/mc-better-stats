@@ -87,7 +87,8 @@ public final class BetterStatsClientNetworkHandler
 			//handle BSNetworkProfile-s over the vanilla packet protocol
 			if(!(packet instanceof StatisticsS2CPacket) || side != NetworkSide.CLIENTBOUND)
 				return;
-			onReceivedBSNetworkProfile(BSNetworkProfile.ofLocalClient());
+			try { onReceivedBSNetworkProfile(BSNetworkProfile.ofLocalClient()); }
+			catch(IllegalStateException ise) { /*MinecraftClient.player is null. Ignore that.*/ }
 		});
 		NetworkManager.registerReceiver(Side.S2C, S2C_STATS, (payload, context) ->
 			//handle BSNetworkProfile-s over the S2C_STATS protocol

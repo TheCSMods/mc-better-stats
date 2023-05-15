@@ -53,6 +53,7 @@ public final class BSNetworkProfile
 		try
 		{
 			var c = net.minecraft.client.MinecraftClient.getInstance();
+			if(c.player == null) throw new IllegalStateException("MinecraftClient.player is null");
 			return new BSNetworkProfile(c.player.getGameProfile(), c.player.getStatHandler());
 		}
 		catch(Throwable t)
