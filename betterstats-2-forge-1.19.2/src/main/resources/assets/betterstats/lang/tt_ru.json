@@ -1,0 +1,24 @@
+{
+	"betterstats": "Better Statistics экран",
+	
+	"betterstats.hud": "Statistics HUD (бета)",
+	"betterstats.hud.entity.kills": "Үтерүләр саны",
+	"betterstats.hud.entity.deaths": "Үлемнәр саны",
+	"betterstats.hud.hint.add_widget": "Статистика монда өстәү өчен аңа уң төймәне ([Shift] + уң төймә) басыгыз.",
+	"betterstats.hud.hint.del_widget": "Китерелгән элементны бетерү өчен Backspace (<-) басыгыз.",
+	"betterstats.hud.hint.esc_close": "Бу экранны ябу өчен Escape (ESC) басыгыз.",
+	
+	"betterstats.gui.filters": "Фильтрлар",
+	"betterstats.gui.show_empty_stats": "Буш статистиканы күрсәтү",
+	"betterstats.gui.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "HUD (бета)",
+	"betterstats.gui.ctx_menu.close": "Ябу",
+	
+	"betterstats.gui.menu_bar.view": "Карау",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Ванила статистикасын күрсәтү",
+	
+	"betterstats.gui.menu_bar.about": "Мод турында",
+	"betterstats.gui.menu_bar.about.source": "Чыганак",
+	"betterstats.gui.menu_bar.mods_other": "Башка (модлар)"
+}
