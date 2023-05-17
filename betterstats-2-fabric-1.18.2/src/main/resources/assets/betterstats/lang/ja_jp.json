@@ -9,8 +9,8 @@
 	"betterstats.hud.hint.esc_close": "この画面を閉じるには、Escape（ESC）を押してください。",
 	
 	"betterstats.hud.accuracy_mode_warning.title": "サーバーとの「betterstats」通信を有効にする",
-	"betterstats.hud.accuracy_mode_warning.message": "重要：\nこの機能を有効にすると、「betterstats」を導入していることがサーバーに検知されます。個人情報保護のため、この機能が許可されていないサーバーでは使用しないでください。\n\nこの機能を有効にすることで、ヘッドアップディスプレイ（HUD）の統計情報がより正確でリアルタイムになります。この機能を利用するには「betterstats」がサーバーにも導入されている必要があります。",
-	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD内の統計情報をより正確でリアルタイムにします。",
+	"betterstats.hud.accuracy_mode_warning.message": "重要：\nこの機能を有効にすると、「betterstats」を導入していることがサーバーに検知されます。プライバシー保護のため、この機能が許可されていないサーバーでは使用しないでください。\n\n有効にすると、ヘッドアップディスプレイ（HUD）の統計情報がより正確でリアルタイムになります。利用するには「betterstats」がサーバーにも導入されている必要があります。",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD内の統計情報がより正確でリアルタイムになります。",
 	
 	"betterstats.gui.filters": "フィルター",
 	"betterstats.gui.filters.group_by.default": "デフォルト",
@@ -29,11 +29,11 @@
 	"betterstats.gui.menu_bar.about.source": "ソースコード",
 	"betterstats.gui.menu_bar.mods_other": "その他 (Mods)",
 	
-	"betterstats.gui.network.btn_radio.tooltip": "トグル 'betterstats' サーバー接続",
-	"betterstats.gui.network.btn_radio.warning": "重要：\nこの機能を有効にすると、サーバーは 'betterstats' がインストールされた変更されたクライアントを使用していることを検出します。変更されたクライアントまたはこの mod を許可しないサーバーでこの機能を使用しないように注意してください。\n\nこの機能を有効にすると、サーバーにもこの mod がインストールされている場合に使用できる追加機能がいくつか追加されます。",
+	"betterstats.gui.network.btn_radio.tooltip": "「betterstats」によるサーバー接続を切り替える",
+	"betterstats.gui.network.btn_radio.warning": "重要：\nこの機能を有効にすると、「betterstats」を導入したMod導入済みクライアントを使用していることが、サーバーに検出されます。Mod導入済みクライアントまたはこのModが許可されていないサーバーでは、この機能を使用しないでください。\n\n有効にすると、このModがサーバーにも導入されている場合に使用できる機能が追加されます。",
 	"betterstats.gui.network.btn_pstat.tooltip": "他のプレイヤーの統計を表示する",
-	"betterstats.gui.network.stats_request.timed_out": "リクエストがタイムアウトしました...",
-	"betterstats.gui.network.stats_request.player_404": "リクエストされたプレイヤーが見つかりませんでした...",
+	"betterstats.gui.network.stats_request.timed_out": "リクエストがタイムアウトしました…",
+	"betterstats.gui.network.stats_request.player_404": "お探しのプレイヤーは見つかりませんでした…",
 
 	"betterstats.gui.config.debug_mode": "デバッグモード"
 }
