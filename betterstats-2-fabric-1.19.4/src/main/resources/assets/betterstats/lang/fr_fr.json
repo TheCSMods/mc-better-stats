@@ -9,8 +9,8 @@
 	"betterstats.hud.hint.esc_close": "Appuyez sur Échap (ESC) pour fermer cet écran.",
 	
  	"betterstats.hud.accuracy_mode_warning.title": "Activez la communication 'betterstats' avec le serveur",
- 	"betterstats.hud.accuracy_mode_warning.message": "IMPORTANT:\nEn activant cette fonctionnalité, le serveur détectera que vous avez installé 'betterstats'. Pour protéger votre confidentialité, n'utilisez pas cette fonctionnalité sur des serveurs qui ne sont pas autorisés à l'utiliser. Activer cette fonctionnalité rend les statistiques de l'HUD plus précis et en temps réel en permettant à "betterstats" de communiquer avec le serveur. Notez que 'betterstats' doit également être installé sur le serveur pour que cette fonctionnalité fonctionne.",
-  "betterstats.hud.accuracy_mode_warning.tooltip": "Permet d'afficher des statistiques plus exactes et en temps réel dans le HUD.",
+ 	"betterstats.hud.accuracy_mode_warning.message": "IMPORTANT:\nEn activant cette fonctionnalité, le serveur détectera que vous avez installé 'betterstats'. Pour protéger votre confidentialité, n'utilisez pas cette fonctionnalité sur des serveurs qui ne sont pas autorisés à l'utiliser. Activer cette fonctionnalité rend les statistiques de l'HUD plus précis et en temps réel en permettant à \"betterstats\" de communiquer avec le serveur. Notez que 'betterstats' doit également être installé sur le serveur pour que cette fonctionnalité fonctionne.",
+        "betterstats.hud.accuracy_mode_warning.tooltip": "Permet d'afficher des statistiques plus exactes et en temps réel dans le HUD.",
 	
 	"betterstats.gui.filters": "Filtres",
 	"betterstats.gui.filters.group_by.default": "Par défaut",
