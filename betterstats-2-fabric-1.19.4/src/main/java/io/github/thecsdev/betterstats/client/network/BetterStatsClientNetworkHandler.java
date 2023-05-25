@@ -59,7 +59,6 @@ public final class BetterStatsClientNetworkHandler
 		//init variables
 		ProfileCache = CacheBuilder.newBuilder()
 				.expireAfterWrite(2, TimeUnit.MINUTES)
-				.expireAfterAccess(2, TimeUnit.MINUTES)
 				.build();
 		
 		//init network
