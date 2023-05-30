@@ -1,7 +1,7 @@
 {
 	"betterstats": "Better Statistics экраны",
 
-	"betterstats.hud": "Статистиканың HUD (бета)",
+	"betterstats.hud": "Статистиканың HUD",
 	"betterstats.hud.entity.kills": "Үтерүләр саны",
 	"betterstats.hud.entity.deaths": "Үлемнәр саны",
 	"betterstats.hud.hint.add_widget": "Статистика монда өстәү өчен аңа уң төймәне ([Shift] + уң төймә) басыгыз.",
@@ -21,7 +21,7 @@
 	"betterstats.gui.show_empty_stats": "Буш статистиканы күрсәтү",
 	"betterstats.gui.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "HUD (бета)",
+	"betterstats.gui.ctx_menu.pin_to_hud": "HUD",
 	"betterstats.gui.ctx_menu.close": "Ябу",
 	
 	"betterstats.gui.menu_bar.view": "Карау",
