@@ -45,7 +45,7 @@ public class BetterStatsConfigScreen extends TScreen
 		//create and add the main panel
 		panel_contentPane = new TFillColorElement(0, 0, getTpeWidth(), getTpeHeight());
 		panel_contentPane.setColor(-1771805596);
-		panel_contentPane.setZOffset(1);
+		panel_contentPane.setZOffset(125);
 		//panel_contentPane.setScrollPadding(0);
 		//panel_contentPane.setScrollFlags(0);
 		addTChild(panel_contentPane, false);

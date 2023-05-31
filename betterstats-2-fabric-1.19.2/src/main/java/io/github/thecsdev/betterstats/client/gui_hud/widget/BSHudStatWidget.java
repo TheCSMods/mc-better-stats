@@ -4,8 +4,6 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
-import org.apache.logging.log4j.util.TriConsumer;
-
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
@@ -32,16 +30,15 @@ public abstract class BSHudStatWidget extends TElement
 	protected double anchorX, anchorY;
 	// --------------------------------------------------
 	protected final StatHandler statHandler;
-	protected final TriConsumer<TElement, Boolean, Boolean> ehChildAr_reposition;
 	// ==================================================
 	public BSHudStatWidget(int x, int y, StatHandler statHandler)
 	{
 		super(x, y, SIZE, SIZE);
 		this.statHandler = Objects.requireNonNull(statHandler, "statHandler must not be null.");
-		ehChildAr_reposition = getEvents().CHILD_AR.addWeakEventHandler((child, added, repositioned) ->
+		this.eChildAdded.register((element, child, repositioned) ->
 		{
 			//only when added
-			if(!added) return;
+			//if(!added) return;
 			//get last child
 			var lastChild = child.previous();
 			//reposition this new child based on the last child

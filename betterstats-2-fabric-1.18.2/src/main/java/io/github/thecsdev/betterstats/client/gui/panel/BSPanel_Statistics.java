@@ -4,7 +4,6 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.awt.Color;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -33,9 +32,6 @@ public class BSPanel_Statistics extends BSPanel
 	protected BSStatPanel               panel_stats;
 	protected BSScrollBarWidget         scroll_left;
 	protected BSNetworkSearchPanel      panel_networkSearch;
-	// --------------------------------------------------
-	//prevent the garbage collector from collecting these event handlers
-	protected Consumer<Integer> __handler0;
 	// ==================================================
 	public BSPanel_Statistics(BetterStatsScreen bss)
 	{
@@ -160,8 +156,7 @@ public class BSPanel_Statistics extends BSPanel
 		{
 			var scroll = sPanel.getVerticalScrollBar();
 			scroll.setValue(betterStats.filter_statsScroll);
-			__handler0 = sPanel.getEvents().SCROLL_V
-					.addWeakEventHandler(dY -> betterStats.filter_statsScroll = scroll.getValue());
+			sPanel.eScrollVertically.register((element, dY) -> betterStats.filter_statsScroll = scroll.getValue());
 		}
 		//assign stat current panel
 		this.panel_stats = sPanel;

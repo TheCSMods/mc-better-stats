@@ -1,0 +1,40 @@
+{
+	"betterstats": "Better Statistics экраны",
+
+	"betterstats.hud": "Статистиканың HUD",
+	"betterstats.hud.entity.kills": "Үтерүләр саны",
+	"betterstats.hud.entity.deaths": "Үлемнәр саны",
+	"betterstats.hud.hint.add_widget": "Статистика монда өстәү өчен аңа уң төймәне ([Shift] + уң төймә) басыгыз.",
+	"betterstats.hud.hint.del_widget": "Китерелгән элементны бетерү өчен Backspace (<-) басыгыз.",
+	"betterstats.hud.hint.esc_close": "Бу экранны ябу өчен Escape (ESC) басыгыз.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "«betterstats» аралашуын сервер белән кушыгыз",
+	"betterstats.hud.accuracy_mode_warning.message": "МӨҺИМ:\nБу көйләүне кабызып, сервер Сезнең «betterstats» утыртуыгызны ачыклаячак. Сезнең хосусыйлыгыгызны саклау өчен, шушы модны рөхсәт итмәс серверларда бу көйләүне кулланмагыз.\n\nБу көйләүне кушу HUD статистикасын төгәлрәк һәм реаль вакытта итә, «betterstats» сервер белән аралашуны рөхсәт итә. Игътибар итегез, бу функцияне эшләү өчен «betterstats» шулай ук серверга да утыртылырга тиеш.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "HUD-дагы төгәлрәк һәм реаль вакытта статистиканы куша.",
+	
+	"betterstats.gui.filters": "Фильтрлар",
+	"betterstats.gui.filters.group_by.default": "Беренчел",
+	"betterstats.gui.filters.group_by.mod": "Мод буенча",
+	"betterstats.gui.filters.group_by.none": "Барлык",  
+  
+  
+	"betterstats.gui.show_empty_stats": "Буш статистиканы күрсәтү",
+	"betterstats.gui.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "HUD",
+	"betterstats.gui.ctx_menu.close": "Ябу",
+	
+	"betterstats.gui.menu_bar.view": "Карау",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Ванила статистикасын күрсәтү",
+	"betterstats.gui.menu_bar.about": "Мод турында",
+	"betterstats.gui.menu_bar.about.source": "Чыганак",
+	"betterstats.gui.menu_bar.mods_other": "Башка (модлар)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "«betterstats» сервер тоташуын күчерү",
+	"betterstats.gui.network.btn_radio.warning": "МӨҺИМ:\nБу көйләүне кабызып, сервер Сезнең «betterstats» утыртылган белән үзгәртелгән клиентны куллануыгызны ачыклаячак. Сезнең хосусыйлыгыгызны саклау өчен, үзгәртелгән клиентларны яки шушы модны рөхсәт итмәс серверларда бу көйләүне кулланмагыз.\n\nБу көйләүне кушу модны серверга шулай ук утыртылган кулланышлы кайбер артык функцияләрне өсти.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Башка уенчының статистикасын карау",
+	"betterstats.gui.network.stats_request.timed_out": "Таләп вакыты бетте...",
+	"betterstats.gui.network.stats_request.player_404": "Таләп ителгән уенчы табылмады...",
+	
+	"betterstats.gui.config.debug_mode": "Төзәтү шарты"
+}

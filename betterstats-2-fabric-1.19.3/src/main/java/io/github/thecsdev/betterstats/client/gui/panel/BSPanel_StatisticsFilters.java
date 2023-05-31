@@ -5,8 +5,6 @@ import static io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import java.util.function.Consumer;
-
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
@@ -24,10 +22,6 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TTextFieldWidget;
 public class BSPanel_StatisticsFilters extends BSPanel
 {
 	// ==================================================
-	//prevent the garbage collector from collecting these event handlers
-	protected Runnable         __handler0;
-	protected Consumer<String> __handler1;
-	// --------------------------------------------------
 	public @Nullable TSelectEnumWidget<CurrentTab> btn_tab;
 	public @Nullable TSelectEnumWidget<GroupStatsBy> btn_groupBy;
 	public @Nullable TSelectWidget btn_sortBy;
@@ -69,7 +63,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 		//search bar
 		var txt_search = new TTextFieldWidget(nextX(), nextY(), nextW(), 20);
 		txt_search.setText(bss.filter_searchTerm, false);
-		__handler1 = txt_search.getEvents().TEXT_CHANGED.addWeakEventHandler(txt ->
+		txt_search.eTextChanged.register((element, txt) ->
 		{
 			bss.filter_searchTerm = txt;
 			bss.getStatPanel().init_stats();
@@ -79,7 +73,7 @@ public class BSPanel_StatisticsFilters extends BSPanel
 		//show empty stats
 		var check_emptyStats = new TCheckboxWidget(nextX(), nextY(), nextW(), 20,
 				translatable("betterstats.gui.show_empty_stats"), filter_showEmpty);
-		__handler0 = check_emptyStats.getEvents().CLICKED.addWeakEventHandler(() ->
+		check_emptyStats.eClicked.register(element ->
 		{
 			filter_showEmpty = check_emptyStats.getChecked();
 			bss.getStatPanel().init_stats();

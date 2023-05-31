@@ -25,14 +25,14 @@
 	},
 	"mixins": ["betterstats.client.mixin.json"],
 
-	"jars": [ { "file":"${project.mod_jar_tcdcommons}" } ],
+	"jars": [ { "file":"${project.mod_jar_fabricapi}" }, { "file":"${project.mod_jar_architectury}" }, { "file":"${project.mod_jar_tcdcommons}" } ],
 	"depends":
 	{
 		"fabricloader": ">=${project.loader_version}",
 		"minecraft": "${project.mod_depends_minecraft}",
 		"java": "${project.mod_depends_java}"
 	},
-	"recommends": { "tcdcommons": "2.x", "modmenu": "*" },
+	"recommends": { "fabric-api": "*", "architectury": "*", "tcdcommons": "2.x" },
 	
 	"custom":
 	{
