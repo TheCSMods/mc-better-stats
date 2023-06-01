@@ -1,0 +1,15 @@
+name: Questions & Other
+description: The other options aren't what you're looking for? Create your own custom issue.
+title: "Issue name"
+labels: ["Question"]
+assignees: []
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What is it you would like to ask?
+      placeholder: Write the question here!
+      value: "I would like to ask a question regarding..."
+    validations:
+      required: true

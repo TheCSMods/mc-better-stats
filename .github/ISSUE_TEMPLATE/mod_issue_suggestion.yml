@@ -1,0 +1,45 @@
+name: Suggestion
+description: Create a suggestion for this mod.
+title: "[Suggestion] Suggestion name"
+labels: ["Suggestion"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this suggestion!  
+
+#        **Note:** Suggestion titles start with the square brackets that contain the **latest** full mod version.  
+#        **Format:** [mod_loader]-[mod_version]+[minecraft_version]  
+#        **Example: fabric-v1.0+1.19.2**
+  - type: dropdown
+    id: loader
+    attributes:
+      label: What is this suggestion for?
+      description: "This suggestion is for the:"
+      multiple: false
+      options:
+        - Mod Itself
+        - Repository
+        - Wiki & Documentation
+        - GitHub Pages
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion
+      description: What is it you would like to suggest? A new feature? A change? Write it down here.
+      placeholder: Write the suggestion here!
+      value: "I would like to have a feature where..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: "By submitting this suggestion, you agree to the following:"
+      options:
+        - label: I agree that I will be available later for any follow-up questions to help with implementing the suggested thing.
+          required: true
