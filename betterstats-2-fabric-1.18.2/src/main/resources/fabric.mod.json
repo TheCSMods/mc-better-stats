@@ -34,7 +34,6 @@
 		
 		"fabric-api": "*", "architectury": "*", "tcdcommons": "2.x"
 	},
-	"recommends": { "fabric-api": "*", "architectury": "*", "tcdcommons": "2.x" },
 	
 	"custom":
 	{
