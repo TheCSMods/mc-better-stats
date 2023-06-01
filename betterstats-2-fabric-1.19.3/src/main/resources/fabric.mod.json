@@ -23,14 +23,16 @@
 		"server": ["${project.mod_entrypoint_server}"],
 		"modmenu": ["${project.mod_entrypoint_modmenu}"]
 	},
-	"mixins": ["betterstats.client.mixin.json"],
+	"mixins": [],
 
 	"jars": [ { "file":"${project.mod_jar_fabricapi}" }, { "file":"${project.mod_jar_architectury}" }, { "file":"${project.mod_jar_tcdcommons}" } ],
 	"depends":
 	{
 		"fabricloader": ">=${project.loader_version}",
 		"minecraft": "${project.mod_depends_minecraft}",
-		"java": "${project.mod_depends_java}"
+		"java": "${project.mod_depends_java}",
+		
+		"fabric-api": "*", "architectury": "*", "tcdcommons": "2.x"
 	},
 	"recommends": { "fabric-api": "*", "architectury": "*", "tcdcommons": "2.x" },
 	
