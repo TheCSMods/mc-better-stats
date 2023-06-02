@@ -7,15 +7,15 @@ This Minecraft mod replaces the Vanilla statistics screen with an new and improv
 (v2.7+) Adding a feature that allows players to see each other's statistics.
 - Keep in mind that this is optional, and the mod does not have to be installed on the server side in order to work.
 
-If you experience any issues or server crashes when attempting to install this mod on a server, please try installing **"Fabric API"**, **"Architectury API"**, and maybe **"TCDCommons API"** as well, and see if that fixes the issue.
+If you experience any issues or server crashes when attempting to install this mod on a server, please try installing **"Fabric API"**, **"Architectury API"**, and maybe **"TCDCommons API"** as well, and see if that fixes the issue. Idk, for some reason Fabric server refuses to load those embedded libraries, all the while it works just fine on the client. So I guess install those on the server as well if you get any crashes. 
 
-### Requirements:
-- Installing this mod: Client (Required) ➖ Server (Optional)
-- Fabric API: Client (Embedded aka Optional) ➖ Server (Likely required)
-- Architectury API: Client (Embedded aka Optional) ➖ Server (Likely required)
-- TCDCommons API: Client (Embedded aka Optional) ➖ Server (Likely optional)
-- REI: Client (Optional) ➖ Server (Not needed)
-- Mod menu: Client (Optional) ➖ Server (Not needed)
+### Requirements (v2.8+):
+- [Installing this mod](https://modrinth.com/mod/n6PXGAoM): Client (Required) ➖ Server (Optional)
+- [Fabric API](https://modrinth.com/mod/P7dR8mSH): Client (Embedded aka Optional) ➖ Server (Optional)
+- [Architectury API](https://modrinth.com/mod/lhGA9TYQ): Client (Embedded aka Optional) ➖ Server (Optional)
+- [TCDCommons API](https://modrinth.com/mod/Eldc1g37): Client (Embedded aka Optional) ➖ Server (Optional)
+- [REI](https://modrinth.com/mod/nfn13YXA): Client (Optional) ➖ Server (Not needed)
+- [Mod menu](https://modrinth.com/mod/mOgUt4GM): Client (Optional) ➖ Server (Not needed)
 
 ### A short video
 Here is a short video showcasing the mod and what it looks like (click the image)
