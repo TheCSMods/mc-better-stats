@@ -66,7 +66,7 @@ public class BetterStatsConfigScreen extends TScreen
 		panel_contentPane.addTChild(panel_title, false);
 		
 		var lbl_title = new TLabelElement(0, 0, panel_title.getTpeWidth(), panel_title.getTpeHeight());
-		lbl_title.setText(fLiteral("ง6").append(getTitle()));
+		lbl_title.setText(fLiteral("ยง6").append(getTitle()));
 		lbl_title.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		panel_title.addTChild(lbl_title, true);
 		

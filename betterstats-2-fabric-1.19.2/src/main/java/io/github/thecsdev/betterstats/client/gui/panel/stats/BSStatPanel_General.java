@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
 
+import io.github.thecsdev.betterstats.client.gui.panel.network.BSNetworkProfilePanel;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.util.StatUtils;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsGeneralStat;
@@ -59,6 +60,12 @@ public class BSStatPanel_General extends BSStatPanel
 	{
 		int statHeight = getTextRenderer().fontHeight + 8;
 		var world = getClient().world;
+		// ---------- init player profile panel
+		final var netProfile = new BSNetworkProfilePanel(
+				getScrollPadding(), getScrollPadding(),
+				getTpeWidth() - (getScrollPadding() * 2));
+		addTChild(netProfile, true);
+		netProfile.init(bss);
 		// ---------- init world stats
 		if(DEBUG_MODE && StringUtils.isBlank(bss.filter_searchTerm))
 		{
