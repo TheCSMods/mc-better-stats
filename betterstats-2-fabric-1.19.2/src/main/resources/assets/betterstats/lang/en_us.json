@@ -35,5 +35,22 @@
 	"betterstats.gui.network.stats_request.timed_out": "Request timed out...",
 	"betterstats.gui.network.stats_request.player_404": "Requested player not found...",
 	
+	"betterstats.gui.network.badges": "Player badges",
+	"betterstats.gui.network.badges.ee_icon_note": "Note: The current badge icon is an 'Easter Egg', and has nothing to do with the badge description.",
+	
+	"betterstats.gui.network.badges.badgeless.name": "No badges",
+	"betterstats.gui.network.badges.badgeless.description": "You've unlocked the secret badge of having no badges.\nThis badge indicates the player has no badges assigned to them.",
+	"betterstats.gui.network.badges.dedication.name": "Dedication",
+	"betterstats.gui.network.badges.dedication.description": "You've shown true dedication! You have played on this world for at least 12 days (288 hours).",
+	"betterstats.gui.network.badges.loyalty.name": "Loyalty",
+	"betterstats.gui.network.badges.loyalty.description": "Your loyalty is commendable! You have played on this world for at least 24 days (576 hours).",
+	
+	"betterstats.gui.network.badges.bss_supporter.name": "Better stats supporter",
+	"betterstats.gui.network.badges.bss_supporter.description": "You've shown support for the 'Better Stats' mod, and/or its development.",
+	"betterstats.gui.network.badges.bss_debugger.name": "Better stats bug hunter",
+	"betterstats.gui.network.badges.bss_debugger.description": "You reported a bug or some other issue related to the 'Better Stats' mod.",
+	"betterstats.gui.network.badges.bss_translator.name": "Better stats translator",
+	"betterstats.gui.network.badges.bss_translator.description": "You helped translate the 'Better Stats' mod to other languages.",
+	
 	"betterstats.gui.config.debug_mode": "Debug mode"
 }

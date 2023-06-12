@@ -22,7 +22,7 @@ public interface BStatsListener
 	 * when the stats for the given {@link #getListenerTargetGameProfile()} arrive.
 	 * @param profile The {@link BSNetworkProfile} containing the profile info and stats.
 	 */
-	public abstract void onStatsReady(BSNetworkProfile profile);
+	public abstract void onBetterStatsReady(BSNetworkProfile profile);
 	
 	/**
 	 * Called when the server fails to find an online player

@@ -2,10 +2,12 @@ package io.github.thecsdev.betterstats.client.gui.panel.stats;
 
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.DEBUG_MODE;
 import static io.github.thecsdev.tcdcommons.api.hooks.TCommonHooks.getBiomeAccessSeed;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.StringUtils;
@@ -103,6 +105,7 @@ public class BSStatPanel_General extends BSStatPanel
 	protected class BSStatWidget_General extends BSStatWidget
 	{
 		// ----------------------------------------------
+		protected StatUtilsGeneralStat stat;
 		protected final Text txt_left;
 		protected final Text txt_right;
 		// ----------------------------------------------
@@ -122,9 +125,19 @@ public class BSStatPanel_General extends BSStatPanel
 			//update tooltip
 			updateTooltip();
 		}
-		public BSStatWidget_General(StatUtilsGeneralStat stat, int height) { this(stat.label, stat.value, height); }
+		public BSStatWidget_General(StatUtilsGeneralStat stat, int height)
+		{
+			this(stat.label, stat.value, height);
+			this.stat = stat;
+			updateTooltip();
+		}
 		
-		@Override public void updateTooltip() { setTooltip(null); }
+		public @Override void updateTooltip()
+		{
+			if(DEBUG_MODE && this.stat != null)
+				setTooltip(fLiteral("§7" + Objects.toString(this.stat.stat.getValue())));
+			else setTooltip(null);
+		}
 		// ----------------------------------------------
 		@Override
 		public void render(MatrixStack matrices, int mouseX, int mouseY, float deltaTime)

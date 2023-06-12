@@ -1,13 +1,19 @@
 package io.github.thecsdev.betterstats.network;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
+import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadge_Badgeless;
+import io.github.thecsdev.tcdcommons.api.features.player.badges.PlayerBadge;
+import io.github.thecsdev.tcdcommons.api.features.player.badges.ServerPlayerBadgeHandler;
 import io.github.thecsdev.tcdcommons.api.hooks.TCommonHooks;
+import io.github.thecsdev.tcdcommons.api.registry.TCDCommonsRegistry;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.api.EnvType;
@@ -17,6 +23,7 @@ import net.minecraft.network.packet.s2c.play.StatisticsS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.StatHandler;
+import net.minecraft.util.Identifier;
 
 /**
  * A "player profile" that holds information about a given
@@ -34,11 +41,24 @@ public final class BSNetworkProfile
 	 * The statistics associated with the given player.
 	 */
 	public final StatHandler stats;
+	
+	/**
+	 * Stores a list of {@link PlayerBadge} {@link Identifier}s
+	 * associated with this {@link BSNetworkProfile}.
+	 */
+	public final HashSet<Identifier> playerBadgeIds;
 	// ==================================================
+	protected BSNetworkProfile(ServerPlayerEntity player)
+	{
+		this(player.getGameProfile(), player.getStatHandler());
+		this.playerBadgeIds.addAll(ServerPlayerBadgeHandler.getBadgeHandler(player).getBadges());
+	}
+	
 	protected BSNetworkProfile(GameProfile profile, StatHandler stats)
 	{
 		this.gameProfile = Objects.requireNonNull(profile);
 		this.stats = Objects.requireNonNull(stats);
+		this.playerBadgeIds = Sets.newHashSet();
 	}
 	// --------------------------------------------------
 	/**
@@ -71,7 +91,7 @@ public final class BSNetworkProfile
 	public static BSNetworkProfile ofServerPlayer(@Nullable ServerPlayerEntity player)
 	{
 		if(player == null) return ofNull();
-		else return new BSNetworkProfile(player.getGameProfile(), player.getStatHandler());
+		else return new BSNetworkProfile(player);
 	}
 	
 	/**
@@ -133,6 +153,14 @@ public final class BSNetworkProfile
 		pbb.writeInt(statsPbb.readableBytes());
 		pbb.writeBytes(statsPbb);
 		statsPbb.release(); //avoid memory leaks
+		
+		//write badges
+		this.playerBadgeIds.remove(null); //null not allowed
+		final var badgeArr = this.playerBadgeIds.toArray(new Identifier[0]);
+		
+		pbb.writeInt(badgeArr.length);
+		for(Identifier badgeId : badgeArr)
+			pbb.writeIdentifier(badgeId);
 	}
 	
 	/**
@@ -155,8 +183,19 @@ public final class BSNetworkProfile
 			statsMap.put(sEntry.getKey(), sEntry.getIntValue());
 		statsPbb.release(); //avoid memory leaks
 		
+		//construct object
+		final var newProfile = new BSNetworkProfile(gameProfile, stats);
+		
+		//read player badges
+		final var badgeCount = pbb.readInt();
+		for(int index = 0; index < badgeCount; index++)
+		{
+			if(pbb.isReadable())
+				newProfile.playerBadgeIds.add(pbb.readIdentifier());
+		}
+		
 		//create and return
-		return new BSNetworkProfile(gameProfile, stats);
+		return newProfile;
 	}
 	// --------------------------------------------------
 	public static void writeGameProfile(PacketByteBuf buf, @Nullable GameProfile gameProfile)
@@ -218,15 +257,37 @@ public final class BSNetworkProfile
 	}
 	// --------------------------------------------------
 	/**
-	 * Puts all stats from a given {@link StatHandler}
-	 * to the current {@link #stats} of this {@link BSNetworkProfile}.
+	 * Puts all stats from another {@link BSNetworkProfile}
+	 * into the current {@link #stats} of this {@link BSNetworkProfile}.
 	 * @param statHandler The stats to add to {@link #stats}.
 	 */
-	public void putAllStats(StatHandler statHandler)
+	public void putAllStats(BSNetworkProfile other)
 	{
-		var shMap = TCommonHooks.getStatHandlerStatMap(statHandler);
+		//put stats
+		var shMap = TCommonHooks.getStatHandlerStatMap(other.stats);
 		var sMap = TCommonHooks.getStatHandlerStatMap(this.stats);
 		sMap.putAll(shMap);
+		
+		//put badges
+		this.playerBadgeIds.addAll(other.playerBadgeIds);
+	}
+	// --------------------------------------------------
+	public HashSet<PlayerBadge> collectPlayerBadges()
+	{
+		//define needed stuff
+		final var reg = TCDCommonsRegistry.PlayerBadges;
+		final var set = new HashSet<PlayerBadge>();
+		//collect badges
+		for(Identifier badgeId : this.playerBadgeIds)
+		{
+			final var badge = reg.getOrDefault(badgeId, null);
+			if(badge != null) set.add(badge);
+		}
+		//badgeless badge
+		if(set.size() == 0)
+			set.add(BssClientPlayerBadge_Badgeless.instance);
+		//return
+		return set;
 	}
 	// ==================================================
 }

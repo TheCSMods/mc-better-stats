@@ -4,6 +4,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import dev.architectury.event.EventResult;
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadges;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BshsAutoRequest;
@@ -83,6 +84,9 @@ public final class BetterStatsClient extends BetterStats implements ClientModIni
 			//return
 			return EventResult.pass();
 		});
+		
+		//handle badge registration
+		BssClientPlayerBadges.register();
 		
 		//init stuff
 		BetterStatsClientNetworkHandler.init();

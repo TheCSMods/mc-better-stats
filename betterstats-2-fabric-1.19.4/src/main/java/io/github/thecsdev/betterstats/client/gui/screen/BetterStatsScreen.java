@@ -11,18 +11,24 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.collect.BiMap;
 import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadge_Badgeless;
+import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadges;
 import io.github.thecsdev.betterstats.client.gui.other.BSTooltipElement;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Downloading;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel_Statistics;
+import io.github.thecsdev.betterstats.client.gui.panel.network.BSNetworkProfilePanel;
 import io.github.thecsdev.betterstats.client.network.BStatsListener;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.betterstats.network.BSNetworkProfile;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
+import io.github.thecsdev.tcdcommons.api.client.network.PlayerBadgeNetworkListener;
+import io.github.thecsdev.tcdcommons.api.features.player.badges.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.util.GenericProperties;
 import io.github.thecsdev.tcdcommons.api.util.SubjectToChange;
 import io.netty.buffer.Unpooled;
@@ -37,10 +43,11 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.stat.StatHandler;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Identifier;
 
-public class BetterStatsScreen extends TScreenPlus implements BStatsListener
+public class BetterStatsScreen extends TScreenPlus implements BStatsListener, PlayerBadgeNetworkListener
 {
 	// ==================================================
 	public static enum CurrentTab
@@ -254,17 +261,27 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		
 		//after initialization of all necessary elements is
 		//done, start off by sending a request
-		if(STATUS_RECIEVED) onStatsReady(this.targetProfile);
+		if(STATUS_RECIEVED) onBetterStatsReady(this.targetProfile);
 	}
 	// --------------------------------------------------
 	public @Override GameProfile getListenerTargetGameProfile() { return this.targetProfile.gameProfile; }
-	public @Override void onStatsReady(BSNetworkProfile recievedProfile)
+	public @Override void onBetterStatsReady(BSNetworkProfile recievedProfile)
 	{
+		//tick client-side badge(s)
+		BssClientPlayerBadge_Badgeless.instance.tick();
+		
 		//update the status flag
 		STATUS_RECIEVED = true;
 		LOGGER.debug("Client received stats from server for: " + recievedProfile);
-		if(this.targetProfile.stats != recievedProfile.stats)
-			this.targetProfile.putAllStats(recievedProfile.stats);
+		/*if(this.targetProfile.stats != recievedProfile.stats)
+			this.targetProfile.putAllStats(recievedProfile);*/
+		
+		//put some extra stat-based badges
+		final var playTime = this.targetProfile.stats.getStat(Stats.CUSTOM, Stats.PLAY_TIME);
+		if(playTime > 20736000)
+			this.targetProfile.playerBadgeIds.add(BssClientPlayerBadges.DEDICATION.getBadgeId());
+		if(playTime > 20736000 * 2)
+			this.targetProfile.playerBadgeIds.add(BssClientPlayerBadges.LOYALTY.getBadgeId());
 		
 		//hide the downloading panel
 		//and show the statistics panel
@@ -280,6 +297,16 @@ public class BetterStatsScreen extends TScreenPlus implements BStatsListener
 		if(this.panel_download != null)
 			this.panel_download.onPlayer404();
 		this.STATUS_TIMEOUT = 256;
+	}
+	
+	//TCDCommons network protocol handling - Important for fetching local/client-player's badges
+	public @Override void onPlayerBadgesReady(BiMap<Identifier, PlayerBadge> badges)
+	{
+		//add all the badgies to the target profile
+		this.targetProfile.playerBadgeIds.addAll(badges.keySet());
+		//re-init any network profile panels
+		final var npp = findTChildOfType(BSNetworkProfilePanel.class, true);
+		if(npp != null) npp.init(this);
 	}
 	// ==================================================
 	public @Override void renderBackground(MatrixStack matrices) { /*no background*/ }

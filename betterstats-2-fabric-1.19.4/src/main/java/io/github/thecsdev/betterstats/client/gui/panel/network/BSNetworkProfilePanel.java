@@ -10,15 +10,17 @@ import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TOcpeRendererElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPlayerBadgePanel;
 
 public class BSNetworkProfilePanel extends BSPanel
 {
 	// ==================================================
 	protected TOcpeRendererElement playerRenderer;
+	protected TPlayerBadgePanel badgeShowcase;
 	// ==================================================
 	public BSNetworkProfilePanel(int x, int y, int width)
 	{
-		super(x, y, width, 64);
+		super(x, y, width, 64 + 64);
 		setScrollPadding(7);
 		setOutlineColor(0);
 	}
@@ -31,7 +33,7 @@ public class BSNetworkProfilePanel extends BSPanel
 		//name           - 20px
 		//gap            - 10px
 		//uuid           - 20px
-		//badge_list     - 40px
+		//badge_list     - 64px
 		//scroll padding - 7px
 		
 		//calculations
@@ -45,7 +47,7 @@ public class BSNetworkProfilePanel extends BSPanel
 		//player element
 		this.playerRenderer = new TOcpeRendererElement(pad, pad, (int)(_13 * 0.8), getTpeHeight());
 		this.playerRenderer.setProfileGP(bss.targetProfile.gameProfile);
-		this.playerRenderer.setScale(1.1);
+		this.playerRenderer.setScale(1.8);
 		addTChild(this.playerRenderer, true);
 		
 		//player info labels
@@ -60,6 +62,14 @@ public class BSNetworkProfilePanel extends BSPanel
 		addTChild(lbl_uuidKey, true);
 		final var lbl_uuidVal = new TLabelElement(_13, pad + 40, wm13, 10, literal(uuid));
 		addTChild(lbl_uuidVal, true);
+		
+		//player badges panel
+		final var lbl_badges = new TLabelElement(_13, pad + 60, wm13, 10, translatable("betterstats.gui.network.badges"));
+		lbl_badges.setColor(ylw, ylw);
+		addTChild(lbl_badges, true);
+		this.badgeShowcase = new TPlayerBadgePanel(_13, pad + 74, wm13, 40, false);
+		addTChild(this.badgeShowcase, true);
+		this.badgeShowcase.init(bss.targetProfile.collectPlayerBadges());
 	}
 	// ==================================================
 }

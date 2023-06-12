@@ -58,7 +58,7 @@ public final class BetterStatsClientNetworkHandler
 	{
 		//init variables
 		ProfileCache = CacheBuilder.newBuilder()
-				.expireAfterWrite(2, TimeUnit.MINUTES)
+				.expireAfterWrite(3, TimeUnit.MINUTES)
 				.build();
 		
 		//init network
@@ -108,7 +108,7 @@ public final class BetterStatsClientNetworkHandler
 		//cache...
 		if(existingProfile != null)
 			//if one exists, just add the updated stats on top of it
-			existingProfile.putAllStats(profile.stats);
+			existingProfile.putAllStats(profile);
 		else
 			//but if one doesn't exist, then put this new one in place
 			ProfileCache.put(pDisplayName, (existingProfile = profile));
@@ -122,7 +122,7 @@ public final class BetterStatsClientNetworkHandler
 			if(Objects.equal(profile.gameProfile.getId(), new UUID(0, 0)))
 				client.executeSync(() -> bsl.onStatsPlayerNotFound()); //TODO - Thread safety!
 			else if(BSNetworkProfile.compareGameProfiles(bsl.getListenerTargetGameProfile(), profile.gameProfile))
-				client.executeSync(() -> bsl.onStatsReady(profile)); //TODO - Thread safety!
+				client.executeSync(() -> bsl.onBetterStatsReady(profile)); //TODO - Thread safety!
 		}
 		
 		//return true to indicate everything was done

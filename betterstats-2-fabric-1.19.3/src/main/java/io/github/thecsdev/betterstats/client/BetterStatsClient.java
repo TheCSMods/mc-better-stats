@@ -6,6 +6,7 @@ import java.util.List;
 
 import dev.architectury.event.EventResult;
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadges;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BshsAutoRequest;
@@ -82,6 +83,9 @@ public final class BetterStatsClient extends BetterStats implements ClientModIni
 				if(bshs != null && bshs.flag_tickChildren < 1)
 					bshs.flag_tickChildren = 3; //schedule the widget update
 			}
+			
+			//handle badge registration
+			BssClientPlayerBadges.register();
 			
 			//return
 			return EventResult.pass();
