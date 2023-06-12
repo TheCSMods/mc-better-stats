@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.network;
 
+import static io.github.thecsdev.tcdcommons.api.registry.TCDCommonsRegistry.PlayerBadges;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,6 +12,7 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadge_Badgeless;
+import io.github.thecsdev.tcdcommons.api.client.features.player.badges.ClientPlayerBadge;
 import io.github.thecsdev.tcdcommons.api.features.player.badges.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.features.player.badges.ServerPlayerBadgeHandler;
 import io.github.thecsdev.tcdcommons.api.hooks.TCommonHooks;
@@ -190,8 +193,17 @@ public final class BSNetworkProfile
 		final var badgeCount = pbb.readInt();
 		for(int index = 0; index < badgeCount; index++)
 		{
-			if(pbb.isReadable())
-				newProfile.playerBadgeIds.add(pbb.readIdentifier());
+			//DoS attack prevention
+			if(!pbb.isReadable()) break;
+			
+			//check if the badge is client-side - don't allow those
+			final var playerBadgeId = pbb.readIdentifier();
+			final var playerBadge = PlayerBadges.getOrDefault(playerBadgeId, null);
+			if(playerBadge instanceof ClientPlayerBadge)
+				continue; //skip client player badges
+			
+			//add the player badge to the set
+			newProfile.playerBadgeIds.add(playerBadgeId);
 		}
 		
 		//create and return

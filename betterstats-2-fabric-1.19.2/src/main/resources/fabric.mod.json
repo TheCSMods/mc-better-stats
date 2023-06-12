@@ -10,7 +10,8 @@
 	{
 		"homepage": "${project.mod_contact_homepage}",
 		"sources": "${project.mod_contact_sources}",
-		"issues": "${project.mod_contact_issues}"
+		"issues": "${project.mod_contact_issues}",
+		"wiki": "${project.mod_contact_wiki}"
 	},
 
 	"license": "${project.mod_license}",

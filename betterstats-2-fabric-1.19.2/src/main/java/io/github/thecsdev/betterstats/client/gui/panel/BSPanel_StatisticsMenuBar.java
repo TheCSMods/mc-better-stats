@@ -67,6 +67,11 @@ public class BSPanel_StatisticsMenuBar extends TMenuBarPanel
 				String url = mod_info.getContact().get("issues").orElse(null);
 				if(url != null) GuiUtils.showUrlPrompt(url, true);
 			});
+			menu_about.addDropdownOption(translatable("betterstats.gui.network.badges"), () ->
+			{
+				String url = mod_info.getContact().get("wiki").orElse(null);
+				if(url != null) GuiUtils.showUrlPrompt(url, true);
+			});
 			
 			//links for modmenu
 			if(FabricLoader.getInstance().isModLoaded("modmenu"))

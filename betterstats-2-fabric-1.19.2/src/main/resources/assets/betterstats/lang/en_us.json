@@ -39,7 +39,7 @@
 	"betterstats.gui.network.badges.ee_icon_note": "Note: The current badge icon is an 'Easter Egg', and has nothing to do with the badge description.",
 	
 	"betterstats.gui.network.badges.badgeless.name": "No badges",
-	"betterstats.gui.network.badges.badgeless.description": "You've unlocked the secret badge of having no badges.\nThis badge indicates the player has no badges assigned to them.",
+	"betterstats.gui.network.badges.badgeless.description": "You've unlocked the secret badge of having no badges!\nThis badge indicates the player has no badges assigned to them.\nVisit the 'Better Stats' wiki for more info.",
 	"betterstats.gui.network.badges.dedication.name": "Dedication",
 	"betterstats.gui.network.badges.dedication.description": "You've shown true dedication! You have played on this world for at least 12 days (288 hours).",
 	"betterstats.gui.network.badges.loyalty.name": "Loyalty",
