@@ -16,6 +16,8 @@ public class BetterStats extends Object
 	private static BetterStats Instance;
 	// --------------------------------------------------
 	public final ModContainer modInfo;
+	public final String contact_sources;
+	public final String contact_playerBadgeWebhook;
 	// ==================================================
 	/**
 	 * Initializes this mod. This action may only be performed by the fabric-loader.
@@ -31,6 +33,9 @@ public class BetterStats extends Object
 		//assign instance
 		Instance = this;
 		modInfo = FabricLoader.getInstance().getModContainer(getModID()).get();
+		final var contact = this.modInfo.getMetadata().getContact();
+		this.contact_sources = contact.get("sources").get();
+		this.contact_playerBadgeWebhook = contact.get("player_badge_webhook").get();
 		
 		//log stuff
 		LOGGER.info("Initializing '" + getModName() + "' as '" + getClass().getSimpleName() + "'.");

@@ -83,7 +83,7 @@ public class BSPanel_Statistics extends BSPanel
 		panel_networkSearch.init(this.betterStats);
 		
 		//create label for target player name
-		var str_playerName = literal(this.betterStats.targetProfile.getProfileDisplayName());
+		var str_playerName = literal(this.betterStats.getBSStatHandler().getProfileDisplayName());
 		var str_playerName_w = getTextRenderer().getWidth(str_playerName) + 5;
 		var lbl_playerName = new TLabelElement(
 				panel_menuBar.getTpeEndX() - (str_playerName_w + 5), panel_menuBar.getTpeY() + 1,

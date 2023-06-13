@@ -35,8 +35,8 @@ public class BSPanel_Downloading extends BSPanel
 		var txt_targetPlayer = new TLabelElement(0, txt_downloading.getTpeEndY(), getTpeWidth(), 20);
 		txt_targetPlayer.setColor(Color.LIGHT_GRAY.getRGB(), Color.LIGHT_GRAY.getRGB());
 		txt_targetPlayer.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		var tpn = Objects.toString(bss.targetProfile.gameProfile.getId()) + " - "
-				+ Objects.toString(bss.targetProfile.gameProfile.getName());
+		var tpn = Objects.toString(bss.getBSStatHandler().gameProfile.getId()) + " - "
+				+ Objects.toString(bss.getBSStatHandler().gameProfile.getName());
 		txt_targetPlayer.setText(literal(tpn));
 		addTChild(txt_targetPlayer, false);
 		

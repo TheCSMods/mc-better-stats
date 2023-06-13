@@ -41,12 +41,12 @@ public class BSNetworkProfilePanel extends BSPanel
 		final int _13 = (int)(getTpeWidth() * 0.2); //one third (1/3)
 		final int wm13 = getTpeWidth() - _13; //width - one third
 		final int ylw = Color.YELLOW.getRGB(); //yellow color
-		final String name = Objects.toString(bss.targetProfile.gameProfile.getName(), "-");
-		final String uuid = Objects.toString(bss.targetProfile.gameProfile.getId(), "-");
+		final String name = Objects.toString(bss.getBSStatHandler().gameProfile.getName(), "-");
+		final String uuid = Objects.toString(bss.getBSStatHandler().gameProfile.getId(), "-");
 		
 		//player element
 		this.playerRenderer = new TOcpeRendererElement(pad, pad, (int)(_13 * 0.8), getTpeHeight());
-		this.playerRenderer.setProfileGP(bss.targetProfile.gameProfile);
+		this.playerRenderer.setProfileGP(bss.getBSStatHandler().gameProfile);
 		this.playerRenderer.setScale(1.8);
 		addTChild(this.playerRenderer, true);
 		
@@ -69,7 +69,7 @@ public class BSNetworkProfilePanel extends BSPanel
 		addTChild(lbl_badges, true);
 		this.badgeShowcase = new TPlayerBadgePanel(_13, pad + 74, wm13, 40, false);
 		addTChild(this.badgeShowcase, true);
-		this.badgeShowcase.init(bss.targetProfile.collectPlayerBadges());
+		this.badgeShowcase.init(bss.getBSStatHandler().collectPlayerBadges());
 	}
 	// ==================================================
 }
