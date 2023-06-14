@@ -44,12 +44,13 @@
 	"betterstats.gui.network.badges.dedication.description": "You've shown true dedication! You have played on this world for at least 12 days (288 hours).",
 	"betterstats.gui.network.badges.loyalty.name": "Loyalty",
 	"betterstats.gui.network.badges.loyalty.description": "Your loyalty is commendable! You have played on this world for at least 24 days (576 hours).",
+	"betterstats.gui.network.badges.the_next_generation.description": "You've held the symbol of ultimate triumph - the Dragon Egg.",
 	
-	"betterstats.gui.network.badges.bss_supporter.name": "Better stats supporter",
+	"betterstats.gui.network.badges.bss_supporter.name": "Better Stats supporter",
 	"betterstats.gui.network.badges.bss_supporter.description": "You've shown support for the 'Better Stats' mod, and/or its development.",
-	"betterstats.gui.network.badges.bss_debugger.name": "Better stats bug hunter",
+	"betterstats.gui.network.badges.bss_debugger.name": "Better Stats bug hunter",
 	"betterstats.gui.network.badges.bss_debugger.description": "You reported a bug or some other issue related to the 'Better Stats' mod.",
-	"betterstats.gui.network.badges.bss_translator.name": "Better stats translator",
+	"betterstats.gui.network.badges.bss_translator.name": "Better Stats translator",
 	"betterstats.gui.network.badges.bss_translator.description": "You helped translate the 'Better Stats' mod to other languages.",
 	
 	"betterstats.gui.config.debug_mode": "Debug mode"

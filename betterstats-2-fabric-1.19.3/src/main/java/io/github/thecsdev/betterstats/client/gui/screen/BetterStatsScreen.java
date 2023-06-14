@@ -25,7 +25,9 @@ import io.github.thecsdev.betterstats.client.gui.panel.network.BSNetworkProfileP
 import io.github.thecsdev.betterstats.client.network.BStatsListener;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.betterstats.network.BSNetworkProfile;
+import io.github.thecsdev.betterstats.util.StatUtils;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
+import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTooltipElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
 import io.github.thecsdev.tcdcommons.api.client.network.PlayerBadgeNetworkListener;
@@ -37,6 +39,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
@@ -82,7 +85,7 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 	// --------------------------------------------------
 	public final Screen parent;
 	public final GameProfile targetProfile;
-	protected @Nullable BSNetworkProfile statHandler; //holds current stats
+	protected @Nullable BSNetworkProfile bStatHandler; //holds current stats
 	// --------------------------------------------------
 	protected BSPanel_Downloading panel_download;
 	protected BSPanel_Statistics panel_stats;
@@ -94,6 +97,7 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 	public GroupStatsBy filter_groupBy;
 	// --------------------------------------------------
 	public final GenericProperties cache = new GenericProperties();
+	public final boolean PLAYER_BADGES_ENABLED;
 	// ==================================================
 	/**
 	 * Creates a {@link BetterStatsScreen} instance.
@@ -115,6 +119,7 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 		this.STATUS_TIMEOUT = 0;
 		this.client = MinecraftClient.getInstance(); //need this
 		this.parent = parent;
+		this.PLAYER_BADGES_ENABLED = TCDCommons.getInstance().getConfig().enablePlayerBadges;
 		
 		//always try to make sure the stat handler isn't null
 		//by initializing it with a blank/empty profile
@@ -123,7 +128,7 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 		if(cachedStatHandler == null)
 			cachedStatHandler = BSNetworkProfile.compareGameProfiles(gameProfile, this.client.player.getGameProfile()) ?
 					BSNetworkProfile.ofLocalClient() : BSNetworkProfile.ofGameProfile(gameProfile);
-		this.statHandler = cachedStatHandler;
+		this.bStatHandler = cachedStatHandler;
 		
 		//define the rest
 		this.targetProfile = gameProfile;
@@ -219,8 +224,8 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 	 * Returns the {@link StatHandler} whose stats this
 	 * {@link BetterStatsScreen} chooses to show on the screen.
 	 */
-	public StatHandler getStatHandler() { return this.statHandler.stats; }
-	public @Nullable BSNetworkProfile getBSStatHandler() { return this.statHandler; }
+	public StatHandler getStatHandler() { return this.bStatHandler.stats; }
+	public @Nullable BSNetworkProfile getBSStatHandler() { return this.bStatHandler; }
 	
 	/**
 	 * Returns the currently used stat panel.
@@ -265,10 +270,10 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 		
 		//after initialization of all necessary elements is
 		//done, start off by sending a request
-		if(STATUS_RECIEVED) onBetterStatsReady(this.statHandler);
+		if(STATUS_RECIEVED) onBetterStatsReady(this.bStatHandler);
 	}
 	// --------------------------------------------------
-	public @Override GameProfile getListenerTargetGameProfile() { return this.statHandler.gameProfile; }
+	public @Override GameProfile getListenerTargetGameProfile() { return this.bStatHandler.gameProfile; }
 	public @Override void onBetterStatsReady(BSNetworkProfile recievedProfile)
 	{
 		//tick client-side badge(s)
@@ -276,15 +281,21 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 		
 		//update the status flag
 		STATUS_RECIEVED = true;
-		this.statHandler = Objects.requireNonNull(recievedProfile);
+		this.bStatHandler = Objects.requireNonNull(recievedProfile);
 		LOGGER.debug("Client received stats from server for: " + recievedProfile);
 		
 		//put some extra stat-based badges
-		final var playTime = this.statHandler.stats.getStat(Stats.CUSTOM, Stats.PLAY_TIME);
-		if(playTime > 20736000)
-			this.statHandler.playerBadgeIds.add(BssClientPlayerBadges.DEDICATION.getBadgeId());
-		if(playTime > 20736000 * 2)
-			this.statHandler.playerBadgeIds.add(BssClientPlayerBadges.LOYALTY.getBadgeId());
+		if(PLAYER_BADGES_ENABLED)
+		{
+			final var playTime = this.bStatHandler.stats.getStat(Stats.CUSTOM, Stats.PLAY_TIME);
+			if(playTime > 20736000)
+				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.DEDICATION.getBadgeId());
+			if(playTime > 20736000 * 2)
+				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.LOYALTY.getBadgeId());
+			
+			if(!new StatUtils.StatUtilsItemStat(getStatHandler(), Items.DRAGON_EGG).isEmpty())
+				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.THE_NEXT_GEN.getBadgeId());
+		}
 		
 		//hide the downloading panel
 		//and show the statistics panel
@@ -307,7 +318,7 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 	{
 		//add all the badgies to the target profile,
 		//and then re-init any network profile panels
-		this.statHandler.playerBadgeIds.addAll(badges.keySet());
+		this.bStatHandler.playerBadgeIds.addAll(badges.keySet());
 		reInit_BSNetworkProfilePanel();
 	}
 	public boolean reInit_BSNetworkProfilePanel()

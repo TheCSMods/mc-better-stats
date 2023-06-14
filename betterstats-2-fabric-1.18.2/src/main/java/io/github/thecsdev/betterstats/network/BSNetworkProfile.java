@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.betterstats.api.client.features.player.badges.BssClientPlayerBadge_Badgeless;
+import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.client.features.player.badges.ClientPlayerBadge;
 import io.github.thecsdev.tcdcommons.api.features.player.badges.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.features.player.badges.ServerPlayerBadgeHandler;
@@ -54,7 +55,8 @@ public final class BSNetworkProfile
 	protected BSNetworkProfile(ServerPlayerEntity player)
 	{
 		this(player.getGameProfile(), player.getStatHandler());
-		this.playerBadgeIds.addAll(ServerPlayerBadgeHandler.getBadgeHandler(player).getBadges());
+		if(TCDCommons.getInstance().getConfig().enablePlayerBadges)
+			this.playerBadgeIds.addAll(ServerPlayerBadgeHandler.getBadgeHandler(player).getBadges());
 	}
 	
 	protected BSNetworkProfile(GameProfile profile, StatHandler stats)

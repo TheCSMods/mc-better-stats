@@ -17,10 +17,13 @@ public class BSNetworkProfilePanel extends BSPanel
 	// ==================================================
 	protected TOcpeRendererElement playerRenderer;
 	protected TPlayerBadgePanel badgeShowcase;
+	// --------------------------------------------------
+	protected final boolean showPlayerBadges;
 	// ==================================================
-	public BSNetworkProfilePanel(int x, int y, int width)
+	public BSNetworkProfilePanel(int x, int y, int width, boolean showPlayerBadges)
 	{
-		super(x, y, width, 64 + 64);
+		super(x, y, width, 64 + (showPlayerBadges ? 64 : 0));
+		this.showPlayerBadges = showPlayerBadges;
 		setScrollPadding(7);
 		setOutlineColor(0);
 	}
@@ -47,7 +50,7 @@ public class BSNetworkProfilePanel extends BSPanel
 		//player element
 		this.playerRenderer = new TOcpeRendererElement(pad, pad, (int)(_13 * 0.8), getTpeHeight());
 		this.playerRenderer.setProfileGP(bss.getBSStatHandler().gameProfile);
-		this.playerRenderer.setScale(1.8);
+		this.playerRenderer.setScale(this.showPlayerBadges ? 1.8 : 1);
 		addTChild(this.playerRenderer, true);
 		
 		//player info labels
@@ -64,12 +67,15 @@ public class BSNetworkProfilePanel extends BSPanel
 		addTChild(lbl_uuidVal, true);
 		
 		//player badges panel
-		final var lbl_badges = new TLabelElement(_13, pad + 60, wm13, 10, translatable("betterstats.gui.network.badges"));
-		lbl_badges.setColor(ylw, ylw);
-		addTChild(lbl_badges, true);
-		this.badgeShowcase = new TPlayerBadgePanel(_13, pad + 74, wm13, 40, false);
-		addTChild(this.badgeShowcase, true);
-		this.badgeShowcase.init(bss.getBSStatHandler().collectPlayerBadges());
+		if(this.showPlayerBadges)
+		{
+			final var lbl_badges = new TLabelElement(_13, pad + 60, wm13, 10, translatable("betterstats.gui.network.badges"));
+			lbl_badges.setColor(ylw, ylw);
+			addTChild(lbl_badges, true);
+			this.badgeShowcase = new TPlayerBadgePanel(_13, pad + 74, wm13, 40, false);
+			addTChild(this.badgeShowcase, true);
+			this.badgeShowcase.init(bss.getBSStatHandler().collectPlayerBadges());
+		}
 	}
 	// ==================================================
 }

@@ -29,7 +29,7 @@ public abstract class BssClientPlayerBadge extends ClientPlayerBadge
 		this.uv_coords.x = x;
 		this.uv_coords.y = y;
 		this.uv_coords.width = w;
-		this.uv_coords.height = y;
+		this.uv_coords.height = h;
 		return this;
 	}
 	// ==================================================

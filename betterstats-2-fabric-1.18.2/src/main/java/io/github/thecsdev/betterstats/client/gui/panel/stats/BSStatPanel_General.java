@@ -65,7 +65,8 @@ public class BSStatPanel_General extends BSStatPanel
 		// ---------- init player profile panel
 		final var netProfile = new BSNetworkProfilePanel(
 				getScrollPadding(), getScrollPadding(),
-				getTpeWidth() - (getScrollPadding() * 2));
+				getTpeWidth() - (getScrollPadding() * 2),
+				bss.PLAYER_BADGES_ENABLED);
 		addTChild(netProfile, true);
 		netProfile.init(bss);
 		// ---------- init world stats
