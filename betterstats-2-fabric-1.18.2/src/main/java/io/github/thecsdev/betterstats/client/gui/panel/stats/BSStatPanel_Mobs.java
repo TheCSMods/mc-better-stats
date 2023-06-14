@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.registry.BetterStatsRegistry;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
@@ -47,9 +48,19 @@ public class BSStatPanel_Mobs extends BSStatPanel
 		BSStatPanelMobs_SortBy(MutableText text) { this.text = text; }
 		public MutableText asText() { return text; }
 	}
+	// --------------------------------------------------
+	protected final boolean guiMobsFollowCursor;
 	// ==================================================
-	public BSStatPanel_Mobs(int x, int y, int width, int height) { super(x, y, width, height); }
-	public BSStatPanel_Mobs(TPanelElement parentToFill) { super(parentToFill); }
+	public BSStatPanel_Mobs(int x, int y, int width, int height)
+	{
+		super(x, y, width, height);
+		this.guiMobsFollowCursor = BetterStats.getInstance().getConfig().guiMobsFollowCursor;
+	}
+	public BSStatPanel_Mobs(TPanelElement parentToFill)
+	{
+		super(parentToFill);
+		this.guiMobsFollowCursor = BetterStats.getInstance().getConfig().guiMobsFollowCursor;
+	}
 	// ==================================================
 	@Override
 	public Predicate<StatUtilsStat> getStatPredicate()
@@ -232,12 +243,14 @@ public class BSStatPanel_Mobs extends BSStatPanel
 	{
 		// ----------------------------------------------
 		public final StatUtilsMobStat stat;
+		public final TEntityRendererElement entityRenderer;
 		// ----------------------------------------------
 		public BSStatWidget_Mob(StatUtilsMobStat stat, int x, int y, int size)
 		{
 			super(x, y, size, size);
 			this.stat = Objects.requireNonNull(stat, "stat must not be null.");
-			addTChild(new TEntityRendererElement(x, y, size, size, stat.entityType), false);
+			addTChild(this.entityRenderer = new TEntityRendererElement(x, y, size, size, stat.entityType), false);
+			this.entityRenderer.setFollowCursor(BSStatPanel_Mobs.this.guiMobsFollowCursor);
 			
 			updateTooltip();
 		}

@@ -53,5 +53,6 @@
 	"betterstats.gui.network.badges.bss_translator.name": "Better Stats translator",
 	"betterstats.gui.network.badges.bss_translator.description": "You helped translate the 'Better Stats' mod to other languages.",
 	
-	"betterstats.gui.config.debug_mode": "Debug mode"
+	"betterstats.gui.config.debug_mode": "Debug mode",
+	"betterstats.gui.config.gui_mob_follow_cursor": "GUI mobs follow cursor"
 }

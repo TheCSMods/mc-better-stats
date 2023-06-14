@@ -18,6 +18,8 @@ public class BetterStats extends Object
 	public final ModContainer modInfo;
 	public final String contact_sources;
 	public final String contact_playerBadgeWebhook;
+	// --------------------------------------------------
+	protected final BetterStatsConfig config;
 	// ==================================================
 	/**
 	 * Initializes this mod. This action may only be performed by the fabric-loader.
@@ -40,12 +42,17 @@ public class BetterStats extends Object
 		//log stuff
 		LOGGER.info("Initializing '" + getModName() + "' as '" + getClass().getSimpleName() + "'.");
 		
+		//try to load config (IOException-s should be harmless)
+		this.config = new BetterStatsConfig(getModID());
+		this.config.tryLoadFromFile(true);
+		
 		//init stuff
 		BetterStatsNetworkHandler.init();
 	}
 	// --------------------------------------------------
 	/** Returns the Fabric {@link ModContainer} containing information about this mod. */
 	public ModContainer getModInfo() { return modInfo; }
+	public BetterStatsConfig getConfig() { return this.config; }
 	// ==================================================
 	/** Returns the instance of this mod. */
 	public static BetterStats getInstance() { return Instance; }

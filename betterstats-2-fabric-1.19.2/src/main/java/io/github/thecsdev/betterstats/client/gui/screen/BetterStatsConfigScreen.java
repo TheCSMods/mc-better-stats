@@ -4,7 +4,10 @@ import static io.github.thecsdev.betterstats.client.BetterStatsClient.DEBUG_MODE
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.util.Objects;
+
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui.widget.BSScrollBarWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
@@ -15,10 +18,11 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.TConfigGuiBuilder;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 
-public class BetterStatsConfigScreen extends TScreen
+public final class BetterStatsConfigScreen extends TScreen
 {
 	// ==================================================
 	public final Screen parent;
+	public final BetterStatsConfig config;
 	// --------------------------------------------------
 	protected TFillColorElement panel_contentPane;
 	protected BSCSPanel panel_title;
@@ -30,9 +34,11 @@ public class BetterStatsConfigScreen extends TScreen
 		super(translatable(BetterStats.getModID())
 				.append(" - ").append(translatable("options.title")));
 		this.parent = parent;
+		this.config = Objects.requireNonNull(BetterStats.getInstance().getConfig());
 	}
 	public @Override boolean shouldRenderInGameHud() { return false; }
 	protected @Override void onClosed() { getClient().setScreen(this.parent); }
+	// --------------------------------------------------
 	public @Override void renderBackground(MatrixStack matrices)
 	{
 		if(this.parent != null)
@@ -85,9 +91,13 @@ public class BetterStatsConfigScreen extends TScreen
 				translatable("betterstats.gui.config.debug_mode"),
 				DEBUG_MODE,
 				newVal -> DEBUG_MODE = newVal);
+		config_builder.addBoolean(translatable("betterstats.gui.config.gui_mob_follow_cursor"),
+				this.config.guiMobsFollowCursor,
+				newVal -> this.config.guiMobsFollowCursor = newVal);
 		config_builder.addButton(TConfigGuiBuilder.TXT_SAVE, btn ->
 		{
 			config_builder.applyAllConfigChanges();
+			this.config.trySaveToFile(true);
 			this.close();
 		});
 	}
