@@ -9,8 +9,8 @@
 	"betterstats.hud.hint.esc_close": "Нажмите Escape (ESC), чтобы закрыть это окно.",
 	
 	"betterstats.hud.accuracy_mode_warning.title": "Включите 'betterstats' взаимодействие с сервером",
-	"betterstats.hud.accuracy_mode_warning.message": "ВАЖНО:\nВключая эту фунцию, сервер заметит, что у вас установлен 'betterstats'. Чтобы защитить вашу приватность, не используйте эту фукнцию на сервер, которые могут не разрешать этот мод.\n\nВключение этой фукнции делает индикатор статистикиболее точным и обновляющимся в реальном времени, разрешая 'betterstats' связываться с сервером. Учтите, что 'betterstats' должен быть так же установлен на сервере, для работы этой функции.",
-	"betterstats.hud.accuracy_mode_warning.tooltip": "Включает более точную статистику, обновляющуюся в реальном временем .",
+	"betterstats.hud.accuracy_mode_warning.message": "ВАЖНО:\nВключая эту фунцию, сервер заметит, что у вас установлен 'betterstats'. Чтобы защитить вашу приватность, не используйте эту фукнцию на сервер, которые могут не разрешать этот мод.\n\nВключение этой фукнции делает интерфейс статистики более точным и обновляющимся в реальном времени, разрешая 'betterstats' связываться с сервером. Учтите, что 'betterstats' должен быть так же установлен на сервере, для работы этой функции.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Включает более точный интерфейс статистики, обновляющийся в реальном временем.",
 	
 	"betterstats.gui.filters": "Фильтры",
 	"betterstats.gui.filters.group_by.default": "Стандарт",
@@ -20,7 +20,7 @@
 	"betterstats.gui.show_empty_stats": "Показать пустые статы",
 	"betterstats.gui.no_stats_yet": "Пока здесь нет статов для показа...",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "Закрепить в качестве индикатора",
+	"betterstats.gui.ctx_menu.pin_to_hud": "Закрепить в интерфейсе",
 	"betterstats.gui.ctx_menu.close": "Закрыть",
 	
 	"betterstats.gui.menu_bar.view": "Просмотр",
