@@ -79,6 +79,9 @@ public final class BetterStatsClientNetworkHandler
 		//^ why so long to expire? because of HTTP rate limits for remote badges
 		//^ (statistics caches do get updated when requesting new stats tho)
 		
+		//clear stat cache when leaving a world (mandatory)
+		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(clientPlayer -> ProfileCache.invalidateAll());
+		
 		//init network
 		initNetworkReceivers();
 	}
