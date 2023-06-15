@@ -1,0 +1,39 @@
+{
+	"betterstats": "Besseres Statistikfenster",
+	
+	"betterstats.hud": "Statistik-HUD",
+	"betterstats.hud.entity.kills": "Tötet",
+	"betterstats.hud.entity.deaths": "Tode",
+	"betterstats.hud.hint.add_widget": "Rechtsklick auf eine Statistik ([Shift]+RMT), um sie hier hinzuzufügen.",
+	"betterstats.hud.hint.del_widget": "Drücke Rücktaste (<-) zum Entfernen eines angezeigten Eintrags.",
+	"betterstats.hud.hint.esc_close": "Drücke Escape (ESC), um dieses Fenster zu schließen.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "Aktiviere 'betterstats'-Kommunikation mit dem Server",
+	"betterstats.hud.accuracy_mode_warning.message": "WICHTIG:\nDurch Aktivierung dieser Funktion erkennt der Server, dass du 'betterstats' installiert hast. Verwende diese Funktion nicht auf Servern, auf denen das Mod nicht erlaubt ist, um deine Privatsphäre zu schützen.\n\nDiese Funktion ermöglicht eine genauere und Echtzeit-Statistik-Anzeige im Heads-Up-Display (HUD), indem 'betterstats' die Kommunikation mit dem Server ermöglicht. Beachte, dass 'betterstats' auch auf dem Server installiert sein muss, damit diese Funktion funktioniert.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Ermöglicht genauere und Echtzeit-Statistiken im HUD.",
+	
+	"betterstats.gui.filters": "Filter",
+	"betterstats.gui.filters.group_by.default": "Standard",
+	"betterstats.gui.filters.group_by.mod": "Mod",
+	"betterstats.gui.filters.group_by.none": "Alle",
+	
+	"betterstats.gui.show_empty_stats": "Leere Statistiken anzeigen",
+	"betterstats.gui.no_stats_yet": "Es gibt noch keine Statistiken...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "An HUD anheften",
+	"betterstats.gui.ctx_menu.close": "Schließen",
+	
+	"betterstats.gui.menu_bar.view": "Sicht",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Zeige Standardstatistiken",
+	"betterstats.gui.menu_bar.about": "Über",
+	"betterstats.gui.menu_bar.about.source": "Quellcode",
+	"betterstats.gui.menu_bar.mods_other": "Andere (Mods)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Schalte 'betterstats' Serververbindung um",
+	"betterstats.gui.network.btn_radio.warning": "WICHTIG:\nDurch Aktivieren dieses Features wird der Server erkennen, dass du einen modifizierten Client mit 'betterstats' installiert verwendest. Um deine Privatsphäre zu schützen, solltest du diese Funktion nicht auf Servern nutzen, die möglicherweise keine modifizierten Clients oder diesen Mod zulassen.\n\nDurch Aktivieren dieses Features werden einige zusätzliche Funktionen hinzugefügt, die verfügbar sind, wenn der Mod auf dem Server installiert ist.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Statistiken eines anderen Spielers anzeigen",
+	"betterstats.gui.network.stats_request.timed_out": "Anfrage abgelaufen...",
+	"betterstats.gui.network.stats_request.player_404": "Angefragter Spieler nicht gefunden...",
+	
+	"betterstats.gui.config.debug_mode": "Debug-Modus"
+}
