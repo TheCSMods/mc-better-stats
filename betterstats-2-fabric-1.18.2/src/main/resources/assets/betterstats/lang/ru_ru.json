@@ -1,39 +1,58 @@
 {
-	"betterstats": "Лучший экран статистики",
+	"betterstats": "Улучшенный экран статистики",
 	
-	"betterstats.hud": "Статистика hud",
+	"betterstats.hud": "Индикатор статистики",
 	"betterstats.hud.entity.kills": "Убийства",
 	"betterstats.hud.entity.deaths": "Смерти",
-	"betterstats.hud.hint.add_widget": "Щелкните правой кнопкой мыши по статистике ([Shift]+правая кнопка мыши), чтобы добавить ее здесь.",
-	"betterstats.hud.hint.del_widget": "Нажмите клавишу Backspace (<-) для удаления выбранной записи.",
-	"betterstats.hud.hint.esc_close": "Нажмите клавишу Escape (ESC), чтобы закрыть это окно.",
+	"betterstats.hud.hint.add_widget": "Нажмите правой кнопкой по статистике ([Shift]+ правая кнопка мыши), чтобы добавить её сюда.",
+	"betterstats.hud.hint.del_widget": "Нажмите Backspace (<-), чтобы убрать надпись.",
+	"betterstats.hud.hint.esc_close": "Нажмите Escape (ESC), чтобы закрыть это окно.",
 	
-	"betterstats.hud.accuracy_mode_warning.title": "Включить связь 'betterstats' с сервером",
-	"betterstats.hud.accuracy_mode_warning.message": "ВАЖНО:\nВключение этой функции позволит серверу обнаружить установленный 'betterstats'. Чтобы защитить свою конфиденциальность, не используйте эту функцию на серверах, которые могут запретить этот мод.\n\nВключение этой функции делает статистику в окне Heads-Up Display (HUD) более точной и в режиме реального времени, позволяя 'betterstats' связываться с сервером. Обратите внимание, что для работы этой функции на сервере также должен быть установлен 'betterstats'.",
-	"betterstats.hud.accuracy_mode_warning.tooltip": "Включает более точную и в режиме реального времени статистику в HUD.",
+	"betterstats.hud.accuracy_mode_warning.title": "Включите 'betterstats' взаимодействие с сервером",
+	"betterstats.hud.accuracy_mode_warning.message": "ВАЖНО:\nВключая эту фунцию, сервер заметит, что у вас установлен 'betterstats'. Чтобы защитить вашу приватность, не используйте эту фукнцию на сервер, которые могут не разрешать этот мод.\n\nВключение этой фукнции делает индикатор статистикиболее точным и обновляющимся в реальном времени, разрешая 'betterstats' связываться с сервером. Учтите, что 'betterstats' должен быть так же установлен на сервере, для работы этой функции.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Включает более точную статистику, обновляющуюся в реальном временем .",
 	
 	"betterstats.gui.filters": "Фильтры",
-	"betterstats.gui.filters.group_by.default": "По умолчанию",
-	"betterstats.gui.filters.group_by.mod": "По модам",
-	"betterstats.gui.filters.group_by.none": "Все",
+	"betterstats.gui.filters.group_by.default": "Стандарт",
+	"betterstats.gui.filters.group_by.mod": "Мод",
+	"betterstats.gui.filters.group_by.none": "Всё",
 	
-	"betterstats.gui.show_empty_stats": "Показывать пустые записи",
-	"betterstats.gui.no_stats_yet": "Пока нет данных...",
+	"betterstats.gui.show_empty_stats": "Показать пустые статы",
+	"betterstats.gui.no_stats_yet": "Пока здесь нет статов для показа...",
 	
-	"betterstats.gui.ctx_menu.pin_to_hud": "Закрепить на hud",
+	"betterstats.gui.ctx_menu.pin_to_hud": "Закрепить в качестве индикатора",
 	"betterstats.gui.ctx_menu.close": "Закрыть",
 	
 	"betterstats.gui.menu_bar.view": "Просмотр",
-	"betterstats.gui.menu_bar.view.vanilla_stats": "Показать статистику Vanilla",
-	"betterstats.gui.menu_bar.about": "Информация",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Посмотреть ванильную статистику",
+	"betterstats.gui.menu_bar.about": "О моде",
 	"betterstats.gui.menu_bar.about.source": "Исходный код",
-	"betterstats.gui.menu_bar.mods_other": "Другие (моды)",
+	"betterstats.gui.menu_bar.mods_other": "Другие моды",
 	
-	"betterstats.gui.network.btn_radio.tooltip": "Переключить подключение к серверу 'betterstats'",
-	"betterstats.gui.network.btn_radio.warning": "ВАЖНО:\nВключение этой функции позволит серверу обнаружить, что вы используете модифицированный клиент с установленным 'betterstats'. Чтобы защитить свою конфиденциальность, не используйте эту функцию на серверах, которые не разрешают модифицированные клиенты или этот мод.\n\nВключение этой функции добавляет некоторые дополнительные функции, которые также доступны, если мод установлен на сервере.",
-	"betterstats.gui.network.btn_pstat.tooltip": "Просмотреть статистику другого игрока",
-	"betterstats.gui.network.stats_request.timed_out": "Запрос не отвечает...",
+	"betterstats.gui.network.btn_radio.tooltip": "Включите в 'betterstats' соединение с сервером",
+	"betterstats.gui.network.btn_radio.warning": "ВАЖНО:\nВключая эту фукнцию, сервер будет знать, что вы используете модифицированный клиент с установленными 'betterstats' Чтобы защитить вашу приватность, не используйте эту функцию на серверах, которые не разрешают модифицированные клиенты или этот мод.\n\nВключение этой функции добавляет несколько дополнительных фукнций, доступных, когда мод также установлен на сервере.",
+	"betterstats.gui.network.btn_pstat.tooltip": "Посмотреть статистику другого игрока",
+	"betterstats.gui.network.stats_request.timed_out": "Время запроса истекло...",
 	"betterstats.gui.network.stats_request.player_404": "Запрашиваемый игрок не найден...",
-
-	"betterstats.gui.config.debug_mode": "Режим отладки"
+	
+	"betterstats.gui.network.badges": "Значки игрока",
+	"betterstats.gui.network.badges.ee_icon_note": "Примечание: Текущая иконка значка это пасхалка, и не имеет ничего общего с описанием значка.",
+	
+	"betterstats.gui.network.badges.badgeless.name": "Нет значков",
+	"betterstats.gui.network.badges.badgeless.description": "Вы разблокировали секретный значок отсутствия значков!\nЭтот значок показывает, что у игрока нет значков, связанных с ним.\nПосетите 'Better Stats' вики для подробной информации.",
+	"betterstats.gui.network.badges.dedication.name": "Преданность",
+	"betterstats.gui.network.badges.dedication.description": "Вы проявили истинную преданность! Вы играли в этом мире как минимум 12 дней (288 часов).",
+	"betterstats.gui.network.badges.loyalty.name": "Верность",
+	"betterstats.gui.network.badges.loyalty.description": "Ваша верность достойна похвалы! Вы играли в этом мире как минимум 24 дня (576 hours).",
+	"betterstats.gui.network.badges.the_next_generation.description": "Вы держали в руках символ окончательного триумфа - Яйцо Дракона.",
+	
+	"betterstats.gui.network.badges.bss_supporter.name": "Поддерживающий Better Stats",
+	"betterstats.gui.network.badges.bss_supporter.description": "Вы проявили помощь 'Better Stats' моду и/или его разработке.",
+	"betterstats.gui.network.badges.bss_debugger.name": "Better Stats поимщик багов",
+	"betterstats.gui.network.badges.bss_debugger.description": "Вы сообщили о баге или другой ошибке, связанной с 'Better Stats' модом.",
+	"betterstats.gui.network.badges.bss_translator.name": "Better Stats переводчик",
+	"betterstats.gui.network.badges.bss_translator.description": "Вы помогли в переводе 'Better Stats' мода на другой язык.",
+	
+	"betterstats.gui.config.debug_mode": "Режим отладки",
+	"betterstats.gui.config.gui_mob_follow_cursor": "Мобы на экране следуют за курсором"
 }
