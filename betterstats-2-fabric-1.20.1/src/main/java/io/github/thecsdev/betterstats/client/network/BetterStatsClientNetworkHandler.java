@@ -79,9 +79,6 @@ public final class BetterStatsClientNetworkHandler
 		//^ why so long to expire? because of HTTP rate limits for remote badges
 		//^ (statistics caches do get updated when requesting new stats tho)
 		
-		//clear stat cache when leaving a world (mandatory)
-		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(clientPlayer -> ProfileCache.invalidateAll());
-		
 		//init network
 		initNetworkReceivers();
 	}
@@ -91,11 +88,13 @@ public final class BetterStatsClientNetworkHandler
 		//by default, do not respond to S2C_REQ_PREFS
 		enableBSSProtocol = false;
 		serverHasBSS = false;
-		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register((cp) ->
+		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register((cp) -> //when the client player leaves a world...
 		{
+			//...reset the state of everything
 			enableBSSProtocol = false;
 			serverHasBSS = false;
-			InGameHud_Screens.remove(HUD_ID); //TODO - temporary bug fix for switching worlds/servers
+			InGameHud_Screens.remove(HUD_ID);
+			ProfileCache.invalidateAll();
 		});
 		//handle S2C_REQ_PREFS
 		NetworkManager.registerReceiver(Side.S2C, S2C_I_HAVE_BSS, (payload, context) -> serverHasBSS = true);
@@ -164,17 +163,6 @@ public final class BetterStatsClientNetworkHandler
 		if(receivedProfile == null) return false;
 		
 		//obtain profile info
-		/*var pDisplayName = profile.getProfileDisplayName();
-		var existingProfile = ProfileCache.getIfPresent(pDisplayName);
-		//var notifyCurrentScreen = (existingProfile == null) || profile.isLocalClient();
-		
-		//cache...
-		if(existingProfile != null)
-			//if one exists, just add the updated stats on top of it
-			existingProfile.putAllStats(profile);
-		else
-			//but if one doesn't exist, then put this new one in place
-			ProfileCache.put(pDisplayName, (existingProfile = profile));*/
 		final var cachedProfile = handleCachingAndMerging(receivedProfile);
 		
 		//...and notify
@@ -201,7 +189,7 @@ public final class BetterStatsClientNetworkHandler
 		
 		//create prefs. packet
 		var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeBoolean(enableBSSProtocol && BetterStatsHudScreen.getInstance() != null); //boolean - statsHudAccuracyMode
+		data.writeBoolean(BetterStatsHudScreen.getInstance() != null); //boolean - statsHudAccuracyMode
 		var packet = new CustomPayloadC2SPacket(C2S_PREFS, data);
 		//send packet
 		try { MinecraftClient.getInstance().getNetworkHandler().sendPacket(packet); }
