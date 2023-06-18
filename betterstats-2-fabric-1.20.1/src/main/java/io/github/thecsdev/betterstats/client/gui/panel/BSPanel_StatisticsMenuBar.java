@@ -10,10 +10,10 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.CurrentTab;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TMenuBarPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.StatsScreen;
 
 public class BSPanel_StatisticsMenuBar extends TMenuBarPanel
@@ -99,9 +99,9 @@ public class BSPanel_StatisticsMenuBar extends TMenuBarPanel
 		}
 	}
 	// ==================================================
-	public @Override void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+	public @Override void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 	{
-		drawOutline(pencil, GuiUtils.applyAlpha(isFocused() ? COLOR_OUTLINE_FOCUSED : BSPanel.COLOR_OUTLINE, getAlpha()));
+		pencil.drawTBorder(GuiUtils.applyAlpha(isFocused() ? COLOR_OUTLINE_FOCUSED : BSPanel.COLOR_OUTLINE, getAlpha()));
 	}
 	// ==================================================
 }

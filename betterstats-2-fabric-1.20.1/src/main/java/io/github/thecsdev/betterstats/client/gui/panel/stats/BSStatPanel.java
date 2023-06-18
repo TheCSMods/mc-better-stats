@@ -10,6 +10,7 @@ import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen.GroupStatsBy;
 import io.github.thecsdev.betterstats.client.gui.widget.BSScrollBarWidget;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -162,13 +163,13 @@ public abstract class BSStatPanel extends BSPanel
 	// ==================================================
 	//do not render any backgrounds or anything
 	@Override
-	public void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+	public void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 	{
 		renderSmoothScroll(deltaTime);
 	}
 	
 	@Override
-	public void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime) {}
+	public void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime) {}
 	// ==================================================
 	/**
 	 * A {@link BetterStatsScreen} {@link BSStatPanel} widget.<br/>
@@ -187,17 +188,17 @@ public abstract class BSStatPanel extends BSPanel
 					GuiUtils.applyAlpha(1342177280, getAlpha()));
 		}
 		// ----------------------------------------------
-		public @Override void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public @Override void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
 			renderBackground(pencil, mouseX, mouseY, deltaTime);
 		}
 		
-		public @Override void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public @Override void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
 			//focus first
-			if(isFocused()) drawOutline(pencil, COLOR_NORMAL_FOCUSED);
+			if(isFocused()) pencil.drawTBorder(COLOR_NORMAL_FOCUSED);
 			//then hover
-			else if(isHovered()) drawOutline(pencil, COLOR_NORMAL_HOVERED);
+			else if(isHovered()) pencil.drawTBorder(COLOR_NORMAL_HOVERED);
 		}
 		// ----------------------------------------------
 		public @Override boolean mousePressed(int mouseX, int mouseY, int button)

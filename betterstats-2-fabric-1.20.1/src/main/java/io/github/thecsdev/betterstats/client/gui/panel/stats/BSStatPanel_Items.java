@@ -20,6 +20,7 @@ import io.github.thecsdev.betterstats.util.ItemStatEnum;
 import io.github.thecsdev.betterstats.util.StatUtils;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsItemStat;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TContextMenuPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -28,7 +29,6 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -340,7 +340,7 @@ public class BSStatPanel_Items extends BSStatPanel
 		}
 		// ----------------------------------------------
 		@Override
-		public void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
 			//render super
 			super.render(pencil, mouseX, mouseY, deltaTime);

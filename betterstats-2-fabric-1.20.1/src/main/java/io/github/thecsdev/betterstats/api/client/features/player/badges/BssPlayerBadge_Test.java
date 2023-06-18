@@ -1,9 +1,9 @@
 package io.github.thecsdev.betterstats.api.client.features.player.badges;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.features.player.badges.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -23,7 +23,7 @@ public final class BssPlayerBadge_Test extends PlayerBadge
 	public @Override Text getName() { return TextUtils.literal("Test badge"); }
 	public @Override Text getDescription() { return TextUtils.literal("Just testing..."); }
 	// ==================================================
-	public @Override void renderOnClientScreen(DrawContext pencil, int x, int y, int w, int h, float deltaTime)
+	public @Override void renderOnClientScreen(TDrawContext pencil, int x, int y, int w, int h, float deltaTime)
 	{
 		pencil.fill(x, y, x + w, y + h, -1);
 	}

@@ -16,10 +16,10 @@ import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_Mobs;
 import io.github.thecsdev.betterstats.client.gui.panel.stats.BSStatPanel_MonsterHunter;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui.widget.BSScrollBarWidget;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.TParentElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
-import net.minecraft.client.gui.DrawContext;
 
 public class BSPanel_Statistics extends BSPanel
 {
@@ -163,6 +163,6 @@ public class BSPanel_Statistics extends BSPanel
 	}
 	// ==================================================
 	@Override
-	public void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime) { /*nope, no outline*/ }
+	public void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime) { /*nope, no outline*/ }
 	// ==================================================
 }

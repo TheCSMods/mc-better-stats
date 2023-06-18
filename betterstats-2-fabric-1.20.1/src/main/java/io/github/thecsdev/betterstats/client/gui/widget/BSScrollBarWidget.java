@@ -2,9 +2,9 @@ package io.github.thecsdev.betterstats.client.gui.widget;
 
 import java.awt.Color;
 
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TScrollBarWidget;
-import net.minecraft.client.gui.DrawContext;
 
 public class BSScrollBarWidget extends TScrollBarWidget
 {
@@ -20,15 +20,15 @@ public class BSScrollBarWidget extends TScrollBarWidget
 	}
 	// ==================================================
 	@Override
-	public void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+	public void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 	{
 		pencil.fill(this.x, this.y, this.x + this.width, this.y + this.height, 1342177280);
-		drawOutline(pencil, COLOR_BLACK);
+		pencil.drawTBorder(COLOR_BLACK);
 		drawSliderKnob(pencil, mouseX, mouseY, deltaTime);
 	}
 	
 	@Override
-	protected void drawSliderKnob(DrawContext pencil, int mouseX, int mouseY, float deltaTime,
+	protected void drawSliderKnob(TDrawContext pencil, int mouseX, int mouseY, float deltaTime,
 			int x, int y, int width, int height)
 	{
 		pencil.fill(x + 1, y + 1, x + width - 1, y + height - 1,

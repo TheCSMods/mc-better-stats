@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.tcdcommons.api.client.features.player.badges.ClientPlayerBadge;
-import net.minecraft.client.gui.DrawContext;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 
 /**
  * {@link BetterStats}'s implementation of the {@link ClientPlayerBadge}.<br/>
@@ -29,7 +29,7 @@ public abstract class BssClientPlayerBadge extends ClientPlayerBadge
 		return this;
 	}
 	// ==================================================
-	public @Override void renderOnClientScreen(DrawContext pencil, int x, int y, int w, int h, float deltaTime)
+	public @Override void renderOnClientScreen(TDrawContext pencil, int x, int y, int w, int h, float deltaTime)
 	{
 		pencil.setShaderColor(1,1,1,1);
 		pencil.drawTexture(

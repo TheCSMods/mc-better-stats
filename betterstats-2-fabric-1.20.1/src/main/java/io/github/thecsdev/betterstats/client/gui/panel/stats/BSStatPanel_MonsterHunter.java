@@ -4,8 +4,8 @@ import java.util.function.Predicate;
 
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsMobStat;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 
@@ -36,13 +36,14 @@ public class BSStatPanel_MonsterHunter extends BSStatPanel_Mobs
 	protected class BSStatWidget_MonsterHunter extends BSStatWidget_Mob
 	{
 		public BSStatWidget_MonsterHunter(StatUtilsMobStat stat, int x, int y, int size) { super(stat, x, y, size); }
-		public @Override void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public @Override void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
-			if(stat.killed > 0) drawOutline(pencil, COLOR_GOLD_FOCUSED);
+			if(stat.killed > 0)
+				pencil.drawTBorder(COLOR_GOLD_FOCUSED);
 			else if(isFocused())
-				drawOutline(pencil, COLOR_NORMAL_FOCUSED);
+				pencil.drawTBorder(COLOR_NORMAL_FOCUSED);
 			else if(isHovered() || (!stat.isEmpty() && stat.killed < 1))
-				drawOutline(pencil, COLOR_NORMAL_HOVERED);
+				pencil.drawTBorder(COLOR_NORMAL_HOVERED);
 		}
 	}
 	// ==================================================

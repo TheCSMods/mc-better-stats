@@ -10,6 +10,7 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui.widget.BSScrollBarWidget;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreen;
@@ -105,7 +106,7 @@ public final class BetterStatsConfigScreen extends TScreen
 	public static class BSCSPanel extends BSPanel 
 	{
 		public BSCSPanel(int x, int y, int width, int height) { super(x, y, width, height); }
-		protected @Override void renderBackground(DrawContext pencil, int mouseX, int mouseY, float deltaTime) {
+		protected @Override void renderBackground(TDrawContext pencil, int mouseX, int mouseY, float deltaTime) {
 			pencil.fill(this.x, this.y, this.x + this.width, this.y + this.height, -6908266);
 		}
 	}

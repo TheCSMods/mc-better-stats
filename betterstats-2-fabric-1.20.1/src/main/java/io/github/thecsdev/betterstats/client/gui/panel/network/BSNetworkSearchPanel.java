@@ -9,11 +9,11 @@ import io.github.thecsdev.betterstats.client.gui.panel.BSPanel;
 import io.github.thecsdev.betterstats.client.gui.screen.BSPlayerLookupScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsConfigScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 
 public class BSNetworkSearchPanel extends BSPanel
@@ -26,11 +26,11 @@ public class BSNetworkSearchPanel extends BSPanel
 		this.setScrollPadding(0);
 	}
 	// --------------------------------------------------
-	public @Override void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime) {}
-	protected @Override void renderBackground(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+	public @Override void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime) {}
+	protected @Override void renderBackground(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 	{
 		super.renderBackground(pencil, mouseX, mouseY, deltaTime);
-		drawOutline(pencil, GuiUtils.applyAlpha(isFocused() ? COLOR_OUTLINE_FOCUSED : BSPanel.COLOR_OUTLINE, getAlpha()));
+		pencil.drawTBorder(GuiUtils.applyAlpha(isFocused() ? COLOR_OUTLINE_FOCUSED : BSPanel.COLOR_OUTLINE, getAlpha()));
 	}
 	// ==================================================
 	public final void init(final BetterStatsScreen bss) { clearTChildren(); onInit(bss); }

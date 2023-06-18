@@ -4,11 +4,11 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TContextMenuPanel;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -190,11 +190,11 @@ public abstract class BSHudStatWidget extends TElement
 		return true;
 	}
 	// ==================================================
-	public @Override void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+	public @Override void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 	{
 		pencil.fill(this.x, this.y, this.x + this.width, this.y + this.height, 1342177280);
 		pencil.fill(this.x, this.y, this.x + SIZE, this.y + this.height, 1342177280);
-		if(isFocusedOrHovered()) drawOutline(pencil, -1);
+		if(isFocusedOrHovered()) pencil.drawTBorder(-1);
 	}
 	// ==================================================
 	/**
@@ -217,7 +217,7 @@ public abstract class BSHudStatWidget extends TElement
 		public @Override boolean isClickThrough() { return true; }
 		public @Override int getTpeY() { return BSHudStatWidget.this.getTpeY(); }
 		// ----------------------------------------------
-		public @Override void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public @Override void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
 			pencil.drawItem(this.stack, getTpeX() + 3, getTpeY() + 3);
 		}
@@ -238,7 +238,7 @@ public abstract class BSHudStatWidget extends TElement
 		public @Override boolean isClickThrough() { return true; }
 		public @Override int getTpeY() { return BSHudStatWidget.this.getTpeY(); }
 		// ----------------------------------------------
-		public @Override void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public @Override void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
 			super.render(pencil, getTpeX() + 150, getTpeY() + 55, deltaTime);
 		}
@@ -280,9 +280,9 @@ public abstract class BSHudStatWidget extends TElement
 		}
 		// ----------------------------------------------
 		@Override
-		public void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
-			drawTElementText(pencil, getText(), getHorizontalAlignment(), getColor(), 5, deltaTime);
+			pencil.drawTText(getText(), getHorizontalAlignment(), getColor(), 5);
 		}
 		// ----------------------------------------------
 	}

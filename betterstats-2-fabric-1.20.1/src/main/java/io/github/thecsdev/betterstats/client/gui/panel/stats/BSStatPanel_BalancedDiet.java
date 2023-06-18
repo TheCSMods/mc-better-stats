@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsItemStat;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.stat.StatHandler;
 
 public class BSStatPanel_BalancedDiet extends BSStatPanel_Items
@@ -41,13 +41,14 @@ public class BSStatPanel_BalancedDiet extends BSStatPanel_Items
 	protected class BSStatWidget_BalancedDiet extends BSStatWidget_Item
 	{
 		public BSStatWidget_BalancedDiet(StatUtilsItemStat stat, int x, int y) { super(stat, x, y); }
-		public @Override void postRender(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public @Override void postRender(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
-			if(stat.sUsed > 0) drawOutline(pencil, COLOR_GOLD_FOCUSED);
+			if(stat.sUsed > 0)
+				pencil.drawTBorder(COLOR_GOLD_FOCUSED);
 			else if(isFocused())
-				drawOutline(pencil, COLOR_NORMAL_FOCUSED);
+				pencil.drawTBorder(COLOR_NORMAL_FOCUSED);
 			else if(isHovered() || (!stat.isEmpty() && stat.sUsed < 1))
-				drawOutline(pencil, COLOR_NORMAL_HOVERED);
+				pencil.drawTBorder(COLOR_NORMAL_HOVERED);
 		}
 	}
 	// ==================================================

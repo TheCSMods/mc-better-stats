@@ -263,7 +263,8 @@ public final class BetterStatsHudScreen extends TScreen
 	@SuppressWarnings("resource")
 	public @Override void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
 	{
-		//do not render when another window is open
+		//(do not render when another window is open)
+		//only render when there's no screen set, or if the set screen is the current screen
 		if(getClient().currentScreen != null && getClient().currentScreen != this)
 			return;
 		

@@ -10,18 +10,19 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.client.gui.panel.network.BSNetworkProfilePanel;
 import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.util.StatUtils;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsGeneralStat;
 import io.github.thecsdev.betterstats.util.StatUtils.StatUtilsStat;
+import io.github.thecsdev.tcdcommons.api.client.gui.TDrawContext;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -60,7 +61,7 @@ public class BSStatPanel_General extends BSStatPanel
 	@SuppressWarnings("resource")
 	public @Override void init(BetterStatsScreen bss, StatHandler statHandler, Predicate<StatUtilsStat> statFilter)
 	{
-		int statHeight = getTextRenderer().fontHeight + 8;
+		final int statHeight = getTextRenderer().fontHeight + 8;
 		var world = getClient().world;
 		// ---------- init player profile panel
 		final var netProfile = new BSNetworkProfilePanel(
@@ -70,7 +71,7 @@ public class BSStatPanel_General extends BSStatPanel
 		addTChild(netProfile, true);
 		netProfile.init(bss);
 		// ---------- init world stats
-		if(DEBUG_MODE && StringUtils.isBlank(bss.filter_searchTerm))
+		if(DEBUG_MODE/* && StringUtils.isBlank(bss.filter_searchTerm)*/)
 		{
 			this.init_groupLabel(translatable("selectWorld.world"));
 			new BSStatWidget_General(translatable("selectWorld.enterName"), literal(""+world.getRegistryKey().getValue().toString()), statHeight);
@@ -95,6 +96,13 @@ public class BSStatPanel_General extends BSStatPanel
 		for(StatUtilsGeneralStat stat : stats) new BSStatWidget_General(stat, statHeight);
 		//if there are no stats...
 		if(stats.size() == 0) init_noResults();
+	}
+	
+	protected @Nullable @Override TLabelElement init_noResults()
+	{
+		final int statHeight = getTextRenderer().fontHeight + 8;
+		new BSStatWidget_General(translatable("betterstats.gui.no_stats_yet"), literal(""), statHeight);
+		return null;
 	}
 	// --------------------------------------------------
 	public int getChildBottomY()
@@ -141,11 +149,11 @@ public class BSStatPanel_General extends BSStatPanel
 		}
 		// ----------------------------------------------
 		@Override
-		public void render(DrawContext pencil, int mouseX, int mouseY, float deltaTime)
+		public void render(TDrawContext pencil, int mouseX, int mouseY, float deltaTime)
 		{
 			super.render(pencil, mouseX, mouseY, deltaTime);
-			drawTElementText(pencil, this.txt_left, HorizontalAlignment.LEFT, deltaTime);
-			drawTElementText(pencil, this.txt_right, HorizontalAlignment.RIGHT, deltaTime);
+			pencil.drawTText(this.txt_left, HorizontalAlignment.LEFT);
+			pencil.drawTText(this.txt_right, HorizontalAlignment.RIGHT);
 		}
 		// ----------------------------------------------
 	}
