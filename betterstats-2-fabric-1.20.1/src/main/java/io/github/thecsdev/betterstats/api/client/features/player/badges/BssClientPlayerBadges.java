@@ -18,9 +18,9 @@ public final class BssClientPlayerBadges
 	public static final BssClientPlayerBadge_Custom LOYALTY;
 	public static final BssClientPlayerBadge_Custom THE_NEXT_GEN;
 	
-	public static final BssClientPlayerBadge_Custom BSS_SUPPORTER;
+	/*public static final BssClientPlayerBadge_Custom BSS_SUPPORTER;
 	public static final BssClientPlayerBadge_Custom BSS_DEBUGGER;
-	public static final BssClientPlayerBadge_Custom BSS_TRANSLATOR;
+	public static final BssClientPlayerBadge_Custom BSS_TRANSLATOR;*/
 	// ==================================================
 	public static void register() {/*calls static*/}
 	static
@@ -37,12 +37,12 @@ public final class BssClientPlayerBadges
 				.setUVCoords(220, 40, 20, 20));
 		THE_NEXT_GEN.setName(translatable("advancements.end.dragon_egg.title"));
 		
-		PlayerBadges.put(new Identifier(mId, "bss_supporter"), BSS_SUPPORTER = new BssClientPlayerBadge_Custom("bss_supporter")
+		/*PlayerBadges.put(new Identifier(mId, "bss_supporter"), BSS_SUPPORTER = new BssClientPlayerBadge_Custom("bss_supporter")
 				.setUVCoords(220, 60, 20, 20));
 		PlayerBadges.put(new Identifier(mId, "bss_debugger"), BSS_DEBUGGER = new BssClientPlayerBadge_Custom("bss_debugger")
 				.setUVCoords(200, 60, 20, 20));
 		PlayerBadges.put(new Identifier(mId, "bss_translator"), BSS_TRANSLATOR = new BssClientPlayerBadge_Custom("bss_translator")
-				.setUVCoords(180, 60, 20, 20));
+				.setUVCoords(180, 60, 20, 20));*/
 	}
 	// ==================================================
 }

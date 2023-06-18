@@ -22,11 +22,8 @@ import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.networking.NetworkManager.Side;
 import io.github.thecsdev.betterstats.BetterStats;
-import io.github.thecsdev.betterstats.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui_hud.screen.BetterStatsHudScreen;
-import io.github.thecsdev.betterstats.client.util.BSClientHttpUtils;
 import io.github.thecsdev.betterstats.network.BSNetworkProfile;
-import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.events.TNetworkEvent;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.MinecraftClient;
@@ -133,7 +130,7 @@ public final class BetterStatsClientNetworkHandler
 			
 			//check for remote badges, but only when this entry is cached for the first time,
 			//aka if it didn't exist before
-			final var pUID = of.gameProfile.getId();
+			/*final var pUID = of.gameProfile.getId();
 			if(pUID != null && TCDCommons.getInstance().getConfig().enablePlayerBadges)
 				BSClientHttpUtils.getRemotePlayerBadgesAsync(pUID, (success, remote_badges) ->
 				{
@@ -149,7 +146,7 @@ public final class BetterStatsClientNetworkHandler
 						//TODO - Maybe implement a listener interface for this? Tho it's complicated
 						//as a similar interface technically already exists, but cannot be used here
 						((BetterStatsScreen)currentScreen).reInit_BSNetworkProfilePanel();
-				});
+				});*/
 		}
 		//merge if it does exist
 		else existing.putAllStats(of);
