@@ -35,5 +35,24 @@
 	"betterstats.gui.network.stats_request.timed_out": "リクエストがタイムアウトしました…",
 	"betterstats.gui.network.stats_request.player_404": "お探しのプレイヤーは見つかりませんでした…",
 
-	"betterstats.gui.config.debug_mode": "デバッグモード"
+	"betterstats.gui.network.badges": "プレイヤーバッジ",
+	"betterstats.gui.network.badges.ee_icon_note": "注：現在のバッジアイコンは「イースターエッグ」であり、バッジの説明とは全く関係ありません。",
+
+	"betterstats.gui.network.badges.badgeless.name": "バッジなし",
+	"betterstats.gui.network.badges.badgeless.description": "隠しバッジ「バッジなし」を解除しました！\nこのバッジは、プレイヤーがバッジを一つも持っていないことを示しています。\n詳しくは「Better Stats」ウィキをご覧ください。",
+	"betterstats.gui.network.badges.dedication.name": "献身",
+	"betterstats.gui.network.badges.dedication.description": "君って献身的なんだね！このワールドで12日（288時間）以上プレイする。",
+	"betterstats.gui.network.badges.loyalty.name": "忠誠心",
+	"betterstats.gui.network.badges.loyalty.description": "見上げた忠誠心じゃないか！このワールドで24日（576時間）以上プレイする。",
+	"betterstats.gui.network.badges.the_next_generation.description": "究極の勝利の象徴である「ドラゴンの卵」を手にする。",
+	
+	"betterstats.gui.network.badges.bss_supporter.name": "Better Stats サポーター",
+	"betterstats.gui.network.badges.bss_supporter.description": "「Better Stats」やその開発をサポートする。",
+	"betterstats.gui.network.badges.bss_debugger.name": "Better Stats バグハンター",
+	"betterstats.gui.network.badges.bss_debugger.description": "「Better Stats」に関連するバグや問題を報告する。",
+	"betterstats.gui.network.badges.bss_translator.name": "Better Stats 翻訳者",
+	"betterstats.gui.network.badges.bss_translator.description": "「Better Stats」の翻訳に協力する。",
+	
+	"betterstats.gui.config.debug_mode": "デバッグモード",
+	"betterstats.gui.config.gui_mob_follow_cursor": "統計画面のモブをカーソルに合わせて動かす"
 }
