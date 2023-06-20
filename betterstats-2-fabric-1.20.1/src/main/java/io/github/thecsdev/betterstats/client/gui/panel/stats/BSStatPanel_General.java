@@ -144,7 +144,7 @@ public class BSStatPanel_General extends BSStatPanel
 		public @Override void updateTooltip()
 		{
 			if(DEBUG_MODE && this.stat != null)
-				setTooltip(fLiteral("§7" + Objects.toString(this.stat.stat.getValue())));
+				setTooltip(fLiteral("§7" + Objects.toString(this.stat.stat.getValue()) + " | " + this.stat.intValue));
 			else setTooltip(null);
 		}
 		// ----------------------------------------------

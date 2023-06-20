@@ -289,14 +289,26 @@ public final class BetterStatsScreen extends TScreenPlus implements BStatsListen
 		//put some extra stat-based badges
 		if(PLAYER_BADGES_ENABLED)
 		{
+			//play-time based badges
 			final var playTime = this.bStatHandler.stats.getStat(Stats.CUSTOM, Stats.PLAY_TIME);
 			if(playTime > 20736000)
 				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.DEDICATION.getBadgeId());
 			if(playTime > 20736000 * 2)
 				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.LOYALTY.getBadgeId());
 			
+			//ender-dragon-egg based badge
 			if(!new StatUtils.StatUtilsItemStat(getStatHandler(), Items.DRAGON_EGG).isEmpty())
 				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.THE_NEXT_GEN.getBadgeId());
+			
+			//travel-based badge
+			if(this.bStatHandler.stats.getStat(Stats.CUSTOM, Stats.WALK_ONE_CM) +
+					this.bStatHandler.stats.getStat(Stats.CUSTOM, Stats.SPRINT_ONE_CM) +
+					this.bStatHandler.stats.getStat(Stats.CUSTOM, Stats.AVIATE_ONE_CM) > 72700000)
+				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.ADVENTUROUS_TRAVELER.getBadgeId());
+			
+			//survival-time based badge
+			if(this.bStatHandler.stats.getStat(Stats.CUSTOM, Stats.TIME_SINCE_DEATH) > 864000)
+				this.bStatHandler.playerBadgeIds.add(BssClientPlayerBadges.PERENNIAL_SURVIVOR.getBadgeId());
 		}
 		
 		//hide the downloading panel

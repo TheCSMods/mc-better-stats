@@ -45,6 +45,10 @@
 	"betterstats.gui.network.badges.loyalty.name": "Loyalty",
 	"betterstats.gui.network.badges.loyalty.description": "Your loyalty is commendable! You have played on this world for at least 24 days (576 hours).",
 	"betterstats.gui.network.badges.the_next_generation.description": "You've held the symbol of ultimate triumph - the Dragon Egg.",
+	"betterstats.gui.network.badges.adventurous_traveler.name": "Adventurous Traveler",
+	"betterstats.gui.network.badges.adventurous_traveler.description": "Through mountains high and valleys low, you've traveled far, with much to show. Seeking a sight, a tale untold, a journey's measure in blocks of gold. And then you saw it...\n\nYou have travelled for at least 727,000 blocks.",
+	"betterstats.gui.network.badges.perennial_survivor.name": "Perennial Survivor",
+	"betterstats.gui.network.badges.perennial_survivor.description": "You have managed to cheat death, for now. Will you continue to evade the inevitable?\n\nYou have survived for at least 12 hours.",
 	
 	"betterstats.gui.network.badges.bss_supporter.name": "Better Stats supporter",
 	"betterstats.gui.network.badges.bss_supporter.description": "You've shown support for the 'Better Stats' mod, and/or its development.",
