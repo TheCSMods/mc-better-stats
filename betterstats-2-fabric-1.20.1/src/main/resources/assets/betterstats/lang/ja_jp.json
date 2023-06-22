@@ -45,7 +45,11 @@
 	"betterstats.gui.network.badges.loyalty.name": "忠誠心",
 	"betterstats.gui.network.badges.loyalty.description": "見上げた忠誠心じゃないか！このワールドで24日（576時間）以上プレイする。",
 	"betterstats.gui.network.badges.the_next_generation.description": "究極の勝利の象徴である「ドラゴンの卵」を手にする。",
-	
+	"betterstats.gui.network.badges.adventurous_traveler.name": "冒険好きな旅人",
+	"betterstats.gui.network.badges.adventurous_traveler.description": "高い山を越え、低い谷を越え、あなたは遠くまで旅をしてきた。景色を求め、語られざる物語を求め、金ブロックで旅を測ってきた。そしてあなたは見た...\n\n727,000ブロック以上を移動する。",
+	"betterstats.gui.network.badges.perennial_survivor.name": "永遠のサバイバー",
+	"betterstats.gui.network.badges.perennial_survivor.description": "今はなんとか生き延びているが、死はいずれ訪れる。それでもその運命に抗うつもりか？\n\n12時間以上生き残る。",
+
 	"betterstats.gui.network.badges.bss_supporter.name": "Better Stats サポーター",
 	"betterstats.gui.network.badges.bss_supporter.description": "「Better Stats」やその開発をサポートする。",
 	"betterstats.gui.network.badges.bss_debugger.name": "Better Stats バグハンター",
