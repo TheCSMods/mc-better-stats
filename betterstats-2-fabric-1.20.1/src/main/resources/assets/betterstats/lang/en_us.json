@@ -1,0 +1,62 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.hud": "Statistics hud",
+	"betterstats.hud.entity.kills": "Kills",
+	"betterstats.hud.entity.deaths": "Deaths",
+	"betterstats.hud.hint.add_widget": "Right click a statistic ([Shift]+RMB) to add it here.",
+	"betterstats.hud.hint.del_widget": "Press Backspace (<-) to remove a hovered entry.",
+	"betterstats.hud.hint.esc_close": "Press Escape (ESC) to close this screen.",
+	
+	"betterstats.hud.accuracy_mode_warning.title": "Enable 'betterstats' communication with the server",
+	"betterstats.hud.accuracy_mode_warning.message": "IMPORTANT:\nBy enabling this feature, the server will detect that you have 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow this mod.\n\nEnabling this feature makes the Heads-Up Display (HUD) stats more accurate and real-time by allowing 'betterstats' to communicate with the server. Note that 'betterstats' must also be installed on the server for this feature to work.",
+	"betterstats.hud.accuracy_mode_warning.tooltip": "Enables more accurate and real-time stats in the HUD.",
+	
+	"betterstats.gui.filters": "Filters",
+	"betterstats.gui.filters.group_by.default": "Default",
+	"betterstats.gui.filters.group_by.mod": "Mod",
+	"betterstats.gui.filters.group_by.none": "All",
+	
+	"betterstats.gui.show_empty_stats": "Show empty stats",
+	"betterstats.gui.no_stats_yet": "There are no stats to show yet...",
+	
+	"betterstats.gui.ctx_menu.pin_to_hud": "Pin to hud",
+	"betterstats.gui.ctx_menu.close": "Close",
+	
+	"betterstats.gui.menu_bar.view": "View",
+	"betterstats.gui.menu_bar.view.vanilla_stats": "Show vanilla stats",
+	"betterstats.gui.menu_bar.about": "About",
+	"betterstats.gui.menu_bar.about.source": "Source Code",
+	"betterstats.gui.menu_bar.mods_other": "Other (mods)",
+	
+	"betterstats.gui.network.btn_radio.tooltip": "Toggle 'betterstats' server connection",
+	"betterstats.gui.network.btn_radio.warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well.",
+	"betterstats.gui.network.btn_pstat.tooltip": "View another player's statistics",
+	"betterstats.gui.network.stats_request.timed_out": "Request timed out...",
+	"betterstats.gui.network.stats_request.player_404": "Requested player not found...",
+	
+	"betterstats.gui.network.badges": "Player badges",
+	"betterstats.gui.network.badges.ee_icon_note": "Note: The current badge icon is an 'Easter Egg', and has nothing to do with the badge description.",
+	
+	"betterstats.gui.network.badges.badgeless.name": "No badges",
+	"betterstats.gui.network.badges.badgeless.description": "You've unlocked the secret badge of having no badges!\nThis badge indicates the player has no badges assigned to them.\nVisit the 'Better Stats' wiki for more info.",
+	"betterstats.gui.network.badges.dedication.name": "Dedication",
+	"betterstats.gui.network.badges.dedication.description": "You've shown true dedication! You have played on this world for at least 12 days (288 hours).",
+	"betterstats.gui.network.badges.loyalty.name": "Loyalty",
+	"betterstats.gui.network.badges.loyalty.description": "Your loyalty is commendable! You have played on this world for at least 24 days (576 hours).",
+	"betterstats.gui.network.badges.the_next_generation.description": "You've held the symbol of ultimate triumph - the Dragon Egg.",
+	"betterstats.gui.network.badges.adventurous_traveler.name": "Adventurous Traveler",
+	"betterstats.gui.network.badges.adventurous_traveler.description": "Through mountains high and valleys low, you've traveled far, with much to show. Seeking a sight, a tale untold, a journey's measure in blocks of gold. And then you saw it...\n\nYou have travelled for at least 727,000 blocks.",
+	"betterstats.gui.network.badges.perennial_survivor.name": "Perennial Survivor",
+	"betterstats.gui.network.badges.perennial_survivor.description": "You have managed to cheat death, for now. Will you continue to evade the inevitable?\n\nYou have survived for at least 12 hours.",
+	
+	"betterstats.gui.network.badges.bss_supporter.name": "Better Stats supporter",
+	"betterstats.gui.network.badges.bss_supporter.description": "You've shown support for the 'Better Stats' mod, and/or its development.",
+	"betterstats.gui.network.badges.bss_debugger.name": "Better Stats bug hunter",
+	"betterstats.gui.network.badges.bss_debugger.description": "You reported a bug or some other issue related to the 'Better Stats' mod.",
+	"betterstats.gui.network.badges.bss_translator.name": "Better Stats translator",
+	"betterstats.gui.network.badges.bss_translator.description": "You helped translate the 'Better Stats' mod to other languages.",
+	
+	"betterstats.gui.config.debug_mode": "Debug mode",
+	"betterstats.gui.config.gui_mob_follow_cursor": "GUI mobs follow cursor"
+}
