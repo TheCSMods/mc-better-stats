@@ -16,8 +16,7 @@
 	"betterstats.gui.filters": "Фильтрлар",
 	"betterstats.gui.filters.group_by.default": "Беренчел",
 	"betterstats.gui.filters.group_by.mod": "Мод буенча",
-	"betterstats.gui.filters.group_by.none": "Барлык",  
-  
+	"betterstats.gui.filters.group_by.none": "Барлык",
   
 	"betterstats.gui.show_empty_stats": "Буш статистиканы күрсәтү",
 	"betterstats.gui.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
@@ -36,6 +35,29 @@
 	"betterstats.gui.network.btn_pstat.tooltip": "Башка уенчының статистикасын карау",
 	"betterstats.gui.network.stats_request.timed_out": "Таләп вакыты бетте...",
 	"betterstats.gui.network.stats_request.player_404": "Таләп ителгән уенчы табылмады...",
+
+	"betterstats.gui.network.badges": "Уенчы билгеләре",
+	"betterstats.gui.network.badges.ee_icon_note": "Искәрмә: хәзерге билге тамгачыгы — бу «Пасха йомыркасы», һәм билге тасвирламасын белән аның бернинди уртаклык юк.",
+	
+	"betterstats.gui.network.badges.badgeless.name": "Билгесез",
+	"betterstats.gui.network.badges.badgeless.description": "Сез билгеләр булмауының сер билгесен ачтыгыз!\nБу билге билгене билгеләнмәгән уенчыны күрсәтә.\nКүбрәк белү өчен «Better Stats» викисен ачыгыз.",
+	"betterstats.gui.network.badges.dedication.name": "Бирелгәнлек",
+	"betterstats.gui.network.badges.dedication.description": "Сез дөрес бирелгәнлекне күрсәттегез! Сез бу дөньяда кимендә 12 көн (288 сәгать) буена уйнадыгыз.",
+	"betterstats.gui.network.badges.loyalty.name": "Тугрылык",
+	"betterstats.gui.network.badges.loyalty.description": "Сезнең тугрылык мактаулы! Сез бу дөньяда кимендә 24 көн (576 сәгать) буена уйнадыгыз.",
+	"betterstats.gui.network.badges.the_next_generation.description": "Сез соңгы тантана символын тоттыгыз — аҗдаһа йомыркасы.",
+	"betterstats.gui.network.badges.adventurous_traveler.name": "Маҗаралы сәяхәтче",
+	"betterstats.gui.network.badges.adventurous_traveler.description": "Сез бик таулар һәм түбән үзәнлекләр аша озын сәяхәт итте, күрсәтү өчен күп әйберләрне белән. Күренешне, әйтелмәгән сөйләкне, алтын блокларда сәяхәтнең чарасын эзләү. Һәм Сез ул вакытта аны күрдегез...\n\nСез кимендә 727000 блок бардыгыз.",
+	"betterstats.gui.network.badges.perennial_survivor.name": "Күпьеллык яшәүче",
+	"betterstats.gui.network.badges.perennial_survivor.description": "Сез Әҗәлне алдадыгыз, бу юлы. Сез котылгысыздан качырга дәвам итәсезме?\n\nСез кимендә 12 сәгать буена яшәдегез.",
+	
+	"betterstats.gui.network.badges.bss_supporter.name": "Better Stats ярдәмчесе",
+	"betterstats.gui.network.badges.bss_supporter.description": "Сез «Better Stats» моды өчен ярдәм һәм/яки эшкәртү күрсәттегез.",
+	"betterstats.gui.network.badges.bss_debugger.name": "Better Stats хата эзләүчесе",
+	"betterstats.gui.network.badges.bss_debugger.description": "Сез хата турында яки «Better Stats» моды белән бәйле кайбер башка проблема хәбәр иттегез.",
+	"betterstats.gui.network.badges.bss_translator.name": "Better Stats тәрҗемәчесе",
+	"betterstats.gui.network.badges.bss_translator.description": "Сез «Better Stats» модын башка телләргә тәрҗемә итәргә ярдәм иттегез.",
 	
 	"betterstats.gui.config.debug_mode": "Төзәтү шарты"
+	"betterstats.gui.config.gui_mob_follow_cursor": "GUI mobs follow cursor"
 }
