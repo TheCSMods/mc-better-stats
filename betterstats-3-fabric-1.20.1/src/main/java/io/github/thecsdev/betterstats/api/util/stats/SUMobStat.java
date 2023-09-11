@@ -1,0 +1,129 @@
+package io.github.thecsdev.betterstats.api.util.stats;
+
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fTranslatable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.google.common.collect.Lists;
+
+import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.stat.Stat;
+import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
+public final class SUMobStat extends SUStat<EntityType<?>>
+{
+	// ==================================================
+	protected final EntityType<?> entityType;
+	protected final boolean isEmpty; //cached value to avoid re-calculations
+	protected final String mobIdSQ; //"search query" helper - edit: was
+	// --------------------------------------------------
+	public final int kills, deaths;
+	// ==================================================
+	protected SUMobStat(IStatsProvider statsProvider, EntityType<?> entityType)
+	{
+		super(statsProvider, Registries.ENTITY_TYPE.getId(Objects.requireNonNull(entityType)), getMobStatText(entityType));
+		this.entityType = entityType;
+		this.mobIdSQ = Objects.toString(this.statId);
+		
+		this.kills = statsProvider.getStatValue(Stats.KILLED, entityType);
+		this.deaths = statsProvider.getStatValue(Stats.KILLED_BY, entityType);
+		this.isEmpty = (this.kills == 0 && this.deaths == 0);
+	}
+	// ==================================================
+	/**
+	 * Returns the {@link EntityType} corresponding with this {@link SUMobStat}.
+	 */
+	public final EntityType<?> getEntityType() { return this.entityType; }
+	
+	/**
+	 * Return this {@link EntityType}'s {@link Identifier}, as a {@link String}.
+	 */
+	public final String getMobIDString() { return this.mobIdSQ; }
+	// --------------------------------------------------
+	public final @Override boolean isEmpty() { return this.isEmpty; }
+	// ==================================================
+	/**
+	 * Returns the {@link Text} that should correspond to a given {@link SUMobStat}.
+	 */
+	public static final Text getMobStatText(EntityType<?> entityType) { return fTranslatable(entityType.getTranslationKey()); }
+	// ==================================================
+	/**
+	 * Obtains all "mob" {@link Stat}s, in form of {@link SUMobStat}.
+	 * @param statsProvider The {@link IStatsProvider}.
+	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUMobStat}s.
+	 */
+	public static Collection<SUMobStat> getMobStats
+	(IStatsProvider statsProvider, @Nullable Predicate<SUMobStat> filter)
+	{
+		//create the result list
+		final var result = new ArrayList<SUMobStat>();
+		
+		//iterate all entity types
+		for(final EntityType<?> entityType : Registries.ENTITY_TYPE)
+		{
+			//create the mob stat
+			final var mobStat = new SUMobStat(statsProvider, entityType);
+			
+			//filter
+			if(filter != null && !filter.test(mobStat))
+				continue;
+			
+			//add to the list
+			result.add(mobStat);
+		}
+		
+		//return the result
+		return result;
+	}
+	
+	/**
+	 * Obtains all "mob" {@link Stat}s, in form of {@link SUMobStat}, grouped
+	 * into "mod groups" using a {@link Map}. The {@link Map} keys represent "mod IDs".
+	 * @param statsProvider The {@link IStatsProvider}.
+	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUMobStat}s.
+	 */
+	public static Map<String, Collection<SUMobStat>> getMobStatsByModGroups
+	(IStatsProvider statsProvider, @Nullable Predicate<SUMobStat> filter)
+	{
+		//create a new list
+		final var result = new LinkedHashMap<String, Collection<SUMobStat>>();
+		
+		//add the 'minecraft' category first
+		String mcModId = new Identifier("air").getNamespace();
+		result.put(mcModId, Lists.newArrayList());
+		
+		//iterate all mob stats and add them to the map
+		for(final SUMobStat mobStat : getMobStats(statsProvider, filter))
+		{
+			//---------- group the mob
+			//obtain mod id
+			final String entityModId = EntityType.getId(mobStat.entityType).getNamespace();
+			if(!result.containsKey(entityModId))
+				result.put(entityModId, Lists.newArrayList());
+			final Collection<SUMobStat> resultList = result.get(entityModId);
+			
+			//add the stat to the array
+			resultList.add(mobStat);
+		}
+		
+		//make sure 'minecraft' actually has entries
+		//(aka handle cases where the filter filters out all 'minecraft' entries)
+		if(result.get(mcModId).size() == 0)
+			result.remove(mcModId);
+		
+		//return the result
+		return result;
+	}
+	// ==================================================
+}

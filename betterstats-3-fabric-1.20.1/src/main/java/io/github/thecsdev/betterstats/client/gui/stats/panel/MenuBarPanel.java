@@ -1,0 +1,243 @@
+package io.github.thecsdev.betterstats.client.gui.stats.panel;
+
+import static io.github.thecsdev.betterstats.BetterStats.URL_CURSEFORGE;
+import static io.github.thecsdev.betterstats.BetterStats.URL_ISSUES;
+import static io.github.thecsdev.betterstats.BetterStats.URL_KOFI;
+import static io.github.thecsdev.betterstats.BetterStats.URL_MODRINTH;
+import static io.github.thecsdev.betterstats.BetterStats.URL_SOURCES;
+import static io.github.thecsdev.betterstats.BetterStats.URL_YOUTUBE;
+import static io.github.thecsdev.betterstats.api.client.registry.BSClientRegistries.STATS_TAB;
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+import static io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils.showUrlPrompt;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+
+import java.awt.Color;
+import java.io.FileOutputStream;
+import java.util.Locale;
+import java.util.Map.Entry;
+import java.util.Objects;
+
+import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.Nullable;
+
+import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
+import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
+import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
+import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
+import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
+import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
+import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
+import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSStatsTabs;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TContextMenuPanel;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TMenuBarPanel;
+import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooserResult.ReturnValue;
+import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooserScreen;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
+import io.github.thecsdev.tcdcommons.api.util.TUtils;
+import io.netty.buffer.Unpooled;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.StatsScreen;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
+/**
+ * Represents the "menu bar" GUI component that usually shows
+ * up on the top of the {@link BetterStatsScreen}.
+ */
+public final class MenuBarPanel extends BSComponentPanel
+{
+	// ==================================================
+	/**
+	 * The default {@link MenuBarPanel}'s {@link #getHeight()}.
+	 */
+	public static final int HEIGHT = TMenuBarPanel.HEIGHT;
+	// --------------------------------------------------
+	private final MenuBarPanelProxy proxy;
+	// ==================================================
+	public MenuBarPanel(int x, int y, int width, MenuBarPanelProxy proxy) throws NullPointerException
+	{
+		super(x, y, width, HEIGHT);
+		this.proxy = Objects.requireNonNull(proxy);
+	}
+	// --------------------------------------------------
+	public final @Override void setSize(int width, int height, int flags)
+	{
+		//set size as usual
+		super.setSize(width, height, flags);
+		//if invoking event handlers, then also refresh this panel
+		if(getParentTScreen() != null && (flags & SS_INVOKE_EVENT) == SS_INVOKE_EVENT)
+			refresh();
+	}
+	// ==================================================
+	/**
+	 * Returns the {@link MenuBarPanelProxy} associated
+	 * with this {@link MenuBarPanel}.
+	 */
+	public final MenuBarPanelProxy getProxy() { return this.proxy; }
+	// ==================================================
+	protected final @Override void init()
+	{
+		//pre-init stuff
+		final var localPlayer = MC_CLIENT.player;
+		final var tr = "betterstats.api.client.gui.stats.panel.menubarpanel.";
+		
+		//create the menu bar panel
+		final var menu = new TMenuBarPanel(0, 0, getWidth());
+		menu.setBackgroundColor(0); //clear colors because
+		menu.setOutlineColor(0);    //this panel already has them
+		
+		//add menu item elements
+		menu.addButton(translatable(tr + "menu_file"), btn -> //TODO - Menu: File > Open/Save(As)
+		{
+			final var cMenu = new TContextMenuPanel(btn);
+			//cMenu.addButton(translatable(tr + "menu_file.new"), null);
+			cMenu.addButton(translatable(tr + "menu_file.open"), __ ->
+			{
+				//FIXME - Prototype; Implement a proper stats loading system
+				TFileChooserScreen.showOpenFileDialog(StatsProviderIO.FILE_EXTENSION)
+				.thenAccept(result ->
+				{
+					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
+						return;
+					
+					try
+					{
+						//load the file data into a buffer
+						byte[] fileData = FileUtils.readFileToByteArray(result.getSelectedFile());
+						final PacketByteBuf buffer = new PacketByteBuf(Unpooled.wrappedBuffer(fileData));
+						RAMStatsProvider stats = null;
+						stats = new RAMStatsProvider(buffer, true);
+						
+						//show the stats screen
+						final Screen parentScreen = GuiUtils.getCurrentScreenParent();
+						MC_CLIENT.setScreen(new BetterStatsScreen(parentScreen, stats).getAsScreen());
+					}
+					catch(Exception exc) { exc.printStackTrace(); TUtils.throwCrash("Failed to load stats.", exc); }
+				});
+			});
+			//cMenu.addButton(translatable(tr + "menu_file.save"), null);
+			cMenu.addButton(translatable(tr + "menu_file.save_as"), __ ->
+			{
+				//FIXME - Prototype; Implement a proper stats saving system
+				TFileChooserScreen.showSaveFileDialog(StatsProviderIO.FILE_EXTENSION)
+				.thenAccept(result ->
+				{
+					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
+						return;
+					
+					final var buffer = new PacketByteBuf(Unpooled.buffer());
+					StatsProviderIO.write(MenuBarPanel.this.proxy.getStatsProvider(), buffer);
+					try
+					{
+						final var file = result.getSelectedFile();
+						file.createNewFile();
+						
+						try(final var fos = new FileOutputStream(file); final var fileChannel = fos.getChannel())
+						{
+							while(buffer.isReadable())
+								buffer.readBytes(fileChannel, buffer.readableBytes());
+						}
+					}
+					catch(Exception exc) { exc.printStackTrace(); TUtils.throwCrash("Failed to save stats.", exc); }
+					finally { buffer.release(); }
+				});
+			});
+			cMenu.open();
+		});
+		
+		menu.addButton(translatable(tr + "menu_view"), btn ->
+		{
+			//create the context menu
+			final var cMenu = new TContextMenuPanel(btn);
+			
+			//vanilla stats
+			cMenu.addButton(translatable(tr + "menu_view.vanilla_stats"), __ ->
+			{
+				if(localPlayer == null) return;
+				MC_CLIENT.setScreen(new StatsScreen(
+						MC_CLIENT.currentScreen,
+						localPlayer.getStatHandler()));
+			});
+			
+			//stats tab entries
+			cMenu.addSeparator();
+			for(final Entry<Identifier, StatsTab> statsTabEntry : STATS_TAB)
+			{
+				final StatsTab statsTab = statsTabEntry.getValue();
+				if(!statsTab.isAvailable()) continue; //only show it if available
+				cMenu.addButton(statsTab.getName(), __ -> this.proxy.setSelectedStatsTab(statsTab));
+			}
+			
+			//open the context menu
+			cMenu.open();
+		});
+		
+		menu.addButton(translatable(tr + "menu_about"), btn ->
+		{
+			//create the context menu
+			final var cMenu = new TContextMenuPanel(btn);
+			final boolean cn = "CN".equalsIgnoreCase(Locale.getDefault().getCountry());
+			
+			//url-s
+			if(!cn)
+			{
+				cMenu.addButton(translatable(tr + "menu_about.source"), __ -> showUrlPrompt(URL_SOURCES, false));
+				cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, false));
+				cMenu.addSeparator();
+			}
+			cMenu.addButton(translatable(tr + "menu_about.curseforge"), __ -> showUrlPrompt(URL_CURSEFORGE, false));
+			cMenu.addButton(translatable(tr + "menu_about.modrinth"), __ -> showUrlPrompt(URL_MODRINTH, false));
+			if(!cn)
+			{
+				cMenu.addSeparator();
+				cMenu.addButton(translatable(tr + "menu_about.youtube"), __ -> showUrlPrompt(URL_YOUTUBE, false));
+				cMenu.addButton(translatable(tr + "menu_about.kofi"), __ -> showUrlPrompt(URL_KOFI, false));
+			}
+			
+			//open the context menu
+			cMenu.open();
+		});
+		
+		//add the menu bar panel
+		addChild(menu, true);
+		
+		//add the display name label
+		final var statsProvider = this.proxy.getStatsProvider();
+		final boolean a = (statsProvider instanceof IEditableStatsProvider);
+		
+		@Nullable Text displayName = (statsProvider != null) ? statsProvider.getDisplayName() : null;
+		if(displayName == null) displayName = literal("-"); //both conditions above can return null
+		
+		final int displayNameW = getTextRenderer().getWidth(displayName);
+		
+		final int menuSP = menu.getScrollPadding();
+		final var lbl_displayName = new TLabelElement(
+				menu.getEndX() - (menuSP + displayNameW + getTextRenderer().fontHeight), menu.getY() + menuSP,
+				displayNameW, menu.getHeight() - (menuSP*2),
+				displayName);
+		lbl_displayName.setTextColor(a ? new Color(250, 250, 5).getRGB() : BSStatsTabs.COLOR_SPECIAL);
+		addChild(lbl_displayName, false);
+	}
+	// ==================================================
+	/**
+	 * A component that provides the {@link MenuBarPanel} with
+	 * the necessary information to operate properly.
+	 */
+	public static interface MenuBarPanelProxy
+	{
+		/**
+		 * @see BetterStatsPanelProxy#getStatsProvider()
+		 */
+		public IStatsProvider getStatsProvider();
+		
+		/**
+		 * @see BetterStatsPanelProxy#setSelectedStatsTab(StatsTab)
+		 */
+		public void setSelectedStatsTab(StatsTab statsTab);
+	}
+	// ==================================================
+}

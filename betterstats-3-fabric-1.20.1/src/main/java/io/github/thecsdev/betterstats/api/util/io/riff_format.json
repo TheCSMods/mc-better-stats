@@ -1,0 +1,12 @@
+["RIFF", IntLE-Chunk["EXTENSION", IntLE-VERSION, IntLE-Chunk[...], IntLE-Chunk[...], ...]]
+
+//The "EXTENSION" always has to be uppercase and be 4 bytes in length
+//The `IntLE-Chunk[...]` refers to one of the 5 possible chunk types: 'metadata', 'general', 'item', 'mob', 'player_badge'
+//`PBB` refers to `PacketByteBuf` and `PBB-String` refers to a String written by a PacketByteBuf
+
+//contains chunk ID and a Text for display name
+IntLE-Chunk[PBB-String-"metadata", PBB-Text("stats provider display name")]
+
+//contains chunk ID, and an array of "groups". each group starts with an Identifier-namespace String,
+//indicating the "mod id" the following set of stats belong to, after which comes an array of stat id paths and their values
+IntLE-Chunk[PBB-String-"general", [PBB-String("stat_id_namespace"), PBB-VarInt("entry count"), [PBB-String("stat_id_path"), PBB-VarInt("stat value")]]]
