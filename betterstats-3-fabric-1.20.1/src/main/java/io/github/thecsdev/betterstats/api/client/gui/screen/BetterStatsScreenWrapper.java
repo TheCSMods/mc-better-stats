@@ -13,7 +13,7 @@ import net.minecraft.client.gui.screen.StatsListener;
 	// ==================================================
 	public final @Override void onStatsReady() //TODO - Temporary; Make a network handler for these
 	{
-		if(this.target.statsProvider == LocalPlayerStatsProvider.getInstance())
+		if(this.target.getStatsProvider() == LocalPlayerStatsProvider.getInstance())
 			this.target.refresh();
 	}
 	// ==================================================

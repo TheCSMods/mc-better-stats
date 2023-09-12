@@ -4,7 +4,6 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
-import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
@@ -30,7 +29,8 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 {
 	// ==================================================
 	private final @Nullable Screen parent;
-	@Internal final IStatsProvider statsProvider;
+	// --------------------------------------------------
+	private final IStatsProvider statsProvider;
 	private @Nullable StatsTab selectedStatsTab = BSStatsTabs.GENERAL;
 	private final StatFilterSettings filterSettings = new StatFilterSettings();
 	// --------------------------------------------------
@@ -80,13 +80,20 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	}
 	// ==================================================
 	/**
-	 * Returns the {@link BetterStatsPanel} that
-	 * contains all the statistics GUI.<p>
-	 * Will return {@code null} if this screen isn't initialized yet.
+	 * Returns the {@link IStatsProvider} associated with this {@link BetterStatsScreen}.
 	 */
-	public final @Nullable BetterStatsPanel getStatisticsPanel() { return this.bsPanel; }
-	// --------------------------------------------------
-	public final void setSelectedTab(@Nullable StatsTab statsTab) { this.selectedStatsTab = statsTab; refresh(); }
+	public final IStatsProvider getStatsProvider() { return this.statsProvider; }
+	
+	/**
+	 * Returns the currently selected {@link StatsTab}.
+	 */
+	public final @Nullable StatsTab getStatsTab() { return this.selectedStatsTab; }
+	
+	/**
+	 * Sets the currently selected {@link StatsTab}, after which {@link #refresh()} is called.
+	 * @param statsTab The {@link StatsTab} to display.
+	 */
+	public final void setStatsTab(@Nullable StatsTab statsTab) { this.selectedStatsTab = statsTab; refresh(); }
 	// ==================================================
 	/**
 	 * Refreshes this screen by clearing and re-initializing its children.

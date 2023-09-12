@@ -17,7 +17,7 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 	//
 	public static final Text TXT_STAT_MINED     = translatable("stat_type.minecraft.mined");
 	public static final Text TXT_STAT_CRAFTED   = translatable("stat_type.minecraft.crafted");
-	public static final Text TXT_STAT_PCIKED_UP = translatable("stat_type.minecraft.picked_up");
+	public static final Text TXT_STAT_PICKED_UP = translatable("stat_type.minecraft.picked_up");
 	public static final Text TXT_STAT_DROPPED   = translatable("stat_type.minecraft.dropped");
 	public static final Text TXT_STAT_USED      = translatable("stat_type.minecraft.used");
 	public static final Text TXT_STAT_BROKEN    = translatable("stat_type.minecraft.broken");
@@ -38,7 +38,7 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 				.append("\n\n")
 				.append(TXT_STAT_MINED)    .append(" - " + stat.mined + "\n")
 				.append(TXT_STAT_CRAFTED)  .append(" - " + stat.crafted + "\n")
-				.append(TXT_STAT_PCIKED_UP).append(" - " + stat.pickedUp + "\n")
+				.append(TXT_STAT_PICKED_UP).append(" - " + stat.pickedUp + "\n")
 				.append(TXT_STAT_DROPPED)  .append(" - " + stat.dropped + "\n")
 				.append(TXT_STAT_USED)     .append(" - " + stat.used + "\n")
 				.append(TXT_STAT_BROKEN)   .append(" - " + stat.broken);

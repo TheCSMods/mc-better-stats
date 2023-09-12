@@ -4,6 +4,7 @@ import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.FILTER_ID_SEARCH;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.FILTER_ID_SHOWEMPTY;
 import static io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext.DEFAULT_TEXT_COLOR;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Color;
@@ -11,8 +12,10 @@ import java.awt.Rectangle;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.client.gui.stats.panel.StatsSummaryPanel;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.widget.SelectStatsTabWidget;
 import io.github.thecsdev.betterstats.api.client.registry.BSClientRegistries;
@@ -33,7 +36,6 @@ import net.minecraft.util.Identifier;
 /**
  * Contains {@link StatsTab}s that belong to {@link BetterStats}.
  */
-//TODO - The API looks nice, but the internal code is a mess. Sort all of these classes's code.
 public @Internal abstract class BSStatsTabs<S extends SUStat<?>> extends StatsTab
 {
 	// ==================================================
@@ -63,7 +65,7 @@ public @Internal abstract class BSStatsTabs<S extends SUStat<?>> extends StatsTa
 		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "food_stuffs"), FOOD_STUFFS);
 		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "monsters_hunted"), MONSTERS_HUNTED);
 	}
-	// ==================================================s
+	// ==================================================
 	public @Virtual @Override void initFilters(FiltersInitContext initContext)
 	{
 		//obtain important stuff
@@ -131,6 +133,22 @@ public @Internal abstract class BSStatsTabs<S extends SUStat<?>> extends StatsTa
 		label.setTextSideOffset(0);
 		panel.addChild(label, true);
 		return label;
+	}
+	
+	@Internal static @Nullable StatsSummaryPanel init_summary(TPanelElement panel)
+	{
+		//do not summarize if no children are present
+		if(panel.getChildren().size() < 1) return null;
+		
+		//summary group label
+		final var lbl = init_groupLabel(panel, literal("\u2190 \u2022 \u2192"));
+		lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
+		
+		//init summary panel
+		final var n1 = nextVerticalRect(panel);
+		final var summary = new StatsSummaryPanel(n1.x, n1.y + GAP, n1.width);
+		panel.addChild(summary, false);
+		return summary;
 	}
 	// --------------------------------------------------
 	/**

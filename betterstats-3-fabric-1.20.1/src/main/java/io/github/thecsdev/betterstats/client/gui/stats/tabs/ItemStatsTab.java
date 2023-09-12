@@ -7,6 +7,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -26,18 +27,22 @@ import net.minecraft.text.Text;
 	{
 		final var panel = initContext.getStatsPanel();
 		final var stats = initContext.getStatsProvider();
+		final var statGroups = getItemStatsByItemGroups(stats, getPredicate(initContext.getFilterSettings()));
 		
-		for(final var statGroup : getItemStatsByItemGroups(stats, getPredicate(initContext.getFilterSettings())).entrySet())
+		for(final var statGroup : statGroups.entrySet())
 		{
 			final ItemGroup group = statGroup.getKey();
 			BSStatsTabs.init_groupLabel(panel, group != null ? group.getDisplayName() : literal("*"));
 			init_stats(panel, statGroup.getValue(), null);
 		}
+		
+		final var summary = init_summary(panel);
+		if(summary != null)
+			summary.summarizeItemStats(statGroups.values().stream()
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList()));
 	}
 	// --------------------------------------------------
-	/**
-	 * Initializes the GUI for a {@link Collection} of {@link SUItemStat}s.
-	 */
 	protected static void init_stats
 	(TPanelElement panel, Collection<SUItemStat> stats, Consumer<ItemStatWidget> processWidget)
 	{

@@ -19,5 +19,8 @@
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Filters",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Show empty stats",
 	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Kills",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Deaths",
+	
 	"betterstats.api.client.gui.stats.panel.statstabpanel.no_stats_yet": "There are no stats to show yet..."
 }

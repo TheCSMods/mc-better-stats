@@ -5,7 +5,9 @@ import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersP
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.util.Collection;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -27,8 +29,9 @@ final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 	{
 		final var panel = initContext.getStatsPanel();
 		final var stats = initContext.getStatsProvider();
+		final var statGroups = getMobStatsByModGroups(stats, getPredicate(initContext.getFilterSettings()));
 		
-		for(final var statGroup : getMobStatsByModGroups(stats, getPredicate(initContext.getFilterSettings())).entrySet())
+		for(final var statGroup : statGroups.entrySet())
 		{
 			BSStatsTabs.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
 			init_stats(panel, statGroup.getValue(), widget ->
@@ -36,6 +39,15 @@ final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 				if(widget.getStat().kills > 0) widget.setOutlineColor(COLOR_SPECIAL);
 				else if(!widget.getStat().isEmpty()) widget.setOutlineColor(TPanelElement.COLOR_OUTLINE);
 			});
+		}
+		
+		final var summary = init_summary(panel);
+		if(summary != null)
+		{
+			summary.summarizeMobStats(statGroups.values().stream()
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList()));
+			summary.autoHeight();
 		}
 	}
 	// --------------------------------------------------

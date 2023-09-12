@@ -20,6 +20,9 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 	private static final BetterStatsConfig BSS_CONFIG = BetterStats.getInstance().getConfig(); //optimization
 	// --------------------------------------------------
 	public static final int SIZE = 55;
+	//
+	public static final Text TXT_STAT_KILLS  = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills");
+	public static final Text TXT_STAT_DEATHS = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths");
 	// --------------------------------------------------
 	protected final EntityType<?> entityType;
 	protected final Tooltip defaultTooltip;
