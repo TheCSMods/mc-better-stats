@@ -99,8 +99,7 @@ public final class MenuBarPanel extends BSComponentPanel
 			cMenu.addButton(translatable(tr + "menu_file.open"), __ ->
 			{
 				//FIXME - Prototype; Implement a proper stats loading system
-				TFileChooserScreen.showOpenFileDialog(StatsProviderIO.FILE_EXTENSION)
-				.thenAccept(result ->
+				TFileChooserScreen.showOpenFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
 					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
 						return;
@@ -124,8 +123,7 @@ public final class MenuBarPanel extends BSComponentPanel
 			cMenu.addButton(translatable(tr + "menu_file.save_as"), __ ->
 			{
 				//FIXME - Prototype; Implement a proper stats saving system
-				TFileChooserScreen.showSaveFileDialog(StatsProviderIO.FILE_EXTENSION)
-				.thenAccept(result ->
+				TFileChooserScreen.showSaveFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
 					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
 						return;

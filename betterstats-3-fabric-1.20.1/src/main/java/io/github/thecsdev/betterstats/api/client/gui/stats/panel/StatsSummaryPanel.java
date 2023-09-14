@@ -70,7 +70,7 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		clearEntries();
 		
 		//define the stat integers
-		int mined = 0, crafted = 0, used = 0, broken = 0, pickedUp = 0, dropped = 0;
+		long mined = 0, crafted = 0, used = 0, broken = 0, pickedUp = 0, dropped = 0;
 		
 		//sum them up
 		for(final var itemStat : itemStats)
@@ -84,12 +84,12 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		}
 		
 		//add entries
-		addEntry(TXT_STAT_MINED,     literal(Integer.toString(mined)));
-		addEntry(TXT_STAT_CRAFTED,   literal(Integer.toString(crafted)));
-		addEntry(TXT_STAT_USED,      literal(Integer.toString(used)));
-		addEntry(TXT_STAT_BROKEN,    literal(Integer.toString(broken)));
-		addEntry(TXT_STAT_PICKED_UP, literal(Integer.toString(pickedUp)));
-		addEntry(TXT_STAT_DROPPED,   literal(Integer.toString(dropped)));
+		addEntry(TXT_STAT_MINED,     literal(Long.toString(mined)));
+		addEntry(TXT_STAT_CRAFTED,   literal(Long.toString(crafted)));
+		addEntry(TXT_STAT_USED,      literal(Long.toString(used)));
+		addEntry(TXT_STAT_BROKEN,    literal(Long.toString(broken)));
+		addEntry(TXT_STAT_PICKED_UP, literal(Long.toString(pickedUp)));
+		addEntry(TXT_STAT_DROPPED,   literal(Long.toString(dropped)));
 		
 		//refresh if needed
 		if(getParentTScreen() != null) refresh();
@@ -105,7 +105,7 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		clearEntries();
 		
 		//define the stat integers
-		int kills = 0, deaths = 0;
+		long kills = 0, deaths = 0;
 		
 		//sum them up
 		for(final var mobStat : mobStats)
@@ -115,8 +115,8 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		}
 		
 		//add entries
-		addEntry(TXT_STAT_KILLS,  literal(Integer.toString(kills)));
-		addEntry(TXT_STAT_DEATHS, literal(Integer.toString(deaths)));
+		addEntry(TXT_STAT_KILLS,  literal(Long.toString(kills)));
+		addEntry(TXT_STAT_DEATHS, literal(Long.toString(deaths)));
 		
 		//refresh if needed
 		if(getParentTScreen() != null) refresh();

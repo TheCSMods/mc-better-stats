@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
 import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.util.stats.SUItemStat.getItemStatsByItemGroups;
+import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -48,7 +49,7 @@ import net.minecraft.text.Text;
 	{
 		final int wmp = panel.getWidth() - (panel.getScrollPadding() * 2); //width minus padding
 		int nextX = panel.getScrollPadding();
-		int nextY = BSStatsTabs.nextBottomY(panel) - panel.getY();
+		int nextY = nextPanelBottomY(panel) - panel.getY();
 		
 		for(final SUItemStat stat : stats)
 		{
@@ -61,7 +62,7 @@ import net.minecraft.text.Text;
 			if(nextX + SIZE >= wmp)
 			{
 				nextX = panel.getScrollPadding();
-				nextY = (BSStatsTabs.nextBottomY(panel) - panel.getY()) + GAP;
+				nextY = (nextPanelBottomY(panel) - panel.getY()) + GAP;
 			}
 		}
 	}

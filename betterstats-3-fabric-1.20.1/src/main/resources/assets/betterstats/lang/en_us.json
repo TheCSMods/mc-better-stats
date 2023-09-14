@@ -22,5 +22,8 @@
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Kills",
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Deaths",
 	
-	"betterstats.api.client.gui.stats.panel.statstabpanel.no_stats_yet": "There are no stats to show yet..."
+	"betterstats.api.client.gui.stats.panel.statstabpanel.no_stats_yet": "There are no stats to show yet...",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Debug mode",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI mobs follow cursor"
 }

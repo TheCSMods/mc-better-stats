@@ -135,7 +135,9 @@ public final class StatsProviderIO extends Object
 		//obtain a map of the general stats, that maps the stats based on their identifier's namespaces,
 		//aka group based on the "mod id" of the mod they belong to
 		final var customStatIDs = Lists.newArrayList(Registries.CUSTOM_STAT.iterator());
-		final var customStatsMap = customStatIDs.stream().collect(Collectors.groupingBy(statId -> statId.getNamespace()));
+		final var customStatsMap = customStatIDs.stream()
+				.filter(statId -> statsProvider.getStatValue(Stats.CUSTOM.getOrCreateStat(Registries.CUSTOM_STAT.get(statId))) != 0)
+				.collect(Collectors.groupingBy(statId -> statId.getNamespace()));
 		
 		//iterate groups, obtain and write their data
 		for(final var entry : customStatsMap.entrySet())

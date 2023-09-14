@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.util.Objects;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
+import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsConfigScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
@@ -42,6 +43,13 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_close.setTooltip(Tooltip.of(translatable("gui.done")));
 		btn_close.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 60, 20, 20)));
 		addChild(btn_close, false);
+		
+		//options button
+		final var btn_options = new TButtonWidget(btn_close.getX() - 20, btn_close.getY(), 20, 20);
+		btn_options.setOnClick(__ -> MC_CLIENT.setScreen(new BetterStatsConfigScreen(MC_CLIENT.currentScreen).getAsScreen()));
+		btn_options.setTooltip(Tooltip.of(translatable("options.title")));
+		btn_options.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 40, 20, 20)));
+		addChild(btn_options, false);
 	}
 	// ==================================================
 	public static interface ActionBarPanelProxy

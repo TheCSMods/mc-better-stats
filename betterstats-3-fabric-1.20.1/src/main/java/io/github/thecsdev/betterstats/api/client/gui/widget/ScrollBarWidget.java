@@ -18,11 +18,8 @@ public @Virtual class ScrollBarWidget extends TScrollBarWidget
 	private static final int COLOR_NORMAL = new Color(255,255,255,50).getRGB();
 	private static final int COLOR_HOVERED = new Color(255,255,255,110).getRGB();
 	// ==================================================
-	public ScrollBarWidget(int x, int y, int width, int height, TPanelElement target)
-	{
-		super(x, y, width, height, target);
-		setZOffset(getZOffset() + 1);
-	}
+	public ScrollBarWidget(int x, int y, int width, int height, TPanelElement target) { super(x, y, width, height, target); }
+	public ScrollBarWidget(int x, int y, int width, int height, TPanelElement target, boolean autoSetScrollFlags) { super(x, y, width, height, target, autoSetScrollFlags); }
 	// ==================================================
 	public @Virtual @Override void render(TDrawContext pencil)
 	{
