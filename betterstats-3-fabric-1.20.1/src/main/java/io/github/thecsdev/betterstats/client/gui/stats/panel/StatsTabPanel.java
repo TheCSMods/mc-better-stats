@@ -21,7 +21,7 @@ import net.minecraft.text.Text;
 public final class StatsTabPanel extends BSComponentPanel
 {
 	// ==================================================
-	public static final Text TXT_NO_STATS_YET = translatable("betterstats.api.client.gui.stats.panel.statstabpanel.no_stats_yet");
+	public static final Text TXT_NO_STATS_YET = translatable("betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet");
 	// --------------------------------------------------
 	protected final StatsTabPanelProxy proxy;
 	// ==================================================

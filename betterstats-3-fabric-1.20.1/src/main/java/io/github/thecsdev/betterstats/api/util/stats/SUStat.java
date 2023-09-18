@@ -28,7 +28,7 @@ public abstract @Internal class SUStat<T> extends Object
 	protected final Text statLabel;
 	protected final String statLabelSQ, statIdSQ; //"search query" helpers
 	// ==================================================
-	protected SUStat(IStatsProvider statsProvider, Identifier statId, Text statLabel)
+	protected SUStat(IStatsProvider statsProvider, Identifier statId, Text statLabel) throws NullPointerException
 	{
 		this.statProvider = Objects.requireNonNull(statsProvider);
 		this.statId = Objects.requireNonNull(statId);

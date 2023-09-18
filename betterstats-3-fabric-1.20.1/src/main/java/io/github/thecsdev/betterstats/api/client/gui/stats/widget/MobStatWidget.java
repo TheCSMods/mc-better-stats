@@ -1,9 +1,8 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
-
-import java.util.Objects;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
@@ -25,8 +24,9 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 	public static final Text TXT_STAT_DEATHS = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths");
 	// --------------------------------------------------
 	protected final EntityType<?> entityType;
-	protected final Tooltip defaultTooltip;
 	protected final TEntityRendererElement entityRenderer;
+	//
+	protected final Tooltip defaultTooltip;
 	// ==================================================
 	public MobStatWidget(int x, int y, SUMobStat stat) throws NullPointerException { this(x, y, SIZE, stat); }
 	public MobStatWidget(int x, int y, int size, SUMobStat stat) throws NullPointerException
@@ -34,10 +34,11 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 		super(x, y, size, size, stat);
 		this.entityType = stat.getEntityType();
 		
-		final String entityNameStr = Objects.requireNonNull(stat.getStatLabel()).getString();
-		final Text ttt = literal("").append(stat.getStatLabel()) //MUST create new text instance
-				.append("\n" + stat.getMobIDString())
-				.append("\n\n")
+		final String entityNameStr = stat.getStatLabel().getString();
+		final Text ttt = literal("") //MUST create new text instance
+				.append(stat.getStatLabel())
+				.append(fLiteral("\n§7" + stat.getStatID()))
+				.append("\n\n§r")
 				.append(stat.kills == 0 ?
 						translatable("stat_type.minecraft.killed.none", entityNameStr) :
 						translatable("stat_type.minecraft.killed", Integer.toString(stat.kills), entityNameStr))

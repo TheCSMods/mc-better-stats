@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -18,7 +19,7 @@ import io.github.thecsdev.tcdcommons.api.util.TUtils;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
 
-final @Internal class FoodStuffsStatsTab extends ItemStatsTab
+public final @Internal class FoodStuffsStatsTab extends ItemStatsTab
 {
 	// ==================================================
 	public final @Override Text getName() { return translatable("advancements.husbandry.balanced_diet.title"); }
@@ -31,10 +32,10 @@ final @Internal class FoodStuffsStatsTab extends ItemStatsTab
 		
 		for(final var statGroup : statGroups.entrySet())
 		{
-			BSStatsTabs.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
+			BSStatsTab.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
 			init_stats(panel, statGroup.getValue(), widget ->
 			{
-				if(widget.getStat().used > 0) widget.setOutlineColor(COLOR_SPECIAL);
+				if(widget.getStat().used > 0) widget.setOutlineColor(BSStatsTabs.COLOR_SPECIAL);
 				else if(!widget.getStat().isEmpty()) widget.setOutlineColor(TPanelElement.COLOR_OUTLINE);
 			});
 		}

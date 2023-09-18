@@ -18,7 +18,7 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 public final class ActionBarPanel extends BSComponentPanel
 {
 	// ==================================================
-	public static final int HEIGHT = 20;
+	public static final int HEIGHT = 22;
 	// --------------------------------------------------
 	protected final ActionBarPanelProxy proxy;
 	// ==================================================
@@ -37,7 +37,7 @@ public final class ActionBarPanel extends BSComponentPanel
 	protected final @Override void init()
 	{
 		//close button
-		final var btn_close = new TButtonWidget(getEndX() - 20, getY(), 20, getHeight());
+		final var btn_close = new TButtonWidget(getEndX() - 21, getY() + 1, 20, 20);
 		btn_close.setEnabled(this.proxy.canClose());
 		btn_close.setOnClick(__ -> this.proxy.onClose());
 		btn_close.setTooltip(Tooltip.of(translatable("gui.done")));
@@ -45,7 +45,7 @@ public final class ActionBarPanel extends BSComponentPanel
 		addChild(btn_close, false);
 		
 		//options button
-		final var btn_options = new TButtonWidget(btn_close.getX() - 20, btn_close.getY(), 20, 20);
+		final var btn_options = new TButtonWidget(btn_close.getX() - 21, btn_close.getY(), 20, 20);
 		btn_options.setOnClick(__ -> MC_CLIENT.setScreen(new BetterStatsConfigScreen(MC_CLIENT.currentScreen).getAsScreen()));
 		btn_options.setTooltip(Tooltip.of(translatable("options.title")));
 		btn_options.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 40, 20, 20)));

@@ -4,16 +4,18 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
+import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
-import io.github.thecsdev.tcdcommons.api.badge.PlayerBadgeHandler;
+import io.github.thecsdev.betterstats.api.util.stats.SUPlayerBadgeStat;
 import io.github.thecsdev.tcdcommons.api.util.exceptions.UnsupportedFileVersionException;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
@@ -47,15 +49,19 @@ public final class StatsProviderIO extends Object
 	 * still maintaining support for the older chunks.
 	 * @apiNote TLDR; Only increase if backwards compatibility is impossible.
 	 */
-	public static final int FILE_VERSION = 1;
+	public static final int FILE_VERSION = 2;
+	/* # File version history:
+	 * 1 - Since v3.0-alpha.1 - Initial version
+	 * 2 - Since v3.0-alpha.3 - Major changes to the player badge system
+	 */
 	// ==================================================
 	/**
 	 * Writes an {@link IStatsProvider}'s statistics data to a given {@link PacketByteBuf}.
-	 * @param statsProvider The data to write.
 	 * @param buffer The buffer to write the data to.
+	 * @param statsProvider The data to write.
 	 * @apiNote Uses the "RIFF" file format.
 	 */
-	public static final void write(IStatsProvider statsProvider, PacketByteBuf buffer)
+	public static final void write(PacketByteBuf buffer, IStatsProvider statsProvider)
 	throws NullPointerException
 	{
 		//null checks
@@ -64,10 +70,10 @@ public final class StatsProviderIO extends Object
 		
 		//write data
 		buffer.writeBytes("RIFF".getBytes(US_ASCII));
-		write_file(statsProvider, buffer);
+		write_file(buffer, statsProvider);
 	}
 	// --------------------------------------------------
-	private static final void write_file(IStatsProvider statsProvider, PacketByteBuf buffer)
+	private static final void write_file(PacketByteBuf buffer, IStatsProvider statsProvider)
 	{
 		//create the buffer
 		final var buffer_file = new PacketByteBuf(Unpooled.buffer());
@@ -118,9 +124,13 @@ public final class StatsProviderIO extends Object
 	
 	private static final void write_fileChunk_meta(PacketByteBuf buffer_chunk, IStatsProvider statsProvider)
 	{
+		//write display name
 		@Nullable Text displayName = statsProvider.getDisplayName();
 		if(displayName == null) displayName = literal("-");
 		buffer_chunk.writeText(displayName);
+		
+		//write game profile
+		writeGameProfile(buffer_chunk, statsProvider.getGameProfile());
 	}
 	
 	private static final void write_fileChunk_general(PacketByteBuf buffer_chunk, IStatsProvider statsProvider)
@@ -223,12 +233,11 @@ public final class StatsProviderIO extends Object
 	
 	private static final void write_fileChunk_playerBadge(PacketByteBuf buffer_chunk, IStatsProvider statsProvider)
 	{
-		//obtain a map of player badge stats
-		final var stats = Lists.newArrayList(statsProvider.getPlayerBadgeIterator());
-		final var statsMap = PlayerBadgeHandler.toMapByModId(stats);
+		//obtain a map of mod stats
+		final var stats = SUPlayerBadgeStat.getPlayerBadgeStatsByModGroups(statsProvider, stat -> !stat.isEmpty());
 		
 		//iterate groups, and write their data
-		for(final var entry : statsMap.entrySet())
+		for(final var entry : stats.entrySet())
 		{
 			//obtain the group id and its stats
 			final var groupModId = entry.getKey();
@@ -241,9 +250,8 @@ public final class StatsProviderIO extends Object
 			//write group entries
 			for(final var stat : groupStats)
 			{
-				buffer_chunk.writeString(stat.getPath());
-				//quantity, in case i ever feel like implementing something like this:
-				buffer_chunk.writeVarInt(1); //for now, a player can have just one of each
+				buffer_chunk.writeString(stat.getStatID().getPath());
+				buffer_chunk.writeVarInt(stat.value);
 			}
 		}
 	}
@@ -253,7 +261,8 @@ public final class StatsProviderIO extends Object
 	 * {@link PacketByteBuf}, and converts it to an {@link IStatsProvider}.
 	 * @param buffer The buffer to read data from.
 	 * @param statsProvider The {@link IEditableStatsProvider} to load the data into.
-	 * @throws IllegalHeaderException If the "RIFF" header is missing.
+	 * @throws IllegalHeaderException If the "RIFF" header is missing, or the file extension is invalid.
+	 * @throws UnsupportedFileVersionException If the file data version is not supported.
 	 */
 	public static final void read(PacketByteBuf buffer, IEditableStatsProvider statsProvider)
 	throws IllegalHeaderException, UnsupportedFileVersionException
@@ -330,6 +339,11 @@ public final class StatsProviderIO extends Object
 		//read display name
 		final Text displayName = buffer_chunk.readText();
 		statsProvider.setDisplayName(displayName);
+		
+		//read game profile
+		if(buffer_chunk.readableBytes() < 2) return; //compatibility with alpha files
+		final @Nullable GameProfile gameProfile = readGameProfile(buffer_chunk);
+		statsProvider.setGameProfile(gameProfile);
 	}
 	
 	private static final void read_fileChunk_general(PacketByteBuf buffer_chunk, IEditableStatsProvider statsProvider)
@@ -439,11 +453,59 @@ public final class StatsProviderIO extends Object
 			//read all entries for the corresponding mod id
 			for(int i = 0; i < entryCount; i++)
 			{
-				//read badge ID path, and obtain the Identifier
-				final var badgeId = new Identifier(modId, buffer_chunk.readString());
-				statsProvider.addPlayerBadge(badgeId);
+				//read player badge stat data
+				final String playerBadgeIdPath = buffer_chunk.readString();
+				final int value = buffer_chunk.readVarInt();
+				
+				//obtain mob, and store its stats
+				final Identifier playerBadgeId = new Identifier(modId, playerBadgeIdPath);
+				statsProvider.setPlayerBadgeValue(playerBadgeId, value);
 			}
 		}
+	}
+	// ==================================================
+	/**
+	 * Writes a {@link GameProfile} to a given {@link PacketByteBuf}.
+	 * @apiNote {@link GameProfile#getProperties()} are not written to the buffer.
+	 */
+	public static final void writeGameProfile(PacketByteBuf buffer, @Nullable GameProfile gameProfile)
+	{
+		//if game profile is null, write false for all fields
+		if(gameProfile == null)
+		{
+			buffer.writeBoolean(false);
+			buffer.writeBoolean(false);
+			return;
+		}
+		
+		//obtain game profile info
+		final var uuid  = gameProfile.getId();
+		final var name = gameProfile.getName();
+		
+		//write
+		// - first UUID
+		if(uuid != null) { buffer.writeBoolean(true); buffer.writeUuid(uuid); }
+		else buffer.writeBoolean(false);
+		// - then name
+		if(name != null) { buffer.writeBoolean(true); buffer.writeString(name); }
+		else buffer.writeBoolean(false);
+	}
+	
+	/**
+	 * Reads a {@link GameProfile} from a {@link PacketByteBuf}. Will return
+	 * {@code null} if a "{@code null}" {@link GameProfile} was written to the buffer.
+	 * @apiNote {@link GameProfile#getProperties()} are not read from the buffer.
+	 */
+	public static final @Nullable GameProfile readGameProfile(PacketByteBuf buffer)
+	{
+		//first UUID
+		final UUID uuid = buffer.readBoolean() ? buffer.readUuid() : null;
+		//then name
+		final String name = buffer.readBoolean() ? buffer.readString() : null;
+		
+		//construct the game profile
+		if(name == null && uuid == null) return null;
+		else return new GameProfile(uuid, name);
 	}
 	// ==================================================
 }

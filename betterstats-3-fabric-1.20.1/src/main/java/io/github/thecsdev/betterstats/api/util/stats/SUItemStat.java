@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
@@ -31,16 +30,14 @@ public final class SUItemStat extends SUStat<Item>
 	protected final Item item;
 	protected final @Nullable Block block;
 	protected final boolean isEmpty; //cached value to avoid re-calculations
-	protected final String itemIdSQ; //"search query" helper - edit: was
 	// --------------------------------------------------
 	public final int mined, crafted, used, broken, pickedUp, dropped;
 	// ==================================================
-	protected SUItemStat(IStatsProvider statsProvider, Item item)
+	public SUItemStat(IStatsProvider statsProvider, Item item)
 	{
 		super(statsProvider, Registries.ITEM.getId(Objects.requireNonNull(item)), getItemStatText(item));
 		this.item = item;
 		this.block = Block.getBlockFromItem(item);
-		this.itemIdSQ = Objects.toString(this.statId);
 		
 		//handle sMined
 		if(this.block == null) mined = 0;
@@ -69,19 +66,8 @@ public final class SUItemStat extends SUStat<Item>
 	 * or {@code null} if the {@link Item} does not have a corresponding {@link Block}.
 	 */
 	public final @Nullable Block getBlock() { return this.block; }
-	
-	/**
-	 * Returns the {@link Item}'s {@link Identifier}, as a {@link String}.
-	 */
-	public final String getItemIDString() { return this.itemIdSQ; }
 	// --------------------------------------------------
 	public final @Override boolean isEmpty() { return this.isEmpty; }
-	// --------------------------------------------------
-	public @Override boolean matchesSearchQuery(String search)
-	{
-		return super.matchesSearchQuery(search) ||
-				StringUtils.defaultString(search).contains(this.itemIdSQ);
-	}
 	// ==================================================
 	/**
 	 * Returns the {@link Text} that should correspond to a given {@link SUItemStat}.
@@ -169,7 +155,7 @@ public final class SUItemStat extends SUStat<Item>
 		{
 			//---------- group the item
 			//obtain mod id
-			final String itemModId = Registries.ITEM.getId(itemStat.item).getNamespace();
+			final String itemModId = itemStat.getStatID().getNamespace();
 			
 			//get or create a group array
 			if(!result.containsKey(itemModId))

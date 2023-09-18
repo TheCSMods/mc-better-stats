@@ -11,6 +11,7 @@ import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStat
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +26,10 @@ import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * A {@link BSComponentPanel} that summarizes given {@link Collection}s
+ * of {@link SUItemStat}s and {@link SUMobStat}s.
+ */
 public final class StatsSummaryPanel extends BSComponentPanel
 {
 	// ==================================================
@@ -52,7 +57,7 @@ public final class StatsSummaryPanel extends BSComponentPanel
 	 */
 	public final void setColumnCount(int columnCount)
 	{
-		this.columnCount = MathHelper.clamp(columnCount, 1, 4);
+		this.columnCount = MathHelper.clamp(columnCount, 1, 5);
 		if(getParentTScreen() != null) refresh();
 	}
 	// --------------------------------------------------
@@ -171,10 +176,16 @@ public final class StatsSummaryPanel extends BSComponentPanel
 	 */
 	public final void autoHeight()
 	{
-		if(getChildren().size() < 1) return;
+		//old implementation that only works when initialized
+		/*if(getChildren().size() < 1) return;
 		final int startY = getY();
 		final int endY = getChildren().getLastChild().getEndY();
 		final int height = (endY - startY) + getScrollPadding();
+		setSize(getWidth(), height);*/
+		
+		//new implementation that works even when not initialized
+		final int rows = (int) Math.ceil(((double)this.entries.size() / Math.max(this.columnCount, 1)));
+		final int height = (rows * ENTRY_HEIGHT) + (getScrollPadding() * 2);
 		setSize(getWidth(), height);
 	}
 	// ==================================================

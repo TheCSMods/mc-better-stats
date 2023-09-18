@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
-import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.FILTER_ID_SEARCH;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.FILTER_ID_SHOWEMPTY;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
@@ -9,7 +8,6 @@ import static io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext.DEF
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import java.awt.Color;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -19,7 +17,7 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.stats.panel.StatsSummaryPanel;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.widget.SelectStatsTabWidget;
-import io.github.thecsdev.betterstats.api.client.registry.BSClientRegistries;
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.stats.SUStat;
@@ -31,40 +29,16 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TTextFieldWidget;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 /**
  * Contains {@link StatsTab}s that belong to {@link BetterStats}.
  */
-public @Internal abstract class BSStatsTabs<S extends SUStat<?>> extends StatsTab
+@Internal abstract class BSStatsTab<S extends SUStat<?>> extends StatsTab
 {
 	// ==================================================
-	@Internal BSStatsTabs() {}
+	@Internal BSStatsTab() {}
 	// ==================================================
-	//the spacing between GUI stat elements
-	@Internal static final int GAP = 3;
-	@Internal public static final int COLOR_SPECIAL = Color.YELLOW.getRGB();
-	// --------------------------------------------------
-	public static final StatsTab GENERAL         = new GeneralStatsTab();
-	public static final StatsTab ITEMS           = new ItemStatsTab();
-	public static final StatsTab ENTITIES        = new MobStatsTab();
-	public static final StatsTab FOOD_STUFFS     = new FoodStuffsStatsTab();
-	public static final StatsTab MONSTERS_HUNTED = new MonstersHuntedStatsTab();
-	// ==================================================
-	/**
-	 * Registers the {@link BSStatsTabs} to the {@link BSClientRegistries#STATS_TAB} registry.
-	 * @apiNote May only be called once.
-	 */
-	public static void register() {}
-	static
-	{
-		final String modId = getModID();
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "general"), GENERAL);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "items"), ITEMS);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "entities"), ENTITIES);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "food_stuffs"), FOOD_STUFFS);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "monsters_hunted"), MONSTERS_HUNTED);
-	}
+	public static final @Internal int GAP = 3;
 	// ==================================================
 	public @Virtual @Override void initFilters(FiltersInitContext initContext)
 	{
@@ -129,7 +103,7 @@ public @Internal abstract class BSStatsTabs<S extends SUStat<?>> extends StatsTa
 		final int nextW = panel.getWidth() - (nextX * 2);
 		
 		final var label = new TLabelElement(nextX, nextY, nextW, GeneralStatWidget.HEIGHT, text);
-		label.setTextColor(COLOR_SPECIAL);
+		label.setTextColor(BSStatsTabs.COLOR_SPECIAL);
 		label.setTextSideOffset(0);
 		panel.addChild(label, true);
 		return label;
@@ -150,6 +124,5 @@ public @Internal abstract class BSStatsTabs<S extends SUStat<?>> extends StatsTa
 		panel.addChild(summary, false);
 		return summary;
 	}
-	// --------------------------------------------------
 	// ==================================================
 }

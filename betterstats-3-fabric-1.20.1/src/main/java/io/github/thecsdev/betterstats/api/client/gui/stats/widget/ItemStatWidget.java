@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -21,8 +22,6 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 	public static final Text TXT_STAT_DROPPED   = translatable("stat_type.minecraft.dropped");
 	public static final Text TXT_STAT_USED      = translatable("stat_type.minecraft.used");
 	public static final Text TXT_STAT_BROKEN    = translatable("stat_type.minecraft.broken");
-	//
-	//protected static final TextRenderer TEXT_RENDERER = BetterStatsClient.MC_CLIENT.textRenderer;
 	// --------------------------------------------------
 	protected final ItemStack itemStack;
 	protected final Tooltip defaultTooltip;
@@ -33,9 +32,10 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 		super(x, y, size, size, stat);
 		this.itemStack = stat.getItem().getDefaultStack();
 		
-		final Text ttt = literal("").append(stat.getStatLabel()) //MUST create new text instance
-				.append("\n" + stat.getItemIDString())
-				.append("\n\n")
+		final Text ttt = literal("") //MUST create new text instance
+				.append(stat.getStatLabel())
+				.append(fLiteral("\n§7" + stat.getStatID()))
+				.append("\n\n§r")
 				.append(TXT_STAT_MINED)    .append(" - " + stat.mined + "\n")
 				.append(TXT_STAT_CRAFTED)  .append(" - " + stat.crafted + "\n")
 				.append(TXT_STAT_PICKED_UP).append(" - " + stat.pickedUp + "\n")

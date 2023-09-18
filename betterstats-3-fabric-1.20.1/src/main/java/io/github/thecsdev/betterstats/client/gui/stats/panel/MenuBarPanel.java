@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.events.client.gui.stats.panel.MenuBarPanelEvent;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
@@ -30,7 +31,6 @@ import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
-import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSStatsTabs;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TContextMenuPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TMenuBarPanel;
@@ -92,13 +92,13 @@ public final class MenuBarPanel extends BSComponentPanel
 		menu.setOutlineColor(0);    //this panel already has them
 		
 		//add menu item elements
-		menu.addButton(translatable(tr + "menu_file"), btn -> //TODO - Menu: File > Open/Save(As)
+		menu.addButton(translatable(tr + "menu_file"), btn ->
 		{
 			final var cMenu = new TContextMenuPanel(btn);
 			//cMenu.addButton(translatable(tr + "menu_file.new"), null);
 			cMenu.addButton(translatable(tr + "menu_file.open"), __ ->
 			{
-				//FIXME - Prototype; Implement a proper stats loading system
+				//TODO - Prototype; Implement a proper stats loading system
 				TFileChooserScreen.showOpenFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
 					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
@@ -122,14 +122,14 @@ public final class MenuBarPanel extends BSComponentPanel
 			//cMenu.addButton(translatable(tr + "menu_file.save"), null);
 			cMenu.addButton(translatable(tr + "menu_file.save_as"), __ ->
 			{
-				//FIXME - Prototype; Implement a proper stats saving system
+				//TODO - Prototype; Implement a proper stats saving system
 				TFileChooserScreen.showSaveFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
 					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
 						return;
 					
 					final var buffer = new PacketByteBuf(Unpooled.buffer());
-					StatsProviderIO.write(MenuBarPanel.this.proxy.getStatsProvider(), buffer);
+					StatsProviderIO.write(buffer, MenuBarPanel.this.proxy.getStatsProvider());
 					try
 					{
 						final var file = result.getSelectedFile();

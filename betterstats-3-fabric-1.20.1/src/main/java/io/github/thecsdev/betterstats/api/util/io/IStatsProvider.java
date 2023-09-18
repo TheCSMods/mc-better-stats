@@ -1,12 +1,12 @@
 package io.github.thecsdev.betterstats.api.util.io;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.authlib.GameProfile;
+
 import io.github.thecsdev.tcdcommons.api.badge.PlayerBadge;
-import io.github.thecsdev.tcdcommons.api.badge.PlayerBadgeHandler;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.stat.StatType;
@@ -18,6 +18,7 @@ import net.minecraft.util.Identifier;
  */
 public interface IStatsProvider
 {
+	// ==================================================
 	/**
 	 * Returns a "visual"/"user friendly" display {@link Text} that will
 	 * be shown on the GUI screen as an indicator as to who the stats belong to.
@@ -25,6 +26,12 @@ public interface IStatsProvider
 	 */
 	public @Nullable Text getDisplayName();
 	
+	/**
+	 * Returns the {@link GameProfile} of the player these stats belong to,
+	 * or {@code null} if these stats are not associated with a player.
+	 */
+	public @Nullable GameProfile getGameProfile();
+	// ==================================================
 	/**
 	 * Returns the {@link Integer} value of a given {@link Stat}.
 	 * @param stat The {@link Stat} whose value is to be obtained.
@@ -40,32 +47,21 @@ public interface IStatsProvider
 	 * @apiNote You should not override this, as it calls {@link #getStatValue(Stat)} by default.
 	 */
 	default <T> int getStatValue(StatType<T> type, T stat) { return type.hasStat(stat) ? getStatValue(type.getOrCreateStat(stat)) : 0; }
+	// --------------------------------------------------
+	/**
+	 * Returns the {@link Integer} value of a given {@link PlayerBadge} stat.
+	 * @param badgeId The unique {@link Identifier} of the {@link PlayerBadge}.
+	 */
+	public int getPlayerBadgeValue(Identifier badgeId);
 	
 	/**
-	 * Returns an {@link Iterator} that allows easily iterating
-	 * over every {@link PlayerBadge} {@link Identifier} in this {@link IStatsProvider}.
+	 * Returns the {@link Integer} value of a given {@link PlayerBadge} stat.
+	 * @param playerBadge The given {@link PlayerBadge}. Must be registered.
+	 * @throws NullPointerException If the argument is {@code null}, or the {@link PlayerBadge} is not registered.
 	 */
-	public Iterator<Identifier> getPlayerBadgeIterator();
-	
-	/**
-	 * Returns true if a given {@link PlayerBadge}'s {@link Identifier}
-	 * is associated with this {@link IStatsProvider}.
-	 * @param badgeId The {@link PlayerBadge}'s unique {@link Identifier}.
-	 * @see PlayerBadgeHandler
-	 * @apiNote It is recommended to {@link Override} this and use
-	 * {@link Collection#contains(Object)} for better performance.
-	 */
-	default boolean containsPlayerBadge(final Identifier badgeId)
+	default int getPlayerBadgeValue(PlayerBadge playerBadge) throws NullPointerException
 	{
-		// Create an Iterator object by calling getPlayerBadgeIterator method
-		Iterator<Identifier> iterator = getPlayerBadgeIterator();
-		
-		// Iterate through the Identifiers to check if badgeId exists
-		while(iterator.hasNext())
-			if(iterator.next().equals(badgeId))
-				return true;  // Return true if badgeId is found
-		
-		// Return false if badgeId is not found
-		return false;
+		return getPlayerBadgeValue(Objects.requireNonNull(playerBadge.getId()));
 	}
+	// ==================================================
 }

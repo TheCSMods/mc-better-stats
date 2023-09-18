@@ -19,7 +19,7 @@ import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.text.Text;
 
-@Internal @Virtual class ItemStatsTab extends BSStatsTabs<SUItemStat>
+public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 {
 	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.itemsButton"); }
@@ -33,7 +33,7 @@ import net.minecraft.text.Text;
 		for(final var statGroup : statGroups.entrySet())
 		{
 			final ItemGroup group = statGroup.getKey();
-			BSStatsTabs.init_groupLabel(panel, group != null ? group.getDisplayName() : literal("*"));
+			BSStatsTab.init_groupLabel(panel, group != null ? group.getDisplayName() : literal("*"));
 			init_stats(panel, statGroup.getValue(), null);
 		}
 		

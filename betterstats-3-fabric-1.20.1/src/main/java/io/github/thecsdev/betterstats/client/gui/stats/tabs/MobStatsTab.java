@@ -19,7 +19,7 @@ import io.github.thecsdev.tcdcommons.api.util.TUtils;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
 
-@Internal @Virtual class MobStatsTab extends BSStatsTabs<SUMobStat>
+public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 {
 	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.mobsButton"); }
@@ -32,7 +32,7 @@ import net.minecraft.text.Text;
 		
 		for(final var statGroup : statGroups.entrySet())
 		{
-			BSStatsTabs.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
+			BSStatsTab.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
 			init_stats(panel, statGroup.getValue(), null);
 		}
 		

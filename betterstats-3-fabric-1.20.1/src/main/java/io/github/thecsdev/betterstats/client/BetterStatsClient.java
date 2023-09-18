@@ -4,7 +4,8 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
-import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSStatsTabs;
+import io.github.thecsdev.betterstats.api.client.registry.BSClientPlayerBadges;
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.events.client.gui.screen.GameMenuScreenEvent;
 import io.github.thecsdev.tcdcommons.api.hooks.client.gui.widget.ButtonWidgetHooks;
@@ -20,12 +21,13 @@ public final class BetterStatsClient extends BetterStats
 	{
 		//initialize and register stuff
 		BSStatsTabs.register();
+		BSClientPlayerBadges.register();
 		
 		//an event handler that will handle the game menu screen (the "pause" screen)
 		GameMenuScreenEvent.INIT_WIDGETS_POST.register(gmScreen ->
 		{
 			//executing separately to really make sure the game menu screen finished initializing
-			MinecraftClient.getInstance().execute(() ->
+			MC_CLIENT.execute(() ->
 			{
 				//locate the original stats button
 				final ButtonWidget ogStatsBtn = GuiUtils.findButtonWidgetOnScreen(gmScreen, translatable("gui.stats"));

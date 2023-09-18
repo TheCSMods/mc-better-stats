@@ -26,15 +26,13 @@ public final class SUMobStat extends SUStat<EntityType<?>>
 	// ==================================================
 	protected final EntityType<?> entityType;
 	protected final boolean isEmpty; //cached value to avoid re-calculations
-	protected final String mobIdSQ; //"search query" helper - edit: was
 	// --------------------------------------------------
 	public final int kills, deaths;
 	// ==================================================
-	protected SUMobStat(IStatsProvider statsProvider, EntityType<?> entityType)
+	public SUMobStat(IStatsProvider statsProvider, EntityType<?> entityType)
 	{
 		super(statsProvider, Registries.ENTITY_TYPE.getId(Objects.requireNonNull(entityType)), getMobStatText(entityType));
 		this.entityType = entityType;
-		this.mobIdSQ = Objects.toString(this.statId);
 		
 		this.kills = statsProvider.getStatValue(Stats.KILLED, entityType);
 		this.deaths = statsProvider.getStatValue(Stats.KILLED_BY, entityType);
@@ -45,11 +43,6 @@ public final class SUMobStat extends SUStat<EntityType<?>>
 	 * Returns the {@link EntityType} corresponding with this {@link SUMobStat}.
 	 */
 	public final EntityType<?> getEntityType() { return this.entityType; }
-	
-	/**
-	 * Return this {@link EntityType}'s {@link Identifier}, as a {@link String}.
-	 */
-	public final String getMobIDString() { return this.mobIdSQ; }
 	// --------------------------------------------------
 	public final @Override boolean isEmpty() { return this.isEmpty; }
 	// ==================================================
@@ -108,7 +101,7 @@ public final class SUMobStat extends SUStat<EntityType<?>>
 		{
 			//---------- group the mob
 			//obtain mod id
-			final String entityModId = EntityType.getId(mobStat.entityType).getNamespace();
+			final String entityModId = mobStat.getStatID().getNamespace();
 			if(!result.containsKey(entityModId))
 				result.put(entityModId, Lists.newArrayList());
 			final Collection<SUMobStat> resultList = result.get(entityModId);

@@ -1,18 +1,17 @@
 package io.github.thecsdev.betterstats.api.client.util.io;
 
-import static io.github.thecsdev.tcdcommons.api.badge.PlayerBadgeHandler.PBH_CUSTOM_DATA_ID;
-import static io.github.thecsdev.tcdcommons.api.hooks.entity.EntityHooks.getCustomDataEntryG;
-import static io.github.thecsdev.tcdcommons.api.hooks.entity.EntityHooks.setCustomDataEntryG;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.authlib.GameProfile;
+
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.client.BetterStatsClient;
 import io.github.thecsdev.tcdcommons.api.badge.PlayerBadgeHandler;
+import io.github.thecsdev.tcdcommons.api.client.badge.ClientPlayerBadge;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.StatHandler;
@@ -28,9 +27,11 @@ public final class LocalPlayerStatsProvider implements IStatsProvider
 	// ==================================================
 	protected static LocalPlayerStatsProvider INSTANCE = null;
 	// --------------------------------------------------
+	protected final Text displayName;
+	protected final GameProfile playerProfile;
+	//
 	protected final StatHandler statsHandler;
 	protected final PlayerBadgeHandler badgeHandler;
-	protected final Text displayName;
 	// ==================================================
 	protected LocalPlayerStatsProvider() throws IllegalStateException
 	{
@@ -42,18 +43,18 @@ public final class LocalPlayerStatsProvider implements IStatsProvider
 		
 		//define final variables
 		this.displayName = literal(localPlayer.getDisplayName().getString()); //using `literal` to clear Text metadata
+		this.playerProfile = localPlayer.getGameProfile();
+		
 		this.statsHandler = Objects.requireNonNull(localPlayer.getStatHandler());
-		PlayerBadgeHandler badgeHandler = getCustomDataEntryG(localPlayer, PBH_CUSTOM_DATA_ID);
-		if(badgeHandler == null)
-			badgeHandler = setCustomDataEntryG(localPlayer, PBH_CUSTOM_DATA_ID, new PlayerBadgeHandler());
-		this.badgeHandler = badgeHandler;
+		this.badgeHandler = ClientPlayerBadge.getClientPlayerBadgeHandler(localPlayer);
 	}
 	// ==================================================
 	public final @Override Text getDisplayName() { return this.displayName; }
+	public final @Override GameProfile getGameProfile() { return this.playerProfile; }
+	// --------------------------------------------------
 	public final @Override int getStatValue(Stat<?> stat) { return this.statsHandler.getStat(stat); }
 	public final @Override <T> int getStatValue(StatType<T> type, T stat) { return this.statsHandler.getStat(type, stat); }
-	public final @Override boolean containsPlayerBadge(Identifier badgeId) { return this.badgeHandler.containsBadge(badgeId); }
-	public final @Override Iterator<Identifier> getPlayerBadgeIterator() { return this.badgeHandler.iterator(); }
+	public final @Override int getPlayerBadgeValue(Identifier badgeId) { return this.badgeHandler.getValue(badgeId); }
 	// ==================================================
 	/**
 	 * Returns the current {@link LocalPlayerStatsProvider} instance,

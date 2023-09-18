@@ -44,6 +44,7 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		if(this.parent != null) this.parent.render(pencil, pencil.mouseX, pencil.mouseY, pencil.deltaTime);
 		else super.renderBackground(pencil);
 	}
+	public final @Override boolean shouldRenderInGameHud() { return false; }
 	// ==================================================
 	protected final @Override void init()
 	{
@@ -109,11 +110,13 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		
 		final var btn_actionCancel = new TButtonWidget(
 				5, 5, (panelW / 2) - 7, 20,
-				translatable("gui.cancel"), __ -> close());
+				translatable("gui.cancel"),
+				__ -> close());
 		final var btn_actionDone = new TButtonWidget(
 				panel_action.getEndX() - btn_actionCancel.getWidth() - 5, panel_action.getY() + 5,
 				btn_actionCancel.getWidth(), 20,
-				translatable("gui.done"), __ -> { configBuilder.saveChanges(); close(); });
+				translatable("gui.done"),
+				__ -> { configBuilder.saveChanges(); close(); });
 		panel_action.addChild(btn_actionCancel, true);
 		panel_action.addChild(btn_actionDone, false);
 	}

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -20,7 +21,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.text.Text;
 
-final @Internal class MonstersHuntedStatsTab extends MobStatsTab
+public final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 {
 	// ==================================================
 	public final @Override Text getName() { return translatable("advancements.adventure.kill_all_mobs.title"); }
@@ -33,10 +34,10 @@ final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 		
 		for(final var statGroup : statGroups.entrySet())
 		{
-			BSStatsTabs.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
+			BSStatsTab.init_groupLabel(panel, literal(TUtils.getModName(statGroup.getKey())));
 			init_stats(panel, statGroup.getValue(), widget ->
 			{
-				if(widget.getStat().kills > 0) widget.setOutlineColor(COLOR_SPECIAL);
+				if(widget.getStat().kills > 0) widget.setOutlineColor(BSStatsTabs.COLOR_SPECIAL);
 				else if(!widget.getStat().isEmpty()) widget.setOutlineColor(TPanelElement.COLOR_OUTLINE);
 			});
 		}

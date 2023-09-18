@@ -14,7 +14,7 @@
 // ------------------------------------------------
 
 //contains chunk ID and a Text for display name
-IntLE-Chunk<PBB-String-"metadata", PBB-Text("stats provider display name")>
+IntLE-Chunk<PBB-String-"metadata", PBB-Text("stats provider display name"), StatsProviderIO-GameProfile>
 
 //contains chunk ID, and an array of "groups". each group starts with an Identifier-namespace String,
 //indicating the "mod id" the following set of stats belong to, after which comes an array of stat id paths and their values

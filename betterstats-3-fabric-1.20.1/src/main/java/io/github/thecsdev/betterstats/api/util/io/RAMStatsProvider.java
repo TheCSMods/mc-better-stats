@@ -2,13 +2,11 @@ package io.github.thecsdev.betterstats.api.util.io;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
-import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
+
+import com.mojang.authlib.GameProfile;
 
 import io.github.thecsdev.tcdcommons.api.util.exceptions.UnsupportedFileVersionException;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -27,11 +25,16 @@ public final class RAMStatsProvider implements IEditableStatsProvider
 {
 	// ==================================================
 	protected @Nullable Text displayName;
+	protected @Nullable GameProfile gameProfile;
 	// --------------------------------------------------
 	protected final Object2IntMap<Stat<?>> statMap = Object2IntMaps.synchronize(new Object2IntOpenHashMap<>());
-	protected final Set<Identifier> playerBadges = Collections.synchronizedSet(new HashSet<>());
+	protected final Object2IntMap<Identifier> playerBadgeStatMap = Object2IntMaps.synchronize(new Object2IntOpenHashMap<>());
 	// ==================================================
-	public RAMStatsProvider() { this.statMap.defaultReturnValue(0); }
+	public RAMStatsProvider()
+	{
+		this.statMap.defaultReturnValue(0);
+		this.playerBadgeStatMap.defaultReturnValue(0);
+	}
 	
 	/**
 	 * Creates a {@link RAMStatsProvider} instance, after which
@@ -54,15 +57,25 @@ public final class RAMStatsProvider implements IEditableStatsProvider
 		if(displayName == null) displayName = literal("-");
 		this.displayName = displayName;
 	}
+	//
+	public final @Override GameProfile getGameProfile() { return this.gameProfile; }
+	public final @Override void setGameProfile(@Nullable GameProfile playerProfile) { this.gameProfile = playerProfile; }
 	// --------------------------------------------------
 	public final @Override int getStatValue(Stat<?> stat) { return this.statMap.getInt(stat); }
-	public final @Override void setStatValue(Stat<?> stat, int value) { this.statMap.put(stat, value); }
+	public final @Override void setStatValue(Stat<?> stat, int value) throws NullPointerException
+	{
+		if(value < 1) this.statMap.removeInt(stat);
+		else this.statMap.put(Objects.requireNonNull(stat), value);
+	}
 	// --------------------------------------------------
-	public final @Override Iterator<Identifier> getPlayerBadgeIterator() { return this.playerBadges.iterator(); }
-	public final @Override boolean addPlayerBadge(Identifier badgeId) { return this.playerBadges.add(badgeId); }
-	public final @Override boolean removePlayerBadge(Identifier badgeId) { return this.playerBadges.remove(badgeId); }
+	public final @Override int getPlayerBadgeValue(Identifier badgeId) { return this.playerBadgeStatMap.getInt(badgeId); }
+	public final @Override void setPlayerBadgeValue(Identifier badgeId, int value) throws NullPointerException
+	{
+		if(value < 1) this.playerBadgeStatMap.removeInt(badgeId);
+		else this.playerBadgeStatMap.put(Objects.requireNonNull(badgeId), value);
+	}
 	// ==================================================
 	public final Object2IntMap<Stat<?>> getStatMap() { return this.statMap; }
-	public final Set<Identifier> getPlayerBadges() { return this.playerBadges; }
+	public final Object2IntMap<Identifier> getPlayerBadgeStatMap() { return this.playerBadgeStatMap; }
 	// ==================================================
 }

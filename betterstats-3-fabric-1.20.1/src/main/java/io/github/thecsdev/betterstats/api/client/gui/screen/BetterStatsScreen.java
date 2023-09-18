@@ -2,6 +2,8 @@ package io.github.thecsdev.betterstats.api.client.gui.screen;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
@@ -10,9 +12,9 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
-import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSStatsTabs;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
@@ -31,7 +33,7 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	private final @Nullable Screen parent;
 	// --------------------------------------------------
 	private final IStatsProvider statsProvider;
-	private @Nullable StatsTab selectedStatsTab = BSStatsTabs.GENERAL;
+	private @Nullable StatsTab selectedStatsTab = io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs.GENERAL;
 	private final StatFilterSettings filterSettings = new StatFilterSettings();
 	// --------------------------------------------------
 	private @Nullable BetterStatsPanel bsPanel;
@@ -71,12 +73,14 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 		else super.close();
 	}
 	// --------------------------------------------------
-	protected final @Override void onOpened() //TODO - Temporary; Make a network handler for these
+	protected final @Override void onOpened()
 	{
-		super.onOpened();
-		if(!(this.statsProvider == LocalPlayerStatsProvider.getInstance())) return;
-		final var statReq = new ClientStatusC2SPacket(Mode.REQUEST_STATS);
-		this.client.getNetworkHandler().sendPacket(statReq);
+		//do not send a statistics request packet if not viewing one's own stats
+		if(this.statsProvider != LocalPlayerStatsProvider.getInstance())
+			return;
+		
+		//send a statistics request packet otherwise
+		this.client.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(Mode.REQUEST_STATS));
 	}
 	// ==================================================
 	/**
@@ -111,6 +115,22 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 			public final @Override StatFilterSettings getFilterSettings() { return BetterStatsScreen.this.filterSettings; }
 		});
 		addChild(this.bsPanel, false);
+	}
+	// --------------------------------------------------
+	public final @Override boolean filesDragged(Collection<Path> files)
+	{
+		//make sure only one file is being dragged
+		if(files.size() != 1) return false;
+		
+		//obtain dragged file, and verify its extension
+		final Path file = files.iterator().next();
+		if(!file.toString().endsWith("." + StatsProviderIO.FILE_EXTENSION.toLowerCase()))
+			return false;
+		
+		//FIXME - Implement MCBS file dragging
+		
+		//by default, don't handle
+		return false;
 	}
 	// ==================================================
 }
