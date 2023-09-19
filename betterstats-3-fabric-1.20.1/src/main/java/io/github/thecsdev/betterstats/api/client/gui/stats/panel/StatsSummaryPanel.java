@@ -22,6 +22,7 @@ import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
@@ -153,6 +154,7 @@ public final class StatsSummaryPanel extends BSComponentPanel
 				
 				//create the label and assign its corresponding horizontal alignment
 				final var lbl = new TLabelElement(eX, eY, entryWidth, ENTRY_HEIGHT, entryText);
+				lbl.setTextSideOffset(TDrawContext.DEFAULT_TEXT_SIDE_OFFSET);
 				switch(ha)
 				{
 					case 1: lbl.setTextHorizontalAlignment(HorizontalAlignment.LEFT); break;

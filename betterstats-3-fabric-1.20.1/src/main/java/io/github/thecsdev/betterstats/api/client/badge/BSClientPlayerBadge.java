@@ -9,7 +9,6 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUPlayerBadgeStat;
 import io.github.thecsdev.tcdcommons.api.client.badge.ClientPlayerBadge;
-import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
 
@@ -22,21 +21,17 @@ public @Virtual class BSClientPlayerBadge extends ClientPlayerBadge
 	private static final Function<IStatsProvider, Integer> EMPTY_CRITERIA = __ -> 0;
 	// --------------------------------------------------
 	protected final Text name, description;
-	protected final @Nullable UITexture icon;
 	// --------------------------------------------------
 	protected @Nullable Function<IStatsProvider, Integer> statCriteria = EMPTY_CRITERIA;
 	// ==================================================
-	public BSClientPlayerBadge(Text title, Text description, @Nullable UITexture icon) throws NullPointerException
+	public BSClientPlayerBadge(Text title, Text description) throws NullPointerException
 	{
 		this.name = Objects.requireNonNull(title);
 		this.description = Objects.requireNonNull(description);
-		this.icon = icon;
 	}
 	// ==================================================
 	public @Virtual @Override Text getName() { return this.name; }
 	public @Virtual @Override Text getDescription() { return this.description; }
-	// --------------------------------------------------
-	public final @Nullable UITexture getIcon() { return this.icon; }
 	// ==================================================
 	/**
 	 * <b>About the returned function:</b>
@@ -51,6 +46,17 @@ public @Virtual class BSClientPlayerBadge extends ClientPlayerBadge
 	 * @see SUPlayerBadgeStat#value
 	 */
 	public final @Nullable Function<IStatsProvider, Integer> getStatCriteria() { return this.statCriteria; }
-	public @Virtual void setStatCriteria(@Nullable Function<IStatsProvider, Integer> statCriteria) { this.statCriteria = statCriteria; }
+	
+	/**
+	 * Sets the "stat criteria" {@link Function}.
+	 * @see #getStatCriteria()
+	 * @throws IllegalStateException If {@link #statCriteria} is already defined.
+	 */
+	public @Virtual void setStatCriteria(@Nullable Function<IStatsProvider, Integer> statCriteria) throws IllegalStateException
+	{
+		if(this.statCriteria != null && this.statCriteria != EMPTY_CRITERIA)
+			throw new IllegalStateException("Already defined.");
+		this.statCriteria = statCriteria;
+	}
 	// ==================================================
 }

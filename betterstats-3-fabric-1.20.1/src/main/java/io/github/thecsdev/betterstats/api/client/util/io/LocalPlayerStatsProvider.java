@@ -28,7 +28,7 @@ public final class LocalPlayerStatsProvider implements IStatsProvider
 	protected static LocalPlayerStatsProvider INSTANCE = null;
 	// --------------------------------------------------
 	protected final Text displayName;
-	protected final GameProfile playerProfile;
+	protected final GameProfile gameProfile;
 	//
 	protected final StatHandler statsHandler;
 	protected final PlayerBadgeHandler badgeHandler;
@@ -43,14 +43,14 @@ public final class LocalPlayerStatsProvider implements IStatsProvider
 		
 		//define final variables
 		this.displayName = literal(localPlayer.getDisplayName().getString()); //using `literal` to clear Text metadata
-		this.playerProfile = localPlayer.getGameProfile();
+		this.gameProfile = localPlayer.getGameProfile();
 		
 		this.statsHandler = Objects.requireNonNull(localPlayer.getStatHandler());
 		this.badgeHandler = ClientPlayerBadge.getClientPlayerBadgeHandler(localPlayer);
 	}
 	// ==================================================
 	public final @Override Text getDisplayName() { return this.displayName; }
-	public final @Override GameProfile getGameProfile() { return this.playerProfile; }
+	public final @Override GameProfile getGameProfile() { return this.gameProfile; }
 	// --------------------------------------------------
 	public final @Override int getStatValue(Stat<?> stat) { return this.statsHandler.getStat(stat); }
 	public final @Override <T> int getStatValue(StatType<T> type, T stat) { return this.statsHandler.getStat(type, stat); }

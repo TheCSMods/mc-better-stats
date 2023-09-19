@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUPlayerBadgeStat;
+import io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.PlayerBadgeStatsTab;
 import io.github.thecsdev.tcdcommons.api.badge.PlayerBadge;
+import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 
 /**
@@ -50,6 +53,14 @@ public final class PBSummaryPanel extends BSComponentPanel
 		
 		//place stats
 		PlayerBadgeStatsTab.init_stats(this, stats, null);
+		
+		//no stats label
+		if(getChildren().size() == 0)
+		{
+			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(this);
+			final var lbl = new TLabelElement(n1.x, n1.y, n1.width, n1.height, StatsTabPanel.TXT_NO_STATS_YET);
+			addChild(lbl, false);
+		}
 	}
 	// ==================================================
 }

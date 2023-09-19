@@ -8,8 +8,12 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
+import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
+import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -40,12 +44,16 @@ public final class GameProfilePanel extends BSComponentPanel
 		final int erWidth = (getWidth() - (sp*2)) / 4;
 		final int erHeight = (getHeight() - (sp*2));
 		final int inWidth = (getWidth() - (sp*2)) - (erWidth + 5);
+		final boolean a = (this.statsProvider instanceof IEditableStatsProvider);
 		
 		//entity renderer
+		final @Nullable var localStatsProvider = LocalPlayerStatsProvider.getInstance();
 		final var er = new TEntityRendererElement(sp, sp, erWidth, erHeight, EntityType.PLAYER);
-		er.setEntityScale(1.2d);
+		if(localStatsProvider != null && !Objects.equals(this.statsProvider.getGameProfile(), localStatsProvider.getGameProfile()))
+			er.setEntity(EntityType.ARMOR_STAND); //TODO - When showing someone else's stats, display their avatar
+		er.setEntityScale(a ? 1.3d : 1.2d);
+		er.setFollowsCursor(BetterStats.getInstance().getConfig().guiMobsFollowCursor);
 		addChild(er, true);
-		//FIXME - GameProfilePanel display proper player when looking someone else's stats
 		
 		//info
 		final @Nullable var profile = this.statsProvider.getGameProfile();
@@ -76,21 +84,24 @@ public final class GameProfilePanel extends BSComponentPanel
 		lbl_uuidVal.setText(txt_uuid);
 		addChild(lbl_uuidVal, false);
 		
-		final var lbl_pbKey = new TLabelElement(
-				lbl_uuidVal.getX(), lbl_uuidVal.getEndY() + 10,
-				lbl_uuidVal.getWidth(), lbl_uuidVal.getHeight());
-		lbl_pbKey.setText(translatable("tcdcommons.api.badge.playerbadge.plural"));
-		lbl_pbKey.setTextColor(col);
-		addChild(lbl_pbKey, false);
-		
-		final var pnl_pbs = new PBSummaryPanel(
-				lbl_uuidVal.getX(), lbl_pbKey.getEndY() + 4,
-				lbl_uuidVal.getWidth(), 44 - 4,
-				this.statsProvider);
-		pnl_pbs.setScrollPadding(0);
-		pnl_pbs.setBackgroundColor(0);
-		pnl_pbs.setOutlineColor(0);
-		addChild(pnl_pbs, false);
+		if(TCDCommons.getInstance().getConfig().enablePlayerBadges)
+		{
+			final var lbl_pbKey = new TLabelElement(
+					lbl_uuidVal.getX(), lbl_uuidVal.getEndY() + 10,
+					lbl_uuidVal.getWidth(), lbl_uuidVal.getHeight());
+			lbl_pbKey.setText(translatable("tcdcommons.api.badge.playerbadge.plural"));
+			lbl_pbKey.setTextColor(col);
+			addChild(lbl_pbKey, false);
+			
+			final var pnl_pbs = new PBSummaryPanel(
+					lbl_uuidVal.getX(), lbl_pbKey.getEndY() + 4,
+					lbl_uuidVal.getWidth(), 44 - 4,
+					this.statsProvider);
+			pnl_pbs.setScrollPadding(0);
+			pnl_pbs.setBackgroundColor(0);
+			pnl_pbs.setOutlineColor(0);
+			addChild(pnl_pbs, false);
+		}
 	}
 	// ==================================================
 }
