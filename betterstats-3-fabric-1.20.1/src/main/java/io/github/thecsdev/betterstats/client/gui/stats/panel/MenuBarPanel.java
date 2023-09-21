@@ -25,7 +25,7 @@ import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
-import io.github.thecsdev.betterstats.api.events.client.gui.stats.panel.MenuBarPanelEvent;
+import io.github.thecsdev.betterstats.api.events.client.gui.BetterStatsGUIEvent;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
@@ -202,7 +202,7 @@ public final class MenuBarPanel extends BSComponentPanel
 		});
 		
 		//invoke the menu bar event here, so other mods can add their options
-		MenuBarPanelEvent.MENU_INITIALIZED.invoker().invoke(menu);
+		BetterStatsGUIEvent.MENU_BAR_INITIALIZED.invoker().invoke(menu);
 		
 		//add the menu bar panel
 		addChild(menu, true);

@@ -61,7 +61,7 @@ public interface IStatsProvider
 	 */
 	default int getPlayerBadgeValue(PlayerBadge playerBadge) throws NullPointerException
 	{
-		return getPlayerBadgeValue(Objects.requireNonNull(playerBadge.getId()));
+		return getPlayerBadgeValue(Objects.requireNonNull(playerBadge.getId().orElse(null)));
 	}
 	// ==================================================
 }

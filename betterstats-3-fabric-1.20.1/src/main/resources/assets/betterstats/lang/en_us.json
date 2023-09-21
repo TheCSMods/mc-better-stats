@@ -18,6 +18,8 @@
 	
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Filters",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Show empty stats",
+	"betterstats.api.util.enumerations.filtergroupby.default": "Default",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
 	
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Kills",
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Deaths",

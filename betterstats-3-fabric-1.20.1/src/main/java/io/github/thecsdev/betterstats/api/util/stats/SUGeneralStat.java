@@ -5,8 +5,8 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fTranslatable;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -74,7 +74,7 @@ public final class SUGeneralStat extends SUStat<Identifier>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUGeneralStat}s.
 	 */
-	public static Collection<SUGeneralStat> getGeneralStats
+	public static List<SUGeneralStat> getGeneralStats
 	(IStatsProvider statsProvider, @Nullable Predicate<SUGeneralStat> filter)
 	{
 		//null checks

@@ -94,7 +94,7 @@ public interface IEditableStatsProvider extends IStatsProvider
 	 */
 	default void setPlayerBadgeValue(PlayerBadge playerBadge, int value) throws NullPointerException
 	{
-		setPlayerBadgeValue(Objects.requireNonNull(playerBadge.getId()), value);
+		setPlayerBadgeValue(Objects.requireNonNull(playerBadge.getId().orElse(null)), value);
 	}
 	// ==================================================
 }

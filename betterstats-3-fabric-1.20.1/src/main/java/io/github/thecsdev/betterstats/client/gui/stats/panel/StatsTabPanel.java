@@ -18,6 +18,9 @@ import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import net.minecraft.text.Text;
 
+/**
+ * Represents the {@link TPanelElement} where the statistics GUI is initialized.
+ */
 public final class StatsTabPanel extends BSComponentPanel
 {
 	// ==================================================

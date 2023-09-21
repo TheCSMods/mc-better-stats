@@ -111,7 +111,7 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 		{
 			public IStatsProvider getStatsProvider() { return BetterStatsScreen.this.statsProvider; }
 			public StatsTab getSelectedStatsTab() { return BetterStatsScreen.this.selectedStatsTab; }
-			public void setSelectedStatsTab(StatsTab statsTab) { BetterStatsScreen.this.selectedStatsTab = statsTab; }
+			public void setSelectedStatsTab(StatsTab statsTab) { setStatsTab(statsTab); }
 			public final @Override StatFilterSettings getFilterSettings() { return BetterStatsScreen.this.filterSettings; }
 		});
 		addChild(this.bsPanel, false);

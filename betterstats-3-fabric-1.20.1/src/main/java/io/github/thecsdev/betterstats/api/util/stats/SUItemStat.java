@@ -1,10 +1,11 @@
 package io.github.thecsdev.betterstats.api.util.stats;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fTranslatable;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -15,6 +16,7 @@ import com.google.common.collect.Lists;
 
 import io.github.thecsdev.betterstats.api.util.BSUtils;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import io.github.thecsdev.tcdcommons.api.util.TUtils;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -79,7 +81,7 @@ public final class SUItemStat extends SUStat<Item>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
 	 */
-	public static Collection<SUItemStat> getItemStats
+	public static List<SUItemStat> getItemStats
 	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
 	{
 		//create the result list
@@ -109,11 +111,11 @@ public final class SUItemStat extends SUStat<Item>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
 	 */
-	public static Map<ItemGroup, Collection<SUItemStat>> getItemStatsByItemGroups
+	public static Map<ItemGroup, List<SUItemStat>> getItemStatsByItemGroups
 	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
 	{
 		//create new map
-		final var result = new LinkedHashMap<ItemGroup, Collection<SUItemStat>>();
+		final var result = new LinkedHashMap<ItemGroup, List<SUItemStat>>();
 		result.put(null, new ArrayList<>()); //the null category goes first
 		
 		//iterate and group all items
@@ -140,11 +142,11 @@ public final class SUItemStat extends SUStat<Item>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
 	 */
-	public static Map<String, Collection<SUItemStat>> getItemStatsByModGroups
+	public static Map<String, List<SUItemStat>> getItemStatsByModGroups
 	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
 	{
 		//create the result map
-		final var result = new LinkedHashMap<String, Collection<SUItemStat>>();
+		final var result = new LinkedHashMap<String, List<SUItemStat>>();
 		
 		//add the 'minecraft' category first
 		String mcModId = new Identifier("air").getNamespace();
@@ -173,6 +175,44 @@ public final class SUItemStat extends SUStat<Item>
 		
 		//return the result
 		return result;
+	}
+	// --------------------------------------------------
+	/**
+	 * Same as {@link #getItemStatsByItemGroups(IStatsProvider, Predicate)},
+	 * but the {@link Map} keys represent {@link Text}ual names of the {@link ItemGroup}s.
+	 * @param statsProvider The {@link IStatsProvider}.
+	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
+	 */
+	public static Map<Text, List<SUItemStat>> getItemStatsByItemGroupsB
+	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
+	{
+		final var stats = getItemStatsByItemGroups(statsProvider, filter);
+		final var mapped = new LinkedHashMap<Text, List<SUItemStat>>();
+		for(final var entry : stats.entrySet())
+		{
+			final var txt = entry.getKey() != null ? entry.getKey().getDisplayName() : literal("*");
+			mapped.put(txt, entry.getValue());
+		}
+		return mapped;
+	}
+	
+	/**
+	 * Same as {@link #getItemStatsByModGroups(IStatsProvider, Predicate)},
+	 * but the {@link Map} keys represent {@link Text}ual names of the mods.
+	 * @param statsProvider The {@link IStatsProvider}.
+	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
+	 */
+	public static Map<Text, List<SUItemStat>> getItemStatsByModGroupsB
+	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
+	{
+		final var stats = getItemStatsByModGroups(statsProvider, filter);
+		final var mapped = new LinkedHashMap<Text, List<SUItemStat>>();
+		for(final var entry : stats.entrySet())
+		{
+			final var txt = entry.getKey() != null ? literal(TUtils.getModName(entry.getKey())) : literal("*");
+			mapped.put(txt, entry.getValue());
+		}
+		return mapped;
 	}
 	// ==================================================
 }

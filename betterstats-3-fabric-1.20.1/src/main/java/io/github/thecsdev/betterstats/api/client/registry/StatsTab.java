@@ -20,6 +20,9 @@ import net.minecraft.util.Identifier;
  * <p>
  * Examples include like the "General", "Items", and "Mobs" tabs.
  * 
+ * @see StatsTab#initFilters(FiltersInitContext)
+ * @see StatsTab#initStats(StatsInitContext)
+ * 
  * @apiNote Register one using {@link BSClientRegistries#STATS_TAB}.
  */
 public abstract class StatsTab extends Object
@@ -130,7 +133,8 @@ public abstract class StatsTab extends Object
 		
 		/**
 		 * @see BetterStatsPanelProxy#setSelectedStatsTab(StatsTab)
-		 * @apiNote Don't forget to call {@link #refreshStatsTab()} after calling this!
+		 * @apiNote The {@link StatsTabPanel} is automatically refreshed here.
+		 * @apiNote Do not call {@link #refreshStatsTab()} after calling this.
 		 */
 		public void setSelectedStatsTab(StatsTab statsTab);
 	}

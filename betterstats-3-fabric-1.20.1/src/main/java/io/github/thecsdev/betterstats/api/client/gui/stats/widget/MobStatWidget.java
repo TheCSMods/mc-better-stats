@@ -4,10 +4,16 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
+import io.github.thecsdev.betterstats.api.registry.BSRegistries;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.TInputContext;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.TInputContext.InputType;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.entity.EntityType;
@@ -20,8 +26,8 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 	// --------------------------------------------------
 	public static final int SIZE = 55;
 	//
-	public static final Text TXT_STAT_KILLS  = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills");
-	public static final Text TXT_STAT_DEATHS = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths");
+	public static final Text TEXT_STAT_KILLS  = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills");
+	public static final Text TEXT_STAT_DEATHS = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths");
 	// --------------------------------------------------
 	protected final EntityType<?> entityType;
 	protected final TEntityRendererElement entityRenderer;
@@ -57,6 +63,30 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 	{
 		super.setSize(width, height, flags);
 		this.entityRenderer.setSize(width, height, flags);
+	}
+	// ==================================================
+	public @Virtual @Override boolean input(TInputContext inputContext)
+	{
+		//only handle mouse presses
+		if(inputContext.getInputType() != InputType.MOUSE_PRESS)
+			return false;
+		
+		//handle the mouse press
+		final int btn = inputContext.getMouseButton();
+		
+		//handle input
+		if(btn == 2)
+		{
+			final @Nullable var url = BSRegistries.getMobWikiURL(this.stat.getStatID());
+			if(url != null)
+			{
+				GuiUtils.showUrlPrompt(url, false);
+				return false; //if successful, block the focus by returning false
+			}
+		}
+		
+		//return super
+		return super.input(inputContext);
 	}
 	// ==================================================
 }

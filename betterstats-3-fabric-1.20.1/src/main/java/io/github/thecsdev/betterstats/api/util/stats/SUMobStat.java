@@ -1,10 +1,12 @@
 package io.github.thecsdev.betterstats.api.util.stats;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fTranslatable;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -14,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import com.google.common.collect.Lists;
 
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import io.github.thecsdev.tcdcommons.api.util.TUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.stat.Stat;
@@ -56,7 +59,7 @@ public final class SUMobStat extends SUStat<EntityType<?>>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUMobStat}s.
 	 */
-	public static Collection<SUMobStat> getMobStats
+	public static List<SUMobStat> getMobStats
 	(IStatsProvider statsProvider, @Nullable Predicate<SUMobStat> filter)
 	{
 		//create the result list
@@ -86,11 +89,11 @@ public final class SUMobStat extends SUStat<EntityType<?>>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUMobStat}s.
 	 */
-	public static Map<String, Collection<SUMobStat>> getMobStatsByModGroups
+	public static Map<String, List<SUMobStat>> getMobStatsByModGroups
 	(IStatsProvider statsProvider, @Nullable Predicate<SUMobStat> filter)
 	{
 		//create a new list
-		final var result = new LinkedHashMap<String, Collection<SUMobStat>>();
+		final var result = new LinkedHashMap<String, List<SUMobStat>>();
 		
 		//add the 'minecraft' category first
 		String mcModId = new Identifier("air").getNamespace();
@@ -117,6 +120,25 @@ public final class SUMobStat extends SUStat<EntityType<?>>
 		
 		//return the result
 		return result;
+	}
+	// --------------------------------------------------
+	/**
+	 * Same as {@link #getMobStatsByModGroups(IStatsProvider, Predicate)},
+	 * but the {@link Map} keys represent {@link Text}ual names of the mods.
+	 * @param statsProvider The {@link IStatsProvider}.
+	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUMobStat}s.
+	 */
+	public static Map<Text, List<SUMobStat>> getMobStatsByModGroupsB
+	(IStatsProvider statsProvider, @Nullable Predicate<SUMobStat> filter)
+	{
+		final var stats = getMobStatsByModGroups(statsProvider, filter);
+		final var mapped = new LinkedHashMap<Text, List<SUMobStat>>();
+		for(final var entry : stats.entrySet())
+		{
+			final var txt = entry.getKey() != null ? literal(TUtils.getModName(entry.getKey())) : literal("*");
+			mapped.put(txt, entry.getValue());
+		}
+		return mapped;
 	}
 	// ==================================================
 }

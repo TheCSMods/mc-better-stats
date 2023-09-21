@@ -1,19 +1,22 @@
-package io.github.thecsdev.betterstats.api.events.client.gui.stats.panel;
+package io.github.thecsdev.betterstats.api.events.client.gui;
 
+import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.MenuBarPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TMenuBarPanel;
 import io.github.thecsdev.tcdcommons.api.event.TEvent;
 import io.github.thecsdev.tcdcommons.api.event.TEventFactory;
 
 /**
- * {@link TEvent}s related to the {@link MenuBarPanel}.
+ * {@link TEvent}s related to the {@link BetterStatsScreen} and
+ * other {@link BetterStats} GUI-related events.
  */
-public interface MenuBarPanelEvent
+public interface BetterStatsGUIEvent
 {
 	/**
 	 * @see MenuBarInitialized#invoke(TMenuBarPanel)
 	 */
-	TEvent<MenuBarInitialized> MENU_INITIALIZED = TEventFactory.createLoop();
+	TEvent<MenuBarInitialized> MENU_BAR_INITIALIZED = TEventFactory.createLoop();
 	
 	public static interface MenuBarInitialized
 	{

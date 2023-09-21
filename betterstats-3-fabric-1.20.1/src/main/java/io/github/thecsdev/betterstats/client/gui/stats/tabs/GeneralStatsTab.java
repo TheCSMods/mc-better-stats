@@ -1,13 +1,17 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
-import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.TXT_NO_STATS_YET;
+import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.FILTER_ID_SORT_CUSTOMS;
+import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat.getGeneralStats;
+import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.TXT_NO_STATS_YET;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.panel.GameProfilePanel;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWidget;
+import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
+import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortCustomsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
@@ -20,13 +24,26 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 	// ==================================================
 	public final @Override Text getName() { return translatable("stat.generalButton"); }
 	// --------------------------------------------------
+	protected final @Override void initExtraFilters(FiltersInitContext initContext)
+	{
+		StatsTabUtils.initSortCustomsByFilter(initContext);
+	}
+	// ==================================================
 	public final @Override void initStats(final StatsInitContext initContext)
 	{
+		//obtain initialization info
 		final var panel = initContext.getStatsPanel();
 		final int sp = panel.getScrollPadding();
-		final var statsProvider = initContext.getStatsProvider();
-		final var stats = getGeneralStats(statsProvider, getPredicate(initContext.getFilterSettings()));
 		
+		final var statsProvider = initContext.getStatsProvider();
+		final var filterSettings = initContext.getFilterSettings();
+		
+		//obtain statistics and sort them
+		final var stats = getGeneralStats(statsProvider, getPredicate(filterSettings));
+		final var sortBy = filterSettings.getProperty(FILTER_ID_SORT_CUSTOMS, FilterSortCustomsBy.DEFAULT);
+		if(sortBy != null) sortBy.sortGeneralStats(stats);
+		
+		//initialize gui
 		final var panel_gp = new GameProfilePanel(sp, sp, panel.getWidth() - (sp*2), statsProvider);
 		panel.addChild(panel_gp, true);
 		

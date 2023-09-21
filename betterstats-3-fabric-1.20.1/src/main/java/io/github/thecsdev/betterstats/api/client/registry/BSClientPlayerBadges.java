@@ -68,18 +68,18 @@ public final class BSClientPlayerBadges
 		
 		//register badges
 		final String modId = BetterStats.getModID();
-		PLAYER_BADGE.register(new Identifier(modId, "dedication"), dedication);
-		PLAYER_BADGE.register(new Identifier(modId, "loyalty"), loyalty);
-		PLAYER_BADGE.register(new Identifier(modId, "the_next_generation"), the_next_generation);
+		PLAYER_BADGE.register(new Identifier(modId, "dedication"),           dedication);
+		PLAYER_BADGE.register(new Identifier(modId, "loyalty"),              loyalty);
+		PLAYER_BADGE.register(new Identifier(modId, "the_next_generation"),  the_next_generation);
 		PLAYER_BADGE.register(new Identifier(modId, "adventurous_traveler"), adventurous_traveler);
-		PLAYER_BADGE.register(new Identifier(modId, "perennial_survivor"), perennial_survivor);
+		PLAYER_BADGE.register(new Identifier(modId, "perennial_survivor"),   perennial_survivor);
 		
 		//register badge renderers (must come AFTER registering badges)
-		PLAYER_BADGE_RENDERER.register(dedication.getId(), new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 20, 20, 20))));
-		PLAYER_BADGE_RENDERER.register(loyalty.getId(), new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(200, 20, 20, 20))));
-		PLAYER_BADGE_RENDERER.register(the_next_generation.getId(), new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 40, 20, 20))));
-		PLAYER_BADGE_RENDERER.register(adventurous_traveler.getId(), new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(200, 40, 20, 20))));
-		PLAYER_BADGE_RENDERER.register(perennial_survivor.getId(), new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(180, 20, 20, 20))));
+		PLAYER_BADGE_RENDERER.register(dedication.getId().get(),           new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 20, 20, 20))));
+		PLAYER_BADGE_RENDERER.register(loyalty.getId().get(),              new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(200, 20, 20, 20))));
+		PLAYER_BADGE_RENDERER.register(the_next_generation.getId().get(),  new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 40, 20, 20))));
+		PLAYER_BADGE_RENDERER.register(adventurous_traveler.getId().get(), new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(200, 40, 20, 20))));
+		PLAYER_BADGE_RENDERER.register(perennial_survivor.getId().get(),   new PBTextureRenderer(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(180, 20, 20, 20))));
 		
 		//finally, assign values
 		DEDICATION           = dedication;

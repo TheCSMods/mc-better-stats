@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
@@ -13,14 +12,11 @@ import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 public final class StatFiltersPanel extends BSComponentPanel
 {
 	// ==================================================
 	public static final Text TXT_FILTERS = translatable("betterstats.api.client.gui.stats.panel.statfilterspanel.filters");
-	public static final Identifier FILTER_ID_SEARCH = new Identifier(getModID(), "search_query"); //String
-	public static final Identifier FILTER_ID_SHOWEMPTY = new Identifier(getModID(), "show_empty_stats"); //Boolean
 	// --------------------------------------------------
 	private final StatFiltersPanelProxy proxy;
 	// ==================================================

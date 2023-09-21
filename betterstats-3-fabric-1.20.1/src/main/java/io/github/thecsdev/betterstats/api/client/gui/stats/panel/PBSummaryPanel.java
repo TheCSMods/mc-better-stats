@@ -13,6 +13,7 @@ import io.github.thecsdev.tcdcommons.api.badge.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 
 /**
  * Player badge summary panel.<br/>
@@ -52,13 +53,17 @@ public final class PBSummaryPanel extends BSComponentPanel
 				.collect(Collectors.toList());
 		
 		//place stats
-		PlayerBadgeStatsTab.init_stats(this, stats, null);
+		PlayerBadgeStatsTab.initStats(this, stats, null);
 		
 		//no stats label
 		if(getChildren().size() == 0)
 		{
 			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(this);
-			final var lbl = new TLabelElement(n1.x, n1.y, n1.width, n1.height, StatsTabPanel.TXT_NO_STATS_YET);
+			final var lbl = new TLabelElement(
+					n1.x, getY() + (getHeight() / 2) - (n1.height / 2),
+					n1.width, n1.height,
+					StatsTabPanel.TXT_NO_STATS_YET);
+			lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 			addChild(lbl, false);
 		}
 	}

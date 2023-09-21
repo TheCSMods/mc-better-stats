@@ -1,8 +1,11 @@
 package io.github.thecsdev.betterstats.api.util.stats;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -16,6 +19,8 @@ import io.github.thecsdev.betterstats.api.client.badge.BSClientPlayerBadge;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.tcdcommons.api.badge.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistries;
+import io.github.thecsdev.tcdcommons.api.util.TUtils;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public final class SUPlayerBadgeStat extends SUStat<PlayerBadge>
@@ -32,7 +37,7 @@ public final class SUPlayerBadgeStat extends SUStat<PlayerBadge>
 	// ==================================================
 	public SUPlayerBadgeStat(IStatsProvider statsProvider, PlayerBadge playerBadge) throws NullPointerException
 	{
-		super(statsProvider, Objects.requireNonNull(playerBadge.getId()), playerBadge.getName());
+		super(statsProvider, Objects.requireNonNull(playerBadge.getId().orElse(null)), playerBadge.getName());
 		this.playerBadge = playerBadge;
 		
 		//NOTE - Using client-side code in common environment. Surely nothing will go wrong here.
@@ -57,7 +62,7 @@ public final class SUPlayerBadgeStat extends SUStat<PlayerBadge>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUPlayerBadgeStat}s.
 	 */
-	public static Collection<SUPlayerBadgeStat> getPlayerBadgeStats
+	public static List<SUPlayerBadgeStat> getPlayerBadgeStats
 	(IStatsProvider statsProvider, @Nullable Predicate<SUPlayerBadgeStat> filter)
 	{
 		//create the result list
@@ -87,11 +92,11 @@ public final class SUPlayerBadgeStat extends SUStat<PlayerBadge>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUPlayerBadgeStat}s.
 	 */
-	public static Map<String, Collection<SUPlayerBadgeStat>> getPlayerBadgeStatsByModGroups
+	public static Map<String, List<SUPlayerBadgeStat>> getPlayerBadgeStatsByModGroups
 	(IStatsProvider statsProvider, @Nullable Predicate<SUPlayerBadgeStat> filter)
 	{
 		//create a new list
-		final var result = new LinkedHashMap<String, Collection<SUPlayerBadgeStat>>();
+		final var result = new LinkedHashMap<String, List<SUPlayerBadgeStat>>();
 		
 		//add the 'minecraft' category first
 		String mcModId = new Identifier("air").getNamespace();
@@ -118,6 +123,25 @@ public final class SUPlayerBadgeStat extends SUStat<PlayerBadge>
 		
 		//return the result
 		return result;
+	}
+	// --------------------------------------------------
+	/**
+	 * Same as {@link #getPlayerBadgeStatsByModGroups(IStatsProvider, Predicate)},
+	 * but the {@link Map} keys represent {@link Text}ual names of the mods.
+	 * @param statsProvider The {@link IStatsProvider}.
+	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUPlayerBadgeStat}s.
+	 */
+	public static Map<Text, List<SUPlayerBadgeStat>> getPlayerBadgeStatsByModGroupsB
+	(IStatsProvider statsProvider, @Nullable Predicate<SUPlayerBadgeStat> filter)
+	{
+		final var stats = getPlayerBadgeStatsByModGroups(statsProvider, filter);
+		final var mapped = new LinkedHashMap<Text, List<SUPlayerBadgeStat>>();
+		for(final var entry : stats.entrySet())
+		{
+			final var txt = entry.getKey() != null ? literal(TUtils.getModName(entry.getKey())) : literal("*");
+			mapped.put(txt, entry.getValue());
+		}
+		return mapped;
 	}
 	// ==================================================
 }

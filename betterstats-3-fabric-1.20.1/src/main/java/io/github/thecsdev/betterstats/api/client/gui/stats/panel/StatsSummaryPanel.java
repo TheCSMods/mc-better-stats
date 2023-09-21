@@ -1,13 +1,13 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TXT_STAT_BROKEN;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TXT_STAT_CRAFTED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TXT_STAT_DROPPED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TXT_STAT_MINED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TXT_STAT_PICKED_UP;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TXT_STAT_USED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TXT_STAT_DEATHS;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TXT_STAT_KILLS;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_BROKEN;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_CRAFTED;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_DROPPED;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_MINED;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_PICKED_UP;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_USED;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TEXT_STAT_DEATHS;
+import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TEXT_STAT_KILLS;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.ArrayList;
@@ -90,12 +90,12 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		}
 		
 		//add entries
-		addEntry(TXT_STAT_MINED,     literal(Long.toString(mined)));
-		addEntry(TXT_STAT_CRAFTED,   literal(Long.toString(crafted)));
-		addEntry(TXT_STAT_USED,      literal(Long.toString(used)));
-		addEntry(TXT_STAT_BROKEN,    literal(Long.toString(broken)));
-		addEntry(TXT_STAT_PICKED_UP, literal(Long.toString(pickedUp)));
-		addEntry(TXT_STAT_DROPPED,   literal(Long.toString(dropped)));
+		addEntry(TEXT_STAT_MINED,     literal(Long.toString(mined)));
+		addEntry(TEXT_STAT_CRAFTED,   literal(Long.toString(crafted)));
+		addEntry(TEXT_STAT_USED,      literal(Long.toString(used)));
+		addEntry(TEXT_STAT_BROKEN,    literal(Long.toString(broken)));
+		addEntry(TEXT_STAT_PICKED_UP, literal(Long.toString(pickedUp)));
+		addEntry(TEXT_STAT_DROPPED,   literal(Long.toString(dropped)));
 		
 		//refresh if needed
 		if(getParentTScreen() != null) refresh();
@@ -121,8 +121,8 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		}
 		
 		//add entries
-		addEntry(TXT_STAT_KILLS,  literal(Long.toString(kills)));
-		addEntry(TXT_STAT_DEATHS, literal(Long.toString(deaths)));
+		addEntry(TEXT_STAT_KILLS,  literal(Long.toString(kills)));
+		addEntry(TEXT_STAT_DEATHS, literal(Long.toString(deaths)));
 		
 		//refresh if needed
 		if(getParentTScreen() != null) refresh();
