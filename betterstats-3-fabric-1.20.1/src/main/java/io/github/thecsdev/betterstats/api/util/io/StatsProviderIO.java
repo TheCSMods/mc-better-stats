@@ -3,10 +3,15 @@ package io.github.thecsdev.betterstats.api.util.io;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
@@ -506,6 +511,56 @@ public final class StatsProviderIO extends Object
 		//construct the game profile
 		if(name == null && uuid == null) return null;
 		else return new GameProfile(uuid, name);
+	}
+	// ==================================================
+	/**
+	 * Saves an {@link IStatsProvider}'s data to a {@link File}.<br/>
+	 * If the {@link File} doesn't exist, it will be created; otherwise, it will be overridden.
+	 * @param file The {@link File} to save the {@link IStatsProvider} to.
+	 * @param statsProvider The {@link IStatsProvider} to save.
+	 * @throws IOException If the {@link File} IO operations raise an {@link IOException}.
+	 */
+	public static void saveToFile(File file, IStatsProvider statsProvider) throws IOException
+	{
+		//requirements
+		Objects.requireNonNull(file);
+		Objects.requireNonNull(statsProvider);
+		
+		//create the buffer
+		final var buffer = new PacketByteBuf(Unpooled.buffer());
+		try
+		{
+			//create the file
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+			
+			//write the data to the file
+			try(final var fos = new FileOutputStream(file); final var fileChannel = fos.getChannel())
+			{
+				StatsProviderIO.write(buffer, statsProvider);
+				while(buffer.isReadable())
+					buffer.readBytes(fileChannel, buffer.readableBytes());
+			}
+		}
+		catch(SecurityException se) { throw new IOException(se); }
+		finally { buffer.release(); }
+	}
+	
+	/**
+	 * Loads an {@link IStatsProvider}'s data from a {@link File}.
+	 * @param file The {@link File} to load the {@link IStatsProvider} from.
+	 * @return The loaded {@link IStatsProvider}.
+	 * @throws FileNotFoundException If the {@link File} does not exist.
+	 * @throws IOException If {@link File} IO operations raise an {@link IOException}.
+	 */
+	public static IEditableStatsProvider loadFromFile(File file) throws FileNotFoundException, IOException
+	{
+		//check if the file exists
+		if(!file.exists()) throw new FileNotFoundException(file.getAbsolutePath());
+		//load the file data
+		byte[] fileData = FileUtils.readFileToByteArray(file);
+		final PacketByteBuf buffer = new PacketByteBuf(Unpooled.wrappedBuffer(fileData));
+		return new RAMStatsProvider(buffer, true);
 	}
 	// ==================================================
 }

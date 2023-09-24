@@ -1,18 +1,22 @@
 package io.github.thecsdev.betterstats.api.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.FILTER_ID_SCROLL_CACHE;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
+import io.github.thecsdev.betterstats.client.BetterStatsClient;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
@@ -33,7 +37,7 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	private final @Nullable Screen parent;
 	// --------------------------------------------------
 	private final IStatsProvider statsProvider;
-	private @Nullable StatsTab selectedStatsTab = io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs.GENERAL;
+	private @Nullable StatsTab selectedStatsTab = BSStatsTabs.GENERAL;
 	private final StatFilterSettings filterSettings = new StatFilterSettings();
 	// --------------------------------------------------
 	private @Nullable BetterStatsPanel bsPanel;
@@ -82,6 +86,12 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 		//send a statistics request packet otherwise
 		this.client.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(Mode.REQUEST_STATS));
 	}
+	protected final @Override void onClosed()
+	{
+		//caching scroll amount, in case this screen is re-opened later
+		double val = this.bsPanel.getStatsTabVerticalScrollAmount();
+		this.filterSettings.setProperty(FILTER_ID_SCROLL_CACHE, val);
+	}
 	// ==================================================
 	/**
 	 * Returns the {@link IStatsProvider} associated with this {@link BetterStatsScreen}.
@@ -127,10 +137,17 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 		if(!file.toString().endsWith("." + StatsProviderIO.FILE_EXTENSION.toLowerCase()))
 			return false;
 		
-		//FIXME - Implement MCBS file dragging
+		//attempt to load the file
+		try
+		{
+			final var stats = StatsProviderIO.loadFromFile(file.toFile());
+			final var screen = new BetterStatsScreen(this.parent, stats).getAsScreen();
+			BetterStatsClient.MC_CLIENT.setScreen(screen);
+		}
+		catch(IOException exc) { return false; }
 		
-		//by default, don't handle
-		return false;
+		//indicate success
+		return true;
 	}
 	// ==================================================
 }

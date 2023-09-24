@@ -1,10 +1,12 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
+import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.widget.ScrollBarWidget;
@@ -15,8 +17,10 @@ import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.StatFiltersPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TScrollBarWidget;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 /**
  * Represents the {@link TPanelElement} where the statistics GUI is initialized.
@@ -25,8 +29,12 @@ public final class StatsTabPanel extends BSComponentPanel
 {
 	// ==================================================
 	public static final Text TXT_NO_STATS_YET = translatable("betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet");
+	public static final Identifier FILTER_ID_SCROLL_CACHE = new Identifier(getModID(), "stats_scroll_cache");
 	// --------------------------------------------------
 	protected final StatsTabPanelProxy proxy;
+	// --------------------------------------------------
+	protected @Nullable TPanelElement panel; //the statistics panel
+	protected @Nullable TScrollBarWidget scroll_panel; //the vertical scroll-bar for the statistics panel
 	// ==================================================
 	public StatsTabPanel(int x, int y, int width, int height, StatsTabPanelProxy proxy) throws NullPointerException
 	{
@@ -39,21 +47,34 @@ public final class StatsTabPanel extends BSComponentPanel
 	 * with this {@link StatsTabPanel}.
 	 */
 	public final StatsTabPanelProxy getProxy() { return this.proxy; }
+	
+	/**
+	 * Used for caching {@link #FILTER_ID_SCROLL_CACHE}.
+	 * @return A {@link Double} representing the statistics panel's current vertical scroll amount.
+	 */
+	@Internal
+	public final double getVerticalScrollBarValue()
+	{
+		return (this.scroll_panel != null) ? this.scroll_panel.getValue() : 0;
+	}
 	// --------------------------------------------------
 	protected final @Override void init()
 	{
+		final var fil = getProxy().getFilterSettings();
+		
 		//create and add the panel where the stats will be initialized
-		final var panel = new TPanelElement(0, 0, getWidth() - 8, getHeight());
-		panel.setScrollFlags(TPanelElement.SCROLL_VERTICAL);
-		panel.setScrollPadding(10);
-		panel.setSmoothScroll(true);
-		panel.setBackgroundColor(0);
-		panel.setOutlineColor(0);
-		addChild(panel, true);
+		this.panel = new TPanelElement(0, 0, getWidth() - 8, getHeight());
+		this.panel.setScrollFlags(TPanelElement.SCROLL_VERTICAL);
+		this.panel.setScrollPadding(10);
+		this.panel.setSmoothScroll(true);
+		this.panel.setBackgroundColor(0);
+		this.panel.setOutlineColor(0);
+		addChild(this.panel, true);
 		
 		//create a scroll-bar for the stats panel
-		final var scroll_panel = new ScrollBarWidget(panel.getWidth(), 0, 8, panel.getHeight(), panel);
-		addChild(scroll_panel, true);
+		this.scroll_panel = new ScrollBarWidget(this.panel.getWidth(), 0, 8, this.panel.getHeight(), this.panel);
+		addChild(this.scroll_panel, true);
+		this.scroll_panel.eClicked.register(__ -> fil.setProperty(FILTER_ID_SCROLL_CACHE, this.scroll_panel.getValue()));
 		
 		//initialize the panel
 		final StatsTab selTab = this.proxy.getSelectedStatsTab();
@@ -64,13 +85,15 @@ public final class StatsTabPanel extends BSComponentPanel
 		selTab.initStats(new StatsInitContext()
 		{
 			public IStatsProvider getStatsProvider() { return statsProvider; }
-			public TPanelElement getStatsPanel() { return panel; }
+			public TPanelElement getStatsPanel() { return StatsTabPanel.this.panel; }
 			public StatFilterSettings getFilterSettings() { return filterSettings; }
 		});
 		
 		//handle cases where no GUI elements get added (no stats to show yet)
-		if(panel.getChildren().size() == 0)
-			init_noStatsLabel(panel);
+		if(this.panel.getChildren().size() == 0)
+			init_noStatsLabel(this.panel);
+		//handle scroll cache
+		else this.scroll_panel.setValue(fil.getPropertyOrDefault(FILTER_ID_SCROLL_CACHE, 0D));
 	}
 	// --------------------------------------------------
 	private final @Internal TLabelElement init_noStatsLabel(TPanelElement panel)

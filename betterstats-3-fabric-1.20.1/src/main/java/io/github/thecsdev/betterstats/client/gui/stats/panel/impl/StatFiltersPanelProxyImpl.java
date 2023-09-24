@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel.impl;
 
+import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.FILTER_ID_SCROLL_CACHE;
+
 import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -24,7 +26,15 @@ final @Internal class StatFiltersPanelProxyImpl implements StatFiltersPanelProxy
 	// ==================================================
 	public final @Override StatFilterSettings getFilterSettings() { return this.proxy.getFilterSettings(); }
 	public final @Override @Nullable StatsTab getSelectedStatsTab() { return this.proxy.getSelectedStatsTab(); }
-	public final @Override void setSelectedStatsTab(StatsTab statsTab) { this.proxy.setSelectedStatsTab(statsTab); }
-	public final @Override void refreshStatsTab() { this.bsPanel.refreshStatsTab(); }
+	public final @Override void setSelectedStatsTab(StatsTab statsTab)
+	{
+		getFilterSettings().setProperty(FILTER_ID_SCROLL_CACHE, 0D); //clear scroll cache when switching tabs
+		this.proxy.setSelectedStatsTab(statsTab);
+	}
+	public final @Override void refreshStatsTab()
+	{
+		getFilterSettings().setProperty(FILTER_ID_SCROLL_CACHE, 0D); //clear scroll cache when changing filter settings
+		this.bsPanel.refreshStatsTab();
+	}
 	// ==================================================
 }

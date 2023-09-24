@@ -19,7 +19,7 @@ public class BetterStats extends Object
 	//protected final ModContainer modInfo; -- avoid platform-specific APIs
 	//TODO - When porting to Forge, just replace Fabric API calls with Forge ones, or directly declare URLs if impossible
 	public static final String URL_SOURCES, URL_ISSUES, URL_CURSEFORGE, URL_MODRINTH;
-	public static final String URL_YOUTUBE, URL_KOFI;
+	public static final String URL_YOUTUBE, URL_KOFI, URL_DISCORD;
 	static
 	{
 		final var modInfo = FabricLoader.getInstance().getModContainer(ModID).get();
@@ -30,6 +30,7 @@ public class BetterStats extends Object
 		URL_MODRINTH   = modMenuLinks.get("modmenu.modrinth").getAsString();
 		URL_YOUTUBE    = modMenuLinks.get("modmenu.youtube").getAsString();
 		URL_KOFI       = modMenuLinks.get("modmenu.kofi").getAsString();
+		URL_DISCORD    = modMenuLinks.get("modmenu.discord").getAsString();
 	}
 	// ==================================================
 	public BetterStats()

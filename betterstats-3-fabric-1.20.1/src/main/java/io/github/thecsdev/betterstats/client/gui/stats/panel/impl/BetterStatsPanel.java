@@ -3,6 +3,7 @@ package io.github.thecsdev.betterstats.client.gui.stats.panel.impl;
 import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
@@ -44,6 +45,15 @@ public final class BetterStatsPanel extends BSComponentPanel
 	 * @apiNote If this panel is not yet initialized, nothing will happen.
 	 */
 	public final void refreshStatsTab() { if(this.panel_stats != null) this.panel_stats.refresh(); }
+	
+	/**
+	 * Returns {@link StatsTabPanel#getVerticalScrollBarValue()}.
+	 */
+	@Internal
+	public final double getStatsTabVerticalScrollAmount()
+	{
+		return (this.panel_stats != null) ? this.panel_stats.getVerticalScrollBarValue() : 0;
+	}
 	// ==================================================
 	protected final @Override void init()
 	{

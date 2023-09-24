@@ -1,6 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
 import static io.github.thecsdev.betterstats.BetterStats.URL_CURSEFORGE;
+import static io.github.thecsdev.betterstats.BetterStats.URL_DISCORD;
 import static io.github.thecsdev.betterstats.BetterStats.URL_ISSUES;
 import static io.github.thecsdev.betterstats.BetterStats.URL_KOFI;
 import static io.github.thecsdev.betterstats.BetterStats.URL_MODRINTH;
@@ -13,12 +14,10 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Color;
-import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Objects;
 
-import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
@@ -28,7 +27,6 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.events.client.gui.BetterStatsGUIEvent;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
-import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
@@ -38,10 +36,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooser
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooserScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.util.TUtils;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.StatsScreen;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -98,51 +93,34 @@ public final class MenuBarPanel extends BSComponentPanel
 			//cMenu.addButton(translatable(tr + "menu_file.new"), null);
 			cMenu.addButton(translatable(tr + "menu_file.open"), __ ->
 			{
-				//TODO - Prototype; Implement a proper stats loading system
 				TFileChooserScreen.showOpenFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
 					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
 						return;
-					
 					try
 					{
-						//load the file data into a buffer
-						byte[] fileData = FileUtils.readFileToByteArray(result.getSelectedFile());
-						final PacketByteBuf buffer = new PacketByteBuf(Unpooled.wrappedBuffer(fileData));
-						RAMStatsProvider stats = null;
-						stats = new RAMStatsProvider(buffer, true);
-						
 						//show the stats screen
-						final Screen parentScreen = GuiUtils.getCurrentScreenParent();
+						final var stats = StatsProviderIO.loadFromFile(result.getSelectedFile());
+						final var parentScreen = GuiUtils.getCurrentScreenParent();
 						MC_CLIENT.setScreen(new BetterStatsScreen(parentScreen, stats).getAsScreen());
 					}
-					catch(Exception exc) { exc.printStackTrace(); TUtils.throwCrash("Failed to load stats.", exc); }
+					catch(Exception exc) { TUtils.throwCrash("Failed to load stats.", exc); }
 				});
 			});
 			//cMenu.addButton(translatable(tr + "menu_file.save"), null);
 			cMenu.addButton(translatable(tr + "menu_file.save_as"), __ ->
 			{
-				//TODO - Prototype; Implement a proper stats saving system
 				TFileChooserScreen.showSaveFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
 					if(result.getReturnValue() != ReturnValue.APPROVE_OPTION)
 						return;
-					
-					final var buffer = new PacketByteBuf(Unpooled.buffer());
-					StatsProviderIO.write(buffer, MenuBarPanel.this.proxy.getStatsProvider());
 					try
 					{
 						final var file = result.getSelectedFile();
-						file.createNewFile();
-						
-						try(final var fos = new FileOutputStream(file); final var fileChannel = fos.getChannel())
-						{
-							while(buffer.isReadable())
-								buffer.readBytes(fileChannel, buffer.readableBytes());
-						}
+						final var stats = MenuBarPanel.this.proxy.getStatsProvider();
+						StatsProviderIO.saveToFile(file, stats);
 					}
-					catch(Exception exc) { exc.printStackTrace(); TUtils.throwCrash("Failed to save stats.", exc); }
-					finally { buffer.release(); }
+					catch(Exception exc) { TUtils.throwCrash("Failed to save stats.", exc); }
 				});
 			});
 			cMenu.open();
@@ -195,6 +173,7 @@ public final class MenuBarPanel extends BSComponentPanel
 				cMenu.addSeparator();
 				cMenu.addButton(translatable(tr + "menu_about.youtube"), __ -> showUrlPrompt(URL_YOUTUBE, false));
 				cMenu.addButton(translatable(tr + "menu_about.kofi"), __ -> showUrlPrompt(URL_KOFI, false));
+				cMenu.addButton(translatable(tr + "menu_about.discord"), __ -> showUrlPrompt(URL_DISCORD, false));
 			}
 			
 			//open the context menu
