@@ -74,7 +74,9 @@ public final class StatsTabPanel extends BSComponentPanel
 		//create a scroll-bar for the stats panel
 		this.scroll_panel = new ScrollBarWidget(this.panel.getWidth(), 0, 8, this.panel.getHeight(), this.panel);
 		addChild(this.scroll_panel, true);
-		this.scroll_panel.eClicked.register(__ -> fil.setProperty(FILTER_ID_SCROLL_CACHE, this.scroll_panel.getValue()));
+		
+		this.panel.eScrolledVertically.register((__, val) ->
+			fil.setProperty(FILTER_ID_SCROLL_CACHE, this.scroll_panel.getValue()));
 		
 		//initialize the panel
 		final StatsTab selTab = this.proxy.getSelectedStatsTab();

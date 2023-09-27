@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
 import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -20,6 +21,8 @@ import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortMobsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudMobEntry;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
@@ -80,7 +83,20 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 		StatsTabUtils.initSortMobsByFilter(initContext);
 	}
 	// ==================================================
-	protected @Virtual void processWidget(MobStatWidget widget) {}
+	protected @Virtual void processWidget(MobStatWidget widget)
+	{
+		widget.eContextMenu.register((__, cMenu) ->
+		{
+			cMenu.addButton(translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat"), ___ ->
+			{
+				final var hud = BetterStatsHudScreen.getInstance();
+				hud.setParentScreen(MC_CLIENT.currentScreen);
+				hud.addEntry(new StatsHudMobEntry(widget.getStat()));
+				MC_CLIENT.setScreen(hud.getAsScreen());
+			});
+			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
+		});
+	}
 	// --------------------------------------------------
 	protected static void initStats
 	(TPanelElement panel, Collection<SUMobStat> stats, Consumer<MobStatWidget> processWidget)

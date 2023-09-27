@@ -39,5 +39,9 @@
 	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "Adventurous Traveler",
 	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "Through mountains high and valleys low, you've traveled far, with much to show. Seeking a sight, a tale untold, a journey's measure in blocks of gold. And then you saw it...\n\nYou have traveled for at least 727,000 blocks.",
 	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "Perennial Survivor",
-	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "You have managed to cheat death, for now. Will you continue to evade the inevitable?\n\nYou have survived for at least 12 hours."
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "You have managed to cheat death, for now. Will you continue to evade the inevitable?\n\nYou have survived for at least 12 hours.",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Statistics hud",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Pin to HUD"
 }

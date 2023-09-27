@@ -51,10 +51,10 @@ public final class BSRegistries
 		ITEM_WIKIS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		MOB_WIKIS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		
-		//the default Wiki for 'minecraft' was the Fandom wiki
-		/*final String mc = new Identifier("air").getNamespace();
-		ITEM_WIKIS.put(mc, id -> "https://minecraft.fandom.com/wiki/" + id.getPath());
-		MOB_WIKIS.put(mc, id -> "https://minecraft.fandom.com/wiki/" + id.getPath());*/
+		//the default Wiki for 'minecraft' is now 'minecraft.wiki'
+		final String mc = new Identifier("air").getNamespace();
+		ITEM_WIKIS.put(mc, id -> "https://minecraft.wiki/" + id.getPath());
+		MOB_WIKIS.put(mc, id -> "https://minecraft.wiki/" + id.getPath());
 	}
 	// ==================================================
 	/**

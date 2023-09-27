@@ -33,6 +33,7 @@ public final @Internal class FoodStuffsStatsTab extends ItemStatsTab
 	// --------------------------------------------------
 	protected final @Override void processWidget(ItemStatWidget widget)
 	{
+		super.processWidget(widget);
 		if(widget.getStat().used > 0) widget.setOutlineColor(BSStatsTabs.COLOR_SPECIAL);
 		else if(!widget.getStat().isEmpty()) widget.setOutlineColor(TPanelElement.COLOR_OUTLINE);
 	}

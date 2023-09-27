@@ -28,6 +28,7 @@ import io.github.thecsdev.betterstats.api.events.client.gui.BetterStatsGUIEvent;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TContextMenuPanel;
@@ -138,6 +139,14 @@ public final class MenuBarPanel extends BSComponentPanel
 				MC_CLIENT.setScreen(new StatsScreen(
 						MC_CLIENT.currentScreen,
 						localPlayer.getStatHandler()));
+			});
+			
+			//statistics hud
+			cMenu.addButton(BetterStatsHudScreen.TEXT_TITLE, __ ->
+			{
+				final var sc = BetterStatsHudScreen.getInstance();
+				sc.setParentScreen(MC_CLIENT.currentScreen);
+				MC_CLIENT.setScreen(sc.getAsScreen());
 			});
 			
 			//stats tab entries

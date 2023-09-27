@@ -24,6 +24,7 @@ public final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 	// --------------------------------------------------
 	protected final @Override void processWidget(MobStatWidget widget)
 	{
+		super.processWidget(widget);
 		if(widget.getStat().kills > 0) widget.setOutlineColor(BSStatsTabs.COLOR_SPECIAL);
 		else if(!widget.getStat().isEmpty()) widget.setOutlineColor(TPanelElement.COLOR_OUTLINE);
 	}

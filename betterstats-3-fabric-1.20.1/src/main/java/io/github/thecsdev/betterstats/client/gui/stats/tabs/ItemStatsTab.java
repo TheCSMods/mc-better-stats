@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
 import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -23,6 +24,8 @@ import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudItemEntry;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
@@ -89,7 +92,20 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		return SUItemStat.getItemStatsByItemGroupsB(stats, predicate);
 	}
 	// --------------------------------------------------
-	protected @Virtual void processWidget(ItemStatWidget widget) {}
+	protected @Virtual void processWidget(ItemStatWidget widget)
+	{
+		widget.eContextMenu.register((__, cMenu) ->
+		{
+			cMenu.addButton(translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat"), ___ ->
+			{
+				final var hud = BetterStatsHudScreen.getInstance();
+				hud.setParentScreen(MC_CLIENT.currentScreen);
+				hud.addEntry(new StatsHudItemEntry(widget.getStat()));
+				MC_CLIENT.setScreen(hud.getAsScreen());
+			});
+			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
+		});
+	}
 	// --------------------------------------------------
 	protected static void initStats(
 			TPanelElement panel,
