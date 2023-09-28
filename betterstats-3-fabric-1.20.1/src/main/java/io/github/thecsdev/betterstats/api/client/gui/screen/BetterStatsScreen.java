@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.api.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.FILTER_ID_SCROLL_CACHE;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -24,8 +25,11 @@ import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 
 /**
  * The main focal point of this mod.<br/>
@@ -79,6 +83,13 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	// --------------------------------------------------
 	protected final @Override void onOpened()
 	{
+		//update item groups display context
+		if(MC_CLIENT.world != null)
+			ItemGroups.updateDisplayContext(
+					FeatureSet.of(FeatureFlags.VANILLA),
+					true,
+					MC_CLIENT.world.getRegistryManager());
+		
 		//do not send a statistics request packet if not viewing one's own stats
 		if(this.statsProvider != LocalPlayerStatsProvider.getInstance())
 			return;

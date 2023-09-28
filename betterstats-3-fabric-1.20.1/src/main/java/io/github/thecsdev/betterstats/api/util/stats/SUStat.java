@@ -10,6 +10,7 @@ import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.stat.Stat;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -23,14 +24,14 @@ import net.minecraft.util.Identifier;
 public abstract @Internal class SUStat<T> extends Object
 {
 	// ==================================================
-	protected final IStatsProvider statProvider;
+	protected final IStatsProvider statsProvider;
 	protected final Identifier statId;
 	protected final Text statLabel;
 	protected final String statLabelSQ, statIdSQ; //"search query" helpers
 	// ==================================================
 	protected SUStat(IStatsProvider statsProvider, Identifier statId, Text statLabel) throws NullPointerException
 	{
-		this.statProvider = Objects.requireNonNull(statsProvider);
+		this.statsProvider = Objects.requireNonNull(statsProvider);
 		this.statId = Objects.requireNonNull(statId);
 		this.statLabel = Objects.requireNonNull(statLabel);
 		
@@ -51,6 +52,11 @@ public abstract @Internal class SUStat<T> extends Object
 	 * for {@link SUMobStat}, refers to {@link EntityType}'s {@link Identifier}.
 	 */
 	public final Identifier getStatID() { return this.statId; }
+	
+	/**
+	 * Returns the {@link IStatsProvider} the {@link Stats} data was obtained from.
+	 */
+	public final IStatsProvider getStatsProvider() { return this.statsProvider; }
 	// --------------------------------------------------
 	/**
 	 * Checks if this {@link SUStat}'s {@link #statLabel} matches a given "search query".

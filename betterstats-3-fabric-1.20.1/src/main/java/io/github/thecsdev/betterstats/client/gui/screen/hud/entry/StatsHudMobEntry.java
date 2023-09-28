@@ -11,11 +11,13 @@ import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElem
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.util.enumerations.MobStatType;
+import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
+import net.minecraft.entity.EntityType;
 import net.minecraft.text.Text;
 
 public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElement>
@@ -23,13 +25,16 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 	// ==================================================
 	static final int WIDTH = StatsHudItemEntry.WIDTH;
 	// --------------------------------------------------
-	protected final SUMobStat stat;
+	protected final IStatsProvider statsProvider;
+	protected final EntityType<?> entityType;
 	protected MobStatType mode = MobStatType.KILLED;
 	// ==================================================
-	public StatsHudMobEntry(SUMobStat stat) throws NullPointerException
+	public StatsHudMobEntry(SUMobStat stat) throws NullPointerException { this(stat.getStatsProvider(), stat.getEntityType()); }
+	public StatsHudMobEntry(IStatsProvider statsProvider, EntityType<?> entityType) throws NullPointerException
 	{
 		super(0.5, 0.25);
-		this.stat = Objects.requireNonNull(stat);
+		this.statsProvider = Objects.requireNonNull(statsProvider);
+		this.entityType = Objects.requireNonNull(entityType);
 	}
 	// ==================================================
 	public final @Override TElement createWidget()
@@ -51,12 +56,12 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 		return el;
 	}
 	// --------------------------------------------------
-	private final CustomStatElement createCustomStatElement()
+	private final CustomStatElement createCustomStatElement(SUMobStat stat)
 	{
 		//collect info
 		final int i = ItemStatWidget.SIZE;
 		@Nullable Text left = this.mode.getText();
-		@Nullable Text right = literal(Integer.toString(this.mode.getStatValue(this.stat)));
+		@Nullable Text right = literal(Integer.toString(this.mode.getStatValue(stat)));
 		//create and return
 		return new CustomStatElement(i, 0, WIDTH - i, left, right);
 	}
@@ -67,11 +72,12 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 		{
 			super(0, 0, WIDTH, CustomStatElement.HEIGHT);
 			
+			final var stat = new SUMobStat(StatsHudMobEntry.this.statsProvider, StatsHudMobEntry.this.entityType);
 			final var ms = new MobStatWidget(0, 0, stat);
 			ms.setSize(this.height, this.height);
 			
 			addChild(ms, true);
-			addChild(createCustomStatElement(), true);
+			addChild(createCustomStatElement(stat), true);
 		}
 		public @Override void render(TDrawContext pencil) { pencil.drawTFill(TPanelElement.COLOR_BACKGROUND); }
 	}
