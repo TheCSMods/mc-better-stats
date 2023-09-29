@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
+import static io.github.thecsdev.betterstats.BetterStatsConfig.LEGAL_NET_CONSENT;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -50,6 +51,20 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_options.setTooltip(Tooltip.of(translatable("options.title")));
 		btn_options.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 40, 20, 20)));
 		addChild(btn_options, false);
+		
+		//bss network button
+		final var btn_bssNet = new TButtonWidget(btn_options.getX() - 21, btn_options.getY(), 20, 20);
+		btn_bssNet.setTooltip(Tooltip.of(translatable("TODO - Tooltip"))); //FIXME - BSS NET tooltip
+		btn_bssNet.setIcon(LEGAL_NET_CONSENT ?
+				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
+				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
+		btn_bssNet.setOnClick(__ ->
+		{
+			//FIXME - Implement BSS NET consent screen!
+			LEGAL_NET_CONSENT = !LEGAL_NET_CONSENT;
+			refresh();
+		});
+		addChild(btn_bssNet, false);
 	}
 	// ==================================================
 	public static interface ActionBarPanelProxy

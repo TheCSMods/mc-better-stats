@@ -3,6 +3,7 @@ package io.github.thecsdev.betterstats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class BetterStats extends Object
@@ -55,7 +56,7 @@ public class BetterStats extends Object
 		this.config.tryLoadFromFile(true);
 		
 		//init stuff
-		//TODO - Initialize common stuff here (client/dedicated-server/internal-server)
+		BetterStatsNetworkHandler.init();
 	}
 	// ==================================================
 	public static BetterStats getInstance() { return Instance; }

@@ -8,6 +8,14 @@ public class BetterStatsConfig extends AutoConfig
 {
 	// ==================================================
 	public static @NonSerialized boolean DEBUG_MODE = false;
+	
+	/**
+	 * Indicates whether or not the user consents to this mod
+	 * communicating with the server the user is playing on.
+	 * @apiNote CHANGING THE VALUE OF THIS VARIABLE TO {@code true}
+	 * MUST NOT AND SHALL NOT BE DONE WITHOUT THE USER'S CONSENT!
+	 */
+	public static @NonSerialized boolean LEGAL_NET_CONSENT = false;
 	// --------------------------------------------------
 	public @SerializedAs("guiMobsFollowCursor") boolean guiMobsFollowCursor = true;
 	// ==================================================
