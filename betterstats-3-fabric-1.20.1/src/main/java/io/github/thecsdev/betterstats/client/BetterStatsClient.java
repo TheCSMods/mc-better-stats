@@ -6,7 +6,7 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSClientPlayerBadges;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
-import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.events.client.gui.screen.GameMenuScreenEvent;
 import io.github.thecsdev.tcdcommons.api.hooks.client.gui.widget.ButtonWidgetHooks;
@@ -23,7 +23,7 @@ public final class BetterStatsClient extends BetterStats
 		//initialize and register stuff
 		BSStatsTabs.register();
 		BSClientPlayerBadges.register();
-		BetterStatsNetworkHandler.init();
+		BetterStatsClientNetworkHandler.init();
 		
 		//an event handler that will handle the game menu screen (the "pause" screen)
 		GameMenuScreenEvent.INIT_WIDGETS_POST.register(gmScreen ->

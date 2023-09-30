@@ -25,7 +25,8 @@
 	},
 	"mixins":
 	[
-		"betterstats.mixin.__.json"
+		"betterstats.mixin.__.json",
+		"betterstats.mixin.events.json"
 	],
 	
 	"jars": [ { "file":"${project.mod_jar_tcdcommons}" } ],

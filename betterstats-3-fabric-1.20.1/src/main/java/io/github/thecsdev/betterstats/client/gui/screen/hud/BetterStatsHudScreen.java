@@ -1,7 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.screen.hud;
 
-import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import org.jetbrains.annotations.Nullable;
@@ -40,8 +40,7 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 	protected final @Override void onClosed()
 	{
 		super.onClosed(); //super must be called here
-		final boolean live = (entryCount() != 0);
-		BetterStatsClientNetworkHandler.c2s_liveStats(live);
+		BetterStatsClientNetworkHandler.c2s_liveStats();
 	}
 	// ==================================================
 	public final @Override void render(TDrawContext pencil)

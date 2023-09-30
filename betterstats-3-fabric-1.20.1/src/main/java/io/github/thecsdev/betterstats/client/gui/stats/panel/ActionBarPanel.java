@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_liveStats;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.BetterStatsConfig.LEGAL_NET_CONSENT;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -61,9 +63,19 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_bssNet.setOnClick(__ ->
 		{
 			//FIXME - Implement BSS NET consent screen!
+			//if enabled, and turning off, do not do any more live updates
+			if(LEGAL_NET_CONSENT) c2s_liveStats(false);
+			
+			//toggle
 			LEGAL_NET_CONSENT = !LEGAL_NET_CONSENT;
+			
+			//if just turned on, send live updates preference packet
+			if(LEGAL_NET_CONSENT) c2s_liveStats();
+			
+			//finally, refresh the panel
 			refresh();
 		});
+		btn_bssNet.setEnabled(serverHasBSS() && !MC_CLIENT.isInSingleplayer());
 		addChild(btn_bssNet, false);
 	}
 	// ==================================================

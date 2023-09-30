@@ -68,5 +68,24 @@ public final @Internal class BetterStatsNetworkHandler
 		data.writeIntLE(NETWORK_VERSION);
 		player.networkHandler.sendPacket(new CustomPayloadS2CPacket(S2C_I_HAVE_BSS, data));
 	}
+	
+	/**
+	 * Handles live stats updates.
+	 */
+	public static void s2c_liveStats(ServerPlayerEntity player)
+	{
+		//obtain prefs
+		if(player == null) return;
+		final var prefs = PlayerPrefs.get(player);
+		if(prefs == null) return; //shouldn't happen at all, but just in case
+		
+		//check last update time, and avoid packet spam
+		final long currentTime = System.currentTimeMillis();
+		if(currentTime - prefs.lastLiveStatsUpdate < 300) return;
+		
+		//update last time, and send stats
+		prefs.lastLiveStatsUpdate = currentTime;
+		player.getStatHandler().sendStats(player);
+	}
 	// ==================================================
 }
