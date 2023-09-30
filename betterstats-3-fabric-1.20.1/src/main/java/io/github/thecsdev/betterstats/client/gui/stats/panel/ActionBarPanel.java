@@ -1,9 +1,11 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_liveStats;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.BetterStatsConfig.LEGAL_NET_CONSENT;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_liveStats;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_TOGGLE_TOOLTIP;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
@@ -15,6 +17,8 @@ import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
+import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 
@@ -56,24 +60,30 @@ public final class ActionBarPanel extends BSComponentPanel
 		
 		//bss network button
 		final var btn_bssNet = new TButtonWidget(btn_options.getX() - 21, btn_options.getY(), 20, 20);
-		btn_bssNet.setTooltip(Tooltip.of(translatable("TODO - Tooltip"))); //FIXME - BSS NET tooltip
+		btn_bssNet.setTooltip(Tooltip.of(TXT_TOGGLE_TOOLTIP));
 		btn_bssNet.setIcon(LEGAL_NET_CONSENT ?
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
 		btn_bssNet.setOnClick(__ ->
 		{
-			//FIXME - Implement BSS NET consent screen!
-			//if enabled, and turning off, do not do any more live updates
-			if(LEGAL_NET_CONSENT) c2s_liveStats(false);
+			//if turning off, send a packet indicating no more live updates
+			if(LEGAL_NET_CONSENT)
+			{
+				c2s_liveStats(false);
+				LEGAL_NET_CONSENT = false;
+				refresh();
+				return;
+			}
 			
-			//toggle
-			LEGAL_NET_CONSENT = !LEGAL_NET_CONSENT;
-			
-			//if just turned on, send live updates preference packet
-			if(LEGAL_NET_CONSENT) c2s_liveStats();
-			
-			//finally, refresh the panel
-			refresh();
+			//else if turning on, go through a consent screen
+			final var currentScreen = MC_CLIENT.currentScreen;
+			final BooleanConsumer confirmScreenCallback = (accepted) ->
+			{
+				LEGAL_NET_CONSENT = accepted;
+				MC_CLIENT.setScreen(currentScreen);
+				if(LEGAL_NET_CONSENT) c2s_liveStats();
+			};
+			MC_CLIENT.setScreen(new ConfirmScreen(confirmScreenCallback, TXT_TOGGLE_TOOLTIP, TXT_CONSENT_WARNING));
 		});
 		btn_bssNet.setEnabled(serverHasBSS() && !MC_CLIENT.isInSingleplayer());
 		addChild(btn_bssNet, false);

@@ -35,6 +35,9 @@ public final @Internal class BetterStatsClientNetworkHandler
 			LOGGER.info("Clearing '" + BetterStatsClientNetworkHandler.class.getSimpleName() + "' flags.");
 			serverHasBSS = false;
 			LEGAL_NET_CONSENT = false;
+			
+			//also clear the HUD, as it now references an outdated stats-provider
+			BetterStatsHudScreen.getInstance().clearEntries();
 		});
 		
 		//initialize network handlers

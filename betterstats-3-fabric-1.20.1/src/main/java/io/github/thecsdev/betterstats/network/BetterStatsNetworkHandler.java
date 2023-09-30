@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.network;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import java.util.WeakHashMap;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -12,6 +13,7 @@ import net.minecraft.network.NetworkSide;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 /**
@@ -22,6 +24,9 @@ public final @Internal class BetterStatsNetworkHandler
 	// ==================================================
 	private BetterStatsNetworkHandler() {}
 	// --------------------------------------------------
+	public static final Text TXT_TOGGLE_TOOLTIP = translatable("betterstats.network.betterstatsnetworkhandler.toggle_tooltip");
+	public static final Text TXT_CONSENT_WARNING = translatable("betterstats.network.betterstatsnetworkhandler.consent_warning");
+	//
 	public static final int NETWORK_VERSION = 1;
 	//
 	public static final Identifier S2C_I_HAVE_BSS;
@@ -77,7 +82,7 @@ public final @Internal class BetterStatsNetworkHandler
 		//obtain prefs
 		if(player == null) return;
 		final var prefs = PlayerPrefs.get(player);
-		if(prefs == null) return; //shouldn't happen at all, but just in case
+		if(prefs == null || !prefs.liveStats) return;
 		
 		//check last update time, and avoid packet spam
 		final long currentTime = System.currentTimeMillis();
