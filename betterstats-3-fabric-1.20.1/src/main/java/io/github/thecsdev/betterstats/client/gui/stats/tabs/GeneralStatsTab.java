@@ -3,12 +3,19 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.FILTER_ID_SORT_CUSTOMS;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat.getGeneralStats;
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.TXT_NO_STATS_YET;
+import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
+import static io.github.thecsdev.tcdcommons.api.hooks.world.biome.source.BiomeAccessHooks.getBiomeAccessSeed;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+
+import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.panel.GameProfilePanel;
+import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortCustomsBy;
@@ -43,11 +50,39 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		final var sortBy = filterSettings.getProperty(FILTER_ID_SORT_CUSTOMS, FilterSortCustomsBy.DEFAULT);
 		if(sortBy != null) sortBy.sortGeneralStats(stats);
 		
-		//initialize gui
+		// ---------- initialize gui
+		//game profile panel
 		final var panel_gp = new GameProfilePanel(sp, sp, panel.getWidth() - (sp*2), statsProvider);
 		panel.addChild(panel_gp, true);
 		
-		int nextX = sp, nextY = panel_gp.getHeight() + (sp * 2), nextW = panel.getWidth() - (sp * 2);
+		//world statistics
+		StatsTabUtils.initGroupLabel(panel, translatable("createWorld.tab.world.title"));
+		{
+			final var n1 = nextPanelVerticalRect(panel);
+			final var wsp = new TFillColorElement(n1.x, n1.y, n1.width, (CustomStatElement.HEIGHT * 2) + GAP);
+			wsp.setColor(TPanelElement.COLOR_BACKGROUND);
+			panel.addChild(wsp, false);
+			
+			final var world = MC_CLIENT.world;
+			final var ws1 = new CustomStatElement(
+					wsp.getX(), wsp.getY(), wsp.getWidth(),
+					translatable("selectWorld.enterName"),
+					literal(Objects.toString((world != null) ? world.getRegistryKey().getValue() : "-"))
+				);
+			final var ws2 = new CustomStatElement(
+					wsp.getX(), wsp.getEndY() - CustomStatElement.HEIGHT, wsp.getWidth(),
+					literal("Seed (SHA-256)"),
+					literal(Objects.toString(getBiomeAccessSeed(world.getBiomeAccess())))
+				);
+			wsp.addChild(ws1, false);
+			wsp.addChild(ws2, false);
+		}
+		
+		//general statistics
+		StatsTabUtils.initGroupLabel(panel, translatable("entity.minecraft.player"));
+		int nextX = sp;
+		int nextY = (nextPanelVerticalRect(panel).y - panel.getY()) + GAP;
+		int nextW = panel.getWidth() - (sp * 2);
 		if(stats.size() > 0)
 		{
 			for(final SUGeneralStat stat : stats)

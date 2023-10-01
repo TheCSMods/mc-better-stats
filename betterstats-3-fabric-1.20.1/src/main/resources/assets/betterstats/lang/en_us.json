@@ -44,6 +44,9 @@
 	
 	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Statistics hud",
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Pin to HUD",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Right click a statistic ([Shift]+RMB) to add it here.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Right click a HUD entry to modify or remove it.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Press Escape (ESC) to close this screen.",
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Toggle 'betterstats' server connection",
 	"betterstats.network.betterstatsnetworkhandler.consent_warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well."
