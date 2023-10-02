@@ -24,6 +24,8 @@ import net.minecraft.util.Identifier;
 public abstract @Internal class SUStat<T> extends Object
 {
 	// ==================================================
+	public static final Identifier ID_NULL = new Identifier("null");
+	// --------------------------------------------------
 	protected final IStatsProvider statsProvider;
 	protected final Identifier statId;
 	protected final Text statLabel;

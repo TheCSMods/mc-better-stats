@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -39,11 +41,18 @@ public final class SUGeneralStat extends SUStat<Identifier>
 	// ==================================================
 	public SUGeneralStat(IStatsProvider statsProvider, Stat<Identifier> stat)
 	{
-		super(statsProvider, Registries.CUSTOM_STAT.get(stat.getValue()), getGeneralStatText(stat));
+		super(statsProvider, id(stat), getGeneralStatText(stat));
 		this.stat = Objects.requireNonNull(stat);
 		this.value = statsProvider.getStatValue(stat);
 		this.valueText = fLiteral(stat.format(this.value));
 		this.isEmpty = this.value == 0;
+	}
+	// --------------------------------------------------
+	private static final @Internal Identifier id(Stat<Identifier> stat)
+	{
+		//not the intended way of dealing with this, but has to be done to deal with incompatibilities,
+		//and by incompatibilities i mean mod devs. not registering their stats because... idk either
+		return Optional.ofNullable(Registries.CUSTOM_STAT.get(stat.getValue())).orElse(ID_NULL);
 	}
 	// ==================================================
 	/**
@@ -88,7 +97,8 @@ public final class SUGeneralStat extends SUStat<Identifier>
 		statsList.sort(Comparator.comparing(stat -> translatable(getGeneralStatTranslationKey(stat)).getString()));
 		
 		for(final var stat : statsList) result.add(new SUGeneralStat(statsProvider, stat));
-		if(filter != null) result.removeIf(filter.negate());
+		//filter out stats with NULL IDs and stats the filter filters out
+		result.removeIf(stat -> Objects.equals(ID_NULL, stat.getStatID()) || (filter != null && !filter.test(stat)));
 		
 		//return the result list
 		return result;
