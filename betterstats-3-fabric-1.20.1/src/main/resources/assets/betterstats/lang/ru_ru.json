@@ -7,7 +7,7 @@
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "Сохранить",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "Сохранить как...",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "Вид",
-	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "Стандартный экран статистики",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "Обычное меню статистики",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "О программе",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "Исходный код",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
