@@ -1,0 +1,56 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Создать",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "Открыть...",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "Сохранить",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "Сохранить как...",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "Вид",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "Обычное меню статистики",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "О программе",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "Исходный код",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "Modrinth",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Фильтры",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Вся статистика",
+	"betterstats.api.util.enumerations.filtergroupby.default": "Обычная",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "По модам",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Убийств",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Смертей",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Получено",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Статистика пока отсутствует...",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Режим отладки",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "Мобы следят за указателем",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "Преданность",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "Настоящая преданность! Вы играете в этом мире уже как минимум 12 дней (288 часов).",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "Верность",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "Вы играете в этом мире уже более 24 дней (576 часов). Похвально!",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "Новое поколение",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "Вы прикоснулись к символу вечного триумфа – яйцу дракона.",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "Отважный путник",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "Покоряя горные высоты и пересекая широкие долины, вы забрались далеко и повидали многое. В поисках необчных явлений, неслыханных историй и тайных сокровищ... Вы достигли этого.\n\nВы преодолели больше 727 000 блоков.",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "Долгожитель",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "На этот раз вам удалось обмануть смерть. Будете ли вы и дальше уклоняться от неизбежного?\n\nВы прожили по меньшей мере 12 часов.",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Экранная статистика",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Закрепить на экране",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Нажмите ПКМ по статистике ([Shift]+ПКМ) для её вывода на экран.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Нажмите ПКМ по элементу для его изменения или удалния.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Чтобы выйти, нажмите Esc.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Переключить связь \"betterstats\" с сервером",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "ВАЖНО:\nАктивируя эту функцию, вы даёте серверу понять, что используете модифицированный клиент с установленным \"betterstats\". В целях сохранения приватности не используйте это на серверах, где может быть запрещено использование модифицированных клиентов или конкретно этого мода.\n\nПредназначено для получения некоторых дополнительных возможностей, когда мод также установлен и на сервере.",
+
+    "modmenu.summaryTranslation.betterstats": "Улучшенное и более полезное меню просмотра статистики.",
+    "modmenu.descriptionTranslation.betterstats": "Улучшает функционал меню просмотра статистики и делает его более полезным."
+}
