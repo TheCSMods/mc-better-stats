@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.tcdcommons.api.util.interfaces.ITextProvider;
 import net.minecraft.text.Text;
@@ -20,12 +19,12 @@ public enum FilterSortItemsBy implements ITextProvider
 {
 	// ==================================================
 	DEFAULT(translatable("betterstats.api.util.enumerations.filtergroupby.default")),
-    MINED(ItemStatWidget.TEXT_STAT_MINED),
-    CRAFTED(ItemStatWidget.TEXT_STAT_CRAFTED),
-    USED(ItemStatWidget.TEXT_STAT_USED),
-    BROKEN(ItemStatWidget.TEXT_STAT_BROKEN),
-    PICKED_UP(ItemStatWidget.TEXT_STAT_PICKED_UP),
-    DROPPED(ItemStatWidget.TEXT_STAT_DROPPED);
+    MINED(ItemStatType.MINED.getText()),
+    CRAFTED(ItemStatType.CRAFTED.getText()),
+    USED(ItemStatType.USED.getText()),
+    BROKEN(ItemStatType.BROKEN.getText()),
+    PICKED_UP(ItemStatType.PICKED_UP.getText()),
+    DROPPED(ItemStatType.DROPPED.getText());
 	// ==================================================
 	private final Text text;
 	// --------------------------------------------------

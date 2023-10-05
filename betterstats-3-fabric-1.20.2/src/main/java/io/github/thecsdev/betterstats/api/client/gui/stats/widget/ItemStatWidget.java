@@ -2,11 +2,11 @@ package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.registry.BSRegistries;
+import io.github.thecsdev.betterstats.api.util.enumerations.ItemStatType;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
@@ -23,12 +23,12 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 	// ==================================================
 	public static final int SIZE = 21;
 	//
-	public static final Text TEXT_STAT_MINED     = translatable("stat_type.minecraft.mined");
-	public static final Text TEXT_STAT_CRAFTED   = translatable("stat_type.minecraft.crafted");
-	public static final Text TEXT_STAT_PICKED_UP = translatable("stat_type.minecraft.picked_up");
-	public static final Text TEXT_STAT_DROPPED   = translatable("stat_type.minecraft.dropped");
-	public static final Text TEXT_STAT_USED      = translatable("stat_type.minecraft.used");
-	public static final Text TEXT_STAT_BROKEN    = translatable("stat_type.minecraft.broken");
+	public static final Text TEXT_STAT_MINED     = ItemStatType.MINED.getText();
+	public static final Text TEXT_STAT_CRAFTED   = ItemStatType.CRAFTED.getText();
+	public static final Text TEXT_STAT_PICKED_UP = ItemStatType.PICKED_UP.getText();
+	public static final Text TEXT_STAT_DROPPED   = ItemStatType.DROPPED.getText();
+	public static final Text TEXT_STAT_USED      = ItemStatType.USED.getText();
+	public static final Text TEXT_STAT_BROKEN    = ItemStatType.BROKEN.getText();
 	// --------------------------------------------------
 	protected final ItemStack itemStack;
 	protected final Tooltip defaultTooltip;

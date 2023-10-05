@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.util.interfaces.ITextProvider;
 import net.minecraft.text.Text;
@@ -20,8 +19,8 @@ public enum FilterSortMobsBy implements ITextProvider
 {
 	// ==================================================
 	DEFAULT(translatable("betterstats.api.util.enumerations.filtergroupby.default")),
-	KILLS(MobStatWidget.TEXT_STAT_KILLS),
-	DEATHS(MobStatWidget.TEXT_STAT_DEATHS);
+	KILLS(MobStatType.KILLED.getText()),
+	DEATHS(MobStatType.KILLED_BY.getText());
 	// ==================================================
 	private final Text text;
 	// --------------------------------------------------

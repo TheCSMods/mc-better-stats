@@ -77,7 +77,7 @@ public final @Internal class BetterStatsClientNetworkHandler
 		//construct and send
 		final var data = new PacketByteBuf(Unpooled.buffer());
 		data.writeBoolean(receiveLiveUpdates);
-		new TCustomPayload(C2S_LIVE_STATS, data);
+		new TCustomPayload(C2S_LIVE_STATS, data).sendC2S();
 	}
 	// ==================================================
 }

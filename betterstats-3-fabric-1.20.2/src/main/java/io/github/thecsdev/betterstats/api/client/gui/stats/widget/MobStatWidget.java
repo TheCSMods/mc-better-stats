@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.registry.BSRegistries;
+import io.github.thecsdev.betterstats.api.util.enumerations.MobStatType;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
@@ -26,8 +27,8 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 	// --------------------------------------------------
 	public static final int SIZE = 55;
 	//
-	public static final Text TEXT_STAT_KILLS  = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills");
-	public static final Text TEXT_STAT_DEATHS = translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths");
+	public static final Text TEXT_STAT_KILLS  = MobStatType.KILLED.getText();
+	public static final Text TEXT_STAT_DEATHS = MobStatType.KILLED_BY.getText();
 	// --------------------------------------------------
 	protected final EntityType<?> entityType;
 	protected final TEntityRendererElement entityRenderer;
