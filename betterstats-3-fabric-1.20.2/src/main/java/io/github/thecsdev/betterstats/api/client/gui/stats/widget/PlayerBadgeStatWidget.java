@@ -21,7 +21,7 @@ import net.minecraft.text.Text;
 public @Virtual class PlayerBadgeStatWidget extends AbstractStatWidget<SUPlayerBadgeStat>
 {
 	// ==================================================
-	public static final int SIZE = 20;
+	public static final int SIZE = 25;
 	//
 	public static final Text TXT_STAT_OBTAINED = translatable("betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained");
 	// --------------------------------------------------

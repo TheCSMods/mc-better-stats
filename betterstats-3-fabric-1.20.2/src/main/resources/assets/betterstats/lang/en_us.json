@@ -1,5 +1,13 @@
 {
 	"betterstats": "Better Statistics Screen",
+	"betterstats.translators": "TheCSDev,",
+	"betterstats.translators.__comment": "The translators section is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	
+	
+	"commands.statistics.edit.output": "Edited the stat %s for %s player(s).",
+	"commands.statistics.clear.kick": "Your statistics were cleared, which requires you to disconnect and re-join.",
+	"commands.statistics.clear.output": "Cleared statistics of %s player(s).",
+	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "File",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "New",
@@ -24,6 +32,7 @@
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Kills",
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Deaths",
 	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Obtained",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Value",
 	
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "There are no stats to show yet...",
 	

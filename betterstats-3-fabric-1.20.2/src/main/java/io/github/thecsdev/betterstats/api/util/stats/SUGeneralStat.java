@@ -11,8 +11,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -25,6 +25,8 @@ import net.minecraft.util.Identifier;
 public final class SUGeneralStat extends SUStat<Identifier>
 {
 	// ==================================================
+	public static final Text TEXT_VALUE = translatable("betterstats.api.client.gui.stats.widget.generalstatwidget.value");
+	// --------------------------------------------------
 	private final Stat<Identifier> stat;
 	private final boolean isEmpty; //cached value to avoid re-calculations
 	

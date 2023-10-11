@@ -53,7 +53,7 @@ public final class PBSummaryPanel extends BSComponentPanel
 				.collect(Collectors.toList());
 		
 		//place stats
-		PlayerBadgeStatsTab.initStats(this, stats, null);
+		PlayerBadgeStatsTab.initStats(this, stats, w -> w.setSize(20, 20));
 		
 		//no stats label
 		if(getChildren().size() == 0)
