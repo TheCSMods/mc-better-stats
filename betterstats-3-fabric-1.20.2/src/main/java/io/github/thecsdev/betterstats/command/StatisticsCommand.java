@@ -14,6 +14,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import io.github.thecsdev.tcdcommons.api.command.argument.StatArgumentType;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import io.github.thecsdev.tcdcommons.mixin.hooks.AccessorStatHandler;
 import net.minecraft.command.CommandException;
@@ -56,7 +57,7 @@ public final class StatisticsCommand
 		return literal("edit")
 				.then(argument("targets", EntityArgumentType.players())
 						.then(argument("stat_type", RegistryEntryArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
-								.then(argument("stat", IdentifierArgumentType.identifier())
+								.then(argument("stat", StatArgumentType.stat())
 										.then(literal("set")
 												.then(argument("value", IntegerArgumentType.integer(0))
 														.executes(ctx -> execute_edit(ctx, true))
