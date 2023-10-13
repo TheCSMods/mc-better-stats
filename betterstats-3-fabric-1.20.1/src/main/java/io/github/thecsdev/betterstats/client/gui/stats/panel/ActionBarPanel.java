@@ -6,10 +6,13 @@ import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNet
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_TOGGLE_TOOLTIP;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
 import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsConfigScreen;
@@ -87,6 +90,35 @@ public final class ActionBarPanel extends BSComponentPanel
 		});
 		btn_bssNet.setEnabled(serverHasBSS() && !MC_CLIENT.isInSingleplayer());
 		addChild(btn_bssNet, false);
+		
+		//credits button
+		final var btn_credits = new TButtonWidget(btn_bssNet.getX() - 20, btn_bssNet.getY(), 20, 20);
+		final var tt_credits = fLiteral("§e" + translatable("credits_and_attribution.button.credits").getString())
+				.append(fLiteral("§r\n\n§7# " + translatable("betterstats.translators.title").getString() + "§r\n"))
+				.append(getCreditsTranslatorNames());
+		btn_credits.setTooltip(Tooltip.of(tt_credits));
+		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 100, 20, 20)));
+		addChild(btn_credits, false);
+	}
+	// --------------------------------------------------
+	private static final String getCreditsTranslatorNames()
+	{
+		final String translators = translatable("betterstats.translators").getString();
+		if(StringUtils.isBlank(translators))
+			return "-";
+		
+		String[] names = translators.split(",");
+		StringBuilder output = new StringBuilder();
+		
+		for (String name : names)
+		{
+			//skip blank names
+			if(StringUtils.isBlank(name)) continue;
+			//append name
+			output.append("- " + name.trim()).append("\n");
+		}
+		
+		return output.toString().trim();
 	}
 	// ==================================================
 	public static interface ActionBarPanelProxy

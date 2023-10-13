@@ -1,6 +1,10 @@
 {
 	"betterstats": "Better Statistics Screen",
 	
+	"betterstats.translators.title": "Translators",
+	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators": "Felix14-v2",
+	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Создать",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "Открыть...",

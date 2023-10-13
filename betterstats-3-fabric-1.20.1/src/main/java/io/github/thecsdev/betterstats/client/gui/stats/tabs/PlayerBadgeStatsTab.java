@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.PlayerBadgeStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
@@ -103,6 +102,7 @@ public final class PlayerBadgeStatsTab extends BSStatsTab<SUPlayerBadgeStat>
 			if(processWidget != null)
 				processWidget.accept(statElement);
 			
+			int SIZE = statElement.getWidth();
 			nextX += SIZE + GAP;
 			if(nextX + SIZE >= wmp)
 			{

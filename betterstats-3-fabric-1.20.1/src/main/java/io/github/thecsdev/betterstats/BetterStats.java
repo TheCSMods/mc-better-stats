@@ -3,7 +3,9 @@ package io.github.thecsdev.betterstats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.thecsdev.betterstats.command.StatisticsCommand;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.tcdcommons.api.events.server.command.CommandManagerEvent;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class BetterStats extends Object
@@ -57,6 +59,12 @@ public class BetterStats extends Object
 		
 		//init stuff
 		BetterStatsNetworkHandler.init();
+		
+		//register common-side commands
+		CommandManagerEvent.COMMAND_REGISTRATION_CALLBACK.register((dispatcher, commandRegAccess, regEnv) ->
+		{
+			StatisticsCommand.register(dispatcher, commandRegAccess);
+		});
 	}
 	// ==================================================
 	public static BetterStats getInstance() { return Instance; }
