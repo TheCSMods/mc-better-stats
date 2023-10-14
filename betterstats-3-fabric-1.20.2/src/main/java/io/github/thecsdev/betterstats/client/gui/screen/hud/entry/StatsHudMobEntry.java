@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
+import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.enumerations.MobStatType;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
@@ -25,7 +26,7 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 	// ==================================================
 	static final int WIDTH = StatsHudItemEntry.WIDTH;
 	// --------------------------------------------------
-	protected final IStatsProvider statsProvider;
+	protected IStatsProvider statsProvider;
 	protected final EntityType<?> entityType;
 	protected MobStatType mode = MobStatType.KILLED;
 	// ==================================================
@@ -39,6 +40,11 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 	// ==================================================
 	public final @Override TElement createWidget()
 	{
+		//ensure local stat providers are up-to-date
+		if(this.statsProvider instanceof LocalPlayerStatsProvider)
+			this.statsProvider = Objects.requireNonNull(LocalPlayerStatsProvider.getInstance());
+		
+		//create and return element
 		final var el = new Element();
 		el.eContextMenu.register((__, cMenu) ->
 		{

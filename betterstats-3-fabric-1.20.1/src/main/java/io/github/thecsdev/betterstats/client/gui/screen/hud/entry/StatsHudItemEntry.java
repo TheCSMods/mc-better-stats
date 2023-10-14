@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
+import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.enumerations.ItemStatType;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
@@ -24,7 +25,7 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 	// ==================================================
 	static final int WIDTH = 150;
 	// --------------------------------------------------
-	protected final IStatsProvider statsProvider;
+	protected IStatsProvider statsProvider;
 	protected final Item item;
 	protected ItemStatType mode = ItemStatType.MINED;
 	// ==================================================
@@ -38,6 +39,11 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 	// ==================================================
 	public final @Override TElement createWidget()
 	{
+		//ensure local stat providers are up-to-date
+		if(this.statsProvider instanceof LocalPlayerStatsProvider)
+			this.statsProvider = Objects.requireNonNull(LocalPlayerStatsProvider.getInstance());
+		
+		//create and return element
 		final var el = new Element();
 		el.eContextMenu.register((__, cMenu) ->
 		{

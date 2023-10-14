@@ -14,6 +14,7 @@ import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen
 import io.github.thecsdev.tcdcommons.api.events.client.MinecraftClientEvent;
 import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetwork;
 import io.github.thecsdev.tcdcommons.api.network.packet.TCustomPayload;
+import io.github.thecsdev.tcdcommons.api.util.thread.TaskScheduler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.PacketByteBuf;
@@ -28,7 +29,6 @@ public final @Internal class BetterStatsClientNetworkHandler
 	public static void init() {}
 	static
 	{
-		//initialize event handlers
 		MinecraftClientEvent.DISCONNECTED.register(client ->
 		{
 			//when the client disconnects, clear all flags, including user consent
@@ -37,7 +37,7 @@ public final @Internal class BetterStatsClientNetworkHandler
 			LEGAL_NET_CONSENT = false;
 			
 			//also clear the HUD, as it now references an outdated stats-provider
-			BetterStatsHudScreen.getInstance().clearEntries();
+			//BetterStatsHudScreen.getInstance().clearEntries(); -- no longer an issue
 		});
 		
 		//initialize network handlers
@@ -57,6 +57,11 @@ public final @Internal class BetterStatsClientNetworkHandler
 			//server has BSS
 			LOGGER.info("Server has '" + BetterStats.getModID() + "' installed.");
 			serverHasBSS = true;
+			
+			//if the client is in single player, handle live stats updates
+			//in case the statistics hud had entries in it
+			if(MC_CLIENT.isInSingleplayer())
+				TaskScheduler.executeOnce(MC_CLIENT, () -> MC_CLIENT.getNetworkHandler() != null, () -> c2s_liveStats());
 		});
 	}
 	// ==================================================
