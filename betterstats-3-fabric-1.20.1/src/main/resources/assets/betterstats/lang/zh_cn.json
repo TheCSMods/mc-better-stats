@@ -7,7 +7,7 @@
 	
 	
 	"commands.statistics.edit.output": "已编辑统计信息%s，应用于%s位玩家。",
-	"commands.statistics.clear.kick": "你的统计信息已被清除，这需要你断开连接并重新加入。",
+	"commands.statistics.clear.kick": "你的统计信息已被清除，请断开连接并重新加入。",
 	"commands.statistics.clear.output": "已清除%s位玩家的统计信息。",
 	
 	
