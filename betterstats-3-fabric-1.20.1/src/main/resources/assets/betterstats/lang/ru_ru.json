@@ -1,7 +1,7 @@
 {
 	"betterstats": "Better Statistics Screen",
 	
-	"betterstats.translators.title": "Translators",
+	"betterstats.translators.title": "Переводчики",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
 	"betterstats.translators": "Felix14-v2",
 	
