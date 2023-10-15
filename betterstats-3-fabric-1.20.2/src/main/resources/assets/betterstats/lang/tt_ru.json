@@ -1,11 +1,11 @@
 {
 	"betterstats": "Better Statistics экраны",
+	"modmenu.summaryTranslation.betterstats": "Яхшыртылган һәм файдалырак статистика экраны.",
 	"modmenu.descriptionTranslation.betterstats": "Статистика экранын яхшырта һәм аны файдалы итә.",
 	
-	"betterstats.translators.title": "Translators",
-	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators.title": "Тәрҗемәчеләр",
+	"betterstats.translators.tutorial": "Түбәндәге тәрҗемәчеләр бүлеге CSV форматында бар. Өтерне (,) куегыз гына һәм Сезнең уникаль Github-ның кулланучы исеме язагыз. Үрнәк: 'TheCSDev, SomeOtherUser, AndSoOn'.",
 	"betterstats.translators": "Amirhan-Taipovjan-Greatest-I",
-	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Яңа",
