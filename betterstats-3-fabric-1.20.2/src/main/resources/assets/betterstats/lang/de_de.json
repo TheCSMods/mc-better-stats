@@ -1,9 +1,9 @@
 {
 	"betterstats": "Bessere Statistiken",
 	
-	"betterstats.translators.title": "Translators",
+	"betterstats.translators.title": "Übersetzer",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "MrLoLf",
+	"betterstats.translators": "MrLoLf, Black-Hole",
 
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Datei",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Neu",
@@ -26,16 +26,17 @@
 	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
 
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Tötungen",
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Dode",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Tode",
 	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Erhalten",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Wert",
 
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Derzeit gibt es noch keine Statistiken zum anzeigen...",
 
-	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Debug mode",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Debugmodus",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI Mobs folgen Mauszeiger",
 
 	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "Hingabe",
-	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "Du hast wahre hingabe geyeigt! Du hast auf dieser Welt mindestens 12 Tage (288 Stunden) gespielt.",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "Du hast wahre Hingabe gezeigt! Du hast auf dieser Welt mindestens 12 Tage (288 Stunden) gespielt.",
 	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "Loyalität",
 	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "Deine Loyalität ist lobenswert! Du hast mindestens 24 Tage (576 Stunden) auf dieser Welt gespielt.",
 	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "Die nächste Generation",
@@ -43,15 +44,15 @@
 	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "Abenteuerlustiger Reisender",
 	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "Durch hohe Berge und tiefe Täler bist du weit gereist, und du hast viel zu zeigen. Auf der Suche nach einer Sehenswürdigkeit, einer unerzählten Geschichte, dem Maß einer Reise in Goldblöcken. Und dann hast du es gesehen...\n\nDu bist mindestens 727.000 Blöcke weit gereist.",
 	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "Dauerhafter Überlebenskünstler",
-	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "Sie haben es geschafft, dem Tod zu entkommen - vorerst. Werden Sie auch weiterhin dem Unvermeidlichen entgehen?\n\nDu hast mindestens 12 Stunden lang überlebt.",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "Du hast es geschafft, dem Tod zu entkommen - vorerst. Wirst du auch weiterhin dem Unvermeidlichen entgehen?\n\nDu hast mindestens 12 Stunden lang überlebt.",
 
 
 	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Statistik HUD",
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Anheften an HUD",
-	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Klicken Sie mit der rechten Maustaste auf eine Statistik ([Umschalt]+RMB), um sie hier hinzuzufügen.",
-	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Klicken Sie mit der rechten Maustaste auf einen HUD-Eintrag, um ihn zu ändern oder zu entfernen.",
-	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Drücken Sie Escape (ESC), um diesen Bildschirm zu schließen.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Halte [Umsch] gedrückt und klicke mit der rechten Maustaste auf eine Statistik, um sie hier hinzuzufügen.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Klicke mit der rechten Maustaste auf einen HUD-Eintrag, um ihn zu ändern oder zu entfernen.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Drücke [Esc], um diesen Bildschirm zu schließen.",
 
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Umschalten der 'betterstats'-Serververbindung",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "WICHTIG!\nWenn Sie diese Funktion aktivieren, erfährt der Server, dass Sie einen modifizierten Client mit installiertem 'betterstats' verwenden. Um Ihre Privatsphäre zu schützen, verwenden Sie diese Funktion nicht auf Servern, die modifizierte Clients oder diesen Mod nicht zulassen.\n\nDie Aktivierung dieser Funktion fügt einige zusätzliche Funktionen hinzu, die verfügbar sind, wenn die Mod auch auf dem Server installiert ist."
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "WICHTIG!\nWenn du diese Funktion aktivieren, erfährt der Server, dass du einen modifizierten Client mit installiertem 'betterstats' verwendest. Um deine Privatsphäre zu schützen, verwende diese Funktion nicht auf Servern, die modifizierte Clients oder diesen Mod nicht zulassen.\n\nDie Aktivierung dieser Funktion fügt einige zusätzliche Funktionen hinzu, die verfügbar sind, wenn die Mod auch auf dem Server installiert ist."
 }
