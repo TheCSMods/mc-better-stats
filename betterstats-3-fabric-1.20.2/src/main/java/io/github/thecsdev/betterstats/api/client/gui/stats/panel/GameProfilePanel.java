@@ -18,11 +18,13 @@ import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import net.minecraft.entity.EntityType;
+import net.minecraft.text.Text;
 
 public final class GameProfilePanel extends BSComponentPanel
 {
 	// ==================================================
 	public static final int HEIGHT = 128;
+	public static final Text TEXT_UUID = translatable("betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid");
 	// --------------------------------------------------
 	private final IStatsProvider statsProvider;
 	// ==================================================
@@ -74,7 +76,7 @@ public final class GameProfilePanel extends BSComponentPanel
 		final var lbl_uuidKey = new TLabelElement(
 				lbl_nameVal.getX(), lbl_nameVal.getEndY() + 10,
 				lbl_nameVal.getWidth(), lbl_nameVal.getHeight());
-		lbl_uuidKey.setText(literal("UUID"));
+		lbl_uuidKey.setText(TEXT_UUID);
 		lbl_uuidKey.setTextColor(col);
 		addChild(lbl_uuidKey, false);
 		

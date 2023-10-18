@@ -71,7 +71,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 				);
 			final var ws2 = new CustomStatElement(
 					wsp.getX(), wsp.getEndY() - CustomStatElement.HEIGHT, wsp.getWidth(),
-					literal("Seed (SHA-256)"),
+					translatable("betterstats.client.gui.stats.panel.statstabpanel.seed_sha256"),
 					literal(Objects.toString(getBiomeAccessSeed(world.getBiomeAccess())))
 				);
 			wsp.addChild(ws1, false);
