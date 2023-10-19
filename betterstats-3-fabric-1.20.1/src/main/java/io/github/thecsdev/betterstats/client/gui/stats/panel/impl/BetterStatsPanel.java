@@ -78,7 +78,10 @@ public final class BetterStatsPanel extends BSComponentPanel
 		this.panel_actionBar = new ActionBarPanel(
 				panelX, panelY + panelH - ActionBarPanel.HEIGHT,
 				this.panel_filters.getWidth(),
-				new ActionBarPanelProxy() {});
+				new ActionBarPanelProxy()
+				{
+					public void setSelectedStatsTab(StatsTab statsTab) { BetterStatsPanel.this.proxy.setSelectedStatsTab(statsTab); }
+				});
 		addChild(this.panel_actionBar, true);
 		
 		this.panel_stats = new StatsTabPanel(

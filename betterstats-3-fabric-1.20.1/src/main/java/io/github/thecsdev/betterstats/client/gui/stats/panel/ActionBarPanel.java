@@ -15,7 +15,9 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
-import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsConfigScreen;
+import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
+import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
+import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
@@ -56,7 +58,8 @@ public final class ActionBarPanel extends BSComponentPanel
 		
 		//options button
 		final var btn_options = new TButtonWidget(btn_close.getX() - 20, btn_close.getY(), 20, 20);
-		btn_options.setOnClick(__ -> MC_CLIENT.setScreen(new BetterStatsConfigScreen(MC_CLIENT.currentScreen).getAsScreen()));
+		//btn_options.setOnClick(__ -> MC_CLIENT.setScreen(new BetterStatsConfigScreen(MC_CLIENT.currentScreen).getAsScreen()));
+		btn_options.setOnClick(__ -> this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CONFIG));
 		btn_options.setTooltip(Tooltip.of(translatable("options.title")));
 		btn_options.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 40, 20, 20)));
 		addChild(btn_options, false);
@@ -123,6 +126,11 @@ public final class ActionBarPanel extends BSComponentPanel
 	// ==================================================
 	public static interface ActionBarPanelProxy
 	{
+		/**
+		 * See {@link BetterStatsPanelProxy#setSelectedStatsTab(StatsTab)}
+		 */
+		public void setSelectedStatsTab(StatsTab statsTab);
+		
 		/**
 		 * Returns {@code true} if the "close" operation is supported,
 		 * aka if the current GUI {@link Screen} may be closed.

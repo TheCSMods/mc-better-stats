@@ -5,9 +5,11 @@ import static io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPan
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext.DEFAULT_TEXT_COLOR;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
@@ -128,9 +130,8 @@ public final class StatsTabUtils
 		final var statsTab = initContext.getSelectedStatsTab();
 		final var n1 = nextPanelVerticalRect(panel);
 		final var select_tab = new SelectStatsTabWidget(n1.x, n1.y + panel.getScrollPadding(), n1.width, n1.height);
-		select_tab.setSelected(statsTab);
-		if(statsTab != null && statsTab.getId().isEmpty())
-			select_tab.setText(statsTab.getName()); //have the label reflect the stats tab name for unregistered tabs
+		try { select_tab.setSelected(statsTab); } catch(NoSuchElementException nse) { select_tab.setSelected((StatsTab)null); }
+		select_tab.setText(statsTab != null ? statsTab.getName() : literal("-"));
 		select_tab.eSelectionChanged.register((__, sel) -> initContext.setSelectedStatsTab(sel.getStatsTab()));
 		panel.addChild(select_tab, false);
 		

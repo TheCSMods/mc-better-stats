@@ -2,8 +2,8 @@ package io.github.thecsdev.betterstats.client.gui.stats.panel.impl;
 
 import java.util.Objects;
 
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
@@ -11,11 +11,11 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.ActionBarPanel;
+import io.github.thecsdev.betterstats.client.gui.stats.panel.ActionBarPanel.ActionBarPanelProxy;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.MenuBarPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel;
-import io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel;
-import io.github.thecsdev.betterstats.client.gui.stats.panel.ActionBarPanel.ActionBarPanelProxy;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.StatFiltersPanelProxy;
+import io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel;
 
 /**
  * A {@link BSComponentPanel} that usually goes on the {@link BetterStatsScreen}.<p>
@@ -78,7 +78,10 @@ public final class BetterStatsPanel extends BSComponentPanel
 		this.panel_actionBar = new ActionBarPanel(
 				panelX, panelY + panelH - ActionBarPanel.HEIGHT,
 				this.panel_filters.getWidth(),
-				new ActionBarPanelProxy() {});
+				new ActionBarPanelProxy()
+				{
+					public void setSelectedStatsTab(StatsTab statsTab) { BetterStatsPanel.this.proxy.setSelectedStatsTab(statsTab); }
+				});
 		addChild(this.panel_actionBar, true);
 		
 		this.panel_stats = new StatsTabPanel(
