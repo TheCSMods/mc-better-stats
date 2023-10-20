@@ -8,7 +8,7 @@
 	"betterstats.translators": "Amirhan-Taipovjan-Greatest-I",
 
 
-	"commands.statistics.edit.output": "%2$s уенчы өчен %1$s статистикасын үзгәртте.",
+	"commands.statistics.edit.output": "%2$s уенчы өчен %1$s статистикасы үзгәртелде.",
 	"commands.statistics.clear.kick": "Сезнең статистика чистартылды, шуңа күрә Сезгә сүндерергә һәм яңадан кушылырга кирәк.",
 	"commands.statistics.clear.output": "%s уенчы статистикасы чистарылды.",
 	
