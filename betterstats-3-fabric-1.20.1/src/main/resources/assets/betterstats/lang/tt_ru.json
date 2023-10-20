@@ -1,10 +1,16 @@
 {
 	"betterstats": "Better Statistics экраны",
+	"modmenu.summaryTranslation.betterstats": "Яхшыртылган һәм файдалырак статистика экраны.",
 	"modmenu.descriptionTranslation.betterstats": "Статистика экранын яхшырта һәм аны файдалы итә.",
 	
-	"betterstats.translators.title": "Translators",
-	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators.title": "Тәрҗемәчеләр",
+	"betterstats.translators.tutorial": "Түбәндәге тәрҗемәчеләр бүлеге CSV форматында бар. Өтерне (,) куегыз гына һәм Сезнең уникаль Github-ның кулланучы исеме язагыз. Үрнәк: 'TheCSDev, SomeOtherUser, AndSoOn'.",
 	"betterstats.translators": "Amirhan-Taipovjan-Greatest-I",
+
+
+	"commands.statistics.edit.output": "%2$s уенчы өчен %1$s статистикасы үзгәртелде.",
+	"commands.statistics.clear.kick": "Сезнең статистика чистартылды, шуңа күрә Сезгә сүндерергә һәм яңадан кушылырга кирәк.",
+	"commands.statistics.clear.output": "%s уенчы статистикасы чистарылды.",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
@@ -21,9 +27,14 @@
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+
+	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
 	
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Фильтрлар",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Буш статистиканы күрсәтү",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "Фильтрларсызмы?",
+
+
 	"betterstats.api.util.enumerations.filtergroupby.default": "Беренчел",
 	"betterstats.api.util.enumerations.filtergroupby.mod": "Мод буенча",
 	
@@ -32,6 +43,7 @@
 	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Табылган",
 	
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
+	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Генератор ачкычы (SHA-256)",
 	
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Төзәтү шарты",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "Интерфейстагы асыллар күрсәткечне күзәтә",
