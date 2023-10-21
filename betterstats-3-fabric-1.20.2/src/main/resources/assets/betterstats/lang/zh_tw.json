@@ -37,7 +37,7 @@
 	
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "擊殺數",
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "死亡數",
-	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "取得",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "已取得",
 	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "數值",
 	
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "這裡似乎沒有統計資訊可以顯示...",
@@ -65,5 +65,5 @@
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "按下 Esc 鍵以關閉此畫面。",
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切換「betterstats」伺服器連線",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改客戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。"
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改用戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。"
 }
