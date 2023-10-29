@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.client.gui.stats.panel.GameProfilePanel;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWidget;
@@ -56,8 +57,9 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		panel.addChild(panel_gp, true);
 		
 		//world statistics
-		StatsTabUtils.initGroupLabel(panel, translatable("createWorld.tab.world.title"));
+		if(BetterStatsConfig.DEBUG_MODE)
 		{
+			StatsTabUtils.initGroupLabel(panel, translatable("createWorld.tab.world.title"));
 			final var n1 = nextPanelVerticalRect(panel);
 			final var wsp = new TFillColorElement(n1.x, n1.y, n1.width, (CustomStatElement.HEIGHT * 2) + GAP);
 			wsp.setColor(TPanelElement.COLOR_BACKGROUND);

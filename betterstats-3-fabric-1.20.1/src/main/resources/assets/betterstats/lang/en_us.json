@@ -9,6 +9,7 @@
 	"commands.statistics.edit.output": "Edited the stat %s for %s player(s).",
 	"commands.statistics.clear.kick": "Your statistics were cleared, which requires you to disconnect and re-join.",
 	"commands.statistics.clear.output": "Cleared statistics of %s player(s).",
+	"commands.statistics.query.output": "%s's stat value for %s is %s.",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "File",

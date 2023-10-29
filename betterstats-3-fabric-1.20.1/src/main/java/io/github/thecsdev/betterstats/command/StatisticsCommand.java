@@ -34,6 +34,7 @@ public final class StatisticsCommand
 	public static final String TEXT_EDIT_OUTPUT = "commands.statistics.edit.output";
 	public static final Text TEXT_CLEAR_KICK = translatable("commands.statistics.clear.kick");
 	public static final String TEXT_CLEAR_OUTPUT = "commands.statistics.clear.output";
+	public static final String TEXT_QUERY_OUTPUT = "commands.statistics.query.output";
 	// ==================================================
 	private StatisticsCommand() {}
 	// ==================================================
@@ -42,10 +43,12 @@ public final class StatisticsCommand
 		//define the command and its alt.
 		final var statistics = literal("statistics").requires(scs -> scs.hasPermissionLevel(2))
 				.then(statistics_edit(cra))
-				.then(statistics_clear());
+				.then(statistics_clear())
+				.then(statistics_query(cra));
 		final var stats = literal("stats").requires(scs -> scs.hasPermissionLevel(2))
 				.then(statistics_edit(cra))
-				.then(statistics_clear());
+				.then(statistics_clear())
+				.then(statistics_query(cra));
 		
 		//register the command
 		dispatcher.register(statistics);
@@ -78,23 +81,17 @@ public final class StatisticsCommand
 				.then(argument("targets", EntityArgumentType.players())
 						.executes(ctx -> execute_clear(ctx)));
 	}
-	// --------------------------------------------------
-	/*private static ArgumentBuilder<ServerCommandSource, ?> arg_stat()
+	private static ArgumentBuilder<ServerCommandSource, ?> statistics_query(CommandRegistryAccess cra)
 	{
-		final Function<CommandContext<?>, Iterable<Identifier>> supplier = context ->
-		{
-			@SuppressWarnings("unchecked")
-			final var ctx = (CommandContext<ServerCommandSource>)context;
-			try
-			{
-				@SuppressWarnings("unchecked")
-				final var arg_stat_type = (StatType<Object>)RegistryEntryArgumentType.getRegistryEntry(ctx, "stat_type", RegistryKeys.STAT_TYPE).value();
-				return arg_stat_type.getRegistry().getKeys().stream().map(key -> key.getValue()).toList();
-			}
-			catch (CommandSyntaxException | IllegalStateException e) { return Collections.emptyList(); }
-		};
-		return argument("stat", SuggestiveIdentifierArgumentType.suggestiveId(supplier));
-	}*/
+		return literal("query")
+				.then(argument("target", EntityArgumentType.player())
+						.then(argument("stat_type", RegistryEntryArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
+								.then(argument("stat", StatArgumentType.stat())
+										.executes(ctx -> execute_query(ctx))
+										)
+								)
+					);
+	}
 	// ==================================================
 	@SuppressWarnings("unchecked")
 	private static int execute_edit(CommandContext<ServerCommandSource> context, boolean setOrIncrease)
@@ -133,9 +130,15 @@ public final class StatisticsCommand
 					"[" + Registries.STAT_TYPE.getId(arg_stat_type) + " / " + arg_stat + "]",
 					Integer.toString(affected.get())
 				), false);
+			
+			//return affected count, so command blocks and data-packs can know it
+			return affected.get();
 		}
-		catch(CommandException | CommandSyntaxException | IllegalStateException | NullPointerException e) { handleError(context, e); }
-		return 1;
+		catch(CommandException | CommandSyntaxException | IllegalStateException | NullPointerException e)
+		{
+			handleError(context, e);
+			return 0;
+		}
 	}
 	private static int execute_clear(CommandContext<ServerCommandSource> context)
 	{
@@ -163,9 +166,47 @@ public final class StatisticsCommand
 			
 			//send feedback
 			context.getSource().sendFeedback(() -> translatable(TEXT_CLEAR_OUTPUT, Integer.toString(affected.get())), false);
+			
+			//return affected count, so command blocks and data-packs can know it
+			return affected.get();
 		}
-		catch(CommandException | CommandSyntaxException e) { handleError(context, e); }
-		return 1;
+		catch(CommandException | CommandSyntaxException e)
+		{
+			handleError(context, e);
+			return 0;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	private static int execute_query(CommandContext<ServerCommandSource> context)
+	{
+		try
+		{
+			//get parameter values
+			final var arg_target = EntityArgumentType.getPlayer(context, "target");
+			if(arg_target == null) throw new CommandException(TextUtils.literal("Player not found."));
+			final var arg_stat_type = (StatType<Object>)RegistryEntryArgumentType.getRegistryEntry(context, "stat_type", RegistryKeys.STAT_TYPE).value();
+			final var arg_stat = IdentifierArgumentType.getIdentifier(context, "stat");
+
+			final var stat_object = arg_stat_type.getRegistry().getOrEmpty(arg_stat).orElse(null);
+			Objects.requireNonNull(stat_object, "Registry entry '" + arg_stat + "' does not exist for registry '" + arg_stat_type.getRegistry() + "'.");
+			
+			final var stat = arg_stat_type.getOrCreateStat(stat_object);
+			final int statValue = arg_target.getStatHandler().getStat(stat);
+			
+			//execute
+			context.getSource().sendFeedback(() -> translatable(
+					TEXT_QUERY_OUTPUT,
+					arg_target.getDisplayName(),
+					"[" + Registries.STAT_TYPE.getId(arg_stat_type) + " / " + arg_stat + "]",
+					Integer.toString(statValue)
+					), false);
+			return statValue;
+		}
+		catch(CommandException | CommandSyntaxException e)
+		{
+			handleError(context, e);
+			return 0;
+		}
 	}
 	// ==================================================
 }
