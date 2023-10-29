@@ -137,7 +137,7 @@ public final class StatisticsCommand
 		catch(CommandException | CommandSyntaxException | IllegalStateException | NullPointerException e)
 		{
 			handleError(context, e);
-			return 0;
+			return -1;
 		}
 	}
 	private static int execute_clear(CommandContext<ServerCommandSource> context)
@@ -173,7 +173,7 @@ public final class StatisticsCommand
 		catch(CommandException | CommandSyntaxException e)
 		{
 			handleError(context, e);
-			return 0;
+			return -1;
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -205,7 +205,7 @@ public final class StatisticsCommand
 		catch(CommandException | CommandSyntaxException e)
 		{
 			handleError(context, e);
-			return 0;
+			return -1;
 		}
 	}
 	// ==================================================
