@@ -6,13 +6,10 @@ import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNet
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_TOGGLE_TOOLTIP;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
 import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
@@ -26,6 +23,7 @@ import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.util.Formatting;
 
 public final class ActionBarPanel extends BSComponentPanel
 {
@@ -96,15 +94,17 @@ public final class ActionBarPanel extends BSComponentPanel
 		
 		//credits button
 		final var btn_credits = new TButtonWidget(btn_bssNet.getX() - 20, btn_bssNet.getY(), 20, 20);
-		final var tt_credits = fLiteral("§e" + translatable("credits_and_attribution.button.credits").getString())
+		btn_credits.setOnClick(btn -> this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CREDITS));
+		/*final var tt_credits = fLiteral("§e" + translatable("credits_and_attribution.button.credits").getString())
 				.append(fLiteral("§r\n\n§7# " + translatable("betterstats.translators.title").getString() + "§r\n"))
-				.append(getCreditsTranslatorNames());
+				.append(getCreditsTranslatorNames());*/
+		final var tt_credits = translatable("credits_and_attribution.button.credits").formatted(Formatting.YELLOW);
 		btn_credits.setTooltip(Tooltip.of(tt_credits));
 		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 100, 20, 20)));
 		addChild(btn_credits, false);
 	}
 	// --------------------------------------------------
-	private static final String getCreditsTranslatorNames()
+	/*private static final String getCreditsTranslatorNames()
 	{
 		final String translators = translatable("betterstats.translators").getString();
 		if(StringUtils.isBlank(translators))
@@ -122,7 +122,7 @@ public final class ActionBarPanel extends BSComponentPanel
 		}
 		
 		return output.toString().trim();
-	}
+	}*/
 	// ==================================================
 	public static interface ActionBarPanelProxy
 	{

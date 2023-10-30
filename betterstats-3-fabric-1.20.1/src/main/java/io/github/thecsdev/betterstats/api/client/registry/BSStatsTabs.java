@@ -7,6 +7,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSConfigTab;
+import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSCreditsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.FoodStuffsStatsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.GeneralStatsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.ItemStatsTab;
@@ -31,6 +32,7 @@ public final class BSStatsTabs
 	 */
 	public static final @Internal int COLOR_SPECIAL = 0xFFFFFF00;
 	// --------------------------------------------------
+	public static final StatsTab BSS_CREDITS     = new BSCreditsTab();
 	public static final StatsTab BSS_CONFIG      = new BSConfigTab();
 	public static final StatsTab GENERAL         = new GeneralStatsTab();
 	public static final StatsTab ITEMS           = new ItemStatsTab();
@@ -47,6 +49,7 @@ public final class BSStatsTabs
 	static
 	{
 		final String modId = getModID();
+		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "bss_credits"), BSS_CREDITS);
 		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "bss_config"), BSS_CONFIG);
 		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "general"), GENERAL);
 		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "items"), ITEMS);
