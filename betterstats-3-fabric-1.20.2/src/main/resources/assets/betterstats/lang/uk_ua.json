@@ -1,0 +1,70 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.translators.title": "Перекладачі",
+	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators": "rvbsm,",
+	
+	
+	"commands.statistics.edit.output": "Відредаговано статистику %s для %s гравця(ів).",
+	"commands.statistics.clear.kick": "Вашу статистику очищено, що потребує від вас від'єднання та повторного приєднання.",
+	"commands.statistics.clear.output": "Очищено статистику %s гравця(ів).",
+	"commands.statistics.query.output": "Значення %s для статистики %s становить %s.",
+	
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Створити",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "Відкрити",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "Зберегти",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "Зберегти як",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "Вигляд",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "Ванільна статистика",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "Про мод",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "Вихідний код",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "Modrinth",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Фільтри",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Показувати порожню статистику",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "Без фільтрів?",
+	
+	"betterstats.api.util.enumerations.filtergroupby.default": "За замовчуванням",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "За модами",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Вбивств",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Смертей",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Отримано",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Значення",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Поки що нічого показати...",
+	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Ключ (SHA-256)",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Режим налагодження",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI моби слідкують за курсором",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "Відданість",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "Ви продемонстрували справжню відданість! Ви граєте в цьому світі принаймні 12 днів (288 годин).",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "Вірність",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "Ваша вірність гідна похвали! Ви граєте в цьому світі принаймні 24 дні (576 годин).",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "Наступне покоління",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "Ви змогли доторкнутися до символу остаточного тріумфу — Яйця Дракона.",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "Авантюрний мандрівник",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "Пройшовши крізь гори високі та долини широкі, побувавши дуже далеко, вам є про що повідати. У пошуках видовищ, незлічених історій та скарбів. У подорожах, виміряних в блоках золота, ви побачили...\n\nВи пройшли не менше 727 000 блоків.",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "Багаторічний виживший",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "До сих пір ви змогли уникнути смерті. Чи будете ви продовжувати ухилятися від неминучого?\n\nВи вижили не менше 12 годин.",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Статистичний HUD",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Закріпити на HUD",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Клацніть правою кнопкою миші по статистиці ([Shift]+ПКМ) для її додавання на екран.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Клацніть правою кнопкою миші по елементу HUD для його редагування або видалення.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Натисність Escape (ESC) для того щоб закрити це вікно.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Перемкнути з'єднання 'betterstats' з сервером",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "ВАЖЛИВО:\nУвімкнувши цю функцію, сервер дізнається, що ви використовуєте модифікований клієнт зі встановленим 'betterstats'. Для захисту вашої конфіденційності, не використовуйте це на серверах, де можуть бути заборонені модифіковані клієнти чи цей мод.\n\nУвімкнення цієї функції надає додаткові можливості, які доступні при встановленні цього моду на сервері."
+}
