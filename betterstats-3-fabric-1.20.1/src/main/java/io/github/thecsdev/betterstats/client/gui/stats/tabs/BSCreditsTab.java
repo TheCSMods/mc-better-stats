@@ -94,6 +94,7 @@ public final class BSCreditsTab extends StatsTab
 				panel_t.addChild(visitBtn, false);
 				
 				// ----- Handle GitHub info
+				//FIXME - If `init()` is spammed, so will the API. Pre-load instead?
 				if(!(visitUrl != null && iteration <= 3)) continue;
 				@Nullable URL url = null;
 				try { url = new URL(visitUrl); } catch(MalformedURLException mue) { continue; }
