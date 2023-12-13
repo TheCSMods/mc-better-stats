@@ -1,0 +1,70 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.translators.title": "翻訳者",
+	"betterstats.translators.tutorial": "以下の翻訳者セクションはCSV形式です。コンマ (,) で区切り、一意なGitHubユーザー名を書き込んでください。例: 「TheCSDev, SomeOtherUser, AndSoOn」",
+	"betterstats.translators": "Sw3et-Dre4mer,",
+	
+	
+	"commands.statistics.edit.output": "%2$s人のプレイヤーの統計%1$sを編集しました",
+	"commands.statistics.clear.kick": "統計がクリアされたためサーバーから切断されました。再参加が必要です。",
+	"commands.statistics.clear.output": "%s人のプレイヤーの統計をクリアしました",
+	"commands.statistics.query.output": "%sの統計%sの値は %s です",
+	
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "ファイル",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "新規",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "開く",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "保存",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "名前を付けて保存",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "表示",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "バニラの統計画面を表示する",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "このModについて",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "ソースコード",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "Modrinth",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "フィルター",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "空の統計情報を表示する",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "フィルターなし？",
+	
+	"betterstats.api.util.enumerations.filtergroupby.default": "デフォルト",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "倒した回数",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "死亡した回数",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "取得した数",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "値",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "表示できる統計情報がまだありません…",
+	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "シード（SHA-256）",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "デバッグモード",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "統計画面のモブをカーソルに合わせて動かす",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "献身",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "君って献身的なんだね！このワールドで12日（288時間）以上プレイする。",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "忠誠心",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "見上げた忠誠心じゃないか！このワールドで24日（576時間）以上プレイする。",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "ザ・ネクストジェネレーション",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "究極の勝利の象徴である「ドラゴンの卵」を手にする。",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "冒険好きな旅人",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "高い山を越え、低い谷を越え、あなたは遠くまで旅をしてきた。景色を求め、語られざる物語を求め、金ブロックで旅を測ってきた。そしてあなたは見た...\n\n727,000ブロック以上を移動する。",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "永遠のサバイバー",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "今はなんとか生き延びているが、死はいずれ訪れる。それでもその運命に抗うつもりか？\n\n12時間以上生き残る。",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "統計情報をHUDに表示する",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "HUDにピンを付ける",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "統計情報を右クリック（[Shift]+RMB）すると、ここに追加できます。",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "HUDエントリーを右クリックして、それを変更または削除します。",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "この画面を閉じるには、Escape（ESC）を押してください。",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "「betterstats」によるサーバー接続を切り替える",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\nこの機能を有効にすると「betterstats」を使用していることがサーバーに検出されます。Mod導入済みクライアントまたはこのModが許可されていないサーバーでは使用しないでください。\n\n有効にすると、このModがサーバーにも導入されている場合に使用できる機能が追加されます。"
+}

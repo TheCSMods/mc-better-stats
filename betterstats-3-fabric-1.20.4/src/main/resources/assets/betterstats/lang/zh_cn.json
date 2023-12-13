@@ -1,0 +1,64 @@
+{
+	"betterstats": "更好的统计信息界面",
+	
+	"betterstats.translators.title": "翻译员",
+	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators": "IwasConfused,",
+	
+	
+	"commands.statistics.edit.output": "已编辑统计信息%s，应用于%s位玩家。",
+	"commands.statistics.clear.kick": "你的统计信息已被清除，请断开连接并重新加入。",
+	"commands.statistics.clear.output": "已清除%s位玩家的统计信息。",
+	
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "文件",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "新建",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "打开",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "保存",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "保存为",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "显示",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "显示原版统计信息",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "关于",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "Source code",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "Modrinth",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "过滤器",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "显示空的统计信息",
+	"betterstats.api.util.enumerations.filtergroupby.default": "默认",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "杀死",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "被杀死",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "已获得",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "数值",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "目前还没有统计信息……",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "调试模式",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI生物跟随光标",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "奉献",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "你表现出了真正的奉献精神！你已在这个世界游玩了至少12天（288小时）。",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "忠诚",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "你的忠诚值得称赞！你已在这个世界游玩了至少24天（576小时）。",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "下一世代",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "你拥有终极胜利的象征——龙蛋。",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "冒险旅行家",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "穿越千山万壑，你已行过千里，带着一路的经历。 寻觅一抹风景、一段传说、一趟价值千金的旅途。 而后，你又将遇见……\n\n你已走过至少727,000格。",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "常年生存者",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "你已成功逃脱了死亡，至少现在如此。 你还会继续逃避这不可避免之事吗？\n\n你已存活至少12小时。",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "统计信息HUD",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "添加至HUD界面",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "右击一个统计信息将其添加到这里。",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "右击HUD条目以修改或删除。",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "按下esc键关闭此界面。",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切换“betterstats”服务器连接",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "§l重要！§r:\n启用此特性后，服务器将获知您使用了安装有“betterstats”的客户端。为保护您的隐私，不要在禁止使用mod客户端或禁止此mod的服务器上开启此功能。\n\n当服务端也安装本mod时，启用此功能会添加一些额外的功能。"
+}
