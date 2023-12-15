@@ -2,6 +2,7 @@
 	"betterstats": "Better Statistics Screen",
 	
 	"betterstats.translators.title": "Translators",
+	"betterstats.contributors.title": "Contributors",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
 	"betterstats.translators": "TheCSDev,",
 	

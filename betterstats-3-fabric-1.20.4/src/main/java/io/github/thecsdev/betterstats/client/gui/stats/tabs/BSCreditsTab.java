@@ -1,16 +1,9 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
-import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
@@ -22,15 +15,12 @@ import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
-import io.github.thecsdev.tcdcommons.api.client.gui.util.UIExternalTexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
-import io.github.thecsdev.tcdcommons.api.util.io.repo.RepositoryUserInfo;
-import io.github.thecsdev.tcdcommons.api.util.io.repo.github.GitHubUserInfo;
-import net.minecraft.client.gui.tooltip.Tooltip;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 
 public final class BSCreditsTab extends StatsTab
 {
@@ -44,7 +34,6 @@ public final class BSCreditsTab extends StatsTab
 	// ==================================================
 	public final @Override void initStats(StatsInitContext initContext)
 	{
-		//"mco.notification.visitUrl.buttonText.default": "Open link",
 		final var panel = initContext.getStatsPanel();
 		
 		final var lbl_title = StatsTabUtils.initGroupLabel(panel, TEXT_TITLE);
@@ -54,17 +43,14 @@ public final class BSCreditsTab extends StatsTab
 		lbl_title.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 		
 		//group label for translators
-		initGroupLabel(panel, translatable("betterstats.translators.title").formatted(Formatting.YELLOW));
+		initGroupLabel(panel, translatable("betterstats.contributors.title").formatted(Formatting.YELLOW));
 		{
-			var translators = getTranslatorEntries();
-			if(translators.length == 0) translators = new String[] { "-" };
-			
+			final var translators = getTranslatorEntries();
 			boolean highlight = true;
-			int iteration = 0;
-			for(final String translator : translators)
+			
+			for(final Person translator : translators)
 			{
 				highlight = !highlight;
-				iteration++;
 				
 				final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
 				final var panel_t = new TFillColorElement(n1.x, n1.y, n1.width, 20);
@@ -74,7 +60,7 @@ public final class BSCreditsTab extends StatsTab
 				final var icon = new TTextureElement(2, 2, 16, 16);
 				panel_t.addChild(icon, true);
 				
-				final var nameLabel = new TLabelElement(25, 0, panel_t.getWidth(), 20, literal(translator));
+				final var nameLabel = new TLabelElement(25, 0, panel_t.getWidth(), 20, literal(translator.getName()));
 				nameLabel.setTextScale(0.8f);
 				panel_t.addChild(nameLabel, true);
 				
@@ -94,8 +80,9 @@ public final class BSCreditsTab extends StatsTab
 				panel_t.addChild(visitBtn, false);
 				
 				// ----- Handle GitHub info
-				//FIXME - If `init()` is spammed, so will the API. Pre-load instead?
-				if(!(visitUrl != null && iteration <= 3)) continue;
+				// > Temporarily deprecated due to this being an experimental feature,
+				// > and because certain bugs cause API spam, which isn't allowed
+				/*if(!(visitUrl != null && iteration <= 10)) continue;
 				@Nullable URL url = null;
 				try { url = new URL(visitUrl); } catch(MalformedURLException mue) { continue; }
 				
@@ -135,7 +122,7 @@ public final class BSCreditsTab extends StatsTab
 									pfp -> icon.setTexture(pfp),
 									err -> {});
 						},
-						err -> {});
+						err -> {});*/
 			}
 		}
 	}
@@ -162,35 +149,20 @@ public final class BSCreditsTab extends StatsTab
 		panel_tGroup.addChild(lbl);
 	}
 	// ==================================================
-	public static final String[] getTranslatorEntries()
+	public static final Person[] getTranslatorEntries()
 	{
-		final String translators = translatable("betterstats.translators").getString();
-		if(StringUtils.isBlank(translators))
-			return new String[] {};
-		
-		var names = new ArrayList<String>(Arrays.asList(translators.split(",")));
-		names.removeIf(name -> StringUtils.isBlank(name));
-		names = names.stream()
-				.map(name -> name.trim())
-				.sorted(String.CASE_INSENSITIVE_ORDER)
-				.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-		
-		return names.toArray(new String[] {});
+		return FabricLoader.getInstance().getModContainer(getModID()).get()
+				.getMetadata().getContributors().stream()
+				.sorted((p1, p2) -> p1.getName().compareTo(p2.getName()))
+				.toArray(Person[]::new);
 	}
 	// --------------------------------------------------
-	public static final @Nullable String translatorEntryToUrl(String translator)
+	public static final @Nullable String translatorEntryToUrl(Person translator)
 	{
-		if(StringUtils.isBlank(translator) || Objects.equals(translator, "-"))
-			return null;
-		else if(translator.startsWith("http://") || translator.startsWith("https://"))
-			return translator;
-		else if(translator.contains(Character.toString(Identifier.NAMESPACE_SEPARATOR)))
-			return ("https://github.com/" + new Identifier(translator).getNamespace());
-		else
-			return ("https://github.com/" + translator);
+		return translator.getContact().get("homepage").orElse(null);
 	}
 	// --------------------------------------------------
-	private static final Text getDisplayNameFromGHUser(RepositoryUserInfo userInfo)
+	/*private static final Text getDisplayNameFromGHUser(RepositoryUserInfo userInfo)
 	{
 		final @Nullable var name = userInfo.getName();
 		final @Nullable var dName = userInfo.getDisplayName();
@@ -204,6 +176,6 @@ public final class BSCreditsTab extends StatsTab
 		else if(name != null && dName == null) finalDName.append(name);
 		else if(name == null && dName != null) finalDName.append("@").append(dName);
 		return finalDName;
-	}
+	}*/
 	// ==================================================
 }

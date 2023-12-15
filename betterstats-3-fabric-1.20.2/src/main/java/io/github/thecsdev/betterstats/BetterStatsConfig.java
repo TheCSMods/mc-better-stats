@@ -18,6 +18,7 @@ public class BetterStatsConfig extends AutoConfig
 	public static @NonSerialized boolean LEGAL_NET_CONSENT = false;
 	// --------------------------------------------------
 	public @SerializedAs("guiMobsFollowCursor") boolean guiMobsFollowCursor = true;
+	public @SerializedAs("useHttp") boolean useHttp = false;
 	// ==================================================
 	public BetterStatsConfig(String name) { super(name); }
 	// ==================================================
