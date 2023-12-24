@@ -100,7 +100,7 @@ public final class ActionBarPanel extends BSComponentPanel
 				.append(getCreditsTranslatorNames());*/
 		final var tt_credits = translatable("credits_and_attribution.button.credits").formatted(Formatting.YELLOW);
 		btn_credits.setTooltip(Tooltip.of(tt_credits));
-		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 100, 20, 20)));
+		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 60, 20, 20)));
 		addChild(btn_credits, false);
 	}
 	// --------------------------------------------------
