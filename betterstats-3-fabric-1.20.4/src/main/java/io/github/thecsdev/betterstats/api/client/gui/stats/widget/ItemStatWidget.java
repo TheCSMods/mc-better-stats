@@ -1,7 +1,9 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
+
+import java.util.Objects;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -13,10 +15,14 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TInputContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TInputContext.InputType;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.stat.StatType;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 {
@@ -39,16 +45,37 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 		super(x, y, size, size, stat);
 		this.itemStack = stat.getItem().getDefaultStack();
 		
-		final Text ttt = literal("") //MUST create new text instance
-				.append(stat.getStatLabel())
-				.append(fLiteral("\n§7" + stat.getStatID()))
+		//prepare the String for the tooltip text
+		final StringBuilder tttb = new StringBuilder();
+		final boolean hasNoBlock = (stat.getBlock() == null || stat.getBlock() == Blocks.AIR);
+		
+		//iterate all registered stat types, to append their values to the tooltip text
+		Registries.STAT_TYPE.forEach(st ->
+		{
+			//ignore all registries but ITEM and BLOCK where applicable
+			final var stRegIsItem = (st.getRegistry() == Registries.ITEM);
+			if (!stRegIsItem && (hasNoBlock || st.getRegistry() != Registries.BLOCK))
+				return;
+			
+			//next up, obtain the StatType's Stat
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			final var stStat = ((StatType)st).getOrCreateStat(stRegIsItem ? stat.getItem() : stat.getBlock());
+			
+			//use the Stat instance to obtain the Stat value
+			final int val = stat.getStatsProvider().getStatValue(stStat);
+			
+			//append the stat value to the final Tooltip text
+			tttb.append("§e-§r ");
+			tttb.append(Optional.ofNullable(st.getName()).orElse(literal("???")).getString());
+			tttb.append(": " + val + "\n");
+		});
+		final Text ttt = literal("")
+				.append(literal("").append(stat.getStatLabel()).formatted(Formatting.YELLOW)).append("\n")
+				.append(literal(Objects.toString(stat.getStatID())).formatted(Formatting.GRAY))
 				.append("\n\n§r")
-				.append(TEXT_STAT_MINED)    .append(" - " + stat.mined + "\n")
-				.append(TEXT_STAT_CRAFTED)  .append(" - " + stat.crafted + "\n")
-				.append(TEXT_STAT_PICKED_UP).append(" - " + stat.pickedUp + "\n")
-				.append(TEXT_STAT_DROPPED)  .append(" - " + stat.dropped + "\n")
-				.append(TEXT_STAT_USED)     .append(" - " + stat.used + "\n")
-				.append(TEXT_STAT_BROKEN)   .append(" - " + stat.broken);
+				.append(tttb.toString().trim());
+		
+		//finally, construct the tooltip, and set the tooltip
 		setTooltip(this.defaultTooltip = Tooltip.of(ttt));
 	}
 	// ==================================================

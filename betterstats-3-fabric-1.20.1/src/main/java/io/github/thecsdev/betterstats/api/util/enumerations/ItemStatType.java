@@ -1,11 +1,6 @@
 package io.github.thecsdev.betterstats.api.util.enumerations;
 
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_BROKEN;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_CRAFTED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_DROPPED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_MINED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_PICKED_UP;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_USED;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -20,12 +15,12 @@ import net.minecraft.text.Text;
 public enum ItemStatType implements ITextProvider
 {
 	// ==================================================
-	MINED(    Stats.MINED,     TEXT_STAT_MINED,     s -> s.mined),
-	CRAFTED(  Stats.CRAFTED,   TEXT_STAT_CRAFTED,   s -> s.crafted),
-	PICKED_UP(Stats.PICKED_UP, TEXT_STAT_PICKED_UP, s -> s.pickedUp),
-	DROPPED(  Stats.DROPPED,   TEXT_STAT_DROPPED,   s -> s.dropped),
-	USED(     Stats.USED,      TEXT_STAT_USED,      s -> s.used),
-	BROKEN(   Stats.BROKEN,    TEXT_STAT_BROKEN,    s -> s.broken);
+	MINED(Stats.MINED, translatable("stat_type.minecraft.mined"), s -> s.mined),
+	CRAFTED(Stats.CRAFTED, translatable("stat_type.minecraft.crafted"), s -> s.crafted),
+	PICKED_UP(Stats.PICKED_UP, translatable("stat_type.minecraft.picked_up"), s -> s.pickedUp),
+	DROPPED(Stats.DROPPED, translatable("stat_type.minecraft.dropped"), s -> s.dropped),
+	USED(Stats.USED, translatable("stat_type.minecraft.used"), s -> s.used),
+	BROKEN(Stats.BROKEN, translatable("stat_type.minecraft.broken"), s -> s.broken);
 	// ==================================================
 	private final StatType<?> statType;
 	private final Text text;

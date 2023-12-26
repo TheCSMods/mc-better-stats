@@ -1,8 +1,6 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fLiteral;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +16,10 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.TInputContext.InputType
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 {
@@ -41,18 +42,25 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 		super(x, y, size, size, stat);
 		this.entityType = stat.getEntityType();
 		
-		final String entityNameStr = stat.getStatLabel().getString();
-		final Text ttt = literal("") //MUST create new text instance
-				.append(stat.getStatLabel())
-				.append(fLiteral("\n§7" + stat.getStatID()))
-				.append("\n\n§r")
-				.append(stat.kills == 0 ?
-						translatable("stat_type.minecraft.killed.none", entityNameStr) :
-						translatable("stat_type.minecraft.killed", Integer.toString(stat.kills), entityNameStr))
-				.append("\n")
-				.append(stat.deaths == 0 ?
-						translatable("stat_type.minecraft.killed_by.none", entityNameStr) :
-						translatable("stat_type.minecraft.killed_by", entityNameStr, Integer.toString(stat.deaths)));
+		//prepare the tooltip text
+		final MutableText ttt = literal("") //MUST create new text instance
+				.append(literal("").append(stat.getStatLabel()).formatted(Formatting.YELLOW))
+				.append("\n§7" + stat.getStatID())
+				.append("\n§r");
+		
+		//iterate all registered stat types, to append their values to the tooltip text
+		for(final var st : Registries.STAT_TYPE)
+		{
+			//ignore all registry types except ENTITY_TYPE; also ignore the two vanilla stat types
+			if(st.getRegistry() != Registries.ENTITY_TYPE) continue;
+			
+			//obtain the text formatter for this stat type
+			final @Nullable var textFormatter = BSRegistries.ENTITY_STAT_TEXT_FORMATTER.get(st);
+			if(textFormatter == null) continue; //unfortunate, but it's the only way...
+			
+			//append the stat value to the final Tooltip text
+			ttt.append("\n§e-§r ").append(textFormatter.apply(stat));
+		}
 		setTooltip(this.defaultTooltip = Tooltip.of(ttt));
 		
 		this.entityRenderer = new TEntityRendererElement(x, y, size, size, this.entityType);

@@ -54,7 +54,7 @@ public final class SUGeneralStat extends SUStat<Identifier>
 	{
 		//not the intended way of dealing with this, but has to be done to deal with incompatibilities,
 		//and by incompatibilities i mean mod devs. not registering their stats because... idk either
-		return Optional.ofNullable(Registries.CUSTOM_STAT.get(stat.getValue())).orElse(ID_NULL);
+		return Optional.ofNullable(Registries.CUSTOM_STAT.getId(stat.getValue())).orElse(ID_NULL);
 	}
 	// ==================================================
 	/**

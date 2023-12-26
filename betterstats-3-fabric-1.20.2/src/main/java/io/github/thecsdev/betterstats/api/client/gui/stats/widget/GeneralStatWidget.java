@@ -28,7 +28,8 @@ public @Virtual class GeneralStatWidget extends AbstractStatWidget<SUGeneralStat
 		
 		final Text ttt = literal("") //MUST create new text instance
 				.append(stat.getStatLabel())
-				.append(fLiteral("\n§7" + stat.getStatID()))
+				.append(fLiteral("\n§7K: " + stat.getStatID()))
+				.append(fLiteral("\n§7V: " + stat.getGeneralStat().getValue()))
 				.append("\n\n§r")
 				.append(fLiteral("§e" + TEXT_VALUE.getString() + ": §r" + stat.value));
 		setTooltip(this.defaultTooltip = Tooltip.of(ttt));

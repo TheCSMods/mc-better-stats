@@ -151,6 +151,7 @@ public final class StatsProviderIO extends Object
 		//aka group based on the "mod id" of the mod they belong to
 		final var customStatIDs = Lists.newArrayList(Registries.CUSTOM_STAT.iterator());
 		final var customStatsMap = customStatIDs.stream()
+				.filter(statId -> Registries.CUSTOM_STAT.get(statId) != null) //ignore incompatibilities and unregistered stats
 				.filter(statId -> statsProvider.getStatValue(Stats.CUSTOM.getOrCreateStat(Registries.CUSTOM_STAT.get(statId))) != 0)
 				.collect(Collectors.groupingBy(statId -> statId.getNamespace()));
 		
@@ -166,17 +167,16 @@ public final class StatsProviderIO extends Object
 			buffer_chunk.writeVarInt(groupStats.size()); //write group length
 			
 			//write group entries [Identifier-path, VarInt-value]
-			for(final Identifier customStatId : groupStats)
+			for(final Identifier customStatAsIdentifier : groupStats)
 			{
 				//obtain the custom stat and its value
-				final Stat<Identifier> customStat = Stats.CUSTOM.getOrCreateStat(Registries.CUSTOM_STAT.get(customStatId));
+				final Stat<Identifier> customStat = Stats.CUSTOM.getOrCreateStat(customStatAsIdentifier);
 				final int customStatValue = statsProvider.getStatValue(customStat);
 				
 				//write the custom stat registry id path and its value
-				buffer_chunk.writeString(customStatId.getPath());
+				buffer_chunk.writeString(customStatAsIdentifier.getPath());
 				buffer_chunk.writeVarInt(customStatValue);
 			}
-			
 		}
 	}
 	
