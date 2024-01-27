@@ -55,7 +55,7 @@ public class BetterStats extends Object
 		
 		//try to load config (IOException-s should be ignored)
 		this.config = new BetterStatsConfig(getModID());
-		this.config.tryLoadFromFile(true);
+		this.config.loadFromFileOrCrash(true);
 		
 		//init stuff
 		BetterStatsNetworkHandler.init();

@@ -67,5 +67,9 @@
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Press Escape (ESC) to close this screen.",
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Toggle 'betterstats' server connection",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well."
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well.",
+	
+	
+	"betterstats.util.stats.statannouncementsystem.mined_first_time": "%s just mined their first %s.",
+	"betterstats.util.stats.statannouncementsystem.crafted_first_time": "%s just crafted their first %s."
 }

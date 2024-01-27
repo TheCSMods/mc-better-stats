@@ -60,6 +60,7 @@ public final @Internal class BetterStatsNetworkHandler
 			if(prefs == null) return; //shouldn't happen at all, but just in case
 			
 			//update prefs
+			prefs.hasBss = true;
 			prefs.liveStats = ctx.getPacketBuffer().readBoolean();
 		});
 	}
