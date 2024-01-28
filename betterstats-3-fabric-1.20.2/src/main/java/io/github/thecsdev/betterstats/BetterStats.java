@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import io.github.thecsdev.betterstats.command.StatisticsCommand;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.events.server.command.CommandManagerEvent;
+import io.github.thecsdev.tcdcommons.command.PlayerBadgeCommand;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class BetterStats extends Object
@@ -60,7 +62,7 @@ public class BetterStats extends Object
 		//init stuff
 		BetterStatsNetworkHandler.init();
 		
-		//register common-side commands
+		//register commands
 		CommandManagerEvent.COMMAND_REGISTRATION_CALLBACK.register((dispatcher, commandRegAccess, regEnv) ->
 		{
 			//check the config property 
@@ -68,6 +70,8 @@ public class BetterStats extends Object
 			
 			//register commands
 			StatisticsCommand.register(dispatcher, commandRegAccess);
+			if(TCDCommons.getInstance().getConfig().enablePlayerBadges)
+				PlayerBadgeCommand.register(dispatcher);
 		});
 	}
 	// ==================================================

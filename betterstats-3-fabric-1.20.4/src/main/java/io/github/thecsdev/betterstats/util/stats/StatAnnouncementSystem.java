@@ -68,7 +68,7 @@ public final @Internal class StatAnnouncementSystem
 					.append("\n")
 					.append(literal(BetterStats.getModID()).formatted(Formatting.GRAY));
 			final var hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText);
-			final var clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, BetterStats.URL_SOURCES);
+			final var clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, BetterStats.URL_MODRINTH);
 			
 			//create the watermark text
 			final var text = literal("[≡]").formatted(Formatting.DARK_PURPLE);
