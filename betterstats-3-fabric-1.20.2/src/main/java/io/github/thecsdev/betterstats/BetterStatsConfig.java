@@ -19,6 +19,7 @@ public class BetterStatsConfig extends AutoConfig
 	// --------------------------------------------------
 	public @SerializedAs("client-guiMobsFollowCursor") boolean guiMobsFollowCursor = true;
 	public @SerializedAs("server-enableSAS") boolean enableServerSAS = true;
+	public @SerializedAs("server-registerCommands") boolean registerCommands = true;
 	// ==================================================
 	public BetterStatsConfig(String name) { super(name); }
 	// ==================================================

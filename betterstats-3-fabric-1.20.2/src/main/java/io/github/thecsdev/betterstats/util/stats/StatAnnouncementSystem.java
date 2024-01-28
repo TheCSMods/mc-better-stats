@@ -15,7 +15,7 @@ import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -132,7 +132,7 @@ public final @Internal class StatAnnouncementSystem
 		}
 	}
 	// --------------------------------------------------
-	private static final MutableText formatEntityText(Entity entity)
+	private static final MutableText formatPlayerText(PlayerEntity entity)
 	{
 		Objects.requireNonNull(entity);
 		final MutableText pText = literal("").append(entity.getDisplayName()).formatted(Formatting.YELLOW);
@@ -184,7 +184,7 @@ public final @Internal class StatAnnouncementSystem
 	 */
 	public static final void broadcastFirstMine(ServerPlayerEntity player, Block minedBlock) throws NullPointerException
 	{
-		final var pText = formatEntityText(player);
+		final var pText = formatPlayerText(player);
 		final var bText = formatBlockText(minedBlock);
 		broadcastBssMessage(player.getServer(),
 				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_MINED, pText, bText)),
@@ -200,13 +200,23 @@ public final @Internal class StatAnnouncementSystem
 	 */
 	public static final void broadcastFirstCraft(ServerPlayerEntity player, Item craftedItem) throws NullPointerException
 	{
-		final var pText = formatEntityText(player);
+		final var pText = formatPlayerText(player);
 		final var iText = formatItemText(craftedItem);
 		broadcastBssMessage(player.getServer(),
 				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_CRAFTED, pText, iText)),
 				literal("").append(WATERMARK).append(" ")
 					.append(pText).append(" just crafted their first ").append(iText).append("."));
 	}
+	
+	/*public static final void broadcastFirstTame(ServerPlayerEntity player, EntityType<?> entity) throws NullPointerException
+	{
+		final var pText = formatEntityText(player);
+		final var eText = formatEntityText(entity);
+		broadcastBssMessage(player.getServer(),
+				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_CRAFTED, pText, iText)),
+				literal("").append(WATERMARK).append(" ")
+					.append(pText).append(" just crafted their first ").append(iText).append("."));
+	}*/
 	// --------------------------------------------------
 	/**
 	 * Broadcasts a stat announcement to all users in the server.<br/><br/>

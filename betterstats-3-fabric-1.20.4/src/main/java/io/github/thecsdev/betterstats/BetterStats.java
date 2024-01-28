@@ -63,6 +63,10 @@ public class BetterStats extends Object
 		//register common-side commands
 		CommandManagerEvent.COMMAND_REGISTRATION_CALLBACK.register((dispatcher, commandRegAccess, regEnv) ->
 		{
+			//check the config property 
+			if(!getConfig().registerCommands) return;
+			
+			//register commands
 			StatisticsCommand.register(dispatcher, commandRegAccess);
 		});
 	}
