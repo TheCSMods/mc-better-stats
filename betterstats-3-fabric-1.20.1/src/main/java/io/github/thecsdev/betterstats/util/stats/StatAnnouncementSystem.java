@@ -39,10 +39,11 @@ import net.minecraft.util.Formatting;
 public final @Internal class StatAnnouncementSystem
 {
 	// ==================================================
-	private static final String P                = "betterstats.util.stats.statannouncementsystem."; //prefix
-	public static final String TXT_FIRST_MINED   = P + "mined_first_time";
-	public static final String TXT_FIRST_CRAFTED = P + "crafted_first_time";
-	public static final String TXT_FIRST_KILLED  = P + "killed_first_time";
+	private static final String P                  = "betterstats.util.stats.statannouncementsystem."; //prefix
+	public static final String TXT_FIRST_MINED     = P + "first_mine";
+	public static final String TXT_FIRST_CRAFTED   = P + "first_craft";
+	public static final String TXT_FIRST_DEATH     = P + "first_death";
+	public static final String TXT_FIRST_DEATH_HC1 = P + "first_death.hc1";
 	//
 	private static final Text WATERMARK;
 	private static final BetterStatsConfig BSSC;
@@ -129,6 +130,10 @@ public final @Internal class StatAnnouncementSystem
 			//handle "first crafted"
 			else if(stat.getType() == Stats.CRAFTED && FIRST_CRAFTED_ITEMS.contains(stat.getValue()))
 				broadcastFirstCraft(player, (Item)stat.getValue());
+			
+			//handle "first death"
+			else if(stat.getType() == Stats.CUSTOM && Objects.equals(stat.getValue(), Stats.DEATHS))
+				broadcastFirstDeath(player);
 		}
 	}
 	// --------------------------------------------------
@@ -208,15 +213,23 @@ public final @Internal class StatAnnouncementSystem
 					.append(pText).append(" just crafted their first ").append(iText).append("."));
 	}
 	
-	/*public static final void broadcastFirstTame(ServerPlayerEntity player, EntityType<?> entity) throws NullPointerException
+	/**
+	 * Broadcasts a "first death" event to all players in the server.
+	 * @param player A {@link ServerPlayerEntity} that died for their first time.
+	 * @throws NullPointerException If an argument is {@code null}.
+	 */
+	public static final void broadcastFirstDeath(ServerPlayerEntity player)
 	{
-		final var pText = formatEntityText(player);
-		final var eText = formatEntityText(entity);
+		final var hardcore = player.getServer().isHardcore();
+		final var key = hardcore ? TXT_FIRST_DEATH_HC1 : TXT_FIRST_DEATH;
+		final var literalBrightSide = hardcore ? " On the bright side, it likely won't happen again." : "";
+		
+		final var pText = formatPlayerText(player);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_CRAFTED, pText, iText)),
+				literal("").append(WATERMARK).append(" ").append(translatable(key, pText)),
 				literal("").append(WATERMARK).append(" ")
-					.append(pText).append(" just crafted their first ").append(iText).append("."));
-	}*/
+					.append(pText).append(" died for their first time." + literalBrightSide));
+	}
 	// --------------------------------------------------
 	/**
 	 * Broadcasts a stat announcement to all users in the server.<br/><br/>
