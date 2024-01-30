@@ -72,8 +72,8 @@
 	
 	"betterstats.util.stats.statannouncementsystem.first_mine": "%s just mined their first %s.",
 	"betterstats.util.stats.statannouncementsystem.first_craft": "%s just crafted their first %s.",
-	"betterstats.util.stats.statannouncementsystem.first_death": "%s died for their first time.",
-	"betterstats.util.stats.statannouncementsystem.first_death.hc1": "%s died for their first time. On the bright side, it likely won't happen again.",
+	"betterstats.util.stats.statannouncementsystem.first_death": "%s just died for their first time.",
+	"betterstats.util.stats.statannouncementsystem.first_death.hc1": "%s just died for their first time. On the bright side, it likely won't happen again.",
 	"betterstats.util.stats.statannouncementsystem.first_kill": "%s just killed a %s for their first time.",
 	"betterstats.util.stats.statannouncementsystem.first_death_to": "%s just died to a %s for their first time."
 }

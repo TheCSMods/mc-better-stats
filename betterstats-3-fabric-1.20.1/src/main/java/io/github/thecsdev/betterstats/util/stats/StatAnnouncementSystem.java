@@ -169,7 +169,7 @@ public final @Internal class StatAnnouncementSystem
 				broadcastFirstCraft(player, (Item)stat.getValue());
 			
 			//handle "first death"
-			else if(stat.getType() == Stats.CUSTOM && Objects.equals(stat.getValue(), Stats.DEATHS) && SASC.announceFirstDeath)
+			else if(stat.getType() == Stats.CUSTOM && Objects.equals(stat.getValue(), Stats.DEATHS) && SASC.announceFirstDeaths)
 				broadcastFirstDeath(player);
 			
 			//handle first "killed"
