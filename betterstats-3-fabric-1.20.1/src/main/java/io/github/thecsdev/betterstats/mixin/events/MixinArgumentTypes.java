@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.tcdcommons.api.command.argument.StatArgumentType;
 import io.github.thecsdev.tcdcommons.command.argument.PlayerBadgeIdentifierArgumentType;
 import net.minecraft.command.argument.ArgumentTypes;
@@ -31,10 +30,6 @@ public abstract class MixinArgumentTypes
 			Registry<ArgumentSerializer<?, ?>> registry,
 			CallbackInfoReturnable<ArgumentSerializer<?, ?>> callback)
 	{
-		//check the config to see if commands are enabled
-		if(!BetterStats.getInstance().getConfig().registerCommands)
-			return;
-		
 		//register the player badge command argument type
 		{
 			final var catId = new Identifier(getModID(), "player_badge_identifier");

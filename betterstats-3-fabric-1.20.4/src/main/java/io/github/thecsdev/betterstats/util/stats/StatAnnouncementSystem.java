@@ -14,10 +14,9 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -29,6 +28,8 @@ import net.minecraft.text.HoverEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.InvalidIdentifierException;
 
 /**
  * A {@link Class} that handles announcing players doing
@@ -44,12 +45,17 @@ public final @Internal class StatAnnouncementSystem
 	public static final String TXT_FIRST_CRAFTED   = P + "first_craft";
 	public static final String TXT_FIRST_DEATH     = P + "first_death";
 	public static final String TXT_FIRST_DEATH_HC1 = P + "first_death.hc1";
+	public static final String TXT_FIRST_KILLED    = P + "first_kill";
+	public static final String TXT_FIRST_KILLED_BY = P + "first_death_to";
 	//
 	private static final Text WATERMARK;
 	private static final BetterStatsConfig BSSC;
+	private static final SASConfig SASC;
 	// --------------------------------------------------
 	public static final HashSet<Block> FIRST_MINED_BLOCKS;
 	public static final HashSet<Item> FIRST_CRAFTED_ITEMS;
+	public static final HashSet<EntityType<?>> FIRST_KILLED_ENTITIES;
+	public static final HashSet<EntityType<?>> FIRST_KILLED_BY_ENTITIES;
 	// --------------------------------------------------
 	private StatAnnouncementSystem() {}
 	static
@@ -61,6 +67,7 @@ public final @Internal class StatAnnouncementSystem
 					StatAnnouncementSystem.class.getSimpleName() +
 					" prior to " + BetterStats.class.getSimpleName() + "'s initialization.");
 		BSSC = BetterStats.getInstance().getConfig();
+		SASC = Objects.requireNonNull(BSSC.sasConfig, "SAS config didn't load properly. This shouldn't even happen..");
 		
 		//define the 'betterstats' watermark
 		{
@@ -80,19 +87,49 @@ public final @Internal class StatAnnouncementSystem
 		//define the sets
 		FIRST_MINED_BLOCKS = new HashSet<Block>();
 		FIRST_CRAFTED_ITEMS = new HashSet<Item>();
+		FIRST_KILLED_ENTITIES = new HashSet<EntityType<?>>();
+		FIRST_KILLED_BY_ENTITIES = new HashSet<EntityType<?>>();
 		
-		//initialize default set entries
-		FIRST_MINED_BLOCKS.add(Blocks.DIAMOND_ORE);
-		FIRST_MINED_BLOCKS.add(Blocks.DEEPSLATE_DIAMOND_ORE);
-		FIRST_MINED_BLOCKS.add(Blocks.ANCIENT_DEBRIS);
-		FIRST_MINED_BLOCKS.add(Blocks.DEEPSLATE_COAL_ORE);
-		FIRST_MINED_BLOCKS.add(Blocks.DRAGON_EGG); //how the...
+		//initialize set entries
+		for(final var fmbId : SASC.firstMinedBlocks)
+		try
+		{
+			final var id = new Identifier(fmbId);
+			final @Nullable var fmb = Registries.BLOCK.getOrEmpty(id).orElse(null);
+			if(fmb == null) continue;
+			FIRST_MINED_BLOCKS.add(fmb);
+		}
+		catch(InvalidIdentifierException e) { continue; }
 		
-		FIRST_CRAFTED_ITEMS.add(Items.WOODEN_PICKAXE);
-		FIRST_CRAFTED_ITEMS.add(Items.DIAMOND_PICKAXE);
-		FIRST_CRAFTED_ITEMS.add(Items.BEACON);
-		FIRST_CRAFTED_ITEMS.add(Items.NETHERITE_BLOCK);
-		FIRST_CRAFTED_ITEMS.add(Items.ENDER_EYE);
+		for(final var fciId : SASC.firstCraftedItems)
+		try
+		{
+			final var id = new Identifier(fciId);
+			final @Nullable var fci = Registries.ITEM.getOrEmpty(id).orElse(null);
+			if(fci == null) continue;
+			FIRST_CRAFTED_ITEMS.add(fci);
+		}
+		catch(InvalidIdentifierException e) { continue; }
+		
+		for(final var fkeId : SASC.firstKilledEntities)
+		try
+		{
+			final var id = new Identifier(fkeId);
+			final @Nullable var fke = Registries.ENTITY_TYPE.getOrEmpty(id).orElse(null);
+			if(fke == null) continue;
+			FIRST_KILLED_ENTITIES.add(fke);
+		}
+		catch(InvalidIdentifierException e) { continue; }
+		
+		for(final var fkbeId : SASC.firstKilledByEntities)
+		try
+		{
+			final var id = new Identifier(fkbeId);
+			final @Nullable var fkbe = Registries.ENTITY_TYPE.getOrEmpty(id).orElse(null);
+			if(fkbe == null) continue;
+			FIRST_KILLED_BY_ENTITIES.add(fkbe);
+		}
+		catch(InvalidIdentifierException e) { continue; }
 	}
 	// ==================================================
 	/**
@@ -132,8 +169,16 @@ public final @Internal class StatAnnouncementSystem
 				broadcastFirstCraft(player, (Item)stat.getValue());
 			
 			//handle "first death"
-			else if(stat.getType() == Stats.CUSTOM && Objects.equals(stat.getValue(), Stats.DEATHS))
+			else if(stat.getType() == Stats.CUSTOM && Objects.equals(stat.getValue(), Stats.DEATHS) && SASC.announceFirstDeath)
 				broadcastFirstDeath(player);
+			
+			//handle first "killed"
+			else if(stat.getType() == Stats.KILLED && FIRST_KILLED_ENTITIES.contains(stat.getValue()))
+				broadcastFirstKilled(player, (EntityType<?>)stat.getValue());
+			
+			//handle first "killed by"
+			else if(stat.getType() == Stats.KILLED_BY && FIRST_KILLED_BY_ENTITIES.contains(stat.getValue()))
+				broadcastFirstKilledBy(player, (EntityType<?>)stat.getValue());
 		}
 	}
 	// --------------------------------------------------
@@ -169,16 +214,31 @@ public final @Internal class StatAnnouncementSystem
 	private static final MutableText formatItemText(Item item)
 	{
 		Objects.requireNonNull(item);
-		final var blockId = Objects.toString(Registries.ITEM.getId(item));
+		final var itemId = Objects.toString(Registries.ITEM.getId(item));
 		final MutableText iText = literal("").append(item.getName()).formatted(Formatting.GREEN);
 		iText.setStyle(iText.getStyle().withHoverEvent(new HoverEvent(
 				HoverEvent.Action.SHOW_TEXT,
 				literal("")
 					.append(item.getName())
 					.append("\n")
-					.append(literal(blockId).formatted(Formatting.GRAY))
+					.append(literal(itemId).formatted(Formatting.GRAY))
 			)));
 		return iText;
+	}
+	
+	private static final MutableText formatEntityTypeText(EntityType<?> entityType)
+	{
+		Objects.requireNonNull(entityType);
+		final var entityTypeId = Objects.toString(Registries.ENTITY_TYPE.getId(entityType));
+		final MutableText pText = literal("").append(entityType.getName()).formatted(Formatting.YELLOW);
+		pText.setStyle(pText.getStyle().withHoverEvent(new HoverEvent(
+				HoverEvent.Action.SHOW_TEXT,
+				literal("")
+					.append(entityType.getName())
+					.append("\n")
+					.append(literal(entityTypeId).formatted(Formatting.GRAY)))
+			));
+		return pText;
 	}
 	// ==================================================
 	/**
@@ -229,6 +289,38 @@ public final @Internal class StatAnnouncementSystem
 				literal("").append(WATERMARK).append(" ").append(translatable(key, pText)),
 				literal("").append(WATERMARK).append(" ")
 					.append(pText).append(" died for their first time." + literalBrightSide));
+	}
+	
+	/**
+	 * Broadcasts a "first killed" event to all players in the server.
+	 * @param player A {@link ServerPlayerEntity} that killed an {@link EntityType} for their first time.
+	 * @param victimType The {@link EntityType} that was killed.
+	 * @throws NullPointerException If an argument is {@code null}.
+	 */
+	public static final void broadcastFirstKilled(ServerPlayerEntity player, EntityType<?> victimType)
+	{
+		final var pText = formatPlayerText(player);
+		final var etText = formatEntityTypeText(victimType);
+		broadcastBssMessage(player.getServer(),
+				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_KILLED, pText, etText)),
+				literal("").append(WATERMARK).append(" ").append(pText)
+					.append(" just killed a ").append(etText).append(" for their first time."));
+	}
+	
+	/**
+	 * Broadcasts a "first killed by" event to all players in the server.
+	 * @param player A {@link ServerPlayerEntity} that got killed by an {@link EntityType} for their first time.
+	 * @param killerType The {@link EntityType} that killed the player.
+	 * @throws NullPointerException If an argument is {@code null}.
+	 */
+	public static final void broadcastFirstKilledBy(ServerPlayerEntity player, EntityType<?> killerType)
+	{
+		final var pText = formatPlayerText(player);
+		final var etText = formatEntityTypeText(killerType);
+		broadcastBssMessage(player.getServer(),
+				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_KILLED_BY, pText, etText)),
+				literal("").append(WATERMARK).append(" ").append(pText)
+					.append(" just died to a ").append(etText).append(" for their first time."));
 	}
 	// --------------------------------------------------
 	/**

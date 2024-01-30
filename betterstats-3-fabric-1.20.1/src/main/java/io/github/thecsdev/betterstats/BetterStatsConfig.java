@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats;
 
+import io.github.thecsdev.betterstats.util.stats.SASConfig;
 import io.github.thecsdev.tcdcommons.api.config.AutoConfig;
 import io.github.thecsdev.tcdcommons.api.config.annotation.NonSerialized;
 import io.github.thecsdev.tcdcommons.api.config.annotation.SerializedAs;
@@ -18,8 +19,9 @@ public class BetterStatsConfig extends AutoConfig
 	public static @NonSerialized boolean LEGAL_NET_CONSENT = false;
 	// --------------------------------------------------
 	public @SerializedAs("client-guiMobsFollowCursor") boolean guiMobsFollowCursor = true;
-	public @SerializedAs("server-enableSAS") boolean enableServerSAS = true;
 	public @SerializedAs("server-registerCommands") boolean registerCommands = true;
+	public @SerializedAs("server-enableSAS") boolean enableServerSAS = true;
+	public @SerializedAs("server-sasConfig") SASConfig sasConfig = new SASConfig();
 	// ==================================================
 	public BetterStatsConfig(String name) { super(name); }
 	// ==================================================
