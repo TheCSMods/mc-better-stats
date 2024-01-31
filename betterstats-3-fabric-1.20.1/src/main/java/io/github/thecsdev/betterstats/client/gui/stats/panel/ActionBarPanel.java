@@ -4,7 +4,7 @@ import static io.github.thecsdev.betterstats.BetterStatsConfig.CLIENT_NET_CONSEN
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_iHaveBSS;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_liveStats;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getServerHasBSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_TOGGLE_TOOLTIP;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -90,7 +90,7 @@ public final class ActionBarPanel extends BSComponentPanel
 			};
 			MC_CLIENT.setScreen(new ConfirmScreen(confirmScreenCallback, TXT_TOGGLE_TOOLTIP, TXT_CONSENT_WARNING));
 		});
-		btn_bssNet.setEnabled(serverHasBSS() && !MC_CLIENT.isInSingleplayer() && !CLIENT_NET_CONSENT);
+		btn_bssNet.setEnabled(getServerHasBSS() && !MC_CLIENT.isInSingleplayer() && !CLIENT_NET_CONSENT);
 		addChild(btn_bssNet, false);
 		
 		//credits button

@@ -1,17 +1,24 @@
 package io.github.thecsdev.betterstats.client.gui.screen.hud;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
+import static io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel.BS_WIDGETS_TEXTURE;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getLiveStatsEnabled;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getServerHasBSS;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+
+import java.awt.Rectangle;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,10 +34,12 @@ import net.minecraft.util.Identifier;
 public final class BetterStatsHudScreen extends TWidgetHudScreen implements IParentScreenProvider
 {
 	// ==================================================
-	public static final Text TEXT_TITLE = translatable("betterstats.client.gui.screen.hud.betterstatshudscreen");
-	public static final Text TEXT_TUTORIAL_1 = translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1");
-	public static final Text TEXT_TUTORIAL_2 = translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2");
-	public static final Text TEXT_TUTORIAL_3 = translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3");
+	private static final String P = "betterstats.client.gui.screen.hud.betterstatshudscreen";
+	public static final Text TEXT_TITLE = translatable(P);
+	public static final Text TEXT_TUTORIAL_1 = translatable(P + ".tutorial_1");
+	public static final Text TEXT_TUTORIAL_2 = translatable(P + ".tutorial_2");
+	public static final Text TEXT_TUTORIAL_3 = translatable(P + ".tutorial_3");
+	public static final Text TEXT_LIVE_TOGGLE = translatable(P + ".live_stats_toggle");
 	//
 	public static final Identifier HUD_SCREEN_ID = new Identifier(getModID(), "stats_hud");
 	// --------------------------------------------------
@@ -44,17 +53,13 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 	private BetterStatsHudScreen() { super(TEXT_TITLE, HUD_SCREEN_ID); }
 	// --------------------------------------------------
 	protected final @Override TScreenWrapper<?> createScreenWrapper() { return new BetterStatsHudScreenWrapper(this); }
-	protected final @Override void onClosed()
-	{
-		super.onClosed(); //super must be called here
-		BetterStatsClientNetworkHandler.c2s_liveStats();
-	}
 	// ==================================================
 	protected final @Override void init()
 	{
-		//if is open, add the done button
+		//if the hud screen is opened, add some extra widgets to it
 		if(isOpen())
 		{
+			//add the done button, that closes the screen, and shows the tutorial
 			final var btn_done = new TButtonWidget(
 					(getWidth() / 2) - 50, (getHeight() / 2) - 10,
 					100, 20,
@@ -66,7 +71,27 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 				));
 			btn_done.setOnClick(__ -> close());
 			addChild(btn_done, false);
+			
+			//add a "realtime stats" toggle button
+			if(BetterStatsConfig.CLIENT_NET_CONSENT && getServerHasBSS())
+			{
+				final var btn_toggleRealtime = new TButtonWidget(
+						btn_done.getEndX() + 5, btn_done.getY(),
+						20, 20);
+				btn_toggleRealtime.setTooltip(Tooltip.of(TEXT_LIVE_TOGGLE));
+				btn_toggleRealtime.setIcon(getLiveStatsEnabled() ?
+						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
+						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
+				btn_toggleRealtime.setOnClick(__ ->
+				{
+					BetterStatsClientNetworkHandler.c2s_liveStats(!getLiveStatsEnabled());
+					refresh();
+				});
+				addChild(btn_toggleRealtime, false);
+			}
 		}
+		
+		//initialize the 'super' gui afterwards
 		super.init();
 	}
 	// --------------------------------------------------

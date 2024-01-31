@@ -62,6 +62,7 @@
 	
 	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Statistics hud",
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Pin to HUD",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.live_stats_toggle": "Toggle live HUD stat updates",
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Right click a statistic ([Shift]+RMB) to add it here.",
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Right click a HUD entry to modify or remove it.",
 	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Press Escape (ESC) to close this screen.",

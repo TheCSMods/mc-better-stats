@@ -78,10 +78,9 @@ public final @Internal class BetterStatsNetworkHandler
 		{
 			//obtain prefs
 			final var prefs = PlayerPrefs.get(ctx.getPlayer());
-			if(prefs == null) return; //shouldn't happen at all, but just in case
+			if(prefs == null || !prefs.hasBss) return; //null shouldn't happen at all, but just in case
 			
 			//update prefs
-			prefs.hasBss = true;
 			prefs.liveStats = ctx.getPacketBuffer().readBoolean();
 		});
 	}

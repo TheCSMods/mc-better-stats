@@ -26,6 +26,7 @@ public final @Internal class BetterStatsClientNetworkHandler
 	private BetterStatsClientNetworkHandler() {}
 	// --------------------------------------------------
 	private static boolean serverHasBSS = false;
+	private static boolean liveStats = false;
 	// ==================================================
 	public static void init() {}
 	static
@@ -35,6 +36,7 @@ public final @Internal class BetterStatsClientNetworkHandler
 			//when the client disconnects, clear all flags, including user consent
 			LOGGER.info("Clearing '" + BetterStatsClientNetworkHandler.class.getSimpleName() + "' flags.");
 			serverHasBSS = false;
+			liveStats = false;
 			CLIENT_NET_CONSENT = false;
 		});
 		
@@ -63,7 +65,8 @@ public final @Internal class BetterStatsClientNetworkHandler
 		});
 	}
 	// ==================================================
-	public static boolean serverHasBSS() { return serverHasBSS; }
+	public static boolean getServerHasBSS() { return serverHasBSS; }
+	public static boolean getLiveStatsEnabled() { return liveStats; }
 	// --------------------------------------------------
 	/**
 	 * Returns {@code true} if {@link BetterStatsClientNetworkHandler}
@@ -92,6 +95,7 @@ public final @Internal class BetterStatsClientNetworkHandler
 		final var data = new PacketByteBuf(Unpooled.buffer());
 		data.writeBoolean(receiveLiveUpdates);
 		new TCustomPayload(C2S_LIVE_STATS, data).sendC2S();
+		liveStats = receiveLiveUpdates;
 	}
 	// ==================================================
 }
