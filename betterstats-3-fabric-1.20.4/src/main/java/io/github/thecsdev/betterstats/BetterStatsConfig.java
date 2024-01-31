@@ -16,9 +16,10 @@ public class BetterStatsConfig extends AutoConfig
 	 * @apiNote CHANGING THE VALUE OF THIS VARIABLE TO {@code true}
 	 * MUST NOT AND SHALL NOT BE DONE WITHOUT THE USER'S CONSENT!
 	 */
-	public static @NonSerialized boolean LEGAL_NET_CONSENT = false;
+	public static @NonSerialized boolean CLIENT_NET_CONSENT = false;
 	// --------------------------------------------------
 	public @SerializedAs("client-guiMobsFollowCursor") boolean guiMobsFollowCursor = true;
+	public @SerializedAs("client-trustAllServersBssNet") boolean trustAllServersBssNet = true;
 	public @SerializedAs("server-registerCommands") boolean registerCommands = true;
 	public @SerializedAs("server-enableSAS") boolean enableServerSAS = true;
 	public @SerializedAs("server-sasConfig") SASConfig sasConfig = new SASConfig();

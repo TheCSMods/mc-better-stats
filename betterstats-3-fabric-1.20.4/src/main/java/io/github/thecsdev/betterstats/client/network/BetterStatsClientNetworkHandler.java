@@ -1,8 +1,9 @@
 package io.github.thecsdev.betterstats.client.network;
 
 import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
-import static io.github.thecsdev.betterstats.BetterStatsConfig.LEGAL_NET_CONSENT;
+import static io.github.thecsdev.betterstats.BetterStatsConfig.CLIENT_NET_CONSENT;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_I_HAVE_BSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.C2S_LIVE_STATS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.NETWORK_VERSION;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.S2C_I_HAVE_BSS;
@@ -34,10 +35,7 @@ public final @Internal class BetterStatsClientNetworkHandler
 			//when the client disconnects, clear all flags, including user consent
 			LOGGER.info("Clearing '" + BetterStatsClientNetworkHandler.class.getSimpleName() + "' flags.");
 			serverHasBSS = false;
-			LEGAL_NET_CONSENT = false;
-			
-			//also clear the HUD, as it now references an outdated stats-provider
-			//BetterStatsHudScreen.getInstance().clearEntries(); -- no longer an issue
+			CLIENT_NET_CONSENT = false;
 		});
 		
 		//initialize network handlers
@@ -60,8 +58,8 @@ public final @Internal class BetterStatsClientNetworkHandler
 			
 			//if the client is in single player, handle live stats updates
 			//in case the statistics hud had entries in it
-			if(MC_CLIENT.isInSingleplayer())
-				TaskScheduler.executeOnce(MC_CLIENT, () -> MC_CLIENT.getNetworkHandler() != null, () -> c2s_liveStats());
+			if(MC_CLIENT.isInSingleplayer() || BetterStats.getInstance().getConfig().trustAllServersBssNet)
+				TaskScheduler.executeOnce(MC_CLIENT, () -> MC_CLIENT.getNetworkHandler() != null, () -> c2s_iHaveBSS(true));
 		});
 	}
 	// ==================================================
@@ -71,8 +69,19 @@ public final @Internal class BetterStatsClientNetworkHandler
 	 * Returns {@code true} if {@link BetterStatsClientNetworkHandler}
 	 * is allowed to communicate with the server.
 	 */
-	public static boolean comms() { return MC_CLIENT.isInSingleplayer() || (serverHasBSS && LEGAL_NET_CONSENT); }
+	public static boolean comms() { return MC_CLIENT.isInSingleplayer() || (serverHasBSS && CLIENT_NET_CONSENT); }
 	// --------------------------------------------------
+	public static final void c2s_iHaveBSS(boolean forceSend)
+	{
+		if(!forceSend && !comms()) return;
+		CLIENT_NET_CONSENT = true;
+		
+		//construct and send
+		final var data = new PacketByteBuf(Unpooled.buffer());
+		data.writeIntLE(NETWORK_VERSION);
+		new TCustomPayload(C2S_I_HAVE_BSS, data).sendC2S();
+	}
+	
 	public static final void c2s_liveStats() { c2s_liveStats(BetterStatsHudScreen.getInstance().entryCount() > 0); }
 	public static final void c2s_liveStats(boolean receiveLiveUpdates)
 	{

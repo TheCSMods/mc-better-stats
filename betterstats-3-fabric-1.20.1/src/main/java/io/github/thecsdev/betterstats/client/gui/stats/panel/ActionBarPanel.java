@@ -1,7 +1,8 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.BetterStatsConfig.LEGAL_NET_CONSENT;
+import static io.github.thecsdev.betterstats.BetterStatsConfig.CLIENT_NET_CONSENT;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_iHaveBSS;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_liveStats;
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.serverHasBSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
@@ -65,16 +66,16 @@ public final class ActionBarPanel extends BSComponentPanel
 		//bss network button
 		final var btn_bssNet = new TButtonWidget(btn_options.getX() - 20, btn_options.getY(), 20, 20);
 		btn_bssNet.setTooltip(Tooltip.of(TXT_TOGGLE_TOOLTIP));
-		btn_bssNet.setIcon(LEGAL_NET_CONSENT ?
+		btn_bssNet.setIcon(CLIENT_NET_CONSENT ?
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
 		btn_bssNet.setOnClick(__ ->
 		{
 			//if turning off, send a packet indicating no more live updates
-			if(LEGAL_NET_CONSENT)
+			if(CLIENT_NET_CONSENT)
 			{
 				c2s_liveStats(false);
-				LEGAL_NET_CONSENT = false;
+				CLIENT_NET_CONSENT = false;
 				refresh();
 				return;
 			}
@@ -83,13 +84,13 @@ public final class ActionBarPanel extends BSComponentPanel
 			final var currentScreen = MC_CLIENT.currentScreen;
 			final BooleanConsumer confirmScreenCallback = (accepted) ->
 			{
-				LEGAL_NET_CONSENT = accepted;
+				CLIENT_NET_CONSENT = accepted;
 				MC_CLIENT.setScreen(currentScreen);
-				if(LEGAL_NET_CONSENT) c2s_liveStats();
+				if(CLIENT_NET_CONSENT) c2s_iHaveBSS(true);
 			};
 			MC_CLIENT.setScreen(new ConfirmScreen(confirmScreenCallback, TXT_TOGGLE_TOOLTIP, TXT_CONSENT_WARNING));
 		});
-		btn_bssNet.setEnabled(serverHasBSS() && !MC_CLIENT.isInSingleplayer());
+		btn_bssNet.setEnabled(serverHasBSS() && !MC_CLIENT.isInSingleplayer() && !CLIENT_NET_CONSENT);
 		addChild(btn_bssNet, false);
 		
 		//credits button

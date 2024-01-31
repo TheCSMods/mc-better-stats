@@ -1,6 +1,7 @@
 package io.github.thecsdev.betterstats.network;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+
 import java.util.WeakHashMap;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -27,9 +28,10 @@ public final @Internal class BetterStatsNetworkHandler
 	public static final Text TXT_TOGGLE_TOOLTIP = translatable("betterstats.network.betterstatsnetworkhandler.toggle_tooltip");
 	public static final Text TXT_CONSENT_WARNING = translatable("betterstats.network.betterstatsnetworkhandler.consent_warning");
 	//
-	public static final int NETWORK_VERSION = 1;
+	public static final int NETWORK_VERSION = 2;
 	//
 	public static final Identifier S2C_I_HAVE_BSS;
+	public static final Identifier C2S_I_HAVE_BSS;
 	public static final Identifier C2S_LIVE_STATS;
 	// --------------------------------------------------
 	public static final WeakHashMap<ServerPlayerEntity, PlayerPreferences> PlayerPrefs;
@@ -40,6 +42,7 @@ public final @Internal class BetterStatsNetworkHandler
 		//init packet IDs
 		final var modId = BetterStats.getModID();
 		S2C_I_HAVE_BSS = new Identifier(modId, "s2c_bss");
+		C2S_I_HAVE_BSS = new Identifier(modId, "c2s_bss");
 		C2S_LIVE_STATS = new Identifier(modId, "c2s_live_stats");
 		
 		//init variables
@@ -53,6 +56,24 @@ public final @Internal class BetterStatsNetworkHandler
 		});
 		
 		//init network handlers
+		CustomPayloadNetwork.registerReceiver(NetworkSide.SERVERBOUND, C2S_I_HAVE_BSS, ctx ->
+		{
+			//obtain prefs
+			final var prefs = PlayerPrefs.get(ctx.getPlayer());
+			if(prefs == null) return; //shouldn't happen at all, but just in case
+			
+			//obtain data buffer and make sure data is present
+			final var buffer = ctx.getPacketBuffer();
+			if(buffer.readableBytes() == 0) return;
+			
+			//obtain network version and compare it
+			final int netVer = buffer.readIntLE();
+			if(netVer != NETWORK_VERSION) return;
+			
+			//update prefs
+			prefs.hasBss = true;
+		});
+		
 		CustomPayloadNetwork.registerReceiver(NetworkSide.SERVERBOUND, C2S_LIVE_STATS, ctx ->
 		{
 			//obtain prefs
