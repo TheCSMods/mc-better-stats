@@ -30,6 +30,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
+import static io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat.getGeneralStatText;
 
 /**
  * A {@link Class} that handles announcing players doing
@@ -47,15 +48,17 @@ public final @Internal class StatAnnouncementSystem
 	public static final String TXT_FIRST_DEATH_HC1 = P + "first_death.hc1";
 	public static final String TXT_FIRST_KILLED    = P + "first_kill";
 	public static final String TXT_FIRST_KILLED_BY = P + "first_death_to";
+	public static final String TXT_CUSTOM          = P + "custom";
 	//
 	private static final Text WATERMARK;
 	private static final BetterStatsConfig BSSC;
 	private static final SASConfig SASC;
 	// --------------------------------------------------
-	public static final HashSet<Block> FIRST_MINED_BLOCKS;
-	public static final HashSet<Item> FIRST_CRAFTED_ITEMS;
+	public static final HashSet<Block>         FIRST_MINED_BLOCKS;
+	public static final HashSet<Item>          FIRST_CRAFTED_ITEMS;
 	public static final HashSet<EntityType<?>> FIRST_KILLED_ENTITIES;
 	public static final HashSet<EntityType<?>> FIRST_KILLED_BY_ENTITIES;
+	public static final HashSet<Identifier>    FIRST_CUSTOM_STATS; //aka "general stats"
 	// --------------------------------------------------
 	private StatAnnouncementSystem() {}
 	static
@@ -89,6 +92,7 @@ public final @Internal class StatAnnouncementSystem
 		FIRST_CRAFTED_ITEMS = new HashSet<Item>();
 		FIRST_KILLED_ENTITIES = new HashSet<EntityType<?>>();
 		FIRST_KILLED_BY_ENTITIES = new HashSet<EntityType<?>>();
+		FIRST_CUSTOM_STATS = new HashSet<Identifier>();
 		
 		//initialize set entries
 		for(final var fmbId : SASC.firstMinedBlocks)
@@ -130,6 +134,16 @@ public final @Internal class StatAnnouncementSystem
 			FIRST_KILLED_BY_ENTITIES.add(fkbe);
 		}
 		catch(InvalidIdentifierException e) { continue; }
+		
+		for(final var fcsId : SASC.firstCustomStats)
+		try
+		{
+			final var id = new Identifier(fcsId);
+			final @Nullable var fcs = Registries.CUSTOM_STAT.getOrEmpty(id).orElse(null);
+			if(fcs == null) continue;
+			FIRST_CUSTOM_STATS.add(fcs);
+		}
+		catch(InvalidIdentifierException e) { continue; }
 	}
 	// ==================================================
 	/**
@@ -168,10 +182,6 @@ public final @Internal class StatAnnouncementSystem
 			else if(stat.getType() == Stats.CRAFTED && FIRST_CRAFTED_ITEMS.contains(stat.getValue()))
 				broadcastFirstCraft(player, (Item)stat.getValue());
 			
-			//handle "first death"
-			else if(stat.getType() == Stats.CUSTOM && Objects.equals(stat.getValue(), Stats.DEATHS) && SASC.announceFirstDeaths)
-				broadcastFirstDeath(player);
-			
 			//handle first "killed"
 			else if(stat.getType() == Stats.KILLED && FIRST_KILLED_ENTITIES.contains(stat.getValue()))
 				broadcastFirstKilled(player, (EntityType<?>)stat.getValue());
@@ -179,6 +189,20 @@ public final @Internal class StatAnnouncementSystem
 			//handle first "killed by"
 			else if(stat.getType() == Stats.KILLED_BY && FIRST_KILLED_BY_ENTITIES.contains(stat.getValue()))
 				broadcastFirstKilledBy(player, (EntityType<?>)stat.getValue());
+			
+			//handle "first death"
+			else if(stat.getType() == Stats.CUSTOM &&
+					Objects.equals(stat.getValue(), Stats.DEATHS) &&
+					FIRST_CUSTOM_STATS.contains(stat.getValue()))
+				broadcastFirstDeath(player);
+			
+			//handle custom stats
+			else if(stat.getType() == Stats.CUSTOM && FIRST_CUSTOM_STATS.contains(stat.getValue()))
+			{
+				@SuppressWarnings("unchecked")
+				final var cStat = (Stat<Identifier>)stat;
+				broadcastFirstCustomStat(player, cStat, stat.format(newValue));
+			}
 		}
 	}
 	// --------------------------------------------------
@@ -274,24 +298,6 @@ public final @Internal class StatAnnouncementSystem
 	}
 	
 	/**
-	 * Broadcasts a "first death" event to all players in the server.
-	 * @param player A {@link ServerPlayerEntity} that died for their first time.
-	 * @throws NullPointerException If an argument is {@code null}.
-	 */
-	public static final void broadcastFirstDeath(ServerPlayerEntity player)
-	{
-		final var hardcore = player.getServer().isHardcore();
-		final var key = hardcore ? TXT_FIRST_DEATH_HC1 : TXT_FIRST_DEATH;
-		final var literalBrightSide = hardcore ? " On the bright side, it likely won't happen again." : "";
-		
-		final var pText = formatPlayerText(player);
-		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(key, pText)),
-				literal("").append(WATERMARK).append(" ")
-					.append(pText).append(" died for their first time." + literalBrightSide));
-	}
-	
-	/**
 	 * Broadcasts a "first killed" event to all players in the server.
 	 * @param player A {@link ServerPlayerEntity} that killed an {@link EntityType} for their first time.
 	 * @param victimType The {@link EntityType} that was killed.
@@ -321,6 +327,44 @@ public final @Internal class StatAnnouncementSystem
 				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_KILLED_BY, pText, etText)),
 				literal("").append(WATERMARK).append(" ").append(pText)
 					.append(" just died to a ").append(etText).append(" for their first time."));
+	}
+	
+	/**
+	 * Broadcasts a "first death" event to all players in the server.
+	 * @param player A {@link ServerPlayerEntity} that died for their first time.
+	 * @throws NullPointerException If an argument is {@code null}.
+	 */
+	public static final void broadcastFirstDeath(ServerPlayerEntity player)
+	{
+		final var hardcore = player.getServer().isHardcore();
+		final var key = hardcore ? TXT_FIRST_DEATH_HC1 : TXT_FIRST_DEATH;
+		final var literalBrightSide = hardcore ? " On the bright side, it likely won't happen again." : "";
+		
+		final var pText = formatPlayerText(player);
+		broadcastBssMessage(player.getServer(),
+				literal("").append(WATERMARK).append(" ").append(translatable(key, pText)),
+				literal("").append(WATERMARK).append(" ")
+				.append(pText).append(" died for their first time." + literalBrightSide));
+	}
+	
+	/**
+	 * Broadcasts a player increasing the value of a "custom stat" for their first time.
+	 * @param player The {@link ServerPlayerEntity} whose general/custom stat increased.
+	 * @param stat The general/custom {@link Stat} in question.
+	 * @param statValue The new {@link Stat} value.
+	 * @throws NullPointerException If an argument is {@code null}.
+	 */
+	public static final void broadcastFirstCustomStat(
+			ServerPlayerEntity player, Stat<Identifier> stat, String statValue) throws NullPointerException
+	{
+		final var pText = formatPlayerText(player);
+		final var sText = literal("").append(getGeneralStatText(stat)).formatted(Formatting.GRAY);
+		final var vText = literal(statValue).formatted(Formatting.GREEN);
+		broadcastBssMessage(player.getServer(),
+				literal("").append(WATERMARK).append(" ").append(translatable(TXT_CUSTOM, pText, sText, vText)),
+				literal("").append(WATERMARK).append(" ").append(pText)
+					.append(" just increased their ").append(sText).append(" stat value to ")
+					.append(vText).append("."));
 	}
 	// --------------------------------------------------
 	/**
