@@ -46,7 +46,9 @@
 	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Seed (SHA-256)",
 	
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Debug mode",
-	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI mobs follow cursor",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI mobs follow curfollow cursor",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net": "Auto-toggle 'betterstats' network",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip": "When this mod is installed on a server, it offers more features. The 'betterstats' network protocol is how a 'betterstats' server communicates with the 'betterstats' client. With this enabled, the client will automatically tell the server it has 'betterstats' installed when applicable. With this disabled, you will have do it manually yourself each time you join a server.",
 	
 	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "Dedication",
 	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "You've shown true dedication! You have played on this world for at least 12 days (288 hours).",

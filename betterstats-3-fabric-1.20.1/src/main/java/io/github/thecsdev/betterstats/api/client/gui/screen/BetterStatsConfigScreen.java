@@ -21,6 +21,7 @@ import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenPro
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.client.TCDCommonsClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 
 /**
  * A config {@link TScreen} for the {@link BetterStats} mod.
@@ -106,7 +107,13 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
 					config.guiMobsFollowCursor,
 					checkbox -> config.guiMobsFollowCursor = checkbox.getChecked())
-			.build(() -> config.trySaveToFile(true));
+			.addCheckbox(
+					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
+					config.trustAllServersBssNet,
+					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(
+				Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
+		configBuilder.build(() -> config.trySaveToFile(true));
 		
 		final var btn_actionCancel = new TButtonWidget(
 				5, 5, (panelW / 2) - 7, 20,

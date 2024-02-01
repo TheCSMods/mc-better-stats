@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.tcdcommons.TCDCommons;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -389,7 +390,7 @@ public final @Internal class StatAnnouncementSystem
 		Objects.requireNonNull(allLiteral);
 		
 		//handle single-player (also account for LAN)
-		if(server instanceof IntegratedServer && server.getCurrentPlayerCount() == 1)
+		if((TCDCommons.isClient() && server instanceof IntegratedServer) && server.getCurrentPlayerCount() == 1)
 		{
 			server.getPlayerManager().broadcast(withBssTranslations, false);
 			return;

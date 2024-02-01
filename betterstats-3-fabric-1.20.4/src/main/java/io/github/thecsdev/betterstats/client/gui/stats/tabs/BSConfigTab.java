@@ -10,6 +10,7 @@ import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 
 public final class BSConfigTab extends StatsTab
@@ -39,7 +40,13 @@ public final class BSConfigTab extends StatsTab
 					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
 					config.guiMobsFollowCursor,
 					checkbox -> config.guiMobsFollowCursor = checkbox.getChecked())
-			.build(() -> config.trySaveToFile(true));
+			.addCheckbox(
+					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
+					config.trustAllServersBssNet,
+					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
+		this.config_builder.getLastAddedElement().setTooltip(
+				Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
+		this.config_builder.build(() -> config.trySaveToFile(true));
 	}
 	// --------------------------------------------------
 	public final @Override void initFilters(FiltersInitContext initContext)
