@@ -31,8 +31,9 @@ public final class BSConfigTab extends StatsTab
 		
 		//init config gui
 		final var config = BetterStats.getInstance().getConfig();
-		this.config_builder = TConfigPanelBuilder.builder(panel)
-			.addCheckbox(
+		this.config_builder = TConfigPanelBuilder.builder(panel);
+		this.config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
+		this.config_builder.addCheckbox(
 					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode"),
 					BetterStatsConfig.DEBUG_MODE,
 					checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked())
@@ -46,7 +47,16 @@ public final class BSConfigTab extends StatsTab
 					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
 		this.config_builder.getLastAddedElement().setTooltip(
 				Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
-		this.config_builder.build(() -> config.trySaveToFile(true));
+		this.config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
+		this.config_builder.addCheckbox(
+				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
+				config.registerCommands,
+				checkbox -> config.registerCommands = checkbox.getChecked())
+			.addCheckbox(
+				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
+				config.enableServerSAS,
+				checkbox -> config.enableServerSAS = checkbox.getChecked())
+			.build(() -> config.trySaveToFile(true));
 	}
 	// --------------------------------------------------
 	public final @Override void initFilters(FiltersInitContext initContext)

@@ -98,8 +98,9 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		panel.addChild(panel_action, false);
 		
 		final var config = BetterStats.getInstance().getConfig();
-		final var configBuilder = TConfigPanelBuilder.builder(panel_config)
-			.addCheckbox(
+		final var config_builder = TConfigPanelBuilder.builder(panel_config);
+		config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
+		config_builder.addCheckbox(
 					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode"),
 					BetterStatsConfig.DEBUG_MODE,
 					checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked())
@@ -111,9 +112,18 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
 					config.trustAllServersBssNet,
 					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
-		configBuilder.getLastAddedElement().setTooltip(
+		config_builder.getLastAddedElement().setTooltip(
 				Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
-		configBuilder.build(() -> config.trySaveToFile(true));
+		config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
+		config_builder.addCheckbox(
+				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
+				config.registerCommands,
+				checkbox -> config.registerCommands = checkbox.getChecked())
+			.addCheckbox(
+				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
+				config.enableServerSAS,
+				checkbox -> config.enableServerSAS = checkbox.getChecked())
+			.build(() -> config.trySaveToFile(true));
 		
 		final var btn_actionCancel = new TButtonWidget(
 				5, 5, (panelW / 2) - 7, 20,
@@ -123,7 +133,7 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 				panel_action.getEndX() - btn_actionCancel.getWidth() - 5, panel_action.getY() + 5,
 				btn_actionCancel.getWidth(), 20,
 				translatable("gui.done"),
-				__ -> { configBuilder.saveChanges(); close(); });
+				__ -> { config_builder.saveChanges(); close(); });
 		panel_action.addChild(btn_actionCancel, true);
 		panel_action.addChild(btn_actionDone, false);
 	}
