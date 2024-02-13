@@ -123,7 +123,7 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
 				config.enableServerSAS,
 				checkbox -> config.enableServerSAS = checkbox.getChecked())
-			.build(() -> config.trySaveToFile(true));
+			.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
 		
 		final var btn_actionCancel = new TButtonWidget(
 				5, 5, (panelW / 2) - 7, 20,

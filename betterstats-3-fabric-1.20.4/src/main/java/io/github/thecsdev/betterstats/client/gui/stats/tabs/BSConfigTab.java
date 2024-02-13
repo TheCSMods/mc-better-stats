@@ -56,7 +56,7 @@ public final class BSConfigTab extends StatsTab
 				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
 				config.enableServerSAS,
 				checkbox -> config.enableServerSAS = checkbox.getChecked())
-			.build(() -> config.trySaveToFile(true));
+			.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
 	}
 	// --------------------------------------------------
 	public final @Override void initFilters(FiltersInitContext initContext)
