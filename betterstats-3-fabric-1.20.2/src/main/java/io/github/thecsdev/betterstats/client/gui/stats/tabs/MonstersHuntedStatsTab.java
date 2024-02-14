@@ -13,14 +13,13 @@ import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.text.Text;
 
 public final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 {
 	// ==================================================
-	public final @Override Text getName() { return translatable("advancements.adventure.kill_all_mobs.title"); }
+	public final @Override Text getName() { return translatable("soundCategory.hostile"); }
 	// --------------------------------------------------
 	protected final @Override void processWidget(MobStatWidget widget)
 	{
@@ -33,10 +32,7 @@ public final @Internal class MonstersHuntedStatsTab extends MobStatsTab
 	{
 		final String sq = filterSettings.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SEARCH, "");
 		final Predicate<SUMobStat> sqPred = stat -> stat.matchesSearchQuery(sq);
-		return sqPred.and(stat -> 
-				stat.getEntityType().getSpawnGroup() == SpawnGroup.MONSTER &&
-				stat.getEntityType() != EntityType.GIANT &&
-				stat.getEntityType() != EntityType.ILLUSIONER);
+		return sqPred.and(stat ->  stat.getEntityType().getSpawnGroup() == SpawnGroup.MONSTER);
 	}
 	// ==================================================
 }

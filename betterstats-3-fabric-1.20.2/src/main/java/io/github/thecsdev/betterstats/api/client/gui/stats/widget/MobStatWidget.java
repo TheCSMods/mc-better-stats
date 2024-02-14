@@ -2,6 +2,8 @@ package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
+import java.util.Objects;
+
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
@@ -17,6 +19,7 @@ import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
+import net.minecraft.stat.StatType;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -49,17 +52,22 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 				.append("\n§r");
 		
 		//iterate all registered stat types, to append their values to the tooltip text
-		for(final var st : Registries.STAT_TYPE)
+		for(final var statType : Registries.STAT_TYPE)
 		{
 			//ignore all registry types except ENTITY_TYPE; also ignore the two vanilla stat types
-			if(st.getRegistry() != Registries.ENTITY_TYPE) continue;
+			if(statType.getRegistry() != Registries.ENTITY_TYPE) continue;
 			
 			//obtain the text formatter for this stat type
-			final @Nullable var textFormatter = BSRegistries.ENTITY_STAT_TEXT_FORMATTER.get(st);
-			if(textFormatter == null) continue; //unfortunate, but it's the only way...
-			
-			//append the stat value to the final Tooltip text
-			ttt.append("\n§e-§r ").append(textFormatter.apply(stat));
+			final @Nullable var textFormatter = BSRegistries.ENTITY_STAT_TEXT_FORMATTER.get(statType);
+			if(textFormatter != null) ttt.append("\n§e-§r ").append(textFormatter.apply(stat));
+			else
+			{
+				@SuppressWarnings("unchecked")
+				final var stVal = stat.getStatsProvider().getStatValue(
+						(StatType<EntityType<?>>)statType, stat.getEntityType());
+				final var stIdStr = Objects.toString(Registries.STAT_TYPE.getId(statType));
+				ttt.append("\n§e-§r ").append(stIdStr + " : " + stVal);
+			}
 		}
 		setTooltip(this.defaultTooltip = Tooltip.of(ttt));
 		

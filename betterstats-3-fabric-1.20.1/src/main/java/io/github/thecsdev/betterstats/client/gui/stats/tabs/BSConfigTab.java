@@ -2,7 +2,8 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import blue.endless.jankson.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;

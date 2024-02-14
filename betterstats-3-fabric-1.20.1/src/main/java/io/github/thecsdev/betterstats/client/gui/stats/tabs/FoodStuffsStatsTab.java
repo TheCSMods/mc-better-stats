@@ -22,7 +22,7 @@ import net.minecraft.text.Text;
 public final @Internal class FoodStuffsStatsTab extends ItemStatsTab
 {
 	// ==================================================
-	public final @Override Text getName() { return translatable("advancements.husbandry.balanced_diet.title"); }
+	public final @Override Text getName() { return translatable("itemGroup.foodAndDrink"); }
 	// --------------------------------------------------
 	protected final @Override Map<Text, List<SUItemStat>> getStatsDefault(
 			IStatsProvider stats,

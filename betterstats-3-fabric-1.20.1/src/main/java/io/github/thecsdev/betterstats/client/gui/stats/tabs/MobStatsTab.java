@@ -12,12 +12,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
+import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortMobsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
@@ -25,6 +27,7 @@ import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudMobEntry;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.text.Text;
 
 public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
@@ -81,6 +84,13 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 	{
 		StatsTabUtils.initGroupByFilter(initContext);
 		StatsTabUtils.initSortMobsByFilter(initContext);
+	}
+	
+	protected @Virtual @Override Predicate<SUMobStat> getPredicate(StatFilterSettings filterSettings)
+	{
+		//super predicate, and, hide misc entities unless they aren't empty
+		return super.getPredicate(filterSettings)
+				.and(stat -> stat.getEntityType().getSpawnGroup() != SpawnGroup.MISC || !stat.isEmpty());
 	}
 	// ==================================================
 	protected @Virtual void processWidget(MobStatWidget widget)
