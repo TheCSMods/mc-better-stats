@@ -10,14 +10,18 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
-import io.github.thecsdev.betterstats.api.util.enumerations.ItemStatType;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.stat.StatType;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 
 public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TElement>
@@ -27,7 +31,8 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 	// --------------------------------------------------
 	protected IStatsProvider statsProvider;
 	protected final Item item;
-	protected ItemStatType mode = ItemStatType.MINED;
+	protected final @Nullable Block block;
+	protected StatType<?> mode = Stats.USED;
 	// ==================================================
 	public StatsHudItemEntry(SUItemStat stat) throws NullPointerException { this(stat.getStatsProvider(), stat.getItem()); }
 	public StatsHudItemEntry(IStatsProvider statsProvider, Item item) throws NullPointerException
@@ -35,6 +40,8 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 		super(0.5, 0.25);
 		this.statsProvider = Objects.requireNonNull(statsProvider);
 		this.item = Objects.requireNonNull(item);
+		final var block = Block.getBlockFromItem(item);
+		this.block = (block != Blocks.AIR) ? block : null;
 	}
 	// ==================================================
 	public final @Override TElement createWidget()
@@ -47,14 +54,23 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 		final var el = new Element();
 		el.eContextMenu.register((__, cMenu) ->
 		{
-			for(final var ist : ItemStatType.values())
+			//item and block stat type entries
+			for(final var statType : Registries.STAT_TYPE)
 			{
-				cMenu.addButton(ist.getText(), ___ ->
+				//check the stat type and if it's compatible
+				final var isItem = (statType.getRegistry() == Registries.ITEM);
+				final var isBlock = (statType.getRegistry() == Registries.BLOCK);
+				if((!isItem && !isBlock) || (isBlock && this.block == null)) continue;
+				
+				//create a button that will switch to the given stat type, and refresh
+				cMenu.addButton(statType.getName(), ___ ->
 				{
-					this.mode = ist;
+					this.mode = statType;
 					refreshEntry();
 				});
 			}
+			
+			//remove entry button
 			cMenu.addSeparator();
 			cMenu.addButton(translatable("selectWorld.delete"), ___ -> removeEntry());
 		});
@@ -63,12 +79,22 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 	// --------------------------------------------------
 	private final CustomStatElement createCustomStatElement(SUItemStat stat)
 	{
+		//mode info
+		if(this.mode == null) this.mode = Stats.USED;
+		final var isItem = (this.mode.getRegistry() == Registries.ITEM);
+		final var isBlock = (this.mode.getRegistry() == Registries.BLOCK);
+		
 		//collect info
-		final int i = ItemStatWidget.SIZE;
-		@Nullable Text left = this.mode.getText();
-		@Nullable Text right = literal(Integer.toString(this.mode.getStatValue(stat)));
+		final Object valObj = (isBlock) ? this.block : (isItem ? this.item : null);
+		@SuppressWarnings("unchecked")
+		final var val = (valObj != null) ?
+			this.statsProvider.getStatValue((StatType<Object>)this.mode, valObj) :
+			-1; //-1 indicating an error, and this generally shouldn't happen
+		
 		//create and return
-		return new CustomStatElement(i, 0, WIDTH - i, left, right);
+		@Nullable Text left = this.mode.getName();
+		@Nullable Text right = literal(Integer.toString(val));
+		return new CustomStatElement(ItemStatWidget.SIZE, 0, WIDTH - ItemStatWidget.SIZE, left, right);
 	}
 	// ==================================================
 	private final class Element extends TElement
