@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.screen.hud.entry;
 
+import static io.github.thecsdev.betterstats.api.registry.BSRegistries.getEntityStatTypePhrase;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -11,7 +12,6 @@ import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElem
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
-import io.github.thecsdev.betterstats.api.util.enumerations.MobStatType;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
@@ -19,6 +19,9 @@ import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.stat.StatType;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 
 public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElement>
@@ -28,7 +31,7 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 	// --------------------------------------------------
 	protected IStatsProvider statsProvider;
 	protected final EntityType<?> entityType;
-	protected MobStatType mode = MobStatType.KILLED;
+	protected StatType<EntityType<?>> mode = Stats.KILLED;
 	// ==================================================
 	public StatsHudMobEntry(SUMobStat stat) throws NullPointerException { this(stat.getStatsProvider(), stat.getEntityType()); }
 	public StatsHudMobEntry(IStatsProvider statsProvider, EntityType<?> entityType) throws NullPointerException
@@ -48,11 +51,18 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 		final var el = new Element();
 		el.eContextMenu.register((__, cMenu) ->
 		{
-			for(final var ist : MobStatType.values())
+			//entity stat type entries
+			for(final var statType : Registries.STAT_TYPE)
 			{
-				cMenu.addButton(ist.getText(), ___ ->
+				//check the stat type and if it's compatible
+				if(statType.getRegistry() != Registries.ENTITY_TYPE)
+					continue;
+				final @SuppressWarnings("unchecked") var statTypeE = (StatType<EntityType<?>>)statType;
+				
+				//create a button that will switch to the given stat type, and refresh
+				cMenu.addButton(getEntityStatTypePhrase(statTypeE), ___ ->
 				{
-					this.mode = ist;
+					this.mode = statTypeE;
 					refreshEntry();
 				});
 			}
@@ -64,12 +74,13 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 	// --------------------------------------------------
 	private final CustomStatElement createCustomStatElement(SUMobStat stat)
 	{
-		//collect info
-		final int i = ItemStatWidget.SIZE;
-		@Nullable Text left = this.mode.getText();
-		@Nullable Text right = literal(Integer.toString(this.mode.getStatValue(stat)));
+		//prepare variables
+		if(this.mode == null) this.mode = Stats.KILLED;
+		@Nullable Text left = getEntityStatTypePhrase(this.mode);
+		@Nullable Text right = literal(Integer.toString(this.statsProvider.getStatValue(this.mode, this.entityType)));
+		
 		//create and return
-		return new CustomStatElement(i, 0, WIDTH - i, left, right);
+		return new CustomStatElement(ItemStatWidget.SIZE, 0, WIDTH - ItemStatWidget.SIZE, left, right);
 	}
 	// ==================================================
 	private final class Element extends TElement

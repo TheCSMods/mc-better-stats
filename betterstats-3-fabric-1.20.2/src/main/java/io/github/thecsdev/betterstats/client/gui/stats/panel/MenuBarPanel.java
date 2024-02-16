@@ -7,6 +7,7 @@ import static io.github.thecsdev.betterstats.BetterStats.URL_KOFI;
 import static io.github.thecsdev.betterstats.BetterStats.URL_MODRINTH;
 import static io.github.thecsdev.betterstats.BetterStats.URL_SOURCES;
 import static io.github.thecsdev.betterstats.BetterStats.URL_YOUTUBE;
+import static io.github.thecsdev.betterstats.BetterStatsConfig.RESTRICTED_MODE;
 import static io.github.thecsdev.betterstats.api.client.registry.BSClientRegistries.STATS_TAB;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils.showUrlPrompt;
@@ -14,7 +15,6 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Color;
-import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Objects;
 
@@ -166,10 +166,9 @@ public final class MenuBarPanel extends BSComponentPanel
 		{
 			//create the context menu
 			final var cMenu = new TContextMenuPanel(btn);
-			final boolean cn = "CN".equalsIgnoreCase(Locale.getDefault().getCountry());
 			
 			//url-s
-			if(!cn)
+			if(!RESTRICTED_MODE)
 			{
 				cMenu.addButton(translatable(tr + "menu_about.source"), __ -> showUrlPrompt(URL_SOURCES, false));
 				cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, false));
@@ -177,7 +176,7 @@ public final class MenuBarPanel extends BSComponentPanel
 			}
 			cMenu.addButton(translatable(tr + "menu_about.curseforge"), __ -> showUrlPrompt(URL_CURSEFORGE, false));
 			cMenu.addButton(translatable(tr + "menu_about.modrinth"), __ -> showUrlPrompt(URL_MODRINTH, false));
-			if(!cn)
+			if(!RESTRICTED_MODE)
 			{
 				cMenu.addSeparator();
 				cMenu.addButton(translatable(tr + "menu_about.youtube"), __ -> showUrlPrompt(URL_YOUTUBE, false));

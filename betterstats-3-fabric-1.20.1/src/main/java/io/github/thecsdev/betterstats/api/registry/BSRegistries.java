@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.api.registry;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import io.github.thecsdev.tcdcommons.api.registry.TRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.stat.StatType;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
@@ -62,6 +64,15 @@ public final class BSRegistries
 	 * @apiNote The {@link Function} must not return {@code null}!
 	 */
 	public static final Map<StatType<EntityType<?>>, Function<SUMobStat, Text>> ENTITY_STAT_TEXT_FORMATTER;
+	
+	/**
+	 * A {@link Map} of {@link Text}s representing "phrases" for each entity stat type.<br/>
+	 * For example:<br/>
+	 * - {@link Stats#KILLED} becomes "Kills"<br>
+	 * - {@link Stats#KILLED_BY} becomes "Died to"<br/>
+	 * - and so on...
+	 */
+	public static final Map<StatType<EntityType<?>>, Text> ENTITY_STAT_PHRASE;
 	// --------------------------------------------------
 	static
 	{
@@ -69,6 +80,7 @@ public final class BSRegistries
 		ITEM_WIKIS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		MOB_WIKIS = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		ENTITY_STAT_TEXT_FORMATTER = new HashMap<>();
+		ENTITY_STAT_PHRASE = new HashMap<>();
 		
 		//the default Wiki for 'minecraft' is now 'minecraft.wiki'
 		final String mc = new Identifier("air").getNamespace();
@@ -90,6 +102,9 @@ public final class BSRegistries
 					translatable("stat_type.minecraft.killed_by.none", entityName) :
 					translatable("stat_type.minecraft.killed_by", entityName, Integer.toString(stat.deaths));
 		});
+		
+		ENTITY_STAT_PHRASE.put(Stats.KILLED, translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills"));
+		ENTITY_STAT_PHRASE.put(Stats.KILLED_BY, translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths"));
 	}
 	// ==================================================
 	/**
@@ -98,7 +113,7 @@ public final class BSRegistries
 	 * @return {@code null} if the URL is not found.
 	 * @throws NullPointerException If the argument is null.
 	 */
-	public static @Nullable String getItemWikiURL(Identifier itemId) throws NullPointerException
+	public static final @Nullable String getItemWikiURL(Identifier itemId) throws NullPointerException
 	{
 		Objects.requireNonNull(itemId);
 		var supplier = ITEM_WIKIS.get(itemId.getNamespace());
@@ -112,12 +127,23 @@ public final class BSRegistries
 	 * @return {@code null} if the URL is not found.
 	 * @throws NullPointerException If the argument is null.
 	 */
-	public static @Nullable String getMobWikiURL(Identifier entityId) throws NullPointerException
+	public static final @Nullable String getMobWikiURL(Identifier entityId) throws NullPointerException
 	{
 		Objects.requireNonNull(entityId);
 		var supplier = MOB_WIKIS.get(entityId.getNamespace());
 		if(supplier == null) return null;
 		else return supplier.apply(entityId);
+	}
+	
+	/**
+	 * Obtains the {@link Text} representing the "phrase" for a given entity {@link StatType}.
+	 * @param statType The {@link StatType}.
+	 */
+	public static final Text getEntityStatTypePhrase(StatType<EntityType<?>> statType)
+	{
+		final @Nullable var p = ENTITY_STAT_PHRASE.get(statType);
+		if(p != null) return p;
+		else return literal(Objects.toString(Registries.STAT_TYPE.getId(statType)));
 	}
 	// ==================================================
 }
