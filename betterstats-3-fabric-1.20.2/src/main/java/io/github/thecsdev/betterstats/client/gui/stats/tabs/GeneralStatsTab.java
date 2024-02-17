@@ -21,6 +21,8 @@ import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWid
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortCustomsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
+import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudGeneralEntry;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -92,6 +94,18 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 				final var statWidget = new GeneralStatWidget(nextX, nextY, nextW, stat);
 				panel.addChild(statWidget, true);
 				nextY += statWidget.getHeight() + GAP;
+				
+				statWidget.eContextMenu.register((__, cMenu) ->
+				{
+					cMenu.addButton(translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat"), ___ ->
+					{
+						final var hud = BetterStatsHudScreen.getInstance();
+						hud.setParentScreen(MC_CLIENT.currentScreen);
+						hud.addEntry(new StatsHudGeneralEntry(statWidget.getStat()));
+						MC_CLIENT.setScreen(hud.getAsScreen());
+					});
+					cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
+				});
 			}
 		}
 		else
