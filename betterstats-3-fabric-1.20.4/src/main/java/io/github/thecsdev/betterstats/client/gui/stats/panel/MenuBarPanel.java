@@ -14,7 +14,6 @@ import static io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils.showUrl
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import java.awt.Color;
 import java.util.Map.Entry;
 import java.util.Objects;
 
@@ -196,7 +195,7 @@ public final class MenuBarPanel extends BSComponentPanel
 		
 		//add the display name label
 		final var statsProvider = this.proxy.getStatsProvider();
-		final boolean a = (statsProvider instanceof IEditableStatsProvider);
+		final boolean isESP = (statsProvider instanceof IEditableStatsProvider);
 		
 		@Nullable Text displayName = (statsProvider != null) ? statsProvider.getDisplayName() : null;
 		if(displayName == null) displayName = literal("-"); //both conditions above can return null
@@ -208,7 +207,7 @@ public final class MenuBarPanel extends BSComponentPanel
 				menu.getEndX() - (menuSP + displayNameW + getTextRenderer().fontHeight), menu.getY() + menuSP,
 				displayNameW, menu.getHeight() - (menuSP*2),
 				displayName);
-		lbl_displayName.setTextColor(a ? new Color(250, 250, 5).getRGB() : BSStatsTabs.COLOR_SPECIAL);
+		lbl_displayName.setTextColor(isESP ? 0xFFFFFFFF : BSStatsTabs.COLOR_SPECIAL);
 		addChild(lbl_displayName, false);
 	}
 	// ==================================================
