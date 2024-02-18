@@ -32,10 +32,10 @@ import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPan
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TContextMenuPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TMenuBarPanel;
+import io.github.thecsdev.tcdcommons.api.client.gui.screen.TStackTraceScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooserResult.ReturnValue;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooserScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
-import io.github.thecsdev.tcdcommons.api.util.TUtils;
 import net.minecraft.client.gui.screen.StatsScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -104,7 +104,7 @@ public final class MenuBarPanel extends BSComponentPanel
 						final var parentScreen = GuiUtils.getCurrentScreenParent();
 						MC_CLIENT.setScreen(new BetterStatsScreen(parentScreen, stats).getAsScreen());
 					}
-					catch(Exception exc) { TUtils.throwCrash("Failed to load stats.", exc); }
+					catch(Exception exc) { MC_CLIENT.setScreen(new TStackTraceScreen(MC_CLIENT.currentScreen, exc).getAsScreen()); }
 				});
 			});
 			//cMenu.addButton(translatable(tr + "menu_file.save"), null);
@@ -120,7 +120,7 @@ public final class MenuBarPanel extends BSComponentPanel
 						final var stats = MenuBarPanel.this.proxy.getStatsProvider();
 						StatsProviderIO.saveToFile(file, stats);
 					}
-					catch(Exception exc) { TUtils.throwCrash("Failed to save stats.", exc); }
+					catch(Exception exc) { MC_CLIENT.setScreen(new TStackTraceScreen(MC_CLIENT.currentScreen, exc).getAsScreen()); }
 				});
 			});
 			cMenu.open();
