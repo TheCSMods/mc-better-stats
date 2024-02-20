@@ -37,11 +37,12 @@ public final class StatsProviderIO extends Object
 	 * still maintaining support for the older chunks.
 	 * @apiNote TLDR; Only increase if backwards compatibility is impossible.
 	 */
-	public static final int FILE_VERSION = 2;
+	public static final int FILE_VERSION = 4;
 	/* # File version history:
 	 * 1 - Since v3.0-alpha.1 - Initial version
 	 * 2 - Since v3.0-alpha.3 - Major changes to the player badge system
-	 * 3 - Since v3.9         - Support for modded stat types
+	 * 3 - Since v3.9         - [Reserved for special use-case]
+	 * 4 - Since v3.9         - Support for modded stat types
 	 */
 	// ==================================================
 	/**
@@ -61,12 +62,13 @@ public final class StatsProviderIO extends Object
 		buffer.writeBytes("RIFF".getBytes(US_ASCII));
 		
 		//write data
-		write_file(buffer, statsProvider);
+		write_file(buffer, statsProvider, FILE_VERSION);
 	}
 	
-	@SuppressWarnings("deprecation")
-	private static final void write_file(PacketByteBuf buffer, IStatsProvider statsProvider)
+	private static final void write_file(PacketByteBuf buffer, IStatsProvider statsProvider, int fileVersion)
 	{
+		if(fileVersion < 1) throw new IllegalArgumentException("Attempting to write file version < 1.");
+		
 		//create the buffer
 		final var buffer_file = new PacketByteBuf(Unpooled.buffer());
 		
@@ -76,12 +78,13 @@ public final class StatsProviderIO extends Object
 		buffer_file.writeBytes(FILE_EXTENSION.toUpperCase().getBytes(US_ASCII));
 
 		//write the file version
-		buffer_file.writeIntLE(FILE_VERSION);
+		buffer_file.writeIntLE(fileVersion);
 		
 		//write chunks
-		switch(FILE_VERSION)
+		switch(fileVersion)
 		{
 			case 2: StatsProviderIO_fv2.write_fileChunks(buffer_file, statsProvider); break;
+			case 4: StatsProviderIO_fv4.write_fileChunks(buffer_file, statsProvider); break;
 			default: break;
 		}
 
@@ -130,7 +133,6 @@ public final class StatsProviderIO extends Object
 		catch(IllegalHeaderException | UnsupportedFileVersionException exc) { buffer.resetReaderIndex(); throw exc; }
 	}
 	// --------------------------------------------------
-	@SuppressWarnings("deprecation")
 	private static final void read_file(PacketByteBuf buffer_file, IEditableStatsProvider statsProvider)
 			throws IllegalHeaderException, UnsupportedFileVersionException
 	{		
@@ -146,6 +148,7 @@ public final class StatsProviderIO extends Object
 		switch(fileVersion)
 		{
 			case 2: StatsProviderIO_fv2.read_fileChunks(buffer_file, statsProvider); break;
+			case 4: StatsProviderIO_fv4.read_fileChunks(buffer_file, statsProvider); break;
 			default: throw new UnsupportedFileVersionException(Integer.toString(fileVersion));
 		}
 	}

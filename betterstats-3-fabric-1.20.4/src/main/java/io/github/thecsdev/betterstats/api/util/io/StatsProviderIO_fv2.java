@@ -5,6 +5,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
@@ -29,10 +30,9 @@ import net.minecraft.util.Identifier;
  * A class containing {@link StatsProviderIO} logic for file version 2.
  * @apiNote Used for backwards-compatibility. Internal use only!
  */
-public final @Deprecated class StatsProviderIO_fv2
+@Internal
+public final class StatsProviderIO_fv2
 {
-	// ==================================================
-	public static final int FILE_VERSION = 2; //Must always be 2
 	// ==================================================
 	static final void write_fileChunks(PacketByteBuf buffer_file, IStatsProvider statsProvider)
 	{
