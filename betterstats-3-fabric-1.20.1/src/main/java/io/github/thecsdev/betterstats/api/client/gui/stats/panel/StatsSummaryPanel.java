@@ -1,29 +1,26 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_BROKEN;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_CRAFTED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_DROPPED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_MINED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_PICKED_UP;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.TEXT_STAT_USED;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TEXT_STAT_DEATHS;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TEXT_STAT_KILLS;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.GeneralStatWidget;
+import io.github.thecsdev.betterstats.api.registry.BSRegistries;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
+import net.minecraft.entity.EntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.stat.StatType;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
@@ -75,27 +72,32 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		//first clear any existing entries
 		clearEntries();
 		
-		//define the stat integers
-		long mined = 0, crafted = 0, used = 0, broken = 0, pickedUp = 0, dropped = 0;
+		//create a map to track all the totals
+		final var map = new LinkedHashMap<StatType<?>, Long>();
 		
-		//sum them up
-		for(final var itemStat : itemStats)
+		//initialize the map, and count the stats totals
+		for(final var statType : Registries.STAT_TYPE)
 		{
-			mined    += itemStat.mined;
-			crafted  += itemStat.crafted;
-			used     += itemStat.used;
-			broken   += itemStat.broken;
-			pickedUp += itemStat.pickedUp;
-			dropped  += itemStat.dropped;
+			//check stat type registry
+			final var stR = statType.getRegistry();
+			final var isBlock = (stR == Registries.BLOCK);
+			final var isItem = (stR == Registries.ITEM);
+			if(!(isBlock || isItem)) continue;
+			final @SuppressWarnings("unchecked") var statTypeO = (StatType<Object>)statType;
+			
+			//start counting
+			long count = 0;
+			for(final var itemStat : itemStats)
+				count += itemStat.getStatsProvider().getStatValue(
+						statTypeO,
+						isItem ? itemStat.getItem() : itemStat.getBlock());
+			
+			//add the count to the map
+			map.put(statType, count);
 		}
 		
 		//add entries
-		addEntry(TEXT_STAT_MINED,     literal(Long.toString(mined)));
-		addEntry(TEXT_STAT_CRAFTED,   literal(Long.toString(crafted)));
-		addEntry(TEXT_STAT_USED,      literal(Long.toString(used)));
-		addEntry(TEXT_STAT_BROKEN,    literal(Long.toString(broken)));
-		addEntry(TEXT_STAT_PICKED_UP, literal(Long.toString(pickedUp)));
-		addEntry(TEXT_STAT_DROPPED,   literal(Long.toString(dropped)));
+		map.forEach((statType, statValue) -> addEntry(statType.getName(), literal(Long.toString(statValue))));
 		
 		//refresh if needed
 		if(getParentTScreen() != null) refresh();
@@ -110,19 +112,31 @@ public final class StatsSummaryPanel extends BSComponentPanel
 		//first clear any existing entries
 		clearEntries();
 		
-		//define the stat integers
-		long kills = 0, deaths = 0;
+		//create a map to track all the totals
+		final var map = new LinkedHashMap<StatType<EntityType<?>>, Long>();
 		
-		//sum them up
-		for(final var mobStat : mobStats)
+		//initialize the map, and count the stats totals
+		for(final var statType : Registries.STAT_TYPE)
 		{
-			kills  += mobStat.kills;
-			deaths += mobStat.deaths;
+			//check stat type registry
+			if(statType.getRegistry() != Registries.ENTITY_TYPE) continue;
+			final @SuppressWarnings("unchecked") var statTypeE = (StatType<EntityType<?>>)statType;
+			
+			//start counting
+			long count = 0;
+			for(final var mobStat : mobStats)
+				count += mobStat.getStatsProvider().getStatValue(statTypeE, mobStat.getEntityType());
+			
+			//add the count to the map
+			map.put(statTypeE, count);
 		}
 		
 		//add entries
-		addEntry(TEXT_STAT_KILLS,  literal(Long.toString(kills)));
-		addEntry(TEXT_STAT_DEATHS, literal(Long.toString(deaths)));
+		map.forEach((statType, statValue) ->
+		{
+			final var phrase = BSRegistries.getEntityStatTypePhrase(statType);
+			addEntry(phrase, literal(Long.toString(statValue)));
+		});
 		
 		//refresh if needed
 		if(getParentTScreen() != null) refresh();

@@ -68,7 +68,7 @@ public final class BSRegistries
 	/**
 	 * A {@link Map} of {@link Text}s representing "phrases" for each entity stat type.<br/>
 	 * For example:<br/>
-	 * - {@link Stats#KILLED} becomes "Kills"<br>
+	 * - {@link Stats#KILLED} becomes "Killed"<br>
 	 * - {@link Stats#KILLED_BY} becomes "Died to"<br/>
 	 * - and so on...
 	 */
