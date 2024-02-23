@@ -27,6 +27,7 @@ public class BetterStatsConfig extends AutoConfig
 	 */
 	public static final @NonSerialized boolean RESTRICTED_MODE;
 	// --------------------------------------------------
+	public @SerializedAs("client-guiSmoothScroll") boolean guiSmoothScroll = true;
 	public @SerializedAs("client-guiMobsFollowCursor") boolean guiMobsFollowCursor = true;
 	public @SerializedAs("client-trustAllServersBssNet") boolean trustAllServersBssNet = true;
 	public @SerializedAs("server-registerCommands") boolean registerCommands = true;

@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.widget.ScrollBarWidget;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
@@ -66,7 +67,7 @@ public final class StatsTabPanel extends BSComponentPanel
 		this.panel = new TPanelElement(0, 0, getWidth() - 8, getHeight());
 		this.panel.setScrollFlags(TPanelElement.SCROLL_VERTICAL);
 		this.panel.setScrollPadding(10);
-		this.panel.setSmoothScroll(true);
+		this.panel.setSmoothScroll(BetterStats.getInstance().getConfig().guiSmoothScroll);
 		this.panel.setBackgroundColor(0);
 		this.panel.setOutlineColor(0);
 		addChild(this.panel, true);

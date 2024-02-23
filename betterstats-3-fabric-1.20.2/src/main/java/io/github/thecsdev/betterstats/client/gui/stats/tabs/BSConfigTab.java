@@ -33,31 +33,55 @@ public final class BSConfigTab extends StatsTab
 		//init config gui
 		final var config = BetterStats.getInstance().getConfig();
 		this.config_builder = TConfigPanelBuilder.builder(panel);
+		
+		//configs for client-sided features
 		this.config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
-		this.config_builder.addCheckbox(
+		{
+			//debug mode
+			this.config_builder.addCheckbox(
 					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode"),
 					BetterStatsConfig.DEBUG_MODE,
-					checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked())
-			.addCheckbox(
-					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
-					config.guiMobsFollowCursor,
-					checkbox -> config.guiMobsFollowCursor = checkbox.getChecked())
-			.addCheckbox(
-					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
-					config.trustAllServersBssNet,
-					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
-		this.config_builder.getLastAddedElement().setTooltip(
-				Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
+					checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked());
+			
+			//gui smooth scroll
+			this.config_builder.addCheckbox(
+						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll"),
+						config.guiSmoothScroll,
+						checkbox -> config.guiSmoothScroll = checkbox.getChecked());
+			this.config_builder.getLastAddedElement().setTooltip(Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll.tooltip")));
+			
+			//gui mobs follow cursor
+			this.config_builder.addCheckbox(
+						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
+						config.guiMobsFollowCursor,
+						checkbox -> config.guiMobsFollowCursor = checkbox.getChecked());
+			
+			//trust all servers bss network
+			this.config_builder.addCheckbox(
+						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
+						config.trustAllServersBssNet,
+						checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
+			this.config_builder.getLastAddedElement().setTooltip(Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
+		}
+		
+		//configs for server-sided features
 		this.config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
-		this.config_builder.addCheckbox(
-				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
-				config.registerCommands,
-				checkbox -> config.registerCommands = checkbox.getChecked())
-			.addCheckbox(
-				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
-				config.enableServerSAS,
-				checkbox -> config.enableServerSAS = checkbox.getChecked())
-			.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
+		{
+			//register commands
+			this.config_builder.addCheckbox(
+					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
+					config.registerCommands,
+					checkbox -> config.registerCommands = checkbox.getChecked());
+			
+			//enable stat announcement system
+			this.config_builder.addCheckbox(
+					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
+					config.enableServerSAS,
+					checkbox -> config.enableServerSAS = checkbox.getChecked());
+		}
+		
+		//finally, build the config gui
+		this.config_builder.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
 	}
 	// --------------------------------------------------
 	public final @Override void initFilters(FiltersInitContext initContext)

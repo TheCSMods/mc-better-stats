@@ -54,7 +54,7 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		contentPane.setZOffset(TCDCommonsClient.MAGIC_ITEM_Z_OFFSET);
 		addChild(contentPane, false);
 		
-		final int panelW = (int) ((float)getWidth() / 2.5f);
+		final int panelW = (int) ((float)getWidth() / 2f);
 		final int panelX = (getWidth() / 2) - (panelW / 2);
 		final int panelH = getHeight() - 40;
 		final int panelY = (getHeight() / 2) - (panelH / 2);
@@ -99,31 +99,56 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		
 		final var config = BetterStats.getInstance().getConfig();
 		final var config_builder = TConfigPanelBuilder.builder(panel_config);
-		config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
-		config_builder.addCheckbox(
-					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode"),
-					BetterStatsConfig.DEBUG_MODE,
-					checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked())
-			.addCheckbox(
-					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
-					config.guiMobsFollowCursor,
-					checkbox -> config.guiMobsFollowCursor = checkbox.getChecked())
-			.addCheckbox(
-					translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
-					config.trustAllServersBssNet,
-					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
-		config_builder.getLastAddedElement().setTooltip(
-				Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
-		config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
-		config_builder.addCheckbox(
-				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
-				config.registerCommands,
-				checkbox -> config.registerCommands = checkbox.getChecked())
-			.addCheckbox(
-				translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
-				config.enableServerSAS,
-				checkbox -> config.enableServerSAS = checkbox.getChecked())
-			.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
+		{
+			//configs for client-sided features
+			config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
+			{
+				//debug mode
+				config_builder.addCheckbox(
+						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode"),
+						BetterStatsConfig.DEBUG_MODE,
+						checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked());
+				
+				//gui smooth scroll
+				config_builder.addCheckbox(
+							translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll"),
+							config.guiSmoothScroll,
+							checkbox -> config.guiSmoothScroll = checkbox.getChecked());
+				config_builder.getLastAddedElement().setTooltip(Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll.tooltip")));
+				
+				//gui mobs follow cursor
+				config_builder.addCheckbox(
+							translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
+							config.guiMobsFollowCursor,
+							checkbox -> config.guiMobsFollowCursor = checkbox.getChecked());
+				
+				//trust all servers bss network
+				config_builder.addCheckbox(
+							translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
+							config.trustAllServersBssNet,
+							checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
+				config_builder.getLastAddedElement().setTooltip(Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
+			}
+			
+			//configs for server-sided features
+			config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
+			{
+				//register commands
+				config_builder.addCheckbox(
+						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
+						config.registerCommands,
+						checkbox -> config.registerCommands = checkbox.getChecked());
+				
+				//enable stat announcement system
+				config_builder.addCheckbox(
+						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
+						config.enableServerSAS,
+						checkbox -> config.enableServerSAS = checkbox.getChecked());
+			}
+			
+			//finally, build the config gui
+			config_builder.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
+		}
 		
 		final var btn_actionCancel = new TButtonWidget(
 				5, 5, (panelW / 2) - 7, 20,
