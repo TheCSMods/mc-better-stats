@@ -55,7 +55,7 @@
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Debug mode",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll": "Enable GUI smooth-scroll",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll.tooltip": "When enabled, scrolling the statistics panels will be 'smoothly animated'. Disable this if you play on lower-end devices, or if scrolling via mouse-wheel doesn't work at all for you.",
-	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI mobs follow curfollow cursor",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI mobs follow cursor",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net": "Auto-toggle 'betterstats' network",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip": "When this mod is installed on a server, it offers more features. The 'betterstats' network protocol is how a 'betterstats' server communicates with the 'betterstats' client. With this enabled, the client will automatically tell the server it has 'betterstats' installed when applicable. With this disabled, you will have do it manually yourself each time you join a server.",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands": "Register commands",
