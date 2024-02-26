@@ -1,8 +1,7 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
+import static io.github.thecsdev.betterstats.api.registry.BSRegistries.getEntityStatTypePhrase;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-
-import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -63,10 +62,9 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 			else
 			{
 				@SuppressWarnings("unchecked")
-				final var stVal = stat.getStatsProvider().getStatValue(
-						(StatType<EntityType<?>>)statType, stat.getEntityType());
-				final var stIdStr = Objects.toString(Registries.STAT_TYPE.getId(statType));
-				ttt.append("\n§e-§r ").append(stIdStr + " : " + stVal);
+				final var statTypeE = (StatType<EntityType<?>>)statType;
+				final var stVal = stat.getStatsProvider().getStatValue(statTypeE, stat.getEntityType());
+				ttt.append("\n§e-§r ").append(getEntityStatTypePhrase(statTypeE)).append(": " + stVal);
 			}
 		}
 		setTooltip(this.defaultTooltip = Tooltip.of(ttt));

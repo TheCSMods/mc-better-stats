@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.api.registry;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.HashMap;
@@ -14,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistry;
+import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -142,9 +142,32 @@ public final class BSRegistries
 	 */
 	public static final Text getEntityStatTypePhrase(StatType<EntityType<?>> statType)
 	{
-		final @Nullable var p = ENTITY_STAT_PHRASE.get(statType);
-		if(p != null) return p;
-		else return literal(Objects.toString(Registries.STAT_TYPE.getId(statType)));
+		//first approach: look at the better-stats registry
+		do
+		{
+			final @Nullable var p = ENTITY_STAT_PHRASE.get(statType);
+			if(p == null) break;
+			return p;
+		}
+		while(false);
+		
+		//alternative approach: look in the translation keys
+		do
+		{
+			final @Nullable var statTypeId = Registries.STAT_TYPE.getId(statType);
+			if(statTypeId == null) break;
+			
+			final var stKey = statTypeId.toString().replace(':', '.');
+			final var tKey = "betterstats.stat_type_phrase." + stKey;
+			final var phrase = Text.translatable(tKey);
+			
+			if(!Objects.equals(tKey, phrase.getString())) return phrase;
+			else return TextUtils.literal(statTypeId.toString());
+		}
+		while(false);
+		
+		//last resort: null
+		return TextUtils.literal("null");
 	}
 	// ==================================================
 }

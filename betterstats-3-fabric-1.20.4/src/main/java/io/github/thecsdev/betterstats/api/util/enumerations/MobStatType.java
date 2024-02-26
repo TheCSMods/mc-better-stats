@@ -15,8 +15,8 @@ import net.minecraft.text.Text;
 public enum MobStatType implements ITextProvider
 {
 	// ==================================================
-	KILLED(Stats.KILLED, translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills"), s -> s.kills),
-	KILLED_BY(Stats.KILLED_BY, translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths"), s -> s.deaths);
+	KILLED(Stats.KILLED, translatable("betterstats.stat_type_phrase.minecraft.killed"), s -> s.kills),
+	KILLED_BY(Stats.KILLED_BY, translatable("betterstats.stat_type_phrase.minecraft.killed_by"), s -> s.deaths);
 	// ==================================================
 	private final StatType<?> statType;
 	private final Text text;

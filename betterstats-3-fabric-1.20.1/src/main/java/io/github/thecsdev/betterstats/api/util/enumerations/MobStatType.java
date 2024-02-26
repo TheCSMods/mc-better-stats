@@ -1,7 +1,6 @@
 package io.github.thecsdev.betterstats.api.util.enumerations;
 
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TEXT_STAT_DEATHS;
-import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.TEXT_STAT_KILLS;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -16,8 +15,8 @@ import net.minecraft.text.Text;
 public enum MobStatType implements ITextProvider
 {
 	// ==================================================
-	KILLED(   Stats.KILLED,    TEXT_STAT_KILLS,  s -> s.kills),
-	KILLED_BY(Stats.KILLED_BY, TEXT_STAT_DEATHS, s -> s.deaths);
+	KILLED(Stats.KILLED, translatable("betterstats.stat_type_phrase.minecraft.killed"), s -> s.kills),
+	KILLED_BY(Stats.KILLED_BY, translatable("betterstats.stat_type_phrase.minecraft.killed_by"), s -> s.deaths);
 	// ==================================================
 	private final StatType<?> statType;
 	private final Text text;
