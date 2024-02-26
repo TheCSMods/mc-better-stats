@@ -1,0 +1,55 @@
+{
+	"links":
+	{
+		"homepage": "${project.mod_contact_homepage}",
+		"sources": "${project.mod_contact_sources}",
+		"issues": "${project.mod_contact_issues}",
+		
+		"curseforge": "${project.modmenu_link_curseforge}",
+		"modrinth": "${project.modmenu_link_modrinth}",
+		"youtube": "${project.modmenu_link_youtube}",
+		"kofi": "${project.modmenu_link_kofi}",
+		"discord": "${project.modmenu_link_discord}"
+	},
+	
+	"contributors":
+	[
+		{
+			"name": "openai:gpt-4",
+			"avatar_url": "https://avatars.githubusercontent.com/u/14957082?v=4",
+			"contact": { "homepage": "https://openai.com/gpt-4" }
+		},
+		{
+			"name": "MrLoLf",
+			"contact": { "homepage": "https://github.com/MrLoLf" }
+		},
+		{
+			"name": "Black-Hole",
+			"contact": { "homepage": "https://github.com/Black-Hole" }
+		},
+		{
+			"name": "Sw3et-Dre4mer",
+			"contact": { "homepage": "https://github.com/Sw3et-Dre4mer" }
+		},
+		{
+			"name": "Felix14-v2",
+			"contact": { "homepage": "https://github.com/Felix14-v2" }
+		},
+		{
+			"name": "Amirhan-Taipovjan-Greatest-I",
+			"contact": { "homepage": "https://github.com/Amirhan-Taipovjan-Greatest-I" }
+		},
+		{
+			"name": "rvbsm",
+			"contact": { "homepage": "https://github.com/rvbsm" }
+		},
+		{
+			"name": "IwasConfused",
+			"contact": { "homepage": "https://github.com/IwasConfused" }
+		},
+		{
+			"name": "notlin4",
+			"contact": { "homepage": "https://github.com/notlin4" }
+		}
+	]
+}

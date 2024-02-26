@@ -3,7 +3,6 @@ package io.github.thecsdev.betterstats.client.gui.widget;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -22,6 +21,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.repo.RepositoryInfoProvider;
 import io.github.thecsdev.tcdcommons.api.util.io.repo.RepositoryUserInfo;
+import io.github.thecsdev.tcdcommons.util.io.http.TcdWebApiPerson;
 import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
@@ -35,10 +35,10 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 	// ==================================================
 	public static final Text TEXT_OPEN_LINK = translatable("mco.notification.visitUrl.buttonText.default");
 	// --------------------------------------------------
-	private final Person person;
+	private final TcdWebApiPerson person;
 	private final boolean fetchGitHubInfo;
 	// ==================================================
-	public CreditsTabPersonWidget(int x, int y, int width, Person person, boolean fetchGitHubInfo) throws NullPointerException
+	public CreditsTabPersonWidget(int x, int y, int width, TcdWebApiPerson person, boolean fetchGitHubInfo) throws NullPointerException
 	{
 		super(x, y, width, 20);
 		setBackgroundColor(0x22000000);
@@ -56,7 +56,7 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 		nameLabel.setTextScale(0.8f);
 		addChild(nameLabel, true);
 		
-		final @Nullable URL visitUrl = getPersonHomepage(this.person);
+		final @Nullable URL visitUrl = this.person.getContact().getHomepageUrl();
 		final var visitBtn = new TButtonWidget(getEndX() - 102, getY() + 2, 100, 16);
 		{
 			final var visitBtnLbl = new TLabelElement(0, 0, visitBtn.getWidth(), visitBtn.getHeight());
@@ -79,7 +79,8 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 		
 		//fetch GitHub user info
 		RepositoryInfoProvider.getUserInfoAsync(
-			visitUri, BetterStatsClient.MC_CLIENT,
+			visitUri,
+			BetterStatsClient.MC_CLIENT,
 			userInfo ->
 			{
 				//handle display name
@@ -114,16 +115,6 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 			err -> {});
 	}
 	// ==================================================
-	/**
-	 * Retrieves the "homepage" URL for a given {@link Person}.
-	 */
-	public static final @Nullable URL getPersonHomepage(Person person)
-	{
-		final @Nullable var urlStr = person.getContact().get("homepage").orElse(null);
-		if(urlStr == null) return null;
-		try { return new URL(urlStr); } catch(MalformedURLException mue) { return null; }
-	}
-	// --------------------------------------------------
 	/**
 	 * Constructs a "display name" {@link Text} from a {@link RepositoryUserInfo}.
 	 * @param userInfo The {@link RepositoryUserInfo}.

@@ -1,14 +1,17 @@
 package io.github.thecsdev.betterstats;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.JsonObject;
 
 import io.github.thecsdev.betterstats.command.StatisticsCommand;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.events.server.command.CommandManagerEvent;
 import io.github.thecsdev.tcdcommons.command.PlayerBadgeCommand;
-import net.fabricmc.loader.api.FabricLoader;
+import io.github.thecsdev.tcdcommons.util.io.http.TcdWebApi;
 
 public class BetterStats extends Object
 {
@@ -21,21 +24,30 @@ public class BetterStats extends Object
 	// --------------------------------------------------
 	protected final BetterStatsConfig config;
 	// --------------------------------------------------
-	//protected final ModContainer modInfo; -- avoid platform-specific APIs
-	//TODO - When porting to Forge, just replace Fabric API calls with Forge ones, or directly declare URLs if impossible
+	private static final JsonObject MOD_PROPERTIES;
 	public static final String URL_SOURCES, URL_ISSUES, URL_CURSEFORGE, URL_MODRINTH;
 	public static final String URL_YOUTUBE, URL_KOFI, URL_DISCORD;
 	static
 	{
-		final var modInfo = FabricLoader.getInstance().getModContainer(ModID).get();
-		URL_SOURCES = modInfo.getMetadata().getContact().get("sources").get();
-		URL_ISSUES  = modInfo.getMetadata().getContact().get("issues").get();
-		final var modMenuLinks = modInfo.getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject();
-		URL_CURSEFORGE = modMenuLinks.get("modmenu.curseforge").getAsString();
-		URL_MODRINTH   = modMenuLinks.get("modmenu.modrinth").getAsString();
-		URL_YOUTUBE    = modMenuLinks.get("modmenu.youtube").getAsString();
-		URL_KOFI       = modMenuLinks.get("modmenu.kofi").getAsString();
-		URL_DISCORD    = modMenuLinks.get("modmenu.discord").getAsString();
+		//read the mod properties resource file
+		try
+		{
+			final var propertiesStream = BetterStats.class.getResourceAsStream("/properties.json");
+			final var propertiesJsonStr = new String(propertiesStream.readAllBytes());
+			propertiesStream.close();
+			MOD_PROPERTIES = TcdWebApi.GSON.fromJson(propertiesJsonStr, JsonObject.class);
+		}
+		catch(Exception e) { throw new ExceptionInInitializerError(e); }
+		
+		//read links
+		final var links = MOD_PROPERTIES.get("links").getAsJsonObject();
+		URL_SOURCES    = links.get("sources").getAsString();
+		URL_ISSUES     = links.get("issues").getAsString();
+		URL_CURSEFORGE = links.get("curseforge").getAsString();
+		URL_MODRINTH   = links.get("modrinth").getAsString();
+		URL_YOUTUBE    = links.get("youtube").getAsString();
+		URL_KOFI       = links.get("kofi").getAsString();
+		URL_DISCORD    = links.get("discord").getAsString();
 	}
 	// ==================================================
 	public BetterStats()
@@ -51,11 +63,9 @@ public class BetterStats extends Object
 		//modInfo = FabricLoader.getInstance().getModContainer(getModID()).get();
 		
 		//log stuff
-		/*LOGGER.info("Initializing '" + getModName() + "' " + modInfo.getMetadata().getVersion() +
-				" as '" + getClass().getSimpleName() + "'.");*/
 		LOGGER.info("Initializing '" + getModName() + "' as '" + getClass().getSimpleName() + "'.");
 		
-		//try to load config (IOException-s should be ignored)
+		//load config
 		this.config = new BetterStatsConfig(getModID());
 		this.config.loadFromFileOrCrash(true);
 		
@@ -76,7 +86,7 @@ public class BetterStats extends Object
 	}
 	// ==================================================
 	public static BetterStats getInstance() { return Instance; }
-	//public ModContainer getModInfo() { return modInfo; }
+	public static @Internal JsonObject getModProperties() { return MOD_PROPERTIES; }
 	public BetterStatsConfig getConfig() { return this.config; }
 	// --------------------------------------------------
 	public static String getModName() { return ModName; }
