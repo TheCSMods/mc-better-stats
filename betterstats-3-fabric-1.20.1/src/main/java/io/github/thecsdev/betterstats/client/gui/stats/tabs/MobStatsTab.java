@@ -25,6 +25,7 @@ import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortMobsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudMobEntry;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.entity.SpawnGroup;
@@ -97,7 +98,7 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 	{
 		widget.eContextMenu.register((__, cMenu) ->
 		{
-			cMenu.addButton(translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat"), ___ ->
+			cMenu.addButton(BST.hud_pinStat(), ___ ->
 			{
 				final var hud = BetterStatsHudScreen.getInstance();
 				hud.setParentScreen(MC_CLIENT.currentScreen);

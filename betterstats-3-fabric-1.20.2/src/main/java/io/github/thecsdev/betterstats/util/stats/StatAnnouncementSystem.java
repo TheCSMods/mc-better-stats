@@ -1,7 +1,7 @@
 package io.github.thecsdev.betterstats.util.stats;
 
+import static io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat.getGeneralStatText;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.TCDCommons;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -31,7 +32,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
-import static io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat.getGeneralStatText;
 
 /**
  * A {@link Class} that handles announcing players doing
@@ -42,15 +42,6 @@ import static io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat.getGen
 public final @Internal class StatAnnouncementSystem
 {
 	// ==================================================
-	private static final String P                  = "betterstats.util.stats.statannouncementsystem."; //prefix
-	public static final String TXT_FIRST_MINED     = P + "first_mine";
-	public static final String TXT_FIRST_CRAFTED   = P + "first_craft";
-	public static final String TXT_FIRST_DEATH     = P + "first_death";
-	public static final String TXT_FIRST_DEATH_HC1 = P + "first_death.hc1";
-	public static final String TXT_FIRST_KILLED    = P + "first_kill";
-	public static final String TXT_FIRST_KILLED_BY = P + "first_death_to";
-	public static final String TXT_CUSTOM          = P + "custom";
-	//
 	private static final Text WATERMARK;
 	private static final BetterStatsConfig BSSC;
 	private static final SASConfig SASC;
@@ -277,7 +268,7 @@ public final @Internal class StatAnnouncementSystem
 		final var pText = formatPlayerText(player);
 		final var bText = formatBlockText(minedBlock);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_MINED, pText, bText)),
+				literal("").append(WATERMARK).append(" ").append(BST.sas_firstMine(pText, bText)),
 				literal("").append(WATERMARK).append(" ")
 					.append(pText).append(" just mined their first ").append(bText).append("."));
 	}
@@ -293,7 +284,7 @@ public final @Internal class StatAnnouncementSystem
 		final var pText = formatPlayerText(player);
 		final var iText = formatItemText(craftedItem);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_CRAFTED, pText, iText)),
+				literal("").append(WATERMARK).append(" ").append(BST.sas_firstCraft(pText, iText)),
 				literal("").append(WATERMARK).append(" ")
 					.append(pText).append(" just crafted their first ").append(iText).append("."));
 	}
@@ -309,7 +300,7 @@ public final @Internal class StatAnnouncementSystem
 		final var pText = formatPlayerText(player);
 		final var etText = formatEntityTypeText(victimType);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_KILLED, pText, etText)),
+				literal("").append(WATERMARK).append(" ").append(BST.sas_firstKill(pText, etText)),
 				literal("").append(WATERMARK).append(" ").append(pText)
 					.append(" just killed a ").append(etText).append(" for their first time."));
 	}
@@ -325,7 +316,7 @@ public final @Internal class StatAnnouncementSystem
 		final var pText = formatPlayerText(player);
 		final var etText = formatEntityTypeText(killerType);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(TXT_FIRST_KILLED_BY, pText, etText)),
+				literal("").append(WATERMARK).append(" ").append(BST.sas_firstDeathTo(pText, etText)),
 				literal("").append(WATERMARK).append(" ").append(pText)
 					.append(" just died to a ").append(etText).append(" for their first time."));
 	}
@@ -338,12 +329,12 @@ public final @Internal class StatAnnouncementSystem
 	public static final void broadcastFirstDeath(ServerPlayerEntity player)
 	{
 		final var hardcore = player.getServer().isHardcore();
-		final var key = hardcore ? TXT_FIRST_DEATH_HC1 : TXT_FIRST_DEATH;
 		final var literalBrightSide = hardcore ? " On the bright side, it likely won't happen again." : "";
 		
 		final var pText = formatPlayerText(player);
+		final var translatableText = hardcore ? BST.sas_firstDeath_hc1(pText) : BST.sas_firstDeath(pText);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(key, pText)),
+				literal("").append(WATERMARK).append(" ").append(translatableText),
 				literal("").append(WATERMARK).append(" ")
 				.append(pText).append(" died for their first time." + literalBrightSide));
 	}
@@ -362,7 +353,7 @@ public final @Internal class StatAnnouncementSystem
 		final var sText = literal("").append(getGeneralStatText(stat)).formatted(Formatting.GRAY);
 		final var vText = literal(statValue).formatted(Formatting.GREEN);
 		broadcastBssMessage(player.getServer(),
-				literal("").append(WATERMARK).append(" ").append(translatable(TXT_CUSTOM, pText, sText, vText)),
+				literal("").append(WATERMARK).append(" ").append(BST.sas_custom(pText, sText, vText)),
 				literal("").append(WATERMARK).append(" ").append(pText)
 					.append(" just increased their ").append(sText).append(" stat value to ")
 					.append(vText).append("."));

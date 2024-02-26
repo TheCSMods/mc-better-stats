@@ -1,12 +1,11 @@
 package io.github.thecsdev.betterstats.network;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
-
 import java.util.WeakHashMap;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.events.server.PlayerManagerEvent;
 import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetwork;
 import io.netty.buffer.Unpooled;
@@ -25,8 +24,8 @@ public final @Internal class BetterStatsNetworkHandler
 	// ==================================================
 	private BetterStatsNetworkHandler() {}
 	// --------------------------------------------------
-	public static final Text TXT_TOGGLE_TOOLTIP = translatable("betterstats.network.betterstatsnetworkhandler.toggle_tooltip");
-	public static final Text TXT_CONSENT_WARNING = translatable("betterstats.network.betterstatsnetworkhandler.consent_warning");
+	public static final Text TXT_TOGGLE_TOOLTIP  = BST.net_toggleTooltip();
+	public static final Text TXT_CONSENT_WARNING = BST.net_consentWarning();
 	//
 	public static final int NETWORK_VERSION = 2;
 	//

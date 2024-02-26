@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.client.gui.widget.ScrollBarWidget;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
@@ -105,29 +106,29 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 			{
 				//debug mode
 				config_builder.addCheckbox(
-						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode"),
+						BST.config_debugMode(),
 						BetterStatsConfig.DEBUG_MODE,
 						checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked());
 				
 				//gui smooth scroll
 				config_builder.addCheckbox(
-							translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll"),
+							BST.config_guiSmoothScroll(),
 							config.guiSmoothScroll,
 							checkbox -> config.guiSmoothScroll = checkbox.getChecked());
-				config_builder.getLastAddedElement().setTooltip(Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll.tooltip")));
+				config_builder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_guiSmoothScroll_tooltip()));
 				
 				//gui mobs follow cursor
 				config_builder.addCheckbox(
-							translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"),
+							BST.config_guiMobsFollowCursor(),
 							config.guiMobsFollowCursor,
 							checkbox -> config.guiMobsFollowCursor = checkbox.getChecked());
 				
 				//trust all servers bss network
 				config_builder.addCheckbox(
-							translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"),
+							BST.config_trustAllServersBssNet(),
 							config.trustAllServersBssNet,
 							checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
-				config_builder.getLastAddedElement().setTooltip(Tooltip.of(translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip")));
+				config_builder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_trustAllServersBssNet_tooltip()));
 			}
 			
 			//configs for server-sided features
@@ -135,13 +136,13 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 			{
 				//register commands
 				config_builder.addCheckbox(
-						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"),
+						BST.config_registerCommands(),
 						config.registerCommands,
 						checkbox -> config.registerCommands = checkbox.getChecked());
 				
 				//enable stat announcement system
 				config_builder.addCheckbox(
-						translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"),
+						BST.config_enableSas(),
 						config.enableServerSAS,
 						checkbox -> config.enableServerSAS = checkbox.getChecked());
 			}

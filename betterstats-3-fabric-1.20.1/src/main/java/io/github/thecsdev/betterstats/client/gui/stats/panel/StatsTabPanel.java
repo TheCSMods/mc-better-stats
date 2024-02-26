@@ -1,7 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
@@ -16,6 +15,7 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab.StatsInitCont
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.StatFiltersPanelProxy;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TScrollBarWidget;
@@ -29,7 +29,7 @@ import net.minecraft.util.Identifier;
 public final class StatsTabPanel extends BSComponentPanel
 {
 	// ==================================================
-	public static final Text TXT_NO_STATS_YET = translatable("betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet");
+	public static final Text TXT_NO_STATS_YET = BST.sTab_noStatsYet();
 	public static final Identifier FILTER_ID_SCROLL_CACHE = new Identifier(getModID(), "stats_scroll_cache");
 	// --------------------------------------------------
 	protected final StatsTabPanelProxy proxy;

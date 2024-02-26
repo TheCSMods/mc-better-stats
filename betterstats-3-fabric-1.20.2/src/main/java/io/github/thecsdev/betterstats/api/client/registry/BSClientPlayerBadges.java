@@ -3,13 +3,13 @@ package io.github.thecsdev.betterstats.api.client.registry;
 import static io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel.BS_WIDGETS_TEXTURE;
 import static io.github.thecsdev.tcdcommons.api.client.registry.TClientRegistries.PLAYER_BADGE_RENDERER;
 import static io.github.thecsdev.tcdcommons.api.registry.TRegistries.PLAYER_BADGE;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.badge.BSClientPlayerBadge;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.render.badge.PBTextureRenderer;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistries;
@@ -38,20 +38,20 @@ public final class BSClientPlayerBadges
 	{
 		//create badges
 		final var dedication = new BSClientPlayerBadge(
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.dedication.title"),
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.dedication.description"));
+				BST.pbadge_dedication_title(),
+				BST.pbadge_dedication_description());
 		final var loyalty = new BSClientPlayerBadge(
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.loyalty.title"),
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.loyalty.description"));
+				BST.pbadge_loyalty_title(),
+				BST.pbadge_loyalty_description());
 		final var the_next_generation = new BSClientPlayerBadge(
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title"),
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description"));
+				BST.pbadge_nextgen_title(),
+				BST.pbadge_nextgen_description());
 		final var adventurous_traveler = new BSClientPlayerBadge(
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title"),
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description"));
+				BST.pbadge_advtravel_title(),
+				BST.pbadge_advtravel_description());
 		final var perennial_survivor = new BSClientPlayerBadge(
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title"),
-				translatable("betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description"));
+				BST.pbadge_psurvivor_title(),
+				BST.pbadge_psurvivor_description());
 		
 		//set badge criteria
 		dedication.setStatCriteria(sp -> (sp.getStatValue(Stats.CUSTOM, Stats.PLAY_TIME) > 20736000) ? 1 : 0);

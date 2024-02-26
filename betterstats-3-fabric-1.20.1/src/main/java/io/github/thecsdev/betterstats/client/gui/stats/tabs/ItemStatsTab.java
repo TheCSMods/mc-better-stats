@@ -26,6 +26,7 @@ import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudItemEntry;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
@@ -96,7 +97,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	{
 		widget.eContextMenu.register((__, cMenu) ->
 		{
-			cMenu.addButton(translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat"), ___ ->
+			cMenu.addButton(BST.hud_pinStat(), ___ ->
 			{
 				final var hud = BetterStatsHudScreen.getInstance();
 				hud.setParentScreen(MC_CLIENT.currentScreen);

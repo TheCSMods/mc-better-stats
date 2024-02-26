@@ -23,6 +23,7 @@ import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortCustomsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudGeneralEntry;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -75,7 +76,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 				);
 			final var ws2 = new CustomStatElement(
 					wsp.getX(), wsp.getEndY() - CustomStatElement.HEIGHT, wsp.getWidth(),
-					translatable("betterstats.client.gui.stats.panel.statstabpanel.seed_sha256"),
+					BST.sTab_hashedSeed(),
 					literal(Objects.toString(getBiomeAccessSeed(world.getBiomeAccess())))
 				);
 			wsp.addChild(ws1, false);
@@ -97,7 +98,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 				
 				statWidget.eContextMenu.register((__, cMenu) ->
 				{
-					cMenu.addButton(translatable("betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat"), ___ ->
+					cMenu.addButton(BST.hud_pinStat(), ___ ->
 					{
 						final var hud = BetterStatsHudScreen.getInstance();
 						hud.setParentScreen(MC_CLIENT.currentScreen);

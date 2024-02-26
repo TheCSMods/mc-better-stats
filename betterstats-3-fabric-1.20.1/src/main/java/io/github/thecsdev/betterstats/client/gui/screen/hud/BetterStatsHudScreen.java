@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
@@ -34,12 +35,11 @@ import net.minecraft.util.Identifier;
 public final class BetterStatsHudScreen extends TWidgetHudScreen implements IParentScreenProvider
 {
 	// ==================================================
-	private static final String P = "betterstats.client.gui.screen.hud.betterstatshudscreen";
-	public static final Text TEXT_TITLE = translatable(P);
-	public static final Text TEXT_TUTORIAL_1 = translatable(P + ".tutorial_1");
-	public static final Text TEXT_TUTORIAL_2 = translatable(P + ".tutorial_2");
-	public static final Text TEXT_TUTORIAL_3 = translatable(P + ".tutorial_3");
-	public static final Text TEXT_LIVE_TOGGLE = translatable(P + ".live_stats_toggle");
+	public static final Text TEXT_TITLE       = BST.hud_title();
+	public static final Text TEXT_TUTORIAL_1  = BST.hud_tutorial1();
+	public static final Text TEXT_TUTORIAL_2  = BST.hud_tutorial2();
+	public static final Text TEXT_TUTORIAL_3  = BST.hud_tutorial3();
+	public static final Text TEXT_LIVE_TOGGLE = BST.hud_liveStatsToggle();
 	//
 	public static final Identifier HUD_SCREEN_ID = new Identifier(getModID(), "stats_hud");
 	// --------------------------------------------------
