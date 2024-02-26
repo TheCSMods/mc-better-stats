@@ -1,7 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
-
 import java.awt.Rectangle;
 import java.util.Objects;
 
@@ -12,6 +10,7 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab.FiltersInitContext;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
@@ -21,8 +20,8 @@ import net.minecraft.text.Text;
 public final class StatFiltersPanel extends BSComponentPanel
 {
 	// ==================================================
-	public static final Text TXT_FILTERS = translatable("betterstats.api.client.gui.stats.panel.statfilterspanel.filters");
-	public static final Text TXT_NO_FILTERS = translatable("betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question");
+	public static final Text TXT_FILTERS    = BST.filters();
+	public static final Text TXT_NO_FILTERS = BST.filter_noFiltersQuestion();
 	public static final UITexture TEX_NO_FILTERS = new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(180, 180, 64, 64));
 	// --------------------------------------------------
 	private final StatFiltersPanelProxy proxy;

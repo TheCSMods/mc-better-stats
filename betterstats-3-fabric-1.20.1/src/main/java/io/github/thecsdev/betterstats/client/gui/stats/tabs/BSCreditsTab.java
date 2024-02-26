@@ -15,6 +15,7 @@ import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.client.gui.widget.CreditsTabPersonWidget;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -28,7 +29,7 @@ public final class BSCreditsTab extends StatsTab
 {
 	// ==================================================
 	private static final Text TEXT_TITLE          = translatable("credits_and_attribution.button.credits");
-	private static final Text TEXT_CONTRIBUTORS   = translatable("betterstats.contributors.title");
+	private static final Text TEXT_CONTRIBUTORS   = BST.bss_contributors_title();
 	private static final Text TEXT_SPONSORS       = translatable("tcdcommons.github.sponsors");
 	private static final Text TEXT_SPECIAL_THANKS = translatable("tcdcommons.special_thanks");
 	private static final Text TEXT_FEATURED       = translatable("tcdcommons.featured");

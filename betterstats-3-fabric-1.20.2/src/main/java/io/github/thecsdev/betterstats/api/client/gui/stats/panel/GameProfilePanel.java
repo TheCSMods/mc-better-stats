@@ -13,6 +13,7 @@ import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TEntityRendererElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
@@ -24,7 +25,7 @@ public final class GameProfilePanel extends BSComponentPanel
 {
 	// ==================================================
 	public static final int HEIGHT = 128;
-	public static final Text TEXT_UUID = translatable("betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid");
+	public static final Text TEXT_UUID = BST.gpp_uuid();
 	// --------------------------------------------------
 	private final IStatsProvider statsProvider;
 	// ==================================================

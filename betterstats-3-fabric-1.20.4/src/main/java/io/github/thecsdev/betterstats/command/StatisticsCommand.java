@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.command;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import static io.github.thecsdev.tcdcommons.command.PlayerBadgeCommand.handleError;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
@@ -15,6 +14,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.command.argument.StatArgumentType;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import io.github.thecsdev.tcdcommons.mixin.hooks.AccessorStatHandler;
@@ -31,10 +31,7 @@ import net.minecraft.text.Text;
 public final class StatisticsCommand
 {
 	// ==================================================
-	public static final String TEXT_EDIT_OUTPUT = "commands.statistics.edit.output";
-	public static final Text TEXT_CLEAR_KICK = translatable("commands.statistics.clear.kick");
-	public static final String TEXT_CLEAR_OUTPUT = "commands.statistics.clear.output";
-	public static final String TEXT_QUERY_OUTPUT = "commands.statistics.query.output";
+	public static final Text TEXT_CLEAR_KICK = BST.cmd_stats_clear_kick();
 	// ==================================================
 	private StatisticsCommand() {}
 	// ==================================================
@@ -125,10 +122,9 @@ public final class StatisticsCommand
 			}
 			
 			//send feedback
-			context.getSource().sendFeedback(() -> translatable(
-					TEXT_EDIT_OUTPUT,
-					"[" + Registries.STAT_TYPE.getId(arg_stat_type) + " / " + arg_stat + "]",
-					Integer.toString(affected.get())
+			context.getSource().sendFeedback(() -> BST.cmd_stats_edit_out(
+					TextUtils.literal("[" + Registries.STAT_TYPE.getId(arg_stat_type) + " / " + arg_stat + "]"),
+					TextUtils.literal(Integer.toString(affected.get()))
 				), false);
 			
 			//return affected count, so command blocks and data-packs can know it
@@ -165,7 +161,7 @@ public final class StatisticsCommand
 			}
 			
 			//send feedback
-			context.getSource().sendFeedback(() -> translatable(TEXT_CLEAR_OUTPUT, Integer.toString(affected.get())), false);
+			context.getSource().sendFeedback(() -> BST.cmd_stats_clear_out(TextUtils.literal(Integer.toString(affected.get()))), false);
 			
 			//return affected count, so command blocks and data-packs can know it
 			return affected.get();
@@ -194,12 +190,11 @@ public final class StatisticsCommand
 			final int statValue = arg_target.getStatHandler().getStat(stat);
 			
 			//execute
-			context.getSource().sendFeedback(() -> translatable(
-					TEXT_QUERY_OUTPUT,
+			context.getSource().sendFeedback(() -> BST.cmd_stats_query_out(
 					arg_target.getDisplayName(),
-					"[" + Registries.STAT_TYPE.getId(arg_stat_type) + " / " + arg_stat + "]",
-					Integer.toString(statValue)
-					), false);
+					TextUtils.literal("[" + Registries.STAT_TYPE.getId(arg_stat_type) + " / " + arg_stat + "]"),
+					TextUtils.literal(Integer.toString(statValue))
+				), false);
 			return statValue;
 		}
 		catch(CommandSyntaxException e)

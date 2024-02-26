@@ -6,7 +6,6 @@ import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBu
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext.DEFAULT_TEXT_COLOR;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
 import java.util.NoSuchElementException;
@@ -30,6 +29,7 @@ import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -161,7 +161,7 @@ public final class StatsTabUtils
 		//init the "show empty stats" checkbox
 		final var n1 = nextPanelVerticalRect(panel);
 		final var check_showEmpty = new TCheckboxWidget(n1.x, n1.y + gap, n1.width, n1.height);
-		check_showEmpty.setText(translatable("betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats"));
+		check_showEmpty.setText(BST.filter_showEmptyStats());
 		check_showEmpty.setChecked(filterSettings.getPropertyOrDefault(FILTER_ID_SHOWEMPTY, false));
 		check_showEmpty.eClicked.register(__ ->
 		{

@@ -158,7 +158,7 @@ public final class BSRegistries
 			if(statTypeId == null) break;
 			
 			final var stKey = statTypeId.toString().replace(':', '.');
-			final var tKey = "betterstats.stat_type_phrase." + stKey;
+			final var tKey = "betterstats.stattype_phrase." + stKey;
 			final var phrase = Text.translatable(tKey);
 			
 			if(!Objects.equals(tKey, phrase.getString())) return phrase;

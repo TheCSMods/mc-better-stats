@@ -13,11 +13,11 @@
 	"commands.statistics.query.output": "%s's stat value for %s is %s.",
 	
 	
-	"betterstats.stat_type_phrase.minecraft.killed": "Killed",
-	"betterstats.stat_type_phrase.minecraft.killed_by": "Died to",
-	"betterstats.stat_type_phrase.morestats.damaged": "Damage dealt",
-	"betterstats.stat_type_phrase.morestats.damaged_by": "Damage taken",
-	"betterstats.stat_type_phrase.morestats.totem_popped_by": "Totems popped by",
+	"betterstats.stattype_phrase.minecraft.killed": "Killed",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Died to",
+	"betterstats.stattype_phrase.morestats.damaged": "Damage dealt",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Damage taken",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Totems popped by",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "File",

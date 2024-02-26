@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab.FiltersInitContext;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.util.interfaces.ITextProvider;
 import net.minecraft.text.Text;
 
@@ -20,7 +21,7 @@ public enum FilterGroupBy implements ITextProvider
 	/**
 	 * The default grouping method, decided by the {@link StatsTab}.
 	 */
-	DEFAULT(translatable("betterstats.api.util.enumerations.filtergroupby.default")),
+	DEFAULT(BST.filter_groupBy_default()),
 	
 	/**
 	 * Group all statistics entries into one single group.
@@ -30,7 +31,7 @@ public enum FilterGroupBy implements ITextProvider
 	/**
 	 * Group statistics entries based on the mod the entry's item belongs to.
 	 */
-	MOD(translatable("betterstats.api.util.enumerations.filtergroupby.mod"));
+	MOD(BST.filter_groupBy_mod());
 	
 	private final Text text;
 	private FilterGroupBy(Text text) { this.text = Objects.requireNonNull(text); }

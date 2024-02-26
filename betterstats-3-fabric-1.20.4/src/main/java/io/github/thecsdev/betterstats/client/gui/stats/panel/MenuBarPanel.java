@@ -29,6 +29,7 @@ import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TContextMenuPanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.menu.TMenuBarPanel;
@@ -79,7 +80,6 @@ public final class MenuBarPanel extends BSComponentPanel
 	{
 		//pre-init stuff
 		final var localPlayer = MC_CLIENT.player;
-		final var tr = "betterstats.api.client.gui.stats.panel.menubarpanel.";
 		
 		//create the menu bar panel
 		final var menu = new TMenuBarPanel(0, 0, getWidth());
@@ -87,11 +87,11 @@ public final class MenuBarPanel extends BSComponentPanel
 		menu.setOutlineColor(0);    //this panel already has them
 		
 		//add menu item elements
-		menu.addButton(translatable(tr + "menu_file"), btn ->
+		menu.addButton(BST.menu_file(), btn ->
 		{
 			final var cMenu = new TContextMenuPanel(btn);
 			//cMenu.addButton(translatable(tr + "menu_file.new"), null);
-			cMenu.addButton(translatable(tr + "menu_file.open"), __ ->
+			cMenu.addButton(BST.menu_file_open(), __ ->
 			{
 				TFileChooserScreen.showOpenFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
@@ -108,7 +108,7 @@ public final class MenuBarPanel extends BSComponentPanel
 				});
 			});
 			//cMenu.addButton(translatable(tr + "menu_file.save"), null);
-			cMenu.addButton(translatable(tr + "menu_file.save_as"), __ ->
+			cMenu.addButton(BST.menu_file_saveAs(), __ ->
 			{
 				TFileChooserScreen.showSaveFileDialog(StatsProviderIO.FILE_EXTENSION, result ->
 				{
@@ -126,13 +126,13 @@ public final class MenuBarPanel extends BSComponentPanel
 			cMenu.open();
 		});
 		
-		menu.addButton(translatable(tr + "menu_view"), btn ->
+		menu.addButton(BST.menu_view(), btn ->
 		{
 			//create the context menu
 			final var cMenu = new TContextMenuPanel(btn);
 			
 			//vanilla stats
-			cMenu.addButton(translatable(tr + "menu_view.vanilla_stats"), __ ->
+			cMenu.addButton(BST.menu_view_vStats(), __ ->
 			{
 				if(localPlayer == null) return;
 				MC_CLIENT.setScreen(new StatsScreen(
@@ -161,7 +161,7 @@ public final class MenuBarPanel extends BSComponentPanel
 			cMenu.open();
 		});
 		
-		menu.addButton(translatable(tr + "menu_about"), btn ->
+		menu.addButton(BST.menu_about(), btn ->
 		{
 			//create the context menu
 			final var cMenu = new TContextMenuPanel(btn);
@@ -169,18 +169,18 @@ public final class MenuBarPanel extends BSComponentPanel
 			//url-s
 			if(!RESTRICTED_MODE)
 			{
-				cMenu.addButton(translatable(tr + "menu_about.source"), __ -> showUrlPrompt(URL_SOURCES, false));
+				cMenu.addButton(BST.menu_about_src(), __ -> showUrlPrompt(URL_SOURCES, false));
 				cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, false));
 				cMenu.addSeparator();
 			}
-			cMenu.addButton(translatable(tr + "menu_about.curseforge"), __ -> showUrlPrompt(URL_CURSEFORGE, false));
-			cMenu.addButton(translatable(tr + "menu_about.modrinth"), __ -> showUrlPrompt(URL_MODRINTH, false));
+			cMenu.addButton(BST.menu_about_cf(), __ -> showUrlPrompt(URL_CURSEFORGE, false));
+			cMenu.addButton(BST.menu_about_mr(), __ -> showUrlPrompt(URL_MODRINTH, false));
 			if(!RESTRICTED_MODE)
 			{
 				cMenu.addSeparator();
-				cMenu.addButton(translatable(tr + "menu_about.youtube"), __ -> showUrlPrompt(URL_YOUTUBE, false));
-				cMenu.addButton(translatable(tr + "menu_about.kofi"), __ -> showUrlPrompt(URL_KOFI, false));
-				cMenu.addButton(translatable(tr + "menu_about.discord"), __ -> showUrlPrompt(URL_DISCORD, false));
+				cMenu.addButton(BST.menu_about_yt(), __ -> showUrlPrompt(URL_YOUTUBE, false));
+				cMenu.addButton(BST.menu_about_kofi(), __ -> showUrlPrompt(URL_KOFI, false));
+				cMenu.addButton(BST.menu_about_dc(), __ -> showUrlPrompt(URL_DISCORD, false));
 			}
 			
 			//open the context menu

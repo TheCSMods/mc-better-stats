@@ -10,6 +10,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.util.stats.SUPlayerBadgeStat;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.badge.PlayerBadge;
 import io.github.thecsdev.tcdcommons.api.client.badge.ClientPlayerBadge;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
@@ -23,7 +24,7 @@ public @Virtual class PlayerBadgeStatWidget extends AbstractStatWidget<SUPlayerB
 	// ==================================================
 	public static final int SIZE = 25;
 	//
-	public static final Text TXT_STAT_OBTAINED = translatable("betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained");
+	public static final Text TXT_STAT_OBTAINED = BST.sWidget_pbadge_obtained();
 	// --------------------------------------------------
 	protected final PlayerBadge playerBadge;
 	protected final @Nullable PlayerBadgeRenderer<?> playerBadgeRenderer;
