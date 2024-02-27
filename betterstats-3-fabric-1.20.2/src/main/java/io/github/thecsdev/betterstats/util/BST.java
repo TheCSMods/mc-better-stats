@@ -1,6 +1,7 @@
 package io.github.thecsdev.betterstats.util;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.BetterStats;
@@ -20,10 +21,10 @@ public final @Internal class BST
 	public static final MutableText bss_translators_title()  { return translatable("betterstats.translators.title"); }
 	public static final MutableText bss_contributors_title() { return translatable("betterstats.contributors.title"); }
 	// --------------------------------------------------
-	public static final MutableText cmd_stats_edit_out(Text stat, Text affectedPlayerCount) { return translatable("commands.statistics.edit.output"); }
+	public static final MutableText cmd_stats_edit_out(Text stat, Text affectedPlayerCount) { return translatable("commands.statistics.edit.output", stat, affectedPlayerCount); }
 	public static final MutableText cmd_stats_clear_kick()                                  { return translatable("commands.statistics.clear.kick"); }
-	public static final MutableText cmd_stats_clear_out(Text affectedPlayerCount)           { return translatable("commands.statistics.clear.output"); }
-	public static final MutableText cmd_stats_query_out(Text player, Text stat, Text value) { return translatable("commands.statistics.query.output"); }
+	public static final MutableText cmd_stats_clear_out(Text affectedPlayerCount)           { return translatable("commands.statistics.clear.output", affectedPlayerCount); }
+	public static final MutableText cmd_stats_query_out(Text player, Text stat, Text value) { return translatable("commands.statistics.query.output", player, stat, value); }
 	// --------------------------------------------------
 	public static final MutableText stp_mc_killed()   { return translatable("betterstats.stattype_phrase.minecraft.killed"); }
 	public static final MutableText stp_mc_killedBy() { return translatable("betterstats.stattype_phrase.minecraft.killed_by"); }

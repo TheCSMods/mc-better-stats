@@ -15,8 +15,8 @@
 	
 	"betterstats.stattype_phrase.minecraft.killed": "Killed",
 	"betterstats.stattype_phrase.minecraft.killed_by": "Died to",
-	"betterstats.stattype_phrase.morestats.damaged": "Damage dealt",
-	"betterstats.stattype_phrase.morestats.damaged_by": "Damage taken",
+	"betterstats.stattype_phrase.morestats.damaged": "Damage dealt (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Damage taken (x10)",
 	"betterstats.stattype_phrase.morestats.totem_popped_by": "Totems popped by",
 	
 	

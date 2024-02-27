@@ -12,6 +12,7 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
+import io.github.thecsdev.tcdcommons.util.TCDCT;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 
@@ -36,7 +37,7 @@ public final class BSConfigTab extends StatsTab
 		this.config_builder = TConfigPanelBuilder.builder(panel);
 		
 		//configs for client-sided features
-		this.config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
+		this.config_builder.addLabelB(TCDCT.tcdc_term_clientSide()).setTextColor(0xFFFFFF00);
 		{
 			//debug mode
 			this.config_builder.addCheckbox(
@@ -66,7 +67,7 @@ public final class BSConfigTab extends StatsTab
 		}
 		
 		//configs for server-sided features
-		this.config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
+		this.config_builder.addLabelB(TCDCT.tcdc_term_serverSide()).setTextColor(0xFFFFFF00);
 		{
 			//register commands
 			this.config_builder.addCheckbox(

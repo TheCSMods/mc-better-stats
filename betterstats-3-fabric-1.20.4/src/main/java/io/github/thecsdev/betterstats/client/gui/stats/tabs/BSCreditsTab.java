@@ -19,6 +19,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
+import io.github.thecsdev.tcdcommons.util.TCDCT;
 import io.github.thecsdev.tcdcommons.util.io.http.TcdCommonsWebApi;
 import io.github.thecsdev.tcdcommons.util.io.http.TcdWebApiPerson;
 import net.minecraft.text.Text;
@@ -28,11 +29,11 @@ public final class BSCreditsTab extends StatsTab
 	// ==================================================
 	private static final Text TEXT_TITLE          = translatable("credits_and_attribution.button.credits");
 	private static final Text TEXT_CONTRIBUTORS   = BST.bss_contributors_title();
-	private static final Text TEXT_SPONSORS       = translatable("tcdcommons.github.sponsors");
-	private static final Text TEXT_SPECIAL_THANKS = translatable("tcdcommons.special_thanks");
-	private static final Text TEXT_FEATURED       = translatable("tcdcommons.featured");
-	private static final Text TEXT_FEATURED_NOONE = translatable("tcdcommons.featured.no_one");
-	private static final Text TEXT_FETCH_FAIL     = translatable("tcdcommons.fetch_fail");
+	private static final Text TEXT_SPONSORS       = TCDCT.tcdc_term_ghSponsors();
+	private static final Text TEXT_SPECIAL_THANKS = TCDCT.tcdc_term_specialThanks();
+	private static final Text TEXT_FEATURED       = TCDCT.tcdc_term_featured();
+	private static final Text TEXT_FEATURED_NOONE = TCDCT.tcdc_term_featured_noOne();
+	private static final Text TEXT_FETCH_FAIL     = TCDCT.tcdc_term_fetchFail();
 	// ==================================================
 	public final @Override Text getName() { return TEXT_TITLE; }
 	public final @Override boolean isAvailable() { return false; }

@@ -21,6 +21,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.client.TCDCommonsClient;
+import io.github.thecsdev.tcdcommons.util.TCDCT;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 
@@ -102,7 +103,7 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		final var config_builder = TConfigPanelBuilder.builder(panel_config);
 		{
 			//configs for client-sided features
-			config_builder.addLabelB(translatable("tcdcommons.client_side")).setTextColor(0xFFFFFF00);
+			config_builder.addLabelB(TCDCT.tcdc_term_clientSide()).setTextColor(0xFFFFFF00);
 			{
 				//debug mode
 				config_builder.addCheckbox(
@@ -132,7 +133,7 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 			}
 			
 			//configs for server-sided features
-			config_builder.addLabelB(translatable("tcdcommons.server_side")).setTextColor(0xFFFFFF00);
+			config_builder.addLabelB(TCDCT.tcdc_term_serverSide()).setTextColor(0xFFFFFF00);
 			{
 				//register commands
 				config_builder.addCheckbox(
