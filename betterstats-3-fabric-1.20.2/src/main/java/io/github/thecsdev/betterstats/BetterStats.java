@@ -26,7 +26,7 @@ public class BetterStats extends Object
 	// --------------------------------------------------
 	private static final JsonObject MOD_PROPERTIES;
 	public static final String URL_SOURCES, URL_ISSUES, URL_CURSEFORGE, URL_MODRINTH;
-	public static final String URL_YOUTUBE, URL_KOFI, URL_DISCORD;
+	public static final String URL_YOUTUBE, URL_KOFI, URL_DISCORD, URL_FEEDBACK;
 	static
 	{
 		//read the mod properties resource file
@@ -48,6 +48,7 @@ public class BetterStats extends Object
 		URL_YOUTUBE    = links.get("youtube").getAsString();
 		URL_KOFI       = links.get("kofi").getAsString();
 		URL_DISCORD    = links.get("discord").getAsString();
+		URL_FEEDBACK   = links.get("feedback").getAsString();
 	}
 	// ==================================================
 	public BetterStats()

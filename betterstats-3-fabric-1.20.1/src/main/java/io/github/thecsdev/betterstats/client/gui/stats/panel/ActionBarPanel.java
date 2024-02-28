@@ -7,16 +7,19 @@ import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNet
 import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getServerHasBSS;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_TOGGLE_TOOLTIP;
+import static io.github.thecsdev.tcdcommons.TCDCommonsConfig.RESTRICTED_MODE;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
 import java.util.Objects;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
+import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
@@ -103,6 +106,19 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_credits.setTooltip(Tooltip.of(tt_credits));
 		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 60, 20, 20)));
 		addChild(btn_credits, false);
+		
+		//feedback form button
+		final var btn_ff = new TButtonWidget(getX() + 1, getY() + 1, 20, 20);
+		btn_ff.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 180, 60, 60)));
+		btn_ff.setTooltip(Tooltip.of(translatable("menu.sendFeedback").formatted(Formatting.YELLOW)));
+		btn_ff.setEnabled(false);
+		
+		if(!RESTRICTED_MODE)
+		{
+			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStats.URL_FEEDBACK, false));
+			btn_ff.setEnabled(true);
+			addChild(btn_ff, false);
+		}
 	}
 	// --------------------------------------------------
 	/*private static final String getCreditsTranslatorNames()

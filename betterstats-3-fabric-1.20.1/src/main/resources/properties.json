@@ -9,7 +9,9 @@
 		"modrinth": "${project.modmenu_link_modrinth}",
 		"youtube": "${project.modmenu_link_youtube}",
 		"kofi": "${project.modmenu_link_kofi}",
-		"discord": "${project.modmenu_link_discord}"
+		"discord": "${project.modmenu_link_discord}",
+		
+		"feedback": "${project.link_feedback}"
 	},
 	
 	"contributors":
