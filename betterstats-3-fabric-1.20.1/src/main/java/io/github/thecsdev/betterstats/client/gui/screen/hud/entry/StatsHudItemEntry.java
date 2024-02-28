@@ -4,6 +4,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +28,7 @@ import net.minecraft.text.Text;
 public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TElement>
 {
 	// ==================================================
-	static final int WIDTH = 150;
+	static final int WIDTH = 100;
 	// --------------------------------------------------
 	protected IStatsProvider statsProvider;
 	protected final Item item;
@@ -76,35 +77,44 @@ public final class StatsHudItemEntry extends TWidgetHudScreen.WidgetEntry<TEleme
 		});
 		return el;
 	}
-	// --------------------------------------------------
-	private final CustomStatElement createCustomStatElement(SUItemStat stat)
-	{
-		//mode info
-		if(this.mode == null) this.mode = Stats.USED;
-		final var isItem = (this.mode.getRegistry() == Registries.ITEM);
-		final var isBlock = (this.mode.getRegistry() == Registries.BLOCK);
-		
-		//collect info
-		final Object valObj = (isBlock) ? this.block : (isItem ? this.item : null);
-		@SuppressWarnings("unchecked")
-		final var val = (valObj != null) ?
-			this.statsProvider.getStatValue((StatType<Object>)this.mode, valObj) :
-			-1; //-1 indicating an error, and this generally shouldn't happen
-		
-		//create and return
-		@Nullable Text left = translatable(this.mode.getTranslationKey());
-		@Nullable Text right = literal(Integer.toString(val));
-		return new CustomStatElement(ItemStatWidget.SIZE, 0, WIDTH - ItemStatWidget.SIZE, left, right);
-	}
 	// ==================================================
 	private final class Element extends TElement
 	{
 		public Element()
 		{
+			//super
 			super(0, 0, WIDTH, CustomStatElement.HEIGHT);
+			
+			//item stat widget
 			final var stat = new SUItemStat(StatsHudItemEntry.this.statsProvider, StatsHudItemEntry.this.item);
 			addChild(new ItemStatWidget(0, 0, stat), true);
-			addChild(createCustomStatElement(stat), true);
+			
+			//custom stat element
+			{
+				//mode info
+				if(StatsHudItemEntry.this.mode == null) StatsHudItemEntry.this.mode = Stats.USED;
+				final var isItem = (StatsHudItemEntry.this.mode.getRegistry() == Registries.ITEM);
+				final var isBlock = (StatsHudItemEntry.this.mode.getRegistry() == Registries.BLOCK);
+				
+				//collect info
+				final Object valObj = (isBlock) ? StatsHudItemEntry.this.block : (isItem ? StatsHudItemEntry.this.item : null);
+				@SuppressWarnings("unchecked")
+				final var val = (valObj != null) ?
+					stat.getStatsProvider().getStatValue((StatType<Object>)StatsHudItemEntry.this.mode, valObj) :
+					-1; //-1 indicating an error, and this generally shouldn't happen
+				
+				//create texts
+				final Text left = Optional.ofNullable(StatsHudItemEntry.this.mode.getName())
+						.orElse(literal(Objects.toString(Registries.STAT_TYPE.getId(mode))));
+				final Text right = literal(Integer.toString(val));
+				
+				//update width
+				this.setSize(this.width + getTextRenderer().getWidth(left), this.height);
+				
+				//create custom stat element
+				final var cse = new CustomStatElement(ItemStatWidget.SIZE, 0, this.width - ItemStatWidget.SIZE, left, right);
+				addChild(cse, true);
+			}
 		}
 		public @Override void render(TDrawContext pencil) { pencil.drawTFill(TPanelElement.COLOR_BACKGROUND); }
 	}

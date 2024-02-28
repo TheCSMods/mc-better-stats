@@ -6,10 +6,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
-import org.jetbrains.annotations.Nullable;
-
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
-import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
@@ -71,30 +68,37 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 		});
 		return el;
 	}
-	// --------------------------------------------------
-	private final CustomStatElement createCustomStatElement(SUMobStat stat)
-	{
-		//prepare variables
-		if(this.mode == null) this.mode = Stats.KILLED;
-		@Nullable Text left = getEntityStatTypePhrase(this.mode);
-		@Nullable Text right = literal(Integer.toString(this.statsProvider.getStatValue(this.mode, this.entityType)));
-		
-		//create and return
-		return new CustomStatElement(ItemStatWidget.SIZE, 0, WIDTH - ItemStatWidget.SIZE, left, right);
-	}
 	// ==================================================
 	private final class Element extends TElement
 	{
 		public Element()
 		{
+			//super
 			super(0, 0, WIDTH, CustomStatElement.HEIGHT);
 			
+			//mob stat widget
 			final var stat = new SUMobStat(StatsHudMobEntry.this.statsProvider, StatsHudMobEntry.this.entityType);
 			final var ms = new MobStatWidget(0, 0, stat);
 			ms.setSize(this.height, this.height);
-			
 			addChild(ms, true);
-			addChild(createCustomStatElement(stat), true);
+			
+			//custom stat element
+			{
+				//prepare variables
+				if(StatsHudMobEntry.this.mode == null) StatsHudMobEntry.this.mode = Stats.KILLED;
+				final Text left = getEntityStatTypePhrase(StatsHudMobEntry.this.mode);
+				final Text right = literal(Integer.toString(stat.getStatsProvider().getStatValue(
+						StatsHudMobEntry.this.mode,
+						StatsHudMobEntry.this.entityType
+					)));
+				
+				//update width
+				this.setSize(this.width + getTextRenderer().getWidth(left), this.height);
+				
+				//create and return
+				final var cse = new CustomStatElement(ms.getWidth(), 0, this.width - ms.getWidth(), left, right);
+				addChild(cse, true);
+			}
 		}
 		public @Override void render(TDrawContext pencil) { pencil.drawTFill(TPanelElement.COLOR_BACKGROUND); }
 	}
