@@ -3,13 +3,20 @@
 	
 	"betterstats.translators.title": "Перекладачі",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "rvbsm,",
+	"betterstats.translators": "rvbsm, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "Відредаговано статистику %s для %s гравця(ів).",
 	"commands.statistics.clear.kick": "Вашу статистику очищено, що потребує від вас від'єднання та повторного приєднання.",
 	"commands.statistics.clear.output": "Очищено статистику %s гравця(ів).",
 	"commands.statistics.query.output": "Значення %s для статистики %s становить %s.",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Вбито",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Загинув від",
+	"betterstats.stattype_phrase.morestats.damaged": "Завдано шкоди (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Отримано шкоди (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Тотеми активовані",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",

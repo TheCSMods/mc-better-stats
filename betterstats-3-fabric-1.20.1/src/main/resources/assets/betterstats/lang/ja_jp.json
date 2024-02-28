@@ -3,13 +3,20 @@
 	
 	"betterstats.translators.title": "翻訳者",
 	"betterstats.translators.tutorial": "以下の翻訳者セクションはCSV形式です。コンマ (,) で区切り、一意なGitHubユーザー名を書き込んでください。例: 「TheCSDev, SomeOtherUser, AndSoOn」",
-	"betterstats.translators": "Sw3et-Dre4mer,",
+	"betterstats.translators": "Sw3et-Dre4mer, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "%2$s人のプレイヤーの統計%1$sを編集しました",
 	"commands.statistics.clear.kick": "統計がクリアされたためサーバーから切断されました。再参加が必要です。",
 	"commands.statistics.clear.output": "%s人のプレイヤーの統計をクリアしました",
 	"commands.statistics.query.output": "%sの統計%sの値は %s です",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "倒した数",
+	"betterstats.stattype_phrase.minecraft.killed_by": "（～に）やられた", 
+	"betterstats.stattype_phrase.morestats.damaged": "与えたダメージ (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "受けたダメージ (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "（～に）起動されたトーテム",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "ファイル",

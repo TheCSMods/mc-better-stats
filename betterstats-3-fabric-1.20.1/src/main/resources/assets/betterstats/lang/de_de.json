@@ -3,7 +3,15 @@
 	
 	"betterstats.translators.title": "Übersetzer",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "MrLoLf, Black-Hole",
+	"betterstats.translators": "MrLoLf, Black-Hole, google:gemini",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Getötet",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Gestorben durch",
+	"betterstats.stattype_phrase.morestats.damaged": "Verursachter Schaden (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Erhaltener Schaden (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Ausgelöste Totems durch",
+	
 
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Datei",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Neu",

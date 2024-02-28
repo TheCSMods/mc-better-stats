@@ -3,12 +3,19 @@
 	
 	"betterstats.translators.title": "المترجمون",
 	"betterstats.translators.tutorial": "قسم المترجمين في الأسفل بصيغة CSV. فقط ضع فاصلة (,) وكتابة اسم المستخدم الفريد لك على GitHub. مثال: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-4,",
+	"betterstats.translators": "openai:gpt-4, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "تم تعديل الإحصائيات %s لـ %s لاعبين.",
 	"commands.statistics.clear.kick": "تم مسح إحصائياتك، مما يتطلب منك الخروج وإعادة الانضمام.",
 	"commands.statistics.clear.output": "تم مسح الإحصائيات لـ %s من اللاعبين.",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "عمليات القتل",
+	"betterstats.stattype_phrase.minecraft.killed_by": "موت بـ",
+	"betterstats.stattype_phrase.morestats.damaged": "الضرر المتسبب (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "الضرر المُتلقى (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "الطواطم المُفعلة بواسطة",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "ملف",

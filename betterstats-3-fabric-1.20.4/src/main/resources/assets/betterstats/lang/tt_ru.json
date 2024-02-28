@@ -11,7 +11,6 @@
 	"commands.statistics.edit.output": "%2$s уенчы өчен %1$s статистикасы үзгәртелде.",
 	"commands.statistics.clear.kick": "Сезнең статистика чистартылды, шуңа күрә Сезгә сүндерергә һәм яңадан кушылырга кирәк.",
 	"commands.statistics.clear.output": "%s уенчы статистикасы чистарылды.",
-	"commands.statistics.query.output": "%s уенчының %s өчен статистика кыйммәте — %s.",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
@@ -35,13 +34,13 @@
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Буш статистиканы күрсәтү",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "Фильтрларсызмы?",
 
+
 	"betterstats.api.util.enumerations.filtergroupby.default": "Беренчел",
 	"betterstats.api.util.enumerations.filtergroupby.mod": "Мод буенча",
 	
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Үтерүләр саны",
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Үлемнәр саны",
 	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Табылган",
-	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Кыйммәт",
 	
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
 	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Генератор ачкычы (SHA-256)",

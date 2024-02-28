@@ -3,12 +3,19 @@
 	
 	"betterstats.translators.title": "翻译员",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "IwasConfused,",
+	"betterstats.translators": "IwasConfused, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "已编辑统计信息%s，应用于%s位玩家。",
 	"commands.statistics.clear.kick": "你的统计信息已被清除，请断开连接并重新加入。",
 	"commands.statistics.clear.output": "已清除%s位玩家的统计信息。",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "击杀数",
+	"betterstats.stattype_phrase.minecraft.killed_by": "被...击杀",
+	"betterstats.stattype_phrase.morestats.damaged": "造成的伤害 (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "受到的伤害 (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "被...触发的图腾",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "文件",

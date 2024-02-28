@@ -3,11 +3,19 @@
 
 	"betterstats.translators.title": "Traduttori",
 	"betterstats.translators.tutorial": "La sezione dei traduttori di seguito è in formato CSV. Basta mettere una virgola (,) e scrivere il tuo unico nome utente GitHub. Esempio: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-4,",
+	"betterstats.translators": "openai:gpt-4, google:gemini",
 
 	"commands.statistics.edit.output": "Modificata la statistica %s per %s giocatore(i).",
 	"commands.statistics.clear.kick": "Le tue statistiche sono state cancellate, il che richiede che tu ti disconnetta e rientri.",
 	"commands.statistics.clear.output": "Cancellate le statistiche di %s giocatore(i).",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Uccisi",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Morto per",
+	"betterstats.stattype_phrase.morestats.damaged": "Danno inflitto (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Danno subito (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Totem attivati da",
+	
 
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "File",
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Nuovo",

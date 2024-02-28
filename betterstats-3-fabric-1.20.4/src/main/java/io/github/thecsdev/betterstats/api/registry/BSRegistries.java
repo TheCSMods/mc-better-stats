@@ -1,6 +1,6 @@
 package io.github.thecsdev.betterstats.api.registry;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistry;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.entity.Entity;
@@ -64,6 +65,7 @@ public final class BSRegistries
 	 * {@link StatType}, and then format it into a user-friendly {@link Text}.
 	 * @apiNote The {@link Function} must not return {@code null}!
 	 */
+	@Deprecated(since = "3.9.1", forRemoval = true)
 	public static final Map<StatType<EntityType<?>>, Function<SUMobStat, Text>> ENTITY_STAT_TEXT_FORMATTER;
 	
 	/**
@@ -91,21 +93,27 @@ public final class BSRegistries
 		//the default entity stat text formatters for vanilla stat types
 		ENTITY_STAT_TEXT_FORMATTER.put(Stats.KILLED, stat ->
 		{
-			final Text entityName = stat.getStatLabel();
+			return literal("")
+					.append(getEntityStatTypePhrase(Stats.KILLED))
+					.append(": " + stat.kills);
+			/*final Text entityName = stat.getStatLabel();
 			return (stat.kills == 0) ?
 					translatable("stat_type.minecraft.killed.none", entityName) :
-					translatable("stat_type.minecraft.killed", Integer.toString(stat.kills), entityName);
+					translatable("stat_type.minecraft.killed", Integer.toString(stat.kills), entityName);*/
 		});
 		ENTITY_STAT_TEXT_FORMATTER.put(Stats.KILLED_BY, stat ->
 		{
-			final Text entityName = stat.getStatLabel();
+			return literal("")
+					.append(getEntityStatTypePhrase(Stats.KILLED_BY))
+					.append(": " + stat.deaths);
+			/*final Text entityName = stat.getStatLabel();
 			return (stat.deaths == 0) ?
 					translatable("stat_type.minecraft.killed_by.none", entityName) :
-					translatable("stat_type.minecraft.killed_by", entityName, Integer.toString(stat.deaths));
+					translatable("stat_type.minecraft.killed_by", entityName, Integer.toString(stat.deaths));*/
 		});
 		
-		ENTITY_STAT_PHRASE.put(Stats.KILLED, translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.kills"));
-		ENTITY_STAT_PHRASE.put(Stats.KILLED_BY, translatable("betterstats.api.client.gui.stats.widget.mobstatwidget.deaths"));
+		ENTITY_STAT_PHRASE.put(Stats.KILLED, BST.stp_mc_killed());
+		ENTITY_STAT_PHRASE.put(Stats.KILLED_BY, BST.stp_mc_killedBy());
 	}
 	// ==================================================
 	/**

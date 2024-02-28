@@ -3,12 +3,19 @@
 	
 	"betterstats.translators.title": "Translators",
 	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "notlin4,",
+	"betterstats.translators": "notlin4, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "已為 %s 玩家修改 %s 統計資訊。",
 	"commands.statistics.clear.kick": "你的統計資訊已被清除，你需要中斷連接並重新加入。",
 	"commands.statistics.clear.output": "已清除 %s 玩家的統計資訊。",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "擊殺數",
+	"betterstats.stattype_phrase.minecraft.killed_by": "被...擊殺",
+	"betterstats.stattype_phrase.morestats.damaged": "造成的傷害 (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "受到的傷害 (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "被...觸發的圖騰",
 	
 	
 	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "檔案",
