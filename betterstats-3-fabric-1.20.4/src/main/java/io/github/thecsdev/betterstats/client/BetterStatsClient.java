@@ -46,13 +46,15 @@ public final class BetterStatsClient extends BetterStats
 			});
 		});
 		
+		// ---------- Performance optimizations
 		//update the "Item to Group" map whenever item groups update
 		ItemGroupEvent.UPDATE_DISPLAY_CONTEXT.register((a, b, c) -> BSUtils.updateITG());
 		
-		//when the client joins a world, update the item group display context
-		//right away, so as to avoid lag spikes when opening inventory later
+		//pre-load dynamic content when joining worlds
 		MinecraftClientEvent.JOINED_WORLD.register((client, world) ->
 		{
+			//when the client joins a world, update the item group display context
+			//right away, so as to avoid lag spikes when opening inventory later
 			final var useOp = //Important: Must copy the exact values used by CreativeInventoryScreen
 					client.player.isCreativeLevelTwoOp() &&
 					MC_CLIENT.options.getOperatorItemsTab().getValue();

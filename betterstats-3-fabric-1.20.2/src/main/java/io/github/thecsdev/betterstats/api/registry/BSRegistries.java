@@ -15,6 +15,7 @@ import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistry;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
+import io.github.thecsdev.tcdcommons.util.io.http.TcdBetterstatsWebApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -150,27 +151,37 @@ public final class BSRegistries
 	 */
 	public static final Text getEntityStatTypePhrase(StatType<EntityType<?>> statType)
 	{
-		//first approach: look at the better-stats registry
-		do
-		{
-			final @Nullable var p = ENTITY_STAT_PHRASE.get(statType);
-			if(p == null) break;
-			return p;
-		}
-		while(false);
+		//null-check
+		if(statType == null) return TextUtils.literal("null");
 		
-		//alternative approach: look in the translation keys
+		//first approach: look at the better-stats registry
+		{
+			final @Nullable var esp = ENTITY_STAT_PHRASE.get(statType);
+			if(esp != null) return esp;
+		}
+		
+		//alternative approaches: using the id
 		do
 		{
 			final @Nullable var statTypeId = Registries.STAT_TYPE.getId(statType);
 			if(statTypeId == null) break;
 			
-			final var stKey = statTypeId.toString().replace(':', '.');
-			final var tKey = "betterstats.stattype_phrase." + stKey;
-			final var phrase = Text.translatable(tKey);
+			//look in the translation keys
+			{
+				final var stKey = statTypeId.toString().replace(':', '.');
+				final var tKey = "betterstats.stattype_phrase." + stKey;
+				final var phrase = Text.translatable(tKey);
+				if(!Objects.equals(tKey, phrase.getString())) return phrase;
+			}
 			
-			if(!Objects.equals(tKey, phrase.getString())) return phrase;
-			else return TextUtils.literal(statTypeId.toString());
+			//look in the STP container
+			{
+				final @Nullable var stp = TcdBetterstatsWebApi.getStpFromContainer(statType);
+				if(stp != null) return TextUtils.literal(stp);
+			}
+			
+			//return the id as a literal if nothing is found
+			return TextUtils.literal(statTypeId.toString());
 		}
 		while(false);
 		

@@ -6,6 +6,7 @@ import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBu
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext.DEFAULT_TEXT_COLOR;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
 import java.util.NoSuchElementException;
@@ -139,6 +140,7 @@ public final class StatsTabUtils
 		final var n2 = nextPanelVerticalRect(panel);
 		final var input_search = new TTextFieldWidget(n2.x, n2.y + GAP, n2.width, n2.height);
 		input_search.setInput(filterSettings.getPropertyOrDefault(FILTER_ID_SEARCH, ""));
+		input_search.setPlaceholderText(translatable("gui.socialInteractions.search_hint"));
 		input_search.eTextChanged.register((__, txt) ->
 		{
 			filterSettings.setProperty(FILTER_ID_SEARCH, (String)txt);
