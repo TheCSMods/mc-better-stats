@@ -4,7 +4,7 @@
 	"betterstats.translators.title": "Переводчики",
 	"betterstats.contributors.title": "Участники",
 	"betterstats.translators.tutorial": "Раздел переводчиков ниже представлен в формате CSV. Просто поставьте запятую (,) и введите своё уникальное имя пользователя на GitHub. Например: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "Felix14-v2,mpustovoi",
+	"betterstats.translators": "Felix14-v2, google:gemini, mpustovoi",
 	
 	
 	"commands.statistics.edit.output": "Отредактирована статистика %s для %s игрока(ов).",
