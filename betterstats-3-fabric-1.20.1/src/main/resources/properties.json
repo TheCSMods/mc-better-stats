@@ -17,11 +17,6 @@
 	"contributors":
 	[
 		{
-			"name": "openai:gpt-4",
-			"avatar_url": "https://avatars.githubusercontent.com/u/14957082?v=4",
-			"contact": { "homepage": "https://openai.com/gpt-4" }
-		},
-		{
 			"name": "MrLoLf",
 			"contact": { "homepage": "https://github.com/MrLoLf" }
 		},
@@ -56,6 +51,10 @@
 		{
 			"name": "Atakku",
 			"contact": { "homepage": "https://github.com/Atakku" }
+		},
+		{
+			"name": "Korben",
+			"contact": { "homepage": "https://github.com/mpustovoi" }
 		}
 	]
 }
