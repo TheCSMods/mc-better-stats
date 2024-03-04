@@ -1,0 +1,97 @@
+{
+	"betterstats": "Улучшенный экран статистики",
+	
+	"betterstats.translators.title": "Переводчики",
+	"betterstats.contributors.title": "Участники",
+	"betterstats.translators.tutorial": "Раздел переводчиков ниже представлен в формате CSV. Просто поставьте запятую (,) и введите своё уникальное имя пользователя на GitHub. Например: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators": "Felix14-v2, google:gemini, mpustovoi",
+	
+	
+	"commands.statistics.edit.output": "Отредактирована статистика %s для %s игрока(ов).",
+	"commands.statistics.clear.kick": "Ваша статистика была очищена, что требует от вас отключения и повторного подключения.",
+	"commands.statistics.clear.output": "Очищена статистика %s игрока(ов).",
+	"commands.statistics.query.output": "Значение статистики %s для %s: %s.",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Убито",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Умер от",
+	"betterstats.stattype_phrase.morestats.damaged": "Нанесено урона (×10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Принято урона (×10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Использовано тотемов",
+	
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Файл",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Создать",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "Открыть",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "Сохранить",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "Сохранить как",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "Вид",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "Обычное меню статистики",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "О программе",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "Исходный код",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "Modrinth",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Фильтры",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Вся статистика",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "Без фильтров?",
+	
+	"betterstats.api.util.enumerations.filtergroupby.default": "По умолчанию",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "По модам",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Убийств",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Смертей",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Получено",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Значение",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Статистика пока отсутствует…",
+	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Ключ генерации (SHA-256)",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Режим отладки",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll": "Включить плавную прокрутку интерфейса",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_smooth_scroll.tooltip": "При включении прокрутка панелей статистики будет 'плавно анимированной'. Отключите это, если вы играете на устройствах более низкого уровня или если прокрутка с помощью колёсика мыши у вас вообще не работает.",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "Мобы следят за указателем",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net": "Автоматическое переключение сети 'betterstats'",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip": "Когда этот мод устанавливается на сервер, он предлагает больше возможностей. Сетевой протокол 'betterstats' — это способ взаимодействия сервера 'betterstats' с клиентом 'betterstats'. Если это включено, клиент автоматически сообщит серверу, что у него установлен 'betterstats', когда это применимо. Если это отключено, вам придётся делать это вручную самостоятельно каждый раз, когда вы присоединяетесь к серверу.",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands": "Регистрировать команды",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas": "Включить систему оповещения о статистике",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "Преданность",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "Настоящая преданность! Вы играете в этом мире уже как минимум 12 дней (288 часов).",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "Верность",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "Вы играете в этом мире уже более 24 дней (576 часов). Похвально!",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "Новое поколение",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "Вы прикоснулись к символу вечного триумфа – яйцу дракона.",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "Отважный путник",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "Покоряя горные высоты и пересекая широкие долины, вы забрались далеко и повидали многое. В поисках необчных явлений, неслыханных историй и тайных сокровищ… Вы достигли этого.\n\nВы преодолели больше 727 000 блоков.",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "Долгожитель",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "На этот раз вам удалось обмануть смерть. Будете ли вы и дальше уклоняться от неизбежного?\n\nВы прожили по меньшей мере 12 часов.",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Экранная статистика",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Закрепить на экране",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.live_stats_toggle": "Переключить обновление экранной статистики в реальном времени",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Нажмите ПКМ по статистике ([Shift]+ПКМ) для её вывода на экран.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Нажмите ПКМ по элементу для его изменения или удалния.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Чтобы выйти, нажмите Esc.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Переключить связь 'betterstats' с сервером",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "ВАЖНО:\nАктивируя эту функцию, вы даёте серверу понять, что используете модифицированный клиент с установленным 'betterstats'. В целях сохранения приватности не используйте это на серверах, где может быть запрещено использование модифицированных клиентов или конкретно этого мода.\n\nПредназначено для получения некоторых дополнительных возможностей, когда мод также установлен и на сервере.",
+	
+	
+	"betterstats.util.stats.statannouncementsystem.first_mine": "%s только что впервые добыл %s.",
+	"betterstats.util.stats.statannouncementsystem.first_craft": "%s только что впервые создал %s.",
+	"betterstats.util.stats.statannouncementsystem.first_death": "%s только что впервые умер.",
+	"betterstats.util.stats.statannouncementsystem.first_death.hc1": "%s только впервые умер. С другой стороны, это, скорее всего, больше не повторится.",
+	"betterstats.util.stats.statannouncementsystem.first_kill": "%s только что впервые убил %s.",
+	"betterstats.util.stats.statannouncementsystem.first_death_to": "%s только что впервые был убит %s.",
+	"betterstats.util.stats.statannouncementsystem.custom": "%s только что увеличил значение статистики '%s' на %s.",
+	
+  "modmenu.summaryTranslation.betterstats": "Улучшенное и более полезное меню просмотра статистики.",
+  "modmenu.descriptionTranslation.betterstats": "Улучшает функционал меню просмотра статистики и делает его более полезным."
+}

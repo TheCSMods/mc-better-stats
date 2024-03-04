@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "io.github.thecsdev.betterstats.mixin.events",
+	"compatibilityLevel": "JAVA_17",
+	"mixins":
+	[
+		"MixinServerStatHandler",
+		"MixinArgumentTypes"
+	],
+	"injectors": { "defaultRequire": 1 }
+}

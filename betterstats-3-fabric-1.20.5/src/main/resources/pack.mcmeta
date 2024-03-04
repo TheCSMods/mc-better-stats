@@ -1,0 +1,7 @@
+{
+	"pack":
+	{
+		"description": { "text": "${project.mod_id} resources" },
+		"pack_format": ${project.pack_mcmeta_format}
+	}
+}

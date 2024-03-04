@@ -1,0 +1,71 @@
+{
+	"betterstats": "شاشة الإحصائيات الأفضل",
+	
+	"betterstats.translators.title": "المترجمون",
+	"betterstats.translators.tutorial": "قسم المترجمين في الأسفل بصيغة CSV. فقط ضع فاصلة (,) وكتابة اسم المستخدم الفريد لك على GitHub. مثال: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators": "openai:gpt-4, google:gemini",
+	
+	
+	"commands.statistics.edit.output": "تم تعديل الإحصائيات %s لـ %s لاعبين.",
+	"commands.statistics.clear.kick": "تم مسح إحصائياتك، مما يتطلب منك الخروج وإعادة الانضمام.",
+	"commands.statistics.clear.output": "تم مسح الإحصائيات لـ %s من اللاعبين.",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "عمليات القتل",
+	"betterstats.stattype_phrase.minecraft.killed_by": "موت بـ",
+	"betterstats.stattype_phrase.morestats.damaged": "الضرر المتسبب (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "الضرر المُتلقى (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "الطواطم المُفعلة بواسطة",
+	
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "ملف",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "جديد",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "فتح",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "حفظ",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "حفظ كـ",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "عرض",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "إظهار الإحصائيات الفانيليا",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "حول",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "الكود المصدري",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "كيرسفورج",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "مودرينث",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "يوتيوب",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "ديسكورد",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "الفلاتر",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "عرض الإحصائيات الفارغة",
+	"betterstats.api.util.enumerations.filtergroupby.default": "الافتراضي",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "التعديل",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "القتلى",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "الوفيات",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "مكتسب",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "القيمة",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "لا توجد إحصائيات للعرض حتى الآن...",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "وضع التصحيح",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "الغوغاء في واجهة المستخدم تتبع المؤشر",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "التفاني",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "لقد أظهرت تفانيا حقيقيا! لقد لعبت في هذا العالم لمدة 12 يومًا على الأقل (288 ساعة).",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "الولاء",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "ولاءك مثير للإعجاب! لقد لعبت في هذا العالم لمدة 24 يومًا على الأقل (576 ساعة).",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "الجيل القادم",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "لقد حملت رمز النصر النهائي - بيضة الدراجون.",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "المسافر المغامر",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "من خلال الجبال العالية والوديان الواطئة، لقد سافرت بعيدًا، مع الكثير لتظهره. تبحث عن منظر، حكاية لم تروى، مقياس الرحلة في كتل الذهب. وثم رأيته...\n\nلقد سافرت لمدة 727,000 كتلة على الأقل.",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "الناجي الدائم",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "تمكنت من خداع الموت، للآن. هل ستستمر في تجنب المحتوم؟\n\nلقد نجوت لمدة 12 ساعة على الأقل.",
+	
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "شاشة الإحصائيات",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "تعليق إحصائية على الشاشة",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "انقر بزر الماوس الأيمن على الإحصاء ([Shift]+RMB) لإضافته هنا.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "انقر بزر الماوس الأيمن على إحصاء الشاشة لتعديله أو إزالته.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "اضغط على Escape (ESC) لإغلاق هذه الشاشة.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "تبديل الاتصال بالخادم 'betterstats'",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "مهم:\nبتمكين هذه الميزة، سيرى الخادم أنك تستخدم عميلًا معدلًا بتثبيت 'betterstats'. لحماية خصوصيتك، لا تستخدم هذه الميزة على الخوادم التي قد لا تسمح بعملاء معدلين أو هذا التعديل.\n\nتمكين هذه الميزة يضيف بعض الميزات الإضافية التي متوفرة عند تثبيت التعديل على الخادم أيضًا."
+}

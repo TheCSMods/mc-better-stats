@@ -1,0 +1,13 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
+	"betterstats.translators": "google:gemini,",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Zabitych",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Śmierć przez",
+	"betterstats.stattype_phrase.morestats.damaged": "Zadane obrażenia (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Otrzymane obrażenia (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Aktywowane totemy przez"
+}
