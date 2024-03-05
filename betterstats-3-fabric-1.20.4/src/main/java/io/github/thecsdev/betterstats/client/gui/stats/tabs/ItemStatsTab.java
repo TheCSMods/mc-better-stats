@@ -43,7 +43,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		final var stats = initContext.getStatsProvider();
 		
 		final var filters = initContext.getFilterSettings();
-		final var predicate = getPredicate(initContext.getFilterSettings());
+		final var predicate = getPredicate(filters);
 		
 		final var filter_group = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_GROUP, FilterGroupBy.DEFAULT);
 		final var filter_sort = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SORT_ITEMS, FilterSortItemsBy.DEFAULT);
@@ -86,6 +86,11 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		StatsTabUtils.initSortItemsByFilter(initContext);
 	}
 	// ==================================================
+	/**
+	 * Obtains stats using the default grouping filter.
+	 * @param stats The {@link IStatsProvider}.
+	 * @param predicate The {@link SUItemStat} {@link Predicate}.
+	 */
 	protected @Virtual Map<Text, List<SUItemStat>> getStatsDefault(
 			IStatsProvider stats,
 			@Nullable Predicate<SUItemStat> predicate)
@@ -93,21 +98,12 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		return SUItemStat.getItemStatsByItemGroupsB(stats, predicate);
 	}
 	// --------------------------------------------------
-	protected @Virtual void processWidget(ItemStatWidget widget)
-	{
-		widget.eContextMenu.register((__, cMenu) ->
-		{
-			cMenu.addButton(BST.hud_pinStat(), ___ ->
-			{
-				final var hud = BetterStatsHudScreen.getInstance();
-				hud.setParentScreen(MC_CLIENT.currentScreen);
-				hud.addEntry(new StatsHudItemEntry(widget.getStat()));
-				MC_CLIENT.setScreen(hud.getAsScreen());
-			});
-			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
-		});
-	}
-	// --------------------------------------------------
+	/**
+	 * Initializes a {@link Collection} of {@link SUItemStat} onto a {@link TPanelElement}.
+	 * @param panel The {@link TPanelElement}.
+	 * @param stats The {@link SUItemStat}s to initialize.
+	 * @param processWidget Optional {@link Consumer} that allows you to make changes to widgets as they are created.
+	 */
 	protected static void initStats(
 			TPanelElement panel,
 			Collection<SUItemStat> stats,
@@ -131,6 +127,26 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 				nextY = (nextPanelBottomY(panel) - panel.getY()) + GAP;
 			}
 		}
+	}
+	//
+	/**
+	 * Default {@link ItemStatWidget} processing logic.<br/>
+	 * Primarily used for {@link #initStats(TPanelElement, Collection, Consumer)}.
+	 * @param widget The {@link ItemStatWidget}.
+	 */
+	protected @Virtual void processWidget(ItemStatWidget widget)
+	{
+		widget.eContextMenu.register((__, cMenu) ->
+		{
+			cMenu.addButton(BST.hud_pinStat(), ___ ->
+			{
+				final var hud = BetterStatsHudScreen.getInstance();
+				hud.setParentScreen(MC_CLIENT.currentScreen);
+				hud.addEntry(new StatsHudItemEntry(widget.getStat()));
+				MC_CLIENT.setScreen(hud.getAsScreen());
+			});
+			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
+		});
 	}
 	// ==================================================
 }

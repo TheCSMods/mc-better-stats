@@ -5,13 +5,6 @@ plugins
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.mod_id
-version = project.mod_version
-group = project.maven_group
-
 repositories
 {
 	// Add repositories to retrieve artifacts from in here.
@@ -90,6 +83,9 @@ java
 	javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 	javadoc.options.encoding = 'UTF-8';
 	withJavadocJar()
+	
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar
@@ -103,5 +99,5 @@ jar
 	}
 	
 	//handle the license file
-	from("LICENSE") { rename { "${it}_${project.archivesBaseName}"} }
+	from("LICENSE")
 }
