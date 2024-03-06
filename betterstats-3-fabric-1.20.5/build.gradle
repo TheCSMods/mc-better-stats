@@ -60,6 +60,8 @@ dependencies
 	// modImplementation fileTree(dir: 'src/main/dependencies', include: '*.jar')
 }
 
+base { archivesName = "${project.mod_id}-${project.mod_version}" }
+
 processResources
 {
 	// inputs.property "version", project.version

@@ -1,13 +1,32 @@
 package io.github.thecsdev.betterstats.api.util.enumerations;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab.FiltersInitContext;
+import io.github.thecsdev.betterstats.api.util.BSUtils;
+import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
+import io.github.thecsdev.betterstats.api.util.stats.SUStat;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.util.interfaces.ITextProvider;
+import io.github.thecsdev.tcdcommons.api.util.io.mod.ModInfo;
+import io.github.thecsdev.tcdcommons.api.util.io.mod.ModInfoProvider;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.text.Text;
 
 /**
@@ -18,6 +37,7 @@ import net.minecraft.text.Text;
  */
 public enum FilterGroupBy implements ITextProvider
 {
+	// ==================================================
 	/**
 	 * The default grouping method, decided by the {@link StatsTab}.
 	 */
@@ -32,8 +52,123 @@ public enum FilterGroupBy implements ITextProvider
 	 * Group statistics entries based on the mod the entry's item belongs to.
 	 */
 	MOD(BST.filter_groupBy_mod());
-	
+	// ==================================================
 	private final Text text;
 	private FilterGroupBy(Text text) { this.text = Objects.requireNonNull(text); }
 	public final @Override Text getText() { return this.text; }
+	// ==================================================
+	/**
+	 * Groups a collection of {@link SUStat}s using this {@link FilterGroupBy}.
+	 * @param stats The {@link SUStat}s to group.
+	 * @param typeClassGetter Generic type getter. Leave this empty. Do not pass any arguments.
+	 * @throws NullPointerException If an argument is null.
+	 */
+	public final @SafeVarargs <S extends SUStat<?>> Map<Text, List<S>> apply(
+			Iterable<S> stats, S... typeClassGetter) throws NullPointerException
+	{
+		//requirements
+		Objects.requireNonNull(stats);
+		Objects.requireNonNull(typeClassGetter);
+		
+		//handle empty iterables
+		if(!stats.iterator().hasNext())
+			return new HashMap<Text, List<S>>();
+		
+		//do the grouping
+		switch(this)
+		{
+			case ALL: return apply_all(stats);
+			case MOD: return apply_mod(stats);
+			case DEFAULT:
+			default:
+			{
+				final var type = Objects.requireNonNull(typeClassGetter.getClass().getComponentType());
+				if(type.equals(SUItemStat.class))
+				{
+					final @SuppressWarnings("unchecked") var statsI = (Iterable<SUItemStat>)stats;
+					return apply_itemGroups(statsI);
+				}
+				else return apply_mod(stats);
+			}
+		}
+	}
+	// --------------------------------------------------
+	private static final <S extends SUStat<?>> Map<Text, List<S>> apply_all(Iterable<S> stats)
+	{
+		//create a map...
+		final var map = new HashMap<Text, List<S>>();
+		//...put a single entry in it...
+		//...and have the entry contain all the stats
+		final var list = new ArrayList<S>(StreamSupport.stream(stats.spliterator(), false).toList());
+		map.put(literal("*"), list);
+		return map;
+	}
+	private static final <S extends SUStat<?>> Map<Text, List<S>> apply_mod(Iterable<S> stats)
+	{
+		final var mip = Objects.requireNonNull(ModInfoProvider.getInstance());
+		
+		//create the initial map, and the * group
+		final var map = new LinkedHashMap<String, List<S>>();
+		map.put("*", new LinkedList<S>());
+		
+		//create a group for each installed mod
+		Arrays.stream(mip.getLoadedModIDs())
+			.forEach(mod -> map.put(mod, new LinkedList<S>()));
+		
+		//group all stats to their corresponding mod group
+		StreamSupport.stream(stats.spliterator(), false).forEach(stat ->
+		{
+			//obtain the corresponding mod group
+			var group = map.get(stat.getStatID().getNamespace());
+			//ensure it exists. if not, use the * group
+			if(group == null) group = map.get("*");
+			//add the stat to the group
+			group.add(stat);
+		});
+		
+		//remove the * group if it doesn't have any entries
+		if(map.get("*").size() < 1) map.remove("*");
+		
+		//map the map's keys into Text-s, and return the result map
+		return map.entrySet().stream().map(mapEntry ->
+		{
+			//obtain the mod info container for the given key
+			final @Nullable ModInfo modInfo = mip.getModInfo(mapEntry.getKey());
+			//construct a new key
+			final var newKey = (modInfo != null) ? modInfo.getName() : literal(mapEntry.getKey());
+			//construct a new map entry with the new key and the same value
+			return new AbstractMap.SimpleEntry<>(newKey, mapEntry.getValue());
+		})
+		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (u, v) -> u, LinkedHashMap::new));
+	}
+	@SuppressWarnings("unchecked")
+	private static final <S extends SUStat<?>> Map<Text, List<S>> apply_itemGroups(Iterable<SUItemStat> stats)
+	{
+		//create the initial map, and the null group
+		final var map = new LinkedHashMap<ItemGroup, List<S>>();
+		map.put(null, new LinkedList<S>());
+		
+		//iterate all stats
+		stats.forEach(stat ->
+		{
+			//obtain the item group
+			final @Nullable var itemGroup = BSUtils.getItemGroup(stat.getItem());
+			//obtain the map group, or create one if it doesn't exist
+			var group = map.get(itemGroup);
+			if(group == null) map.put(itemGroup, group = new LinkedList<S>());
+			//put the item stat in the group
+			group.add((S)stat);
+		});
+		
+		//map the map's keys, and return the resulting map
+		return map.entrySet().stream().map(mapEntry ->
+		{
+			final var name = (mapEntry.getKey() != null) ?
+					mapEntry.getKey().getDisplayName() :
+					literal("*");
+			return new AbstractMap.SimpleEntry<>(name, mapEntry.getValue());
+		})
+		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (u, v) -> u, LinkedHashMap::new));
+	}
+	// ==================================================
 }

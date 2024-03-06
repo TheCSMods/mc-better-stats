@@ -1,7 +1,6 @@
 package io.github.thecsdev.betterstats.api.util.stats;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.fTranslatable;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,8 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import com.google.common.collect.Lists;
 
 import io.github.thecsdev.betterstats.api.util.BSUtils;
+import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
-import io.github.thecsdev.tcdcommons.api.util.TUtils;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -183,17 +182,11 @@ public final class SUItemStat extends SUStat<Item>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
 	 */
+	@Deprecated(since = "3.9.2", forRemoval = true)
 	public static Map<Text, List<SUItemStat>> getItemStatsByItemGroupsB
 	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
 	{
-		final var stats = getItemStatsByItemGroups(statsProvider, filter);
-		final var mapped = new LinkedHashMap<Text, List<SUItemStat>>();
-		for(final var entry : stats.entrySet())
-		{
-			final var txt = entry.getKey() != null ? entry.getKey().getDisplayName() : literal("*");
-			mapped.put(txt, entry.getValue());
-		}
-		return mapped;
+		return FilterGroupBy.DEFAULT.apply(getItemStats(statsProvider, filter));
 	}
 	
 	/**
@@ -202,17 +195,11 @@ public final class SUItemStat extends SUStat<Item>
 	 * @param statsProvider The {@link IStatsProvider}.
 	 * @param filter Optional. A {@link Predicate} used to filter out any unwanted {@link SUItemStat}s.
 	 */
+	@Deprecated(since = "3.9.2", forRemoval = true)
 	public static Map<Text, List<SUItemStat>> getItemStatsByModGroupsB
 	(IStatsProvider statsProvider, @Nullable Predicate<SUItemStat> filter)
 	{
-		final var stats = getItemStatsByModGroups(statsProvider, filter);
-		final var mapped = new LinkedHashMap<Text, List<SUItemStat>>();
-		for(final var entry : stats.entrySet())
-		{
-			final var txt = entry.getKey() != null ? literal(TUtils.getModName(entry.getKey())) : literal("*");
-			mapped.put(txt, entry.getValue());
-		}
-		return mapped;
+		return FilterGroupBy.MOD.apply(getItemStats(statsProvider, filter));
 	}
 	// ==================================================
 }

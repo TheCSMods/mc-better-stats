@@ -8,7 +8,6 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -53,11 +52,8 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		switch(filter_group)
 		{
 			case ALL:
-				statGroups = new LinkedHashMap<>();
-				statGroups.put(literal("*"), SUItemStat.getItemStats(stats, predicate));
-				break;
 			case MOD:
-				statGroups = SUItemStat.getItemStatsByModGroupsB(stats, predicate);
+				statGroups = filter_group.apply(SUItemStat.getItemStats(stats, predicate));
 				break;
 			default:
 				statGroups = getStatsDefault(stats, predicate);
@@ -95,7 +91,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 			IStatsProvider stats,
 			@Nullable Predicate<SUItemStat> predicate)
 	{
-		return SUItemStat.getItemStatsByItemGroupsB(stats, predicate);
+		return FilterGroupBy.DEFAULT.apply(SUItemStat.getItemStats(stats, predicate));
 	}
 	// --------------------------------------------------
 	/**

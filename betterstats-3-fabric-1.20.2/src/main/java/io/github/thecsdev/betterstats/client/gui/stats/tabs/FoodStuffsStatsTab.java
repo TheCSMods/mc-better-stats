@@ -13,6 +13,7 @@ import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
+import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -28,7 +29,7 @@ public final @Internal class FoodStuffsStatsTab extends ItemStatsTab
 			IStatsProvider stats,
 			@Nullable Predicate<SUItemStat> predicate)
 	{
-		return SUItemStat.getItemStatsByModGroupsB(stats, predicate);
+		return FilterGroupBy.MOD.apply(SUItemStat.getItemStats(stats, predicate));
 	}
 	// --------------------------------------------------
 	protected final @Override void processWidget(ItemStatWidget widget)

@@ -1,7 +1,5 @@
 package io.github.thecsdev.betterstats.api.util.enumerations;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +7,7 @@ import java.util.Objects;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.util.interfaces.ITextProvider;
 import net.minecraft.text.Text;
 
@@ -19,7 +18,7 @@ import net.minecraft.text.Text;
 public enum FilterSortItemsBy implements ITextProvider
 {
 	// ==================================================
-	DEFAULT(translatable("betterstats.api.util.enumerations.filtergroupby.default")),
+	DEFAULT(BST.filter_groupBy_default()),
     MINED(ItemStatWidget.TEXT_STAT_MINED),
     CRAFTED(ItemStatWidget.TEXT_STAT_CRAFTED),
     USED(ItemStatWidget.TEXT_STAT_USED),
