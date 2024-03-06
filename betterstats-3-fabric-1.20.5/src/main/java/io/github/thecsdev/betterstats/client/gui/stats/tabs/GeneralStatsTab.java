@@ -62,7 +62,8 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		//world statistics
 		if(BetterStatsConfig.DEBUG_MODE)
 		{
-			StatsTabUtils.initGroupLabel(panel, translatable("createWorld.tab.world.title"));
+			StatsTabUtils.initGroupLabel(panel, translatable("createWorld.tab.world.title"))
+				.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 			final var n1 = nextPanelVerticalRect(panel);
 			final var wsp = new TFillColorElement(n1.x, n1.y, n1.width, (CustomStatElement.HEIGHT * 2) + GAP);
 			wsp.setColor(TPanelElement.COLOR_BACKGROUND);
@@ -84,7 +85,8 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		}
 		
 		//general statistics
-		StatsTabUtils.initGroupLabel(panel, translatable("entity.minecraft.player"));
+		StatsTabUtils.initGroupLabel(panel, translatable("entity.minecraft.player"))
+			.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 		int nextX = sp;
 		int nextY = (nextPanelVerticalRect(panel).y - panel.getY()) + GAP;
 		int nextW = panel.getWidth() - (sp * 2);

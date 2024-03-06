@@ -5,7 +5,6 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -107,27 +106,20 @@ public enum FilterGroupBy implements ITextProvider
 	{
 		final var mip = Objects.requireNonNull(ModInfoProvider.getInstance());
 		
-		//create the initial map, and the * group
+		//create the initial map
 		final var map = new LinkedHashMap<String, List<S>>();
-		map.put("*", new LinkedList<S>());
-		
-		//create a group for each installed mod
-		Arrays.stream(mip.getLoadedModIDs())
-			.forEach(mod -> map.put(mod, new LinkedList<S>()));
 		
 		//group all stats to their corresponding mod group
 		StreamSupport.stream(stats.spliterator(), false).forEach(stat ->
 		{
 			//obtain the corresponding mod group
-			var group = map.get(stat.getStatID().getNamespace());
-			//ensure it exists. if not, use the * group
-			if(group == null) group = map.get("*");
+			final var groupName = stat.getStatID().getNamespace();
+			var group = map.get(groupName);
+			//ensure it exists. if not, create it
+			if(group == null) map.put(groupName, group = new LinkedList<S>());
 			//add the stat to the group
 			group.add(stat);
 		});
-		
-		//remove the * group if it doesn't have any entries
-		if(map.get("*").size() < 1) map.remove("*");
 		
 		//map the map's keys into Text-s, and return the result map
 		return map.entrySet().stream().map(mapEntry ->
@@ -159,6 +151,9 @@ public enum FilterGroupBy implements ITextProvider
 			//put the item stat in the group
 			group.add((S)stat);
 		});
+		
+		//remove empty lists from the map
+		map.entrySet().removeIf(e -> e.getValue().size() == 0);
 		
 		//map the map's keys, and return the resulting map
 		return map.entrySet().stream().map(mapEntry ->

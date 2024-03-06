@@ -11,17 +11,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
-import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
-import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudItemEntry;
@@ -48,17 +45,9 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		final var filter_sort = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SORT_ITEMS, FilterSortItemsBy.DEFAULT);
 		
 		//obtain stats and group/sort them
-		Map<Text, List<SUItemStat>> statGroups = null;
-		switch(filter_group)
-		{
-			case ALL:
-			case MOD:
-				statGroups = filter_group.apply(SUItemStat.getItemStats(stats, predicate));
-				break;
-			default:
-				statGroups = getStatsDefault(stats, predicate);
-				break;
-		}
+		Map<Text, List<SUItemStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
+			getDefaultGroupFilter().apply(SUItemStat.getItemStats(stats, predicate)) :
+			filter_group.apply(SUItemStat.getItemStats(stats, predicate));
 		filter_sort.sortItemStats(statGroups);
 		
 		//initialize stats GUI
@@ -83,16 +72,10 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	}
 	// ==================================================
 	/**
-	 * Obtains stats using the default grouping filter.
-	 * @param stats The {@link IStatsProvider}.
-	 * @param predicate The {@link SUItemStat} {@link Predicate}.
+	 * Returns the {@link FilterGroupBy} that'll be used by "default".
+	 * @apiNote Must not return {@code null}.
 	 */
-	protected @Virtual Map<Text, List<SUItemStat>> getStatsDefault(
-			IStatsProvider stats,
-			@Nullable Predicate<SUItemStat> predicate)
-	{
-		return FilterGroupBy.DEFAULT.apply(SUItemStat.getItemStats(stats, predicate));
-	}
+	protected @Virtual FilterGroupBy getDefaultGroupFilter() { return FilterGroupBy.DEFAULT; }
 	// --------------------------------------------------
 	/**
 	 * Initializes a {@link Collection} of {@link SUItemStat} onto a {@link TPanelElement}.
