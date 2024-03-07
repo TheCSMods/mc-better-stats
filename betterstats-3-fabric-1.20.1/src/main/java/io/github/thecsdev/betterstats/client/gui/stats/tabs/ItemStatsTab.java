@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
+import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
@@ -10,6 +11,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -20,15 +22,22 @@ import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
+import io.github.thecsdev.betterstats.client.gui.panel.PageChooserPanel;
+import io.github.thecsdev.betterstats.client.gui.panel.PageChooserPanel.PageChooserPanelProxy;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudItemEntry;
 import io.github.thecsdev.betterstats.util.BST;
+import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 {
+	// ==================================================
+	private static final Identifier FILTER_PAGE = new Identifier(getModID(), "item_stats_page");
+	private static final int ITEMS_PER_PAGE = 500;
 	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.itemsButton"); }
 	// --------------------------------------------------
@@ -38,19 +47,19 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		final var panel = initContext.getStatsPanel();
 		final var stats = initContext.getStatsProvider();
 		
-		final var filters = initContext.getFilterSettings();
-		final var predicate = getPredicate(filters);
-		
+		final var filters      = initContext.getFilterSettings();
 		final var filter_group = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_GROUP, FilterGroupBy.DEFAULT);
-		final var filter_sort = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SORT_ITEMS, FilterSortItemsBy.DEFAULT);
+		final var filter_sort  = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SORT_ITEMS, FilterSortItemsBy.DEFAULT);
 		
 		//obtain stats and group/sort them
-		Map<Text, List<SUItemStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
-			getDefaultGroupFilter().apply(SUItemStat.getItemStats(stats, predicate)) :
-			filter_group.apply(SUItemStat.getItemStats(stats, predicate));
+		final var itemStats = SUItemStat.getItemStats(stats, getPredicate(filters));
+		final int itemStatsSize = itemStats.size();
+		final Map<Text, List<SUItemStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
+			getDefaultGroupFilter().apply(itemStats) : filter_group.apply(itemStats);
 		filter_sort.sortItemStats(statGroups);
 		
 		//initialize stats GUI
+		if(statGroups.size() > 0) initPageChooser(initContext, itemStatsSize);
 		for(final var statGroup : statGroups.entrySet())
 		{
 			final var group = statGroup.getKey();
@@ -60,9 +69,12 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		
 		final var summary = initStatsSummary(panel);
 		if(summary != null)
+		{
 			summary.summarizeItemStats(statGroups.values().stream()
 				.flatMap(Collection::stream)
 				.collect(Collectors.toList()));
+			initPageChooser(initContext, itemStatsSize);
+		}
 	}
 	// --------------------------------------------------
 	protected @Virtual @Override void initExtraFilters(FiltersInitContext initContext)
@@ -83,7 +95,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	 * @param stats The {@link SUItemStat}s to initialize.
 	 * @param processWidget Optional {@link Consumer} that allows you to make changes to widgets as they are created.
 	 */
-	protected static void initStats(
+	protected @Virtual void initStats(
 			TPanelElement panel,
 			Collection<SUItemStat> stats,
 			Consumer<ItemStatWidget> processWidget)
@@ -126,6 +138,33 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 			});
 			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
 		});
+	}
+	// --------------------------------------------------
+	protected @Virtual void initPageChooser(StatsInitContext initContext, int totalItemCount)
+	{
+		//obtain page filter
+		final var filters = initContext.getFilterSettings();
+		final var filter_page = filters.getPropertyOrDefault(FILTER_PAGE, new AtomicInteger(1));
+		final var filter_maxPages = Math.max(totalItemCount / ITEMS_PER_PAGE, 1);
+		filters.setProperty(FILTER_PAGE, filter_page); //set the value if absent, which it will be initially
+		
+		//obtain the panel, and calculate the next XYWH
+		final var panel = initContext.getStatsPanel();
+		final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+		if(panel.getChildren().size() != 0) n1.y += GAP;
+		
+		//define logic for triggering a manual refresh
+		final Runnable triggerRefresh = () -> { panel.clearChildren(); initStats(initContext); };
+		
+		//create and add the page chooser panel
+		final var pc = new PageChooserPanel(n1.x, n1.y, n1.width, new PageChooserPanelProxy()
+		{
+			public int getPage() { return filter_page.get(); }
+			public int getPageCount() { return filter_maxPages; }
+			public void onNavigateRight() { filter_page.incrementAndGet(); triggerRefresh.run(); }
+			public void onNavigateLeft() { filter_page.decrementAndGet(); triggerRefresh.run(); }
+		});
+		panel.addChild(pc, false);
 	}
 	// ==================================================
 }
