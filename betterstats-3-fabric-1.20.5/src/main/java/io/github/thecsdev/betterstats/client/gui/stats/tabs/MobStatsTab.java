@@ -33,7 +33,7 @@ import net.minecraft.text.Text;
 public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 {
 	// ==================================================
-	private static final int ITEMS_PER_PAGE = 100;
+	private static final int ITEMS_PER_PAGE = 125;
 	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.mobsButton"); }
 	// --------------------------------------------------
@@ -83,6 +83,7 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 			//stats summary
 			final var summary = initStatsSummary(panel);
 			summary.summarizeMobStats(mobStats);
+			summary.autoHeight();
 			
 			//bottom page chooser
 			initPageChooser(initContext, mobStatsSize, ITEMS_PER_PAGE);

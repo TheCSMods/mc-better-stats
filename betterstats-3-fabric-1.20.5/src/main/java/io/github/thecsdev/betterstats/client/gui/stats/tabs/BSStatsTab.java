@@ -54,7 +54,9 @@ import net.minecraft.util.Identifier;
 	 */
 	protected final AtomicInteger getPageFilter(StatFilterSettings filters)
 	{
-		final var fid = new Identifier(getModID(), getClass().getSimpleName().toLowerCase().replace('$', '.'));
+		final var fid = new Identifier(
+				getModID(),
+				getClass().getSimpleName().toLowerCase().replace('$', '.') + "_page");
 		final var f = filters.getPropertyOrDefault(fid, new AtomicInteger(1));
 		filters.setProperty(fid, f); //set the value if absent, which it will be initially
 		return f;

@@ -80,6 +80,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 			//stats summary
 			final var summary = initStatsSummary(panel);
 			summary.summarizeItemStats(itemStats);
+			summary.autoHeight();
 			
 			//bottom page chooser
 			initPageChooser(initContext, itemStatsSize, ITEMS_PER_PAGE);
