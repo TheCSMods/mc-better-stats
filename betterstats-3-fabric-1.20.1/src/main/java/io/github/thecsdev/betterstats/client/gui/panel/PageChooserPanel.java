@@ -33,8 +33,8 @@ public final class PageChooserPanel extends BSComponentPanel
 	protected final @Override void init()
 	{
 		//get page info
-		final int maxPages = Math.max(this.proxy.getPageCount(), 0);
-		final int page     = Math.min(Math.max(this.proxy.getPage(), 0), maxPages);
+		final int maxPages = Math.max(this.proxy.getPageCount(), 1);
+		final int page     = Math.min(Math.max(this.proxy.getPage(), 1), maxPages);
 		
 		//init label
 		final var lbl = new TLabelElement(0, 0, this.width, this.height);
@@ -44,15 +44,26 @@ public final class PageChooserPanel extends BSComponentPanel
 		
 		//init left button
 		final var btn_left = new TButtonWidget(1, 1, 20, 20, literal("<"));
-		btn_left.setOnClick(__ -> { this.proxy.onNavigateLeft(); if(getParent() != null) refresh(); });
+		btn_left.setOnClick(__ -> nav(-1));
 		btn_left.setEnabled(page > 1);
 		addChild(btn_left, true);
 		
 		//init right button
 		final var btn_right = new TButtonWidget(this.width - 21, 1, 20, 20, literal(">"));
-		btn_right.setOnClick(__ -> { this.proxy.onNavigateRight(); if(getParent() != null) refresh(); });
+		btn_right.setOnClick(__ -> nav(1));
 		btn_right.setEnabled(page < maxPages);
 		addChild(btn_right, true);
+	}
+	// --------------------------------------------------
+	private final void nav(int num)
+	{
+		//get page info + number
+		final int maxPages = Math.max(this.proxy.getPageCount(), 1);
+		final int page     = Math.min(Math.max(this.proxy.getPage() + num, 1), maxPages);
+		
+		//navigate, and refresh if needed
+		this.proxy.setPage(page);
+		if(getParent() != null) refresh();
 	}
 	// ==================================================
 	/**
@@ -63,8 +74,7 @@ public final class PageChooserPanel extends BSComponentPanel
 	{
 		public int getPage();
 		public int getPageCount();
-		public void onNavigateLeft();
-		public void onNavigateRight();
+		public void setPage(int page);
 	}
 	// ==================================================
 }

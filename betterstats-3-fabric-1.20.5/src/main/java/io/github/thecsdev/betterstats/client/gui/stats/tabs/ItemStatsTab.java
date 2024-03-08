@@ -5,6 +5,7 @@ import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemSta
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
+import static io.github.thecsdev.tcdcommons.api.util.TUtils.safeSubList;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -13,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
+import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
@@ -54,25 +55,41 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		//obtain stats and group/sort them
 		final var itemStats = SUItemStat.getItemStats(stats, getPredicate(filters));
 		final int itemStatsSize = itemStats.size();
-		final Map<Text, List<SUItemStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
-			getDefaultGroupFilter().apply(itemStats) : filter_group.apply(itemStats);
-		filter_sort.sortItemStats(statGroups);
 		
 		//initialize stats GUI
-		if(statGroups.size() > 0) initPageChooser(initContext, itemStatsSize);
-		for(final var statGroup : statGroups.entrySet())
+		if(itemStatsSize > 0)
 		{
-			final var group = statGroup.getKey();
-			StatsTabUtils.initGroupLabel(panel, group != null ? group : literal("*"));
-			initStats(panel, statGroup.getValue(), widget -> processWidget(widget));
-		}
-		
-		final var summary = initStatsSummary(panel);
-		if(summary != null)
-		{
-			summary.summarizeItemStats(statGroups.values().stream()
-				.flatMap(Collection::stream)
-				.collect(Collectors.toList()));
+			//top page chooser
+			initPageChooser(initContext, itemStatsSize);
+			
+			//item stats, grouped
+			{
+				//paginate items
+				final int maxPages = Math.max(itemStatsSize / ITEMS_PER_PAGE, 1);
+				final int page     = Math.min(getPageFilter(filters).get(), maxPages);
+				final int from = Math.max(page - 1, 0) * ITEMS_PER_PAGE;
+				final int to   = Math.max(Math.min(page * ITEMS_PER_PAGE, itemStatsSize), from);
+				final var subl = safeSubList(itemStats, from, to);
+				
+				//group the paginated items
+				final Map<Text, List<SUItemStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
+						getDefaultGroupFilter().apply(subl) : filter_group.apply(subl);
+				filter_sort.sortItemStats(statGroups);
+				
+				//init gui for each group
+				for(final var statGroup : statGroups.entrySet())
+				{
+					final var group = statGroup.getKey();
+					StatsTabUtils.initGroupLabel(panel, group != null ? group : literal("*"));
+					initStats(panel, statGroup.getValue(), widget -> processWidget(widget));
+				}
+			}
+			
+			//stats summary
+			final var summary = initStatsSummary(panel);
+			summary.summarizeItemStats(itemStats);
+			
+			//bottom page chooser
 			initPageChooser(initContext, itemStatsSize);
 		}
 	}
@@ -88,6 +105,17 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	 * @apiNote Must not return {@code null}.
 	 */
 	protected @Virtual FilterGroupBy getDefaultGroupFilter() { return FilterGroupBy.DEFAULT; }
+	
+	/**
+	 * Returns the {@link AtomicInteger} that represents the "page" filter value.
+	 * @param filters The {@link StatFilterSettings}.
+	 */
+	protected final AtomicInteger getPageFilter(StatFilterSettings filters)
+	{
+		final var filter_page = filters.getPropertyOrDefault(FILTER_PAGE, new AtomicInteger(1));
+		filters.setProperty(FILTER_PAGE, filter_page); //set the value if absent, which it will be initially
+		return filter_page;
+	}
 	// --------------------------------------------------
 	/**
 	 * Initializes a {@link Collection} of {@link SUItemStat} onto a {@link TPanelElement}.
@@ -143,10 +171,8 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	protected @Virtual void initPageChooser(StatsInitContext initContext, int totalItemCount)
 	{
 		//obtain page filter
-		final var filters = initContext.getFilterSettings();
-		final var filter_page = filters.getPropertyOrDefault(FILTER_PAGE, new AtomicInteger(1));
+		final var filter_page = getPageFilter(initContext.getFilterSettings());
 		final var filter_maxPages = Math.max(totalItemCount / ITEMS_PER_PAGE, 1);
-		filters.setProperty(FILTER_PAGE, filter_page); //set the value if absent, which it will be initially
 		
 		//obtain the panel, and calculate the next XYWH
 		final var panel = initContext.getStatsPanel();
@@ -161,8 +187,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		{
 			public int getPage() { return filter_page.get(); }
 			public int getPageCount() { return filter_maxPages; }
-			public void onNavigateRight() { filter_page.incrementAndGet(); triggerRefresh.run(); }
-			public void onNavigateLeft() { filter_page.decrementAndGet(); triggerRefresh.run(); }
+			public void setPage(int page) { filter_page.set(page); triggerRefresh.run(); }
 		});
 		panel.addChild(pc, false);
 	}
