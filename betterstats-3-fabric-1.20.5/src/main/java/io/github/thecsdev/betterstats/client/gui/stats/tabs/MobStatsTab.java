@@ -4,16 +4,15 @@ import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStat
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
+import static io.github.thecsdev.tcdcommons.api.util.TUtils.safeSubList;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -34,6 +33,8 @@ import net.minecraft.text.Text;
 public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 {
 	// ==================================================
+	private static final int ITEMS_PER_PAGE = 100;
+	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.mobsButton"); }
 	// --------------------------------------------------
 	public @Virtual @Override void initStats(StatsInitContext initContext)
@@ -43,41 +44,48 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 		final var stats = initContext.getStatsProvider();
 		
 		final var filters = initContext.getFilterSettings();
-		final var predicate = getPredicate(initContext.getFilterSettings());
-		
 		final var filter_group = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_GROUP, FilterGroupBy.DEFAULT);
 		final var filter_sort = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SORT_MOBS, FilterSortMobsBy.DEFAULT);
 		
+		//obtain stats and sort them
+		final var mobStats = SUMobStat.getMobStats(stats, getPredicate(filters));
+		final int mobStatsSize = mobStats.size();
+		filter_sort.sortMobStats(mobStats);
 		
-		//obtain stats and group/sort them
-		Map<Text, List<SUMobStat>> statGroups = null;
-		switch(filter_group)
+		//initialize the GUI
+		if(mobStatsSize > 0)
 		{
-			case ALL:
-				statGroups = new LinkedHashMap<>();
-				statGroups.put(literal("*"), SUMobStat.getMobStats(stats, predicate));
-				break;
-			default:
-				statGroups = SUMobStat.getMobStatsByModGroupsB(stats, predicate);
-				break;
-		}
-		filter_sort.sortMobStats(statGroups);
-		
-		//initialize stats GUI
-		for(final var statGroup : statGroups.entrySet())
-		{
-			final var group = statGroup.getKey();
-			StatsTabUtils.initGroupLabel(panel, group != null ? group : literal("*"));
-			initStats(panel, statGroup.getValue(), widget -> processWidget(widget));
-		}
-		
-		final var summary = initStatsSummary(panel);
-		if(summary != null)
-		{
-			summary.summarizeMobStats(statGroups.values().stream()
-				.flatMap(Collection::stream)
-				.collect(Collectors.toList()));
-			summary.autoHeight();
+			//top page chooser
+			initPageChooser(initContext, mobStatsSize, ITEMS_PER_PAGE);
+			
+			//init stats, grouped
+			{
+				//paginate items
+				final int maxPages = Math.max((int)Math.ceil((double)mobStatsSize / ITEMS_PER_PAGE), 1);
+				final int page     = Math.min(getPageFilter(filters).get(), maxPages);
+				final int from = Math.max(page - 1, 0) * ITEMS_PER_PAGE;
+				final int to   = Math.max(Math.min(page * ITEMS_PER_PAGE, mobStatsSize), from);
+				final var subl = safeSubList(mobStats, from, to);
+				
+				//group the paginated mobs
+				final Map<Text, List<SUMobStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
+						getDefaultGroupFilter().apply(subl) : filter_group.apply(subl);
+				
+				//init gui for each group
+				for(final var statGroup : statGroups.entrySet())
+				{
+					final var group = statGroup.getKey();
+					StatsTabUtils.initGroupLabel(panel, group != null ? group : literal("*"));
+					initStats(panel, statGroup.getValue(), widget -> processWidget(widget));
+				}
+			}
+			
+			//stats summary
+			final var summary = initStatsSummary(panel);
+			summary.summarizeMobStats(mobStats);
+			
+			//bottom page chooser
+			initPageChooser(initContext, mobStatsSize, ITEMS_PER_PAGE);
 		}
 	}
 	// --------------------------------------------------
@@ -94,20 +102,11 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 				.and(stat -> stat.getEntityType().getSpawnGroup() != SpawnGroup.MISC || !stat.isEmpty());
 	}
 	// ==================================================
-	protected @Virtual void processWidget(MobStatWidget widget)
-	{
-		widget.eContextMenu.register((__, cMenu) ->
-		{
-			cMenu.addButton(BST.hud_pinStat(), ___ ->
-			{
-				final var hud = BetterStatsHudScreen.getInstance();
-				hud.setParentScreen(MC_CLIENT.currentScreen);
-				hud.addEntry(new StatsHudMobEntry(widget.getStat()));
-				MC_CLIENT.setScreen(hud.getAsScreen());
-			});
-			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
-		});
-	}
+	/**
+	 * Returns the {@link FilterGroupBy} that'll be used by "default".
+	 * @apiNote Must not return {@code null}.
+	 */
+	protected @Virtual FilterGroupBy getDefaultGroupFilter() { return FilterGroupBy.DEFAULT; }
 	// --------------------------------------------------
 	protected static void initStats
 	(TPanelElement panel, Collection<SUMobStat> stats, Consumer<MobStatWidget> processWidget)
@@ -130,6 +129,21 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 				nextY = (nextPanelBottomY(panel) - panel.getY()) + GAP;
 			}
 		}
+	}
+	//
+	protected @Virtual void processWidget(MobStatWidget widget)
+	{
+		widget.eContextMenu.register((__, cMenu) ->
+		{
+			cMenu.addButton(BST.hud_pinStat(), ___ ->
+			{
+				final var hud = BetterStatsHudScreen.getInstance();
+				hud.setParentScreen(MC_CLIENT.currentScreen);
+				hud.addEntry(new StatsHudMobEntry(widget.getStat()));
+				MC_CLIENT.setScreen(hud.getAsScreen());
+			});
+			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
+		});
 	}
 	// ==================================================
 }

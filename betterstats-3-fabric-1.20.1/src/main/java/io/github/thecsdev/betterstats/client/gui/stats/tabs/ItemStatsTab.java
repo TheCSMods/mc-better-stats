@@ -1,6 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
-import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
@@ -12,33 +11,26 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
-import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
-import io.github.thecsdev.betterstats.client.gui.panel.PageChooserPanel;
-import io.github.thecsdev.betterstats.client.gui.panel.PageChooserPanel.PageChooserPanelProxy;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudItemEntry;
 import io.github.thecsdev.betterstats.util.BST;
-import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 {
 	// ==================================================
-	private static final Identifier FILTER_PAGE = new Identifier(getModID(), "item_stats_page");
-	private static final int ITEMS_PER_PAGE = 500;
+	private static final int ITEMS_PER_PAGE = 700;
 	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.itemsButton"); }
 	// --------------------------------------------------
@@ -52,20 +44,21 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 		final var filter_group = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_GROUP, FilterGroupBy.DEFAULT);
 		final var filter_sort  = filters.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SORT_ITEMS, FilterSortItemsBy.DEFAULT);
 		
-		//obtain stats and group/sort them
+		//obtain stats and sort them
 		final var itemStats = SUItemStat.getItemStats(stats, getPredicate(filters));
 		final int itemStatsSize = itemStats.size();
+		filter_sort.sortItemStats(itemStats);
 		
 		//initialize stats GUI
 		if(itemStatsSize > 0)
 		{
 			//top page chooser
-			initPageChooser(initContext, itemStatsSize);
+			initPageChooser(initContext, itemStatsSize, ITEMS_PER_PAGE);
 			
 			//item stats, grouped
 			{
 				//paginate items
-				final int maxPages = Math.max(itemStatsSize / ITEMS_PER_PAGE, 1);
+				final int maxPages = Math.max((int)Math.ceil((double)itemStatsSize / ITEMS_PER_PAGE), 1);
 				final int page     = Math.min(getPageFilter(filters).get(), maxPages);
 				final int from = Math.max(page - 1, 0) * ITEMS_PER_PAGE;
 				final int to   = Math.max(Math.min(page * ITEMS_PER_PAGE, itemStatsSize), from);
@@ -74,7 +67,6 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 				//group the paginated items
 				final Map<Text, List<SUItemStat>> statGroups = (filter_group == FilterGroupBy.DEFAULT) ?
 						getDefaultGroupFilter().apply(subl) : filter_group.apply(subl);
-				filter_sort.sortItemStats(statGroups);
 				
 				//init gui for each group
 				for(final var statGroup : statGroups.entrySet())
@@ -90,7 +82,7 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 			summary.summarizeItemStats(itemStats);
 			
 			//bottom page chooser
-			initPageChooser(initContext, itemStatsSize);
+			initPageChooser(initContext, itemStatsSize, ITEMS_PER_PAGE);
 		}
 	}
 	// --------------------------------------------------
@@ -105,17 +97,6 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	 * @apiNote Must not return {@code null}.
 	 */
 	protected @Virtual FilterGroupBy getDefaultGroupFilter() { return FilterGroupBy.DEFAULT; }
-	
-	/**
-	 * Returns the {@link AtomicInteger} that represents the "page" filter value.
-	 * @param filters The {@link StatFilterSettings}.
-	 */
-	protected final AtomicInteger getPageFilter(StatFilterSettings filters)
-	{
-		final var filter_page = filters.getPropertyOrDefault(FILTER_PAGE, new AtomicInteger(1));
-		filters.setProperty(FILTER_PAGE, filter_page); //set the value if absent, which it will be initially
-		return filter_page;
-	}
 	// --------------------------------------------------
 	/**
 	 * Initializes a {@link Collection} of {@link SUItemStat} onto a {@link TPanelElement}.
@@ -166,30 +147,6 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 			});
 			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});
 		});
-	}
-	// --------------------------------------------------
-	protected @Virtual void initPageChooser(StatsInitContext initContext, int totalItemCount)
-	{
-		//obtain page filter
-		final var filter_page = getPageFilter(initContext.getFilterSettings());
-		final var filter_maxPages = Math.max(totalItemCount / ITEMS_PER_PAGE, 1);
-		
-		//obtain the panel, and calculate the next XYWH
-		final var panel = initContext.getStatsPanel();
-		final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-		if(panel.getChildren().size() != 0) n1.y += GAP;
-		
-		//define logic for triggering a manual refresh
-		final Runnable triggerRefresh = () -> { panel.clearChildren(); initStats(initContext); };
-		
-		//create and add the page chooser panel
-		final var pc = new PageChooserPanel(n1.x, n1.y, n1.width, new PageChooserPanelProxy()
-		{
-			public int getPage() { return filter_page.get(); }
-			public int getPageCount() { return filter_maxPages; }
-			public void setPage(int page) { filter_page.set(page); triggerRefresh.run(); }
-		});
-		panel.addChild(pc, false);
 	}
 	// ==================================================
 }
