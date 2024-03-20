@@ -5,6 +5,7 @@ import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.G
 import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
@@ -56,7 +57,7 @@ import net.minecraft.util.Identifier;
 	{
 		final var fid = new Identifier(
 				getModID(),
-				getClass().getSimpleName().toLowerCase().replace('$', '.') + "_page");
+				getClass().getSimpleName().toLowerCase(Locale.ENGLISH).replace('$', '.') + "_page");
 		final var f = filters.getPropertyOrDefault(fid, new AtomicInteger(1));
 		filters.setProperty(fid, f); //set the value if absent, which it will be initially
 		return f;
