@@ -32,7 +32,7 @@ public class BetterStats extends Object
 		//read the mod properties resource file
 		try
 		{
-			final var propertiesStream = BetterStats.class.getResourceAsStream("/properties.json");
+			final var propertiesStream = BetterStats.class.getResourceAsStream("/betterstats.properties.json");
 			final var propertiesJsonStr = new String(propertiesStream.readAllBytes());
 			propertiesStream.close();
 			MOD_PROPERTIES = TcdWebApi.GSON.fromJson(propertiesJsonStr, JsonObject.class);

@@ -2,6 +2,10 @@ package io.github.thecsdev.betterstats.client;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
+import java.time.Month;
+import java.time.ZonedDateTime;
+import java.util.Random;
+
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSClientPlayerBadges;
@@ -35,6 +39,14 @@ public final class BetterStatsClient extends BetterStats
 			//executing separately to really make sure the game menu screen finished initializing
 			MC_CLIENT.execute(() ->
 			{
+				//easter egg - check the current date
+				final var now = ZonedDateTime.now();
+				if(now.getDayOfMonth() == 1 && now.getMonth() == Month.APRIL)
+				{
+					final var rn = new Random().nextInt(0, 101); //random number 0 to 100
+					if(rn == 1) return; //randomly prevent `Better Statistics Screen` from opening
+				}
+				
 				//locate the original stats button
 				final ButtonWidget ogStatsBtn = GuiUtils.findButtonWidgetOnScreen(gmScreen, translatable("gui.stats"));
 				if(ogStatsBtn == null) return;
