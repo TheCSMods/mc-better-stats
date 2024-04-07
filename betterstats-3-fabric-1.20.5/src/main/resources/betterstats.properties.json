@@ -1,17 +1,17 @@
 {
 	"links":
 	{
-		"homepage": "${project.mod_contact_homepage}",
-		"sources": "${project.mod_contact_sources}",
-		"issues": "${project.mod_contact_issues}",
+		"homepage": "${project.properties.mod_contact_homepage}",
+		"sources": "${project.properties.mod_contact_sources}",
+		"issues": "${project.properties.mod_contact_issues}",
 		
-		"curseforge": "${project.modmenu_link_curseforge}",
-		"modrinth": "${project.modmenu_link_modrinth}",
-		"youtube": "${project.modmenu_link_youtube}",
-		"kofi": "${project.modmenu_link_kofi}",
-		"discord": "${project.modmenu_link_discord}",
+		"curseforge": "${project.properties.modmenu_link_curseforge}",
+		"modrinth": "${project.properties.modmenu_link_modrinth}",
+		"youtube": "${project.properties.modmenu_link_youtube}",
+		"kofi": "${project.properties.modmenu_link_kofi}",
+		"discord": "${project.properties.modmenu_link_discord}",
 		
-		"feedback": "${project.link_feedback}"
+		"feedback": "${project.properties.link_feedback}"
 	},
 	
 	"contributors":

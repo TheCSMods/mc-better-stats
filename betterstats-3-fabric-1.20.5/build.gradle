@@ -1,3 +1,6 @@
+/*
+ * Apply the plugins this Gradle project depends on.
+ */
 plugins
 {
 	id 'groovy'
@@ -5,98 +8,10 @@ plugins
 	id 'maven-publish'
 }
 
-repositories
-{
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
-	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.terraformersmc.com/releases/" }
-}
-
-sourceSets
-{
-	main
-	{
-		java { srcDirs = ['src/main/java'] }
-		groovy { srcDirs = ['src/main/groovy'] }
-		resources { srcDirs = ['src/main/resources'] }
-	}
-}
-
-dependencies
-{
-	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	
-	// Fabric API
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	// Don't forget to declare | "fabric":"*" | as a dependency in fabric.mod.json
-	
-	// Mod Menu
-	modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
-	
-	// Roughly Enough Items
-	modApi "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-	
-	// Architectury API
-	modApi "dev.architectury:architectury-fabric:${project.architectury_version}"
-	
-	// TCDCommons
-	modApi(files("src/main/resources/${project.mod_jar_tcdcommons}"))
-	
-	// Uncomment the following line to enable the deprecated Fabric API modules. 
-	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
-	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
-	
-	// All .jar files in 'src/main/dependencies'
-	// modImplementation fileTree(dir: 'src/main/dependencies', include: '*.jar')
-}
-
-base { archivesName = "${project.mod_id}-${project.mod_version}" }
-
-processResources
-{
-	// inputs.property "version", project.version
-	filesMatching(["fabric.mod.json", "pack.mcmeta", "**/mods.toml", "properties.json"]) { expand project.properties }
-}
-
-tasks.withType(JavaCompile).configureEach
-{
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
-}
-
-java
-{
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar
-	// task and to the "build" task if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
-	
-	// Generate Java docs.
-	javadoc.options.addStringOption('Xdoclint:none', '-quiet')
-	javadoc.options.encoding = 'UTF-8';
-	withJavadocJar()
-	
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
-}
-
-jar
-{
-	//exclude all .class files outside of the maven group
-	def includeOnlyPackage = project.maven_group.replaceAll('\\.', '/')
-	eachFile { fileCopyDetails ->
-		if (fileCopyDetails.name.endsWith('.class') && !fileCopyDetails.relativePath.pathString.startsWith(includeOnlyPackage)) {
-			fileCopyDetails.exclude()
-		}
-	}
-	
-	//handle the license file
-	from("LICENSE")
-}
+/*
+ * Apply build scripts 'build.gradle' depends on.
+ * Note that the order in which build scripts are applied matters! (I think)
+ */
+apply(from: 'buildsc.dependencies.gradle'); //1
+apply(from: 'buildsc.resources.gradle');    //2
+apply(from: 'buildsc.building.gradle');     //3
