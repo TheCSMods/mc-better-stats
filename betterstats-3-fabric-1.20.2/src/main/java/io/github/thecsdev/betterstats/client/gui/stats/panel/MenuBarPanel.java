@@ -1,9 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
 import static io.github.thecsdev.betterstats.BetterStats.URL_CURSEFORGE;
-import static io.github.thecsdev.betterstats.BetterStats.URL_DISCORD;
 import static io.github.thecsdev.betterstats.BetterStats.URL_ISSUES;
-import static io.github.thecsdev.betterstats.BetterStats.URL_KOFI;
 import static io.github.thecsdev.betterstats.BetterStats.URL_MODRINTH;
 import static io.github.thecsdev.betterstats.BetterStats.URL_SOURCES;
 import static io.github.thecsdev.betterstats.BetterStats.URL_YOUTUBE;
@@ -167,20 +165,17 @@ public final class MenuBarPanel extends BSComponentPanel
 			final var cMenu = new TContextMenuPanel(btn);
 			
 			//url-s
-			if(!RESTRICTED_MODE)
-			{
-				cMenu.addButton(BST.menu_about_src(), __ -> showUrlPrompt(URL_SOURCES, false));
-				cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, false));
-				cMenu.addSeparator();
-			}
+			cMenu.addButton(BST.menu_about_src(), __ -> showUrlPrompt(URL_SOURCES, false));
+			cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, false));
+			cMenu.addSeparator();
 			cMenu.addButton(BST.menu_about_cf(), __ -> showUrlPrompt(URL_CURSEFORGE, false));
 			cMenu.addButton(BST.menu_about_mr(), __ -> showUrlPrompt(URL_MODRINTH, false));
 			if(!RESTRICTED_MODE)
 			{
 				cMenu.addSeparator();
 				cMenu.addButton(BST.menu_about_yt(), __ -> showUrlPrompt(URL_YOUTUBE, false));
-				cMenu.addButton(BST.menu_about_kofi(), __ -> showUrlPrompt(URL_KOFI, false));
-				cMenu.addButton(BST.menu_about_dc(), __ -> showUrlPrompt(URL_DISCORD, false));
+				//cMenu.addButton(BST.menu_about_kofi(), __ -> showUrlPrompt(URL_KOFI, false));
+				//cMenu.addButton(BST.menu_about_dc(), __ -> showUrlPrompt(URL_DISCORD, false));
 			}
 			
 			//open the context menu
