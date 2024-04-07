@@ -14,6 +14,7 @@ import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.text.Text;
 
 public final @Internal class FoodStuffsStatsTab extends ItemStatsTab
@@ -34,7 +35,7 @@ public final @Internal class FoodStuffsStatsTab extends ItemStatsTab
 	{
 		final String sq = filterSettings.getPropertyOrDefault(StatsTabUtils.FILTER_ID_SEARCH, "");
 		final Predicate<SUItemStat> sqPred = stat -> stat.matchesSearchQuery(sq);
-		return sqPred.and(stat -> stat.getItem().isFood());
+		return sqPred.and(stat -> stat.getItem().getComponents().contains(DataComponentTypes.FOOD));
 	}
 	// ==================================================
 }

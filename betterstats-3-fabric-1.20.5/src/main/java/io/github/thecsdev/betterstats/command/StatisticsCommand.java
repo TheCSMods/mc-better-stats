@@ -21,7 +21,7 @@ import io.github.thecsdev.tcdcommons.mixin.hooks.AccessorStatHandler;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
-import net.minecraft.command.argument.RegistryEntryArgumentType;
+import net.minecraft.command.argument.RegistryEntryReferenceArgumentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.command.ServerCommandSource;
@@ -56,7 +56,7 @@ public final class StatisticsCommand
 	{
 		return literal("edit")
 				.then(argument("targets", EntityArgumentType.players())
-						.then(argument("stat_type", RegistryEntryArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
+						.then(argument("stat_type", RegistryEntryReferenceArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
 								.then(argument("stat", StatArgumentType.stat())
 										.then(literal("set")
 												.then(argument("value", IntegerArgumentType.integer(0))
@@ -82,7 +82,7 @@ public final class StatisticsCommand
 	{
 		return literal("query")
 				.then(argument("target", EntityArgumentType.player())
-						.then(argument("stat_type", RegistryEntryArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
+						.then(argument("stat_type", RegistryEntryReferenceArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
 								.then(argument("stat", StatArgumentType.stat())
 										.executes(ctx -> execute_query(ctx))
 										)
@@ -97,7 +97,7 @@ public final class StatisticsCommand
 		{
 			//get parameter values
 			final var arg_targets = EntityArgumentType.getPlayers(context, "targets");
-			final var arg_stat_type = (StatType<Object>)RegistryEntryArgumentType.getRegistryEntry(context, "stat_type", RegistryKeys.STAT_TYPE).value();
+			final var arg_stat_type = (StatType<Object>)RegistryEntryReferenceArgumentType.getRegistryEntry(context, "stat_type", RegistryKeys.STAT_TYPE).value();
 			final var arg_stat = IdentifierArgumentType.getIdentifier(context, "stat");
 			final int arg_value = IntegerArgumentType.getInteger(context, "value");
 			
@@ -180,7 +180,7 @@ public final class StatisticsCommand
 			//get parameter values
 			final var arg_target = EntityArgumentType.getPlayer(context, "target");
 			if(arg_target == null) throw new SimpleCommandExceptionType(TextUtils.literal("Player not found.")).create();
-			final var arg_stat_type = (StatType<Object>)RegistryEntryArgumentType.getRegistryEntry(context, "stat_type", RegistryKeys.STAT_TYPE).value();
+			final var arg_stat_type = (StatType<Object>)RegistryEntryReferenceArgumentType.getRegistryEntry(context, "stat_type", RegistryKeys.STAT_TYPE).value();
 			final var arg_stat = IdentifierArgumentType.getIdentifier(context, "stat");
 
 			final var stat_object = arg_stat_type.getRegistry().getOrEmpty(arg_stat).orElse(null);

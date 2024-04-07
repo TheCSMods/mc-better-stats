@@ -49,9 +49,6 @@ dependencies
 	// TCDCommons
 	modApi(files("src/main/resources/${project.mod_jar_tcdcommons}"))
 	
-	// Spark, for performance profiling reasons
-	// modImplementation "curse.maven:spark-361579:4950610" //This file is for 1.20.4
-	
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
