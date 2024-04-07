@@ -56,5 +56,17 @@
 			"name": "Korben",
 			"contact": { "homepage": "https://github.com/mpustovoi" }
 		}
+	],
+	
+	"special_thanks":
+	[
+		{
+			"name": "FabricMC",
+			"contact": { "homepage": "https://github.com/FabricMC" }
+		},
+		{
+			"name": "Sinytra",
+			"contact": { "homepage": "https://github.com/Sinytra" }
+		}
 	]
 }

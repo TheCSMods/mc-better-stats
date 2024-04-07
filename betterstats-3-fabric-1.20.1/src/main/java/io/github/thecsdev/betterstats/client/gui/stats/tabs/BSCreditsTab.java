@@ -1,7 +1,5 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
-import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.io.IOException;
@@ -22,20 +20,19 @@ import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.util.TCDCT;
-import io.github.thecsdev.tcdcommons.util.io.http.TcdCommonsWebApi;
 import io.github.thecsdev.tcdcommons.util.io.http.TcdWebApiPerson;
 import net.minecraft.text.Text;
 
 public final class BSCreditsTab extends StatsTab
 {
 	// ==================================================
-	private static final Text TEXT_TITLE          = translatable("credits_and_attribution.button.credits");
-	private static final Text TEXT_CONTRIBUTORS   = BST.bss_contributors_title();
-	private static final Text TEXT_SPONSORS       = TCDCT.tcdc_term_ghSponsors();
-	private static final Text TEXT_SPECIAL_THANKS = TCDCT.tcdc_term_specialThanks();
-	private static final Text TEXT_FEATURED       = TCDCT.tcdc_term_featured();
-	private static final Text TEXT_FEATURED_NOONE = TCDCT.tcdc_term_featured_noOne();
-	private static final Text TEXT_FETCH_FAIL     = TCDCT.tcdc_term_fetchFail();
+	private static final Text TEXT_TITLE            = translatable("credits_and_attribution.button.credits");
+	private static final Text TEXT_CONTRIBUTORS     = BST.bss_contributors_title();
+	//private static final Text TEXT_SPONSORS       = TCDCT.tcdc_term_ghSponsors();
+	private static final Text TEXT_SPECIAL_THANKS   = TCDCT.tcdc_term_specialThanks();
+	//private static final Text TEXT_FEATURED       = TCDCT.tcdc_term_featured();
+	//private static final Text TEXT_FEATURED_NOONE = TCDCT.tcdc_term_featured_noOne();
+	//private static final Text TEXT_FETCH_FAIL     = TCDCT.tcdc_term_fetchFail();
 	// ==================================================
 	public final @Override Text getName() { return TEXT_TITLE; }
 	public final @Override boolean isAvailable() { return false; }
@@ -52,113 +49,11 @@ public final class BSCreditsTab extends StatsTab
 		lbl_title.setTextScale(1.8f);
 		lbl_title.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 		
-		//group label for translators
+		//init contributor stats
 		initGroupLabel(panel, TEXT_CONTRIBUTORS);
-		{
-			final var contributors = getContributors();
-			boolean highlight = true;
-			int iteration = 1;
-			
-			for(final var contributor : contributors)
-			{
-				//keep track of the loop iterations
-				highlight = !highlight;
-				iteration++;
-				
-				//create gui elements
-				final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-				final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, contributor, iteration <= 10);
-				ctpw.setBackgroundColor(highlight ? 0x44000000 : 0x22000000);
-				panel.addChild(ctpw, false);
-			}
-		}
-		
-		//trigger sponsor segment
-		initSponsorSegment(initContext);
-	}
-	// --------------------------------------------------
-	private final void initSponsorSegment(final StatsInitContext initContext)
-	{
-		final var panel = initContext.getStatsPanel();
-		initGroupLabel(panel, literal("").append(TEXT_SPONSORS).append(" (").append(TEXT_FEATURED).append(")"));
-		TcdCommonsWebApi.getFeaturedSponsorsAsync(
-			MC_CLIENT,
-			jsonArr ->
-			{
-				boolean highlight = true;
-				int iteration = 1;
-				if(jsonArr.isEmpty())
-				{
-					final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-					final var lbl = new TLabelElement(n1.x, n1.y, n1.width, 20, TEXT_FEATURED_NOONE);
-					lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-					panel.addChild(lbl, false);
-				}
-				else for(final var personJson : jsonArr)
-				{
-					if(!personJson.isJsonObject()) continue;
-					final @Nullable var person = tryParsePerson(personJson.getAsJsonObject());
-					if(person == null) continue;
-					
-					iteration++;
-					highlight = !highlight;
-					final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-					final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, person, iteration <= 10);
-					ctpw.setBackgroundColor(highlight ? 0x44000000 : 0x22000000);
-					panel.addChild(ctpw, false);
-				};
-				
-				initSpecialThanksSegment(initContext);
-			},
-			err ->
-			{
-				final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-				final var lbl = new TLabelElement(n1.x, n1.y, n1.width, 20, TEXT_FETCH_FAIL);
-				lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-				panel.addChild(lbl, false);
-				
-				initSpecialThanksSegment(initContext);
-			});
-	}
-	// --------------------------------------------------
-	private final void initSpecialThanksSegment(final StatsInitContext initContext)
-	{
-		final var panel = initContext.getStatsPanel();
+		initContributorStats(panel, null);
 		initGroupLabel(panel, TEXT_SPECIAL_THANKS);
-		TcdCommonsWebApi.getSpecialThanksAsync(
-			MC_CLIENT,
-			jsonArr ->
-			{
-				boolean highlight = true;
-				int iteration = 1;
-				if(jsonArr.isEmpty())
-				{
-					final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-					final var lbl = new TLabelElement(n1.x, n1.y, n1.width, 20, TEXT_FEATURED_NOONE);
-					lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-					panel.addChild(lbl, false);
-				}
-				else for(final var personJson : jsonArr)
-				{
-					if(!personJson.isJsonObject()) continue;
-					final @Nullable var person = tryParsePerson(personJson.getAsJsonObject());
-					if(person == null) continue;
-					
-					iteration++;
-					highlight = !highlight;
-					final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-					final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, person, iteration <= 10);
-					ctpw.setBackgroundColor(highlight ? 0x44000000 : 0x22000000);
-					panel.addChild(ctpw, false);
-				};
-			},
-			err ->
-			{
-				final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
-				final var lbl = new TLabelElement(n1.x, n1.y, n1.width, 20, TEXT_FETCH_FAIL);
-				lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-				panel.addChild(lbl, false);
-			});
+		initContributorStats(panel, "special_thanks");
 	}
 	// ==================================================
 	private static final void initGroupLabel(TPanelElement panel, Text text)
@@ -178,15 +73,38 @@ public final class BSCreditsTab extends StatsTab
 		lbl.setTextScale(0.8f);
 		panel_tGroup.addChild(lbl);
 	}
+	// --------------------------------------------------
+	private static final void initContributorStats(TPanelElement panel, @Nullable String key)
+	{
+		final var contributors = getContributors(key);
+		boolean highlight = true;
+		int iteration = 1;
+		
+		for(final var contributor : contributors)
+		{
+			//keep track of the loop iterations
+			highlight = !highlight;
+			iteration++;
+			
+			//create gui elements
+			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+			final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, contributor, iteration <= 10);
+			ctpw.setBackgroundColor(highlight ? 0x44000000 : 0x22000000);
+			panel.addChild(ctpw, false);
+		}
+	}
 	// ==================================================
 	/**
 	 * Returns an array of {@link TcdWebApiPerson}s who are credited as contributors of this mod.
 	 */
-	public static final TcdWebApiPerson[] getContributors()
+	public static final TcdWebApiPerson[] getContributors(@Nullable String key)
 	{
+		//argument check
+		if(key == null) key = "contributors";
+		
 		//obtain the contributors array
 		@Nullable JsonArray contributors = null;
-		try { contributors = BetterStats.getModProperties().get("contributors").getAsJsonArray(); }
+		try { contributors = BetterStats.getModProperties().get(key).getAsJsonArray(); }
 		catch(Exception e) { return new TcdWebApiPerson[] {}; }
 		
 		//return
