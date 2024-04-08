@@ -45,9 +45,7 @@
 			{
 				"modmenu.curseforge": "${project.modmenu_link_curseforge}",
 				"modmenu.modrinth": "${project.modmenu_link_modrinth}",
-				"modmenu.youtube": "${project.modmenu_link_youtube}",
-				"modmenu.kofi": "${project.modmenu_link_kofi}",
-				"modmenu.discord": "${project.modmenu_link_discord}"
+				"modmenu.youtube": "${project.modmenu_link_youtube}"
 			}
 		}
 	}
