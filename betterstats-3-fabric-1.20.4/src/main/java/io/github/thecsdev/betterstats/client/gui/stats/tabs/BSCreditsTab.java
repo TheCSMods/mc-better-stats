@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.client.gui.widget.CreditsTabPersonWidget;
@@ -102,7 +102,7 @@ public final class BSCreditsTab extends StatsTab
 		
 		//obtain the contributors array
 		@Nullable JsonArray contributors = null;
-		try { contributors = BetterStats.getModProperties().get(key).getAsJsonArray(); }
+		try { contributors = BetterStatsProperties.getModProperties().get(key).getAsJsonArray(); }
 		catch(Exception e) { return new TcdWebApiPerson[] {}; }
 		
 		//return

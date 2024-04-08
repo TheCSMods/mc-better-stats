@@ -55,7 +55,7 @@ dependencies
 processResources
 {
 	// inputs.property "version", project.version
-	filesMatching(["fabric.mod.json", "pack.mcmeta", "**/mods.toml", "properties.json"]) { expand project.properties }
+	filesMatching(["*.json", "pack.mcmeta"]) { expand project.properties }
 }
 
 tasks.withType(JavaCompile).configureEach

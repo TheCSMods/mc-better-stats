@@ -5,8 +5,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins":
 	[
-		"MixinServerStatHandler",
-		"MixinArgumentTypes"
+		"MixinServerStatHandler"
 	],
 	"injectors": { "defaultRequire": 1 }
 }

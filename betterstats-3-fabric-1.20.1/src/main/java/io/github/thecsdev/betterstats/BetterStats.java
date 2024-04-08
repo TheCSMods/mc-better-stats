@@ -1,17 +1,18 @@
 package io.github.thecsdev.betterstats;
 
-import org.jetbrains.annotations.ApiStatus.Internal;
+import static io.github.thecsdev.tcdcommons.api.util.RegistryUtils.registerCommandArgumentType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.JsonObject;
 
 import io.github.thecsdev.betterstats.command.StatisticsCommand;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import io.github.thecsdev.tcdcommons.TCDCommons;
+import io.github.thecsdev.tcdcommons.api.command.argument.StatArgumentType;
 import io.github.thecsdev.tcdcommons.api.events.server.command.CommandManagerEvent;
 import io.github.thecsdev.tcdcommons.command.PlayerBadgeCommand;
-import io.github.thecsdev.tcdcommons.util.io.http.TcdWebApi;
+import io.github.thecsdev.tcdcommons.command.argument.PlayerBadgeIdentifierArgumentType;
+import net.minecraft.util.Identifier;
 
 public class BetterStats extends Object
 {
@@ -23,33 +24,6 @@ public class BetterStats extends Object
 	private static BetterStats Instance;
 	// --------------------------------------------------
 	protected final BetterStatsConfig config;
-	// --------------------------------------------------
-	private static final JsonObject MOD_PROPERTIES;
-	public static final String URL_SOURCES, URL_ISSUES, URL_CURSEFORGE, URL_MODRINTH;
-	public static final String URL_YOUTUBE, URL_KOFI, URL_DISCORD, URL_FEEDBACK;
-	static
-	{
-		//read the mod properties resource file
-		try
-		{
-			final var propertiesStream = BetterStats.class.getResourceAsStream("/betterstats.properties.json");
-			final var propertiesJsonStr = new String(propertiesStream.readAllBytes());
-			propertiesStream.close();
-			MOD_PROPERTIES = TcdWebApi.GSON.fromJson(propertiesJsonStr, JsonObject.class);
-		}
-		catch(Exception e) { throw new ExceptionInInitializerError(e); }
-		
-		//read links
-		final var links = MOD_PROPERTIES.get("links").getAsJsonObject();
-		URL_SOURCES    = links.get("sources").getAsString();
-		URL_ISSUES     = links.get("issues").getAsString();
-		URL_CURSEFORGE = links.get("curseforge").getAsString();
-		URL_MODRINTH   = links.get("modrinth").getAsString();
-		URL_YOUTUBE    = links.get("youtube").getAsString();
-		URL_KOFI       = links.get("kofi").getAsString();
-		URL_DISCORD    = links.get("discord").getAsString();
-		URL_FEEDBACK   = links.get("feedback").getAsString();
-	}
 	// ==================================================
 	public BetterStats()
 	{
@@ -71,13 +45,26 @@ public class BetterStats extends Object
 		this.config.loadFromFileOrCrash(true);
 		
 		//init stuff
+		BetterStatsProperties.init();
 		BetterStatsNetworkHandler.init();
+		
+		// ---------- register commands
+		final boolean ENABLE_COMMANDS = this.config.registerCommands;
+		
+		//register command argument types
+		if(ENABLE_COMMANDS)
+		{
+			registerCommandArgumentType(
+					new Identifier(TCDCommons.getModID(), "player_badge_identifier"),
+					PlayerBadgeIdentifierArgumentType::pbId);
+			registerCommandArgumentType(StatArgumentType.ID, StatArgumentType::stat);
+		}
 		
 		//register commands
 		CommandManagerEvent.COMMAND_REGISTRATION_CALLBACK.register((dispatcher, commandRegAccess, regEnv) ->
 		{
 			//check the config property 
-			if(!getConfig().registerCommands) return;
+			if(!ENABLE_COMMANDS) return;
 			
 			//register commands
 			StatisticsCommand.register(dispatcher, commandRegAccess);
@@ -87,7 +74,6 @@ public class BetterStats extends Object
 	}
 	// ==================================================
 	public static BetterStats getInstance() { return Instance; }
-	public static @Internal JsonObject getModProperties() { return MOD_PROPERTIES; }
 	public BetterStatsConfig getConfig() { return this.config; }
 	// --------------------------------------------------
 	public static String getModName() { return ModName; }

@@ -1,10 +1,10 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.BetterStats.URL_CURSEFORGE;
-import static io.github.thecsdev.betterstats.BetterStats.URL_ISSUES;
-import static io.github.thecsdev.betterstats.BetterStats.URL_MODRINTH;
-import static io.github.thecsdev.betterstats.BetterStats.URL_SOURCES;
-import static io.github.thecsdev.betterstats.BetterStats.URL_YOUTUBE;
+import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_CURSEFORGE;
+import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_ISSUES;
+import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_MODRINTH;
+import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_SOURCES;
+import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_YOUTUBE;
 import static io.github.thecsdev.betterstats.api.client.registry.BSClientRegistries.STATS_TAB;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.TCDCommonsConfig.RESTRICTED_MODE;

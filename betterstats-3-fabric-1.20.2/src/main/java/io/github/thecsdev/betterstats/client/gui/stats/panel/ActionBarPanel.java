@@ -13,7 +13,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import java.awt.Rectangle;
 import java.util.Objects;
 
-import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
@@ -115,7 +115,7 @@ public final class ActionBarPanel extends BSComponentPanel
 		
 		if(!RESTRICTED_MODE)
 		{
-			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStats.URL_FEEDBACK, false));
+			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_FEEDBACK, false));
 			btn_ff.setEnabled(true);
 			addChild(btn_ff, false);
 		}
