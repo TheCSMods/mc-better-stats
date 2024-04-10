@@ -6,6 +6,9 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.StreamSupport;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -13,20 +16,24 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import io.github.thecsdev.betterstats.util.BST;
-import io.github.thecsdev.tcdcommons.api.command.argument.StatArgumentType;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import io.github.thecsdev.tcdcommons.mixin.hooks.AccessorStatHandler;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.argument.RegistryEntryArgumentType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.stat.Stat;
 import net.minecraft.stat.StatType;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public final class StatisticsCommand
 {
@@ -57,7 +64,7 @@ public final class StatisticsCommand
 		return literal("edit")
 				.then(argument("targets", EntityArgumentType.players())
 						.then(argument("stat_type", RegistryEntryArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
-								.then(argument("stat", StatArgumentType.stat())
+								.then(argument("stat", IdentifierArgumentType.identifier()).suggests(SUGGEST_STAT)
 										.then(literal("set")
 												.then(argument("value", IntegerArgumentType.integer(0))
 														.executes(ctx -> execute_edit(ctx, true))
@@ -83,12 +90,35 @@ public final class StatisticsCommand
 		return literal("query")
 				.then(argument("target", EntityArgumentType.player())
 						.then(argument("stat_type", RegistryEntryArgumentType.registryEntry(cra, RegistryKeys.STAT_TYPE))
-								.then(argument("stat", StatArgumentType.stat())
+								.then(argument("stat", IdentifierArgumentType.identifier()).suggests(SUGGEST_STAT)
 										.executes(ctx -> execute_query(ctx))
 										)
 								)
 					);
 	}
+	// --------------------------------------------------
+	/**
+	 * Suggests {@link Stat} registry entries.<br/>
+	 * Credit: https://github.com/TheCSMods/mc-better-stats/issues/102#issuecomment-2045698948
+	 * @apiNote The context should define a {@link StatType} with the name "stat_type".
+	 */
+	private static SuggestionProvider<ServerCommandSource> SUGGEST_STAT = (context, builder) ->
+	{
+		//try to obtain the type of stats we want to be suggesting
+		@Nullable StatType<?> statType = null;
+		try { statType = RegistryEntryArgumentType.getRegistryEntry(context, "stat_type", RegistryKeys.STAT_TYPE).value(); }
+		catch(Exception e) {}
+		
+		//if a stat type was not provided properly or at all, use default behavior
+		if(statType == null) return IdentifierArgumentType.identifier().listSuggestions(context, builder);
+		
+		//next up, after obtaining the target stat type, list the suggestions
+		@Nullable Iterable<Identifier> suggestions = statType.getRegistry().getKeys()
+				.stream().map(RegistryKey::getValue).toList();
+		return CommandSource.suggestMatching(
+				StreamSupport.stream(suggestions.spliterator(), false).map(Objects::toString),
+				builder);
+	};
 	// ==================================================
 	@SuppressWarnings("unchecked")
 	private static int execute_edit(CommandContext<ServerCommandSource> context, boolean setOrIncrease)

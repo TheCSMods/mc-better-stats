@@ -1,18 +1,13 @@
 package io.github.thecsdev.betterstats;
 
-import static io.github.thecsdev.tcdcommons.api.util.RegistryUtils.registerCommandArgumentType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.thecsdev.betterstats.command.StatisticsCommand;
 import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
 import io.github.thecsdev.tcdcommons.TCDCommons;
-import io.github.thecsdev.tcdcommons.api.command.argument.StatArgumentType;
 import io.github.thecsdev.tcdcommons.api.events.server.command.CommandManagerEvent;
 import io.github.thecsdev.tcdcommons.command.PlayerBadgeCommand;
-import io.github.thecsdev.tcdcommons.command.argument.PlayerBadgeIdentifierArgumentType;
-import net.minecraft.util.Identifier;
 
 public class BetterStats extends Object
 {
@@ -49,22 +44,10 @@ public class BetterStats extends Object
 		BetterStatsNetworkHandler.init();
 		
 		// ---------- register commands
-		final boolean ENABLE_COMMANDS = this.config.registerCommands;
-		
-		//register command argument types
-		if(ENABLE_COMMANDS)
-		{
-			registerCommandArgumentType(
-					new Identifier(TCDCommons.getModID(), "player_badge_identifier"),
-					PlayerBadgeIdentifierArgumentType::pbId);
-			registerCommandArgumentType(StatArgumentType.ID, StatArgumentType::stat);
-		}
-		
-		//register commands
 		CommandManagerEvent.COMMAND_REGISTRATION_CALLBACK.register((dispatcher, commandRegAccess, regEnv) ->
 		{
 			//check the config property 
-			if(!ENABLE_COMMANDS) return;
+			if(!this.config.registerCommands) return;
 			
 			//register commands
 			StatisticsCommand.register(dispatcher, commandRegAccess);
