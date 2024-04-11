@@ -1,7 +1,6 @@
 package io.github.thecsdev.betterstats.api.util.enumerations;
 
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +12,7 @@ import java.util.function.Function;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUPlayerBadgeStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUStat;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.util.interfaces.ITextProvider;
 import net.minecraft.text.Text;
 
@@ -28,7 +28,7 @@ public enum FilterSortCustomsBy implements ITextProvider
 	 * This usually ends up displaying entries in the order their items
 	 * are registered in their corresponding registries.
 	 */
-	DEFAULT(translatable("betterstats.api.util.enumerations.filtergroupby.default")),
+	DEFAULT(BST.filter_groupBy_default()),
 	
 	/**
 	 * A-Z<br/>
