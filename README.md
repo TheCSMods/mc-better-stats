@@ -50,14 +50,14 @@ This tab does not add nor show anything special regarding general statistics oth
 ### The "Items" statistics tab
 The items tab displays items in a visual grid of items, similar to how an inventory screen does it. The items are categorized in item groups, just like they would be in the creative inventory menu. All items you interacted with are shown in this tab. This will hopefully help you find the items you are looking for easier. The search field in the filters menu can be used to look for specific items. To see a statistic for an item, place your cursor over the said item, or use "Tab" to navigate to it using your keyboard, and a tooltip text will display the statistics. The "Show item names" checkbox defines whether or not the tooltip will also show the item name.  
   
-![Item statistics tab](https://cdn.modrinth.com/data/n6PXGAoM/images/f612dcb73d9e4ffc4ca0494559a31221396c2435.png)
+![Item statistics tab](https://cdn.modrinth.com/data/n6PXGAoM/images/5ef05e79400d4e0d386f899dc1849f72731c0372.png)
 
 ### The "Mobs" statistics tab
 Similar to the "Items" tab, the "Mobs" tab will also show mobs in a grid. The mobs are visually rendered on the GUI screen, so it is easier for you to find the mob you are looking for, and because it looks nicer. Just like with the items tab, to see the statistics for a given mob, place your cursor over the said mob, or use "Tab" to navigate to it using your keyboard. A tooltip text will show you the statistics.  
   
 *Note that due to technical limitations in my programming, some mobs may fail to render properly, and some mobs may even appear as "plain text" instead of their 3D model due to errors in my rendering method.*  
   
-![Mob statistics tab](https://cdn.modrinth.com/data/n6PXGAoM/images/f612dcb73d9e4ffc4ca0494559a31221396c2435.png)
+![Mob statistics tab](https://cdn.modrinth.com/data/n6PXGAoM/images/fd6c360face8ba7fcf05224a08044614c7eb9496.png)
 
 ### The "Food & drinks" statistics tab (formerly "A balanced diet")
 This tab aims to help you achieve the "A balanced died" advancement. It does that by displaying all food items in grouped grids, similarly to how the "Items" tab does it. This tab will show you all food items, even the ones you haven't interacted with, and will also highlight the foods you already ate before, helping you identify which foods you need to eat next to earn the advancement.  
