@@ -8,9 +8,13 @@ base
 }
 
 /*
- * Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
+ * Minecraft 1.20.5 and upwards uses Java 21.
  */
-tasks.withType(JavaCompile).configureEach { it.options.release = 17; }
+tasks.withType(JavaCompile).configureEach
+{
+	it.options.release = 21;
+	options.compilerArgs += ['-Xlint:deprecation'];
+}
 
 /*
  * The 'java' task is responsible for compiling the java code.
