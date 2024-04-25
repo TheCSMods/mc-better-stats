@@ -2,11 +2,14 @@
 
 This Minecraft mod replaces the Vanilla statistics screen with an new and improved statistics screen that is easier to use and that has more helpful features. The new statistics screen features an easier to navigate and read UI layout, as well as a few filters and a search field that will help you find the statictics you need a lot easier, especially when there are dozens, if not hundreds of entries to keep track of.
 
-### Dependencies (v3.9.4+)
+### Dependencies (v3.9.7+)
 Note that "client" refers to installing mods to the game launched through a Minecraft launcher, whereas "server" refers to installing mods to a server you join through the "multiplayer" menu.
 - **Installing this mod (BSS)**
     - **Client**: Optional
     - **Server**: Optional
+- [Fabric API](https://modrinth.com/mod/P7dR8mSH)
+    - **Client**: Required as of `1.20.5`
+    - **Server**: Required as of `1.20.5`
 - [TCDCommons API](https://modrinth.com/mod/Eldc1g37)
     - **Client**: Optional
     - **Server**: Optional
