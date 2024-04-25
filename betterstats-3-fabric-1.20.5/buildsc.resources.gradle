@@ -18,7 +18,7 @@ do
 	//obtain all jar files in `jarjar`, and construct a String for the `jars` entry in `fabric.mod.json`.
 	//due to a bug in the compiler, this uses a cheesy workaround that injects json code into a json string
 	def fmj_jars = new ArrayList<String>();
-	fileTree(dir: rssDirPath.resolve("/src/main/resources/META-INF/jarjar").toString(), include: '*.jar')
+	fileTree(dir: rssDirPath.resolve("META-INF/jarjar").toString(), include: '*.jar')
 		.each { jarFile -> fmj_jars.add(rssDirPath.relativize(jarFile.toPath()).toString().replace('\\', '/')) };
 	fmj_jars = fmj_jars.collect { jarFile -> "{ \"file\": \"${jarFile}\" }" };
 	fmj_jars = "\", \"jars\": [" + fmj_jars.join(', ') + "], \"\": \"";
