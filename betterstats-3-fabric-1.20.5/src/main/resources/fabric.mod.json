@@ -30,7 +30,7 @@
 	{
 		"fabricloader": ">=${project.properties.loader_version}",
 		"minecraft": "${project.properties.mod_depends_minecraft}",
-		"java": ">=17",
+		"java": ">=21",
 		"fabric-api": "*",
 		"tcdcommons": "*"
 	},

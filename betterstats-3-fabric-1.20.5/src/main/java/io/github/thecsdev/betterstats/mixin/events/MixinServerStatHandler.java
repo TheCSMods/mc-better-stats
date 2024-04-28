@@ -36,7 +36,7 @@ public abstract class MixinServerStatHandler extends StatHandler
 	public void onSetStat(PlayerEntity player, Stat<?> stat, int value, CallbackInfo ci)
 	{
 		//only handle server players
-		if(player instanceof ServerPlayerEntity sPlayer)
+		if(player instanceof ServerPlayerEntity)
 		{
 			//if a stat is an item stat or a mob stat..
 			if(isItemStat(stat) || isMobStat(stat))
