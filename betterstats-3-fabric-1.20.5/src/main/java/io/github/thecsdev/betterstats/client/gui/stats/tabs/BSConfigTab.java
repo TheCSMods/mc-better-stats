@@ -11,6 +11,7 @@ import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.util.TCDCT;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -93,7 +94,7 @@ public final class BSConfigTab extends StatsTab
 		final var panel = initContext.getFiltersPanel();
 		StatsTabUtils.initGroupLabel(panel, TEXT_TITLE);
 		
-		final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+		final var n1 = UILayout.nextChildVerticalRect(panel);
 		n1.y += 3;
 		final var btn_done = new TButtonWidget(n1.x, n1.y, n1.width, 20, translatable("gui.done"));
 		btn_done.setOnClick(__ ->
@@ -107,7 +108,7 @@ public final class BSConfigTab extends StatsTab
 		});
 		panel.addChild(btn_done, false);
 		
-		final var n2 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+		final var n2 = UILayout.nextChildVerticalRect(panel);
 		n2.y += 3;
 		final var btn_cancel = new TButtonWidget(n2.x, n2.y, n2.width, 20, translatable("gui.cancel"));
 		btn_cancel.setOnClick(__ -> initContext.setSelectedStatsTab(BSStatsTabs.GENERAL));

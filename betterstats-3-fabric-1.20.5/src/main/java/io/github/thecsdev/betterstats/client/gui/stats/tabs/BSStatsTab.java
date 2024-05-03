@@ -2,7 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
-import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
+import static io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout.nextChildVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.Locale;
@@ -20,7 +20,6 @@ import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.stats.SUStat;
 import io.github.thecsdev.betterstats.client.gui.panel.PageChooserPanel;
 import io.github.thecsdev.betterstats.client.gui.panel.PageChooserPanel.PageChooserPanelProxy;
-import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
@@ -77,7 +76,7 @@ import net.minecraft.util.Identifier;
 		lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 		
 		//init summary panel
-		final var n1 = nextPanelVerticalRect(panel);
+		final var n1 = nextChildVerticalRect(panel);
 		final var summary = new StatsSummaryPanel(n1.x, n1.y + GAP, n1.width);
 		panel.addChild(summary, false);
 		return summary;
@@ -97,7 +96,7 @@ import net.minecraft.util.Identifier;
 		
 		//obtain the panel, and calculate the next XYWH
 		final var panel = initContext.getStatsPanel();
-		final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+		final var n1 = nextChildVerticalRect(panel);
 		if(panel.getChildren().size() != 0) n1.y += GAP;
 		
 		//define logic for triggering a manual refresh

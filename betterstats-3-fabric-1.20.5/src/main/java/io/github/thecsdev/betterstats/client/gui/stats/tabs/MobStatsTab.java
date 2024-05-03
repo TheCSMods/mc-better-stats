@@ -3,7 +3,6 @@ package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 import static io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget.SIZE;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
-import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
 import static io.github.thecsdev.tcdcommons.api.util.TUtils.safeSubList;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -25,6 +24,7 @@ import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudMobEntry;
 import io.github.thecsdev.betterstats.util.BST;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.entity.SpawnGroup;
@@ -114,7 +114,7 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 	{
 		final int wmp = panel.getWidth() - (panel.getScrollPadding() * 2); //width minus padding
 		int nextX = panel.getScrollPadding();
-		int nextY = nextPanelBottomY(panel) - panel.getY();
+		int nextY = UILayout.nextChildBottomY(panel) - panel.getY();
 		
 		for(final SUMobStat stat : stats)
 		{
@@ -127,7 +127,7 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 			if(nextX + SIZE >= wmp)
 			{
 				nextX = panel.getScrollPadding();
-				nextY = (nextPanelBottomY(panel) - panel.getY()) + GAP;
+				nextY = (UILayout.nextChildBottomY(panel) - panel.getY()) + GAP;
 			}
 		}
 	}

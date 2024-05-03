@@ -10,7 +10,7 @@ import io.github.thecsdev.betterstats.api.util.stats.SUPlayerBadgeStat;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.PlayerBadgeStatsTab;
 import io.github.thecsdev.tcdcommons.api.badge.PlayerBadge;
-import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
@@ -58,7 +58,7 @@ public final class PBSummaryPanel extends BSComponentPanel
 		//no stats label
 		if(getChildren().size() == 0)
 		{
-			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(this);
+			final var n1 = UILayout.nextChildVerticalRect(this);
 			final var lbl = new TLabelElement(
 					n1.x, getY() + (getHeight() / 2) - (n1.height / 2),
 					n1.width, n1.height,

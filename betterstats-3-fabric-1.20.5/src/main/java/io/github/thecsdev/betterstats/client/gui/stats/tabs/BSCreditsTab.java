@@ -12,7 +12,7 @@ import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.client.gui.widget.CreditsTabPersonWidget;
 import io.github.thecsdev.betterstats.util.BST;
-import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
@@ -56,7 +56,7 @@ public final class BSCreditsTab extends StatsTab
 	// ==================================================
 	private static final void initGroupLabel(TPanelElement panel, Text text)
 	{
-		final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+		final var n1 = UILayout.nextChildVerticalRect(panel);
 		final var panel_tGroup = new TPanelElement(n1.x, n1.y, n1.width, 20);
 		panel_tGroup.setBackgroundColor(0xff353535);
 		panel_tGroup.setOutlineColor(0xff000000);
@@ -85,7 +85,7 @@ public final class BSCreditsTab extends StatsTab
 			iteration++;
 			
 			//create gui elements
-			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+			final var n1 = UILayout.nextChildVerticalRect(panel);
 			final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, contributor, iteration <= 10);
 			ctpw.setBackgroundColor(highlight ? 0x44000000 : 0x22000000);
 			panel.addChild(ctpw, false);

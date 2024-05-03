@@ -4,7 +4,6 @@ import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.F
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel.TXT_NO_STATS_YET;
-import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.hooks.world.biome.source.BiomeAccessHooks.getBiomeAccessSeed;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -26,7 +25,7 @@ import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudGeneralEntry;
 import io.github.thecsdev.betterstats.util.BST;
-import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -82,7 +81,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		else //init "no stats" label
 		{
 			//obtain the next XYWH
-			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+			final var n1 = UILayout.nextChildVerticalRect(panel);
 			
 			//create and add the element
 			final var fill = new TFillColorElement(n1.x, n1.y + GAP, n1.width, GeneralStatWidget.HEIGHT);
@@ -124,7 +123,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		for(final SUGeneralStat stat : stats)
 		{
 			//calculate the next XYWH
-			final var n1 = TConfigPanelBuilder.nextPanelVerticalRect(panel);
+			final var n1 = UILayout.nextChildVerticalRect(panel);
 			
 			//create and add the stat widget
 			final var statWidget = new GeneralStatWidget(n1.x, n1.y + GAP, n1.width, stat);
@@ -167,7 +166,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 			.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
 		
 		//init the "world stat panel"
-		final var n1 = nextPanelVerticalRect(panel);
+		final var n1 = UILayout.nextChildVerticalRect(panel);
 		final var wsp = new TFillColorElement(n1.x, n1.y, n1.width, (CustomStatElement.HEIGHT * 2) + GAP);
 		wsp.setColor(TPanelElement.COLOR_BACKGROUND);
 		panel.addChild(wsp, false);

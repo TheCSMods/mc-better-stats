@@ -2,8 +2,8 @@ package io.github.thecsdev.betterstats.api.client.gui.util;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel.BS_WIDGETS_TEXTURE;
-import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelBottomY;
-import static io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder.nextPanelVerticalRect;
+import static io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout.nextChildBottomY;
+import static io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout.nextChildVerticalRect;
 import static io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext.DEFAULT_TEXT_COLOR;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -129,7 +129,7 @@ public final class StatsTabUtils
 		
 		//init the stats tab select widget
 		final var statsTab = initContext.getSelectedStatsTab();
-		final var n1 = nextPanelVerticalRect(panel);
+		final var n1 = nextChildVerticalRect(panel);
 		final var select_tab = new SelectStatsTabWidget(n1.x, n1.y + panel.getScrollPadding(), n1.width, n1.height);
 		try { select_tab.setSelected(statsTab); } catch(NoSuchElementException nse) { select_tab.setSelected((StatsTab)null); }
 		select_tab.setText(statsTab != null ? statsTab.getName() : literal("-"));
@@ -137,7 +137,7 @@ public final class StatsTabUtils
 		panel.addChild(select_tab, false);
 		
 		//init the search bar
-		final var n2 = nextPanelVerticalRect(panel);
+		final var n2 = nextChildVerticalRect(panel);
 		final var input_search = new TTextFieldWidget(n2.x, n2.y + GAP, n2.width, n2.height);
 		input_search.setInput(filterSettings.getPropertyOrDefault(FILTER_ID_SEARCH, ""));
 		input_search.setPlaceholderText(translatable("gui.socialInteractions.search_hint"));
@@ -161,7 +161,7 @@ public final class StatsTabUtils
 		final int gap = GAP * (panel.getChildren().size() == 0 ? 0 : 1);
 		
 		//init the "show empty stats" checkbox
-		final var n1 = nextPanelVerticalRect(panel);
+		final var n1 = nextChildVerticalRect(panel);
 		final var check_showEmpty = new TCheckboxWidget(n1.x, n1.y + gap, n1.width, n1.height);
 		check_showEmpty.setText(BST.filter_showEmptyStats());
 		check_showEmpty.setChecked(filterSettings.getPropertyOrDefault(FILTER_ID_SHOWEMPTY, false));
@@ -242,7 +242,7 @@ public final class StatsTabUtils
 		final E filterValue = filterSettings.getPropertyOrDefault(filterId, defaultValue);
 		
 		//obtain the next placement coordinates
-		final var n1 = nextPanelVerticalRect(panel);
+		final var n1 = nextChildVerticalRect(panel);
 		n1.y += gap;
 		if(icon != null)
 		{
@@ -275,7 +275,7 @@ public final class StatsTabUtils
 	public static TLabelElement initGroupLabel(TPanelElement panel, Text text)
 	{
 		final int nextX = panel.getScrollPadding();
-		final int nextY = (nextPanelBottomY(panel) - panel.getY()) + (panel.getChildren().size() != 0 ? 10 : 0);
+		final int nextY = (nextChildBottomY(panel) - panel.getY()) + (panel.getChildren().size() != 0 ? 10 : 0);
 		final int nextW = panel.getWidth() - (nextX * 2);
 		
 		final var label = new TLabelElement(nextX, nextY, nextW, GeneralStatWidget.HEIGHT, text);
