@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.betterstats.network.BetterStatsServerPlayNetworkHandler;
 import io.github.thecsdev.betterstats.util.stats.StatAnnouncementSystem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -36,15 +36,14 @@ public abstract class MixinServerStatHandler extends StatHandler
 	public void onSetStat(PlayerEntity player, Stat<?> stat, int value, CallbackInfo ci)
 	{
 		//only handle server players
-		if(player instanceof ServerPlayerEntity)
+		if(player instanceof ServerPlayerEntity serverPlayer)
 		{
 			//if a stat is an item stat or a mob stat..
 			if(isItemStat(stat) || isMobStat(stat))
 			{
 				//..handle live stats updates for those stat types
-				final var p = (ServerPlayerEntity)player;
-				if(p.getServer().isRunning())
-					BetterStatsNetworkHandler.s2c_liveStats(p);
+				if(serverPlayer.getServer().isRunning())
+					BetterStatsServerPlayNetworkHandler.of(serverPlayer).sendLiveStatsAttepmt();
 			}
 		}
 	}

@@ -3,8 +3,6 @@ package io.github.thecsdev.betterstats.client.gui.screen.hud;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel.BS_WIDGETS_TEXTURE;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getLiveStatsEnabled;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getServerHasBSS;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -13,8 +11,7 @@ import java.awt.Rectangle;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
-import io.github.thecsdev.betterstats.BetterStatsConfig;
-import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientPlayNetworkHandler;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
@@ -59,6 +56,9 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 		//if the hud screen is opened, add some extra widgets to it
 		if(isOpen())
 		{
+			//obtain the better-stats's client play network handler
+			final var bssCpnh = BetterStatsClientPlayNetworkHandler.of(MC_CLIENT.player);
+			
 			//add the done button, that closes the screen, and shows the tutorial
 			final var btn_done = new TButtonWidget(
 					(getWidth() / 2) - 50, (getHeight() / 2) - 10,
@@ -73,18 +73,18 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 			addChild(btn_done, false);
 			
 			//add a "realtime stats" toggle button
-			if(BetterStatsConfig.CLIENT_NET_CONSENT && getServerHasBSS())
+			if(bssCpnh.bssNetworkConsent && bssCpnh.serverHasBss)
 			{
 				final var btn_toggleRealtime = new TButtonWidget(
 						btn_done.getEndX() + 5, btn_done.getY(),
 						20, 20);
 				btn_toggleRealtime.setTooltip(Tooltip.of(TEXT_LIVE_TOGGLE));
-				btn_toggleRealtime.setIcon(getLiveStatsEnabled() ?
+				btn_toggleRealtime.setIcon(bssCpnh.enableLiveStats ?
 						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
 						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
 				btn_toggleRealtime.setOnClick(__ ->
 				{
-					BetterStatsClientNetworkHandler.c2s_liveStats(!getLiveStatsEnabled());
+					bssCpnh.sendLiveStatsSetting(!bssCpnh.enableLiveStats);
 					refresh();
 				});
 				addChild(btn_toggleRealtime, false);

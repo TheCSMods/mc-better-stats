@@ -11,7 +11,6 @@ import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSClientPlayerBadges;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.util.BSUtils;
-import io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.events.client.MinecraftClientEvent;
 import io.github.thecsdev.tcdcommons.api.events.client.gui.screen.GameMenuScreenEvent;
@@ -31,7 +30,6 @@ public final class BetterStatsClient extends BetterStats
 		//initialize and register stuff
 		BSStatsTabs.register();
 		BSClientPlayerBadges.register();
-		BetterStatsClientNetworkHandler.init();
 		
 		//an event handler that will handle the game menu screen (the "pause" screen)
 		GameMenuScreenEvent.INIT_WIDGETS_POST.register(gmScreen ->

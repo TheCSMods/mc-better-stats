@@ -1,12 +1,8 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import static io.github.thecsdev.betterstats.BetterStatsConfig.CLIENT_NET_CONSENT;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_iHaveBSS;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.c2s_liveStats;
-import static io.github.thecsdev.betterstats.client.network.BetterStatsClientNetworkHandler.getServerHasBSS;
-import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_CONSENT_WARNING;
-import static io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler.TXT_TOGGLE_TOOLTIP;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_CONSENT_WARNING;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_TOGGLE_TOOLTIP;
 import static io.github.thecsdev.tcdcommons.TCDCommonsConfig.RESTRICTED_MODE;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
@@ -18,6 +14,7 @@ import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientPlayNetworkHandler;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
@@ -50,6 +47,9 @@ public final class ActionBarPanel extends BSComponentPanel
 	// ==================================================
 	protected final @Override void init()
 	{
+		//obtain the better-stats's client play network handler
+		final var bssCpnh = BetterStatsClientPlayNetworkHandler.of(MC_CLIENT.player);
+		
 		//close button
 		final var btn_close = new TButtonWidget(getEndX() - 21, getY() + 1, 20, 20);
 		btn_close.setEnabled(this.proxy.canClose());
@@ -69,16 +69,16 @@ public final class ActionBarPanel extends BSComponentPanel
 		//bss network button
 		final var btn_bssNet = new TButtonWidget(btn_options.getX() - 20, btn_options.getY(), 20, 20);
 		btn_bssNet.setTooltip(Tooltip.of(TXT_TOGGLE_TOOLTIP));
-		btn_bssNet.setIcon(CLIENT_NET_CONSENT ?
+		btn_bssNet.setIcon(bssCpnh.bssNetworkConsent ?
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
 		btn_bssNet.setOnClick(__ ->
 		{
 			//if turning off, send a packet indicating no more live updates
-			if(CLIENT_NET_CONSENT)
+			if(bssCpnh.bssNetworkConsent)
 			{
-				c2s_liveStats(false);
-				CLIENT_NET_CONSENT = false;
+				bssCpnh.sendLiveStatsSetting(false);
+				bssCpnh.bssNetworkConsent = false;
 				refresh();
 				return;
 			}
@@ -87,13 +87,13 @@ public final class ActionBarPanel extends BSComponentPanel
 			final var currentScreen = MC_CLIENT.currentScreen;
 			final BooleanConsumer confirmScreenCallback = (accepted) ->
 			{
-				CLIENT_NET_CONSENT = accepted;
+				bssCpnh.bssNetworkConsent = accepted;
 				MC_CLIENT.setScreen(currentScreen);
-				if(CLIENT_NET_CONSENT) c2s_iHaveBSS(true);
+				if(bssCpnh.bssNetworkConsent) bssCpnh.sendIHaveBss(true);
 			};
 			MC_CLIENT.setScreen(new ConfirmScreen(confirmScreenCallback, TXT_TOGGLE_TOOLTIP, TXT_CONSENT_WARNING));
 		});
-		btn_bssNet.setEnabled(getServerHasBSS() && !MC_CLIENT.isInSingleplayer() && !CLIENT_NET_CONSENT);
+		btn_bssNet.setEnabled(bssCpnh.serverHasBss && !MC_CLIENT.isInSingleplayer() && !bssCpnh.bssNetworkConsent);
 		addChild(btn_bssNet, false);
 		
 		//credits button

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.thecsdev.betterstats.command.StatisticsCommand;
-import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.betterstats.network.BetterStatsNetwork;
 import io.github.thecsdev.tcdcommons.TCDCommons;
 import io.github.thecsdev.tcdcommons.api.events.server.command.CommandManagerEvent;
 import io.github.thecsdev.tcdcommons.command.PlayerBadgeCommand;
@@ -41,7 +41,7 @@ public class BetterStats extends Object
 		
 		//init stuff
 		BetterStatsProperties.init();
-		BetterStatsNetworkHandler.init();
+		BetterStatsNetwork.init();
 
 		// ---------- register commands
 		CommandManagerEvent.COMMAND_REGISTRATION_CALLBACK.register((dispatcher, commandRegAccess, regEnv) ->

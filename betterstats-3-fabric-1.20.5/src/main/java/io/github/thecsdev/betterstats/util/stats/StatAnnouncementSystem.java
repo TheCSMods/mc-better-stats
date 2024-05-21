@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.BetterStatsProperties;
-import io.github.thecsdev.betterstats.network.BetterStatsNetworkHandler;
+import io.github.thecsdev.betterstats.network.BetterStatsServerPlayNetworkHandler;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.TCDCommons;
 import net.minecraft.block.Block;
@@ -395,8 +395,8 @@ public final @Internal class StatAnnouncementSystem
 			server.getPlayerManager().getPlayerList().forEach(player ->
 			{
 				//handle sending the message
-				final @Nullable var pp = BetterStatsNetworkHandler.PlayerPrefs.get(player);
-				final boolean hasBss = (pp != null && pp.hasBss);
+				final @Nullable var pp = BetterStatsServerPlayNetworkHandler.of(player);
+				final boolean hasBss = (pp != null && pp.hasBssInstalled);
 				final var msg = (hasBss? withBssTranslations : allLiteral);
 				player.sendMessage(msg, false);
 			});
