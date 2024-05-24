@@ -12,6 +12,7 @@ import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.util.TCDCT;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -30,61 +31,8 @@ public final class BSConfigTab extends StatsTab
 	// ==================================================
 	public final @Override void initStats(StatsInitContext initContext)
 	{
-		//prepare to init
-		final var panel = initContext.getStatsPanel();
-		
 		//init config gui
-		final var config = BetterStats.getInstance().getConfig();
-		this.config_builder = TConfigPanelBuilder.builder(panel);
-		
-		//configs for client-sided features
-		this.config_builder.addLabelB(TCDCT.tcdc_term_clientSide()).setTextColor(0xFFFFFF00);
-		{
-			//debug mode
-			this.config_builder.addCheckbox(
-					BST.config_debugMode(),
-					BetterStatsConfig.DEBUG_MODE,
-					checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked());
-			
-			//gui smooth scroll
-			this.config_builder.addCheckbox(
-						BST.config_guiSmoothScroll(),
-						config.guiSmoothScroll,
-						checkbox -> config.guiSmoothScroll = checkbox.getChecked());
-			this.config_builder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_guiSmoothScroll_tooltip()));
-			
-			//gui mobs follow cursor
-			this.config_builder.addCheckbox(
-						BST.config_guiMobsFollowCursor(),
-						config.guiMobsFollowCursor,
-						checkbox -> config.guiMobsFollowCursor = checkbox.getChecked());
-			
-			//trust all servers bss network
-			this.config_builder.addCheckbox(
-						BST.config_trustAllServersBssNet(),
-						config.trustAllServersBssNet,
-						checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
-			this.config_builder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_trustAllServersBssNet_tooltip()));
-		}
-		
-		//configs for server-sided features
-		this.config_builder.addLabelB(TCDCT.tcdc_term_serverSide()).setTextColor(0xFFFFFF00);
-		{
-			//register commands
-			this.config_builder.addCheckbox(
-					BST.config_registerCommands(),
-					config.registerCommands,
-					checkbox -> config.registerCommands = checkbox.getChecked());
-			
-			//enable stat announcement system
-			this.config_builder.addCheckbox(
-					BST.config_enableSas(),
-					config.enableServerSAS,
-					checkbox -> config.enableServerSAS = checkbox.getChecked());
-		}
-		
-		//finally, build the config gui
-		this.config_builder.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
+		this.config_builder = initConfigGui(initContext.getStatsPanel());
 	}
 	// --------------------------------------------------
 	public final @Override void initFilters(FiltersInitContext initContext)
@@ -113,6 +61,91 @@ public final class BSConfigTab extends StatsTab
 		final var btn_cancel = new TButtonWidget(n2.x, n2.y, n2.width, 20, translatable("gui.cancel"));
 		btn_cancel.setOnClick(__ -> initContext.setSelectedStatsTab(BSStatsTabs.GENERAL));
 		panel.addChild(btn_cancel, false);
+	}
+	// ==================================================
+	/**
+	 * Initializes the mod configuration GUI onto a {@link TPanelElement}.
+	 * @apiNote Does NOT include the "Save" and "Cancel" buttons.
+	 */
+	public static final TConfigPanelBuilder<?> initConfigGui(TPanelElement panel)
+	{
+		//obtain the config reference, and create a config builder
+		final var config         = BetterStats.getInstance().getConfig();
+		final var configBuilder = TConfigPanelBuilder.builder(panel);
+		
+		initConfigGui_debug(config, configBuilder);
+		initConfigGui_clientSide(config, configBuilder);
+		initConfigGui_serverSide(config, configBuilder);
+		
+		//build
+		configBuilder.build(() ->
+		{
+			try { config.saveToFile(true); }
+			catch(Exception e) { throw new RuntimeException("Failed to save mod config.", e); }
+		});
+		
+		//finally, once done, return the config builder instance
+		return configBuilder;
+	}
+	
+	private static final void initConfigGui_debug(BetterStatsConfig config, TConfigPanelBuilder<?> configBuilder)
+	{
+		//debug mode
+		configBuilder.addCheckbox(
+				BST.config_debugMode(),
+				BetterStatsConfig.DEBUG_MODE,
+				checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked());
+	}
+	
+	private static final void initConfigGui_clientSide(BetterStatsConfig config, TConfigPanelBuilder<?> configBuilder)
+	{
+		//label
+		configBuilder.addLabelB(TCDCT.tcdc_term_clientSide()).setTextColor(0xFFFFFF00);
+		
+		//gui smooth scroll
+		configBuilder.addCheckbox(
+				BST.config_guiSmoothScroll(),
+				config.guiSmoothScroll,
+				checkbox -> config.guiSmoothScroll = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_guiSmoothScroll_tooltip()));
+		
+		//gui mobs follow cursor
+		configBuilder.addCheckbox(
+					BST.config_guiMobsFollowCursor(),
+					config.guiMobsFollowCursor,
+					checkbox -> config.guiMobsFollowCursor = checkbox.getChecked());
+		
+		//trust all servers bss network
+		configBuilder.addCheckbox(
+					BST.config_trustAllServersBssNet(),
+					config.trustAllServersBssNet,
+					checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_trustAllServersBssNet_tooltip()));
+		
+		//allow stats sharing
+		configBuilder.addCheckbox(
+				BST.config_allowStatsSharing(),
+				config.netPref_allowStatsSharing,
+				checkbox -> config.netPref_allowStatsSharing = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_allowStatsSharing_tooltip()));
+	}
+	
+	private static final void initConfigGui_serverSide(BetterStatsConfig config, TConfigPanelBuilder<?> configBuilder)
+	{
+		//label
+		configBuilder.addLabelB(TCDCT.tcdc_term_serverSide()).setTextColor(0xFFFFFF00);
+		
+		//register commands
+		configBuilder.addCheckbox(
+				BST.config_registerCommands(),
+				config.registerCommands,
+				checkbox -> config.registerCommands = checkbox.getChecked());
+		
+		//enable stat announcement system
+		configBuilder.addCheckbox(
+				BST.config_enableSas(),
+				config.enableServerSAS,
+				checkbox -> config.enableServerSAS = checkbox.getChecked());
 	}
 	// ==================================================
 }

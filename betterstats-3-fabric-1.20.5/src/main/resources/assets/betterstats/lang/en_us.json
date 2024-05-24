@@ -56,6 +56,8 @@
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "GUI mobs follow cursor",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net": "Auto-toggle 'betterstats' network",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip": "When this mod is installed on a server, it offers more features. The 'betterstats' network protocol is how a 'betterstats' server communicates with the 'betterstats' client. With this enabled, the client will automatically tell the server it has 'betterstats' installed when applicable. With this disabled, you will have do it manually yourself each time you join a server.",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.allow_stats_sharing": "Allow stats sharing",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.allow_stats_sharing.tooltip": "Allows the server to share your statistics with third-parties such as other players on the server. Please do note that anyone running the server is capable of modding the server in a way that ignores this preference. So while this shouldn't happen, I do wish to inform you that it is possible.",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands": "Register commands",
 	"betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas": "Enable stat announcement system",
 	

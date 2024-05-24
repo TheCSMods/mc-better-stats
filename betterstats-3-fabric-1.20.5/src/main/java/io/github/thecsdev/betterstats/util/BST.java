@@ -67,6 +67,8 @@ public final @Internal class BST
 	public static final MutableText config_guiMobsFollowCursor()           { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor"); }
 	public static final MutableText config_trustAllServersBssNet()         { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net"); }
 	public static final MutableText config_trustAllServersBssNet_tooltip() { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.trust_all_servers_bss_net.tooltip"); }
+	public static final MutableText config_allowStatsSharing()             { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.allow_stats_sharing"); }
+	public static final MutableText config_allowStatsSharing_tooltip()     { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.allow_stats_sharing.tooltip"); }
 	public static final MutableText config_registerCommands()              { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.register_commands"); }
 	public static final MutableText config_enableSas()                     { return translatable("betterstats.api.client.gui.screen.betterstatsconfigscreen.enable_sas"); }
 	// --------------------------------------------------

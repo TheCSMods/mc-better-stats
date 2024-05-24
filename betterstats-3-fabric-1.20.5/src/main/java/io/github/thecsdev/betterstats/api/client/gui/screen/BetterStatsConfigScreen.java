@@ -7,10 +7,8 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
-import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.client.gui.widget.ScrollBarWidget;
-import io.github.thecsdev.betterstats.util.BST;
-import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
+import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSConfigTab;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
@@ -21,9 +19,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.client.TCDCommonsClient;
-import io.github.thecsdev.tcdcommons.util.TCDCT;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
 
 /**
  * A config {@link TScreen} for the {@link BetterStats} mod.
@@ -51,16 +47,19 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 	// ==================================================
 	protected final @Override void init()
 	{
+		//the "background" "content pane"
 		final var contentPane = new TFillColorElement(0, 0, getWidth(), getHeight());
 		contentPane.setColor(0x44FFFFFF);
 		contentPane.setZOffset(TCDCommonsClient.MAGIC_ITEM_Z_OFFSET);
 		addChild(contentPane, false);
 		
+		//mathematical calculations
 		final int panelW = (int) ((float)getWidth() / 2f);
 		final int panelX = (getWidth() / 2) - (panelW / 2);
 		final int panelH = getHeight() - 40;
 		final int panelY = (getHeight() / 2) - (panelH / 2);
 		
+		//a bunch of panels
 		final var panel = new TPanelElement(panelX, panelY, panelW, panelH);
 		panel.setScrollFlags(0);
 		panel.setScrollPadding(0);
@@ -99,59 +98,10 @@ public final class BetterStatsConfigScreen extends TScreenPlus implements IParen
 		panel_action.setOutlineColor(panel.getOutlineColor());
 		panel.addChild(panel_action, false);
 		
-		final var config = BetterStats.getInstance().getConfig();
-		final var config_builder = TConfigPanelBuilder.builder(panel_config);
-		{
-			//configs for client-sided features
-			config_builder.addLabelB(TCDCT.tcdc_term_clientSide()).setTextColor(0xFFFFFF00);
-			{
-				//debug mode
-				config_builder.addCheckbox(
-						BST.config_debugMode(),
-						BetterStatsConfig.DEBUG_MODE,
-						checkbox -> BetterStatsConfig.DEBUG_MODE = checkbox.getChecked());
-				
-				//gui smooth scroll
-				config_builder.addCheckbox(
-							BST.config_guiSmoothScroll(),
-							config.guiSmoothScroll,
-							checkbox -> config.guiSmoothScroll = checkbox.getChecked());
-				config_builder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_guiSmoothScroll_tooltip()));
-				
-				//gui mobs follow cursor
-				config_builder.addCheckbox(
-							BST.config_guiMobsFollowCursor(),
-							config.guiMobsFollowCursor,
-							checkbox -> config.guiMobsFollowCursor = checkbox.getChecked());
-				
-				//trust all servers bss network
-				config_builder.addCheckbox(
-							BST.config_trustAllServersBssNet(),
-							config.trustAllServersBssNet,
-							checkbox -> config.trustAllServersBssNet = checkbox.getChecked());
-				config_builder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_trustAllServersBssNet_tooltip()));
-			}
-			
-			//configs for server-sided features
-			config_builder.addLabelB(TCDCT.tcdc_term_serverSide()).setTextColor(0xFFFFFF00);
-			{
-				//register commands
-				config_builder.addCheckbox(
-						BST.config_registerCommands(),
-						config.registerCommands,
-						checkbox -> config.registerCommands = checkbox.getChecked());
-				
-				//enable stat announcement system
-				config_builder.addCheckbox(
-						BST.config_enableSas(),
-						config.enableServerSAS,
-						checkbox -> config.enableServerSAS = checkbox.getChecked());
-			}
-			
-			//finally, build the config gui
-			config_builder.build(() -> { try { config.saveToFile(true); } catch (Exception e) { throw new RuntimeException(e); } });
-		}
+		//the config gui
+		final var config_builder = BSConfigTab.initConfigGui(panel_config);
 		
+		//cancel and done buttons
 		final var btn_actionCancel = new TButtonWidget(
 				5, 5, (panelW / 2) - 7, 20,
 				translatable("gui.cancel"),

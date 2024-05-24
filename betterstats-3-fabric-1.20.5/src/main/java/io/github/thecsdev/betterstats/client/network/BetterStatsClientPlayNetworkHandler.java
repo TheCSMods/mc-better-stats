@@ -136,7 +136,7 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 		
 		//construct and send
 		final var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeBoolean(this.netPref_enableLiveStats);          //write live stats preference
+		data.writeBoolean(this.       netPref_enableLiveStats);   //write live stats preference
 		data.writeBoolean(this.config.netPref_allowStatsSharing); //write stats sharing consent preference
 		CustomPayloadNetwork.sendC2S(C2S_PREFERENCES, data);
 		

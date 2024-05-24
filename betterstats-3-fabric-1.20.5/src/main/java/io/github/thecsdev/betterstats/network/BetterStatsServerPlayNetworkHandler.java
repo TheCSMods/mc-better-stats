@@ -39,7 +39,7 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	 * When set to true, the {@link BetterStatsNetwork} will
 	 * automatically update the client on their stats changes, live.
 	 */
-	public boolean enableLiveStats = false;
+	public boolean netPref_enableLiveStats = false;
 	
 	/**
 	 * The timestamp at which the last live stats update was performed.
@@ -51,7 +51,7 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	 * The {@link #player}'s preference on having their statistics
 	 * shared with third-party sources such as other players.
 	 */
-	public boolean statsSharingConsent = false;
+	public boolean netPref_statsSharingConsent = false;
 	// ==================================================
 	private BetterStatsServerPlayNetworkHandler(ServerPlayerEntity player) throws NullPointerException
 	{
@@ -90,8 +90,8 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	 */
 	public final void onPreferences(PacketContext ctx)
 	{
-		this.enableLiveStats     = ctx.getPacketBuffer().readBoolean();
-		this.statsSharingConsent = ctx.getPacketBuffer().readBoolean();
+		this.netPref_enableLiveStats     = ctx.getPacketBuffer().readBoolean();
+		this.netPref_statsSharingConsent = ctx.getPacketBuffer().readBoolean();
 	}
 	// --------------------------------------------------
 	/**
@@ -112,7 +112,7 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	public final boolean sendLiveStatsAttepmt() //attempts to send live stats, if possible
 	{
 		//check prefs
-		if(!this.enableLiveStats) return false;
+		if(!this.netPref_enableLiveStats) return false;
 		
 		//check last update time, and avoid packet spam
 		final long currentTime = System.currentTimeMillis();
