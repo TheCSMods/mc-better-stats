@@ -79,12 +79,14 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 						btn_done.getEndX() + 5, btn_done.getY(),
 						20, 20);
 				btn_toggleRealtime.setTooltip(Tooltip.of(TEXT_LIVE_TOGGLE));
-				btn_toggleRealtime.setIcon(bssCpnh.enableLiveStats ?
+				btn_toggleRealtime.setIcon(bssCpnh.netPref_enableLiveStats ?
 						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
 						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
 				btn_toggleRealtime.setOnClick(__ ->
 				{
-					bssCpnh.sendLiveStatsSetting(!bssCpnh.enableLiveStats);
+					//toggle live stats, and send updated preferences
+					bssCpnh.netPref_enableLiveStats = !bssCpnh.netPref_enableLiveStats;
+					bssCpnh.sendPreferences();
 					refresh();
 				});
 				addChild(btn_toggleRealtime, false);

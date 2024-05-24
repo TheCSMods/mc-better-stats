@@ -2,8 +2,6 @@
 	"betterstats": "Better Statistics Screen",
 	
 	"betterstats.translators.title": "Перекладачі",
-	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "rvbsm, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "Відредаговано статистику %s для %s гравця(ів).",

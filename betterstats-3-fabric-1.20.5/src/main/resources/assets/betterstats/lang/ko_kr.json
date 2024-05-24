@@ -2,8 +2,6 @@
 	"betterstats": "더 나은 통계 스크린",
 	
 	"betterstats.translators.title": "번역가",
-	"betterstats.translators.tutorial": "아래 번역가 섹션은 CSV 형식입니다. 쉼표(,)를 그냥 두고 귀하의 고유한 GitHub 사용자 이름을 작성하십시오. 예: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-4, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "%s 통계를 %s 플레이어에게 수정했습니다.",

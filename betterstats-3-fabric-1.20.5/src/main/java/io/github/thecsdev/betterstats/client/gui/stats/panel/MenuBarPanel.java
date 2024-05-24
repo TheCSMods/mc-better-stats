@@ -155,6 +155,12 @@ public final class MenuBarPanel extends BSComponentPanel
 				cMenu.addButton(statsTab.getName(), __ -> this.proxy.setSelectedStatsTab(statsTab));
 			}
 			
+			//options and credits
+			cMenu.addSeparator();
+			cMenu.addButton(translatable("options.title"), __-> this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CONFIG));
+			cMenu.addButton(translatable("credits_and_attribution.button.credits"), __->
+				this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CREDITS));
+			
 			//open the context menu
 			cMenu.open();
 		});
@@ -177,6 +183,10 @@ public final class MenuBarPanel extends BSComponentPanel
 				//cMenu.addButton(BST.menu_about_kofi(), __ -> showUrlPrompt(URL_KOFI, false));
 				//cMenu.addButton(BST.menu_about_dc(), __ -> showUrlPrompt(URL_DISCORD, false));
 			}
+			
+			cMenu.addSeparator();
+			cMenu.addButton(translatable("credits_and_attribution.button.credits"), __->
+				this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CREDITS));
 			
 			//open the context menu
 			cMenu.open();

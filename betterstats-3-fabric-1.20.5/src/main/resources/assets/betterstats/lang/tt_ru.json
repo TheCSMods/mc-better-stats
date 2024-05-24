@@ -4,8 +4,6 @@
 	"modmenu.descriptionTranslation.betterstats": "Статистика экранын яхшырта һәм аны файдалы итә.",
 	
 	"betterstats.translators.title": "Тәрҗемәчеләр",
-	"betterstats.translators.tutorial": "Түбәндәге тәрҗемәчеләр бүлеге CSV форматында бар. Өтерне (,) куегыз гына һәм Сезнең уникаль Github-ның кулланучы исеме язагыз. Үрнәк: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "Amirhan-Taipovjan-Greatest-I",
 
 
 	"commands.statistics.edit.output": "%2$s уенчы өчен %1$s статистикасы үзгәртелде.",

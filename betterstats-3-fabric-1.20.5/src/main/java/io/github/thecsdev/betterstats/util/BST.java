@@ -90,6 +90,7 @@ public final @Internal class BST
 	// --------------------------------------------------
 	public static final MutableText net_toggleTooltip()  { return translatable("betterstats.network.betterstatsnetworkhandler.toggle_tooltip"); }
 	public static final MutableText net_consentWarning() { return translatable("betterstats.network.betterstatsnetworkhandler.consent_warning"); }
+	public static final MutableText net_s3psTooltip()    { return translatable("betterstats.network.betterstatsnetworkhandler.s3ps_tooltip"); }
 	// --------------------------------------------------
 	public static final MutableText sas_firstMine(Text player, Text block)         { return translatable("betterstats.util.stats.statannouncementsystem.first_mine", player, block); }
 	public static final MutableText sas_firstCraft(Text player, Text item)         { return translatable("betterstats.util.stats.statannouncementsystem.first_craft", player, item); }

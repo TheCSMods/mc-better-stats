@@ -4,6 +4,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.authlib.GameProfile;
@@ -20,8 +21,10 @@ import net.minecraft.util.Identifier;
 /**
  * An {@link IEditableStatsProvider} whose statistics are loaded into and
  * held in the memory (aka RAM), hence the name {@link RAMStatsProvider}.
+ * @apiNote Extending this class is not recommended. This class is not final
+ * only because an {@link Internal} component needs to extend it.
  */
-public final class RAMStatsProvider implements IEditableStatsProvider
+public /*non-final*/ class RAMStatsProvider implements IEditableStatsProvider
 {
 	// ==================================================
 	protected @Nullable Text displayName;

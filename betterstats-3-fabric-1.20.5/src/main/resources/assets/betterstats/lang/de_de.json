@@ -2,8 +2,6 @@
 	"betterstats": "Bessere Statistiken",
 	
 	"betterstats.translators.title": "Übersetzer",
-	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "MrLoLf, Black-Hole, google:gemini",
 	
 	
 	"betterstats.stattype_phrase.minecraft.killed": "Getötet",

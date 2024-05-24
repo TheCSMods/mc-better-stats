@@ -3,8 +3,6 @@
 	
 	"betterstats.translators.title": "翻译员",
 	"betterstats.contributors.title": "贡献者",
-	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "MC-luoluo",
 	
 	
 	"commands.statistics.edit.output": "编辑了%2$s位玩家的%1$s信息。",

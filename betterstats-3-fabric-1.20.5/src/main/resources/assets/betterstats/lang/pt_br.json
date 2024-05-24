@@ -2,8 +2,6 @@
 	"betterstats": "Tela de Estatísticas Avançadas",
 	
 	"betterstats.translators.title": "Tradutores",
-	"betterstats.translators.tutorial": "A seção de tradutores abaixo está em formato CSV. Basta colocar uma vírgula (,) e escrever seu nome de usuário único no GitHub. Exemplo: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-4, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "Editada a estatística %s para %s jogador(es).",

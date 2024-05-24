@@ -3,8 +3,6 @@
 	
 	"betterstats.translators.title": "Translators",
 	"betterstats.contributors.title": "Contributors",
-	"betterstats.translators.tutorial": "The translators section below is in CSV format. Just place a comma (,) and write your unique GitHub username. Example: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "TheCSDev,",
 	
 	
 	"commands.statistics.edit.output": "Edited the stat %s for %s player(s).",
@@ -82,6 +80,7 @@
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Toggle 'betterstats' server connection",
 	"betterstats.network.betterstatsnetworkhandler.consent_warning": "IMPORTANT:\nBy enabling this feature, the server will find out that you are using a modified client with 'betterstats' installed. To protect your privacy, do not use this feature on servers that may not allow modified clients or this mod.\n\nEnabling this feature adds some extra features that are available when the mod is installed on the server as well.",
+	"betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "View statistics from other sources",
 	
 	
 	"betterstats.util.stats.statannouncementsystem.first_mine": "%s just mined their first %s.",

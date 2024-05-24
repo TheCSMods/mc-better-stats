@@ -2,8 +2,6 @@
 	"betterstats": "Meilleur Écran de Statistiques",
 	
 	"betterstats.translators.title": "Traducteurs",
-	"betterstats.translators.tutorial": "La section des traducteurs ci-dessous est au format CSV. Placez une virgule (,) et écrivez votre nom d'utilisateur GitHub unique. Exemple : 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-4, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "La stat %s a été modifiée pour %s joueur(s).",

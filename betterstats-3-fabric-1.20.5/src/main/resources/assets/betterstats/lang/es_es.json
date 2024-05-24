@@ -3,8 +3,6 @@
 	
 	"betterstats.translators.title": "Traductores",
 	"betterstats.contributors.title": "Colaboradores",
-	"betterstats.translators.tutorial": "La sección de traductores a continuación está en formato CSV. Simplemente coloca una coma (,) y escribe tu nombre de usuario único de GitHub. Ejemplo: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-3.5, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "Se editó la estadística %s para jugador(es) %s.",

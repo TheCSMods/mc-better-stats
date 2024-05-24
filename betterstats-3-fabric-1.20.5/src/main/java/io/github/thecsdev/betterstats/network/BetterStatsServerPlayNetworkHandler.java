@@ -46,6 +46,12 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	 * Used to avoid packet spam.
 	 */
 	public long liveStatsLastUpdate = 0;
+	
+	/**
+	 * The {@link #player}'s preference on having their statistics
+	 * shared with third-party sources such as other players.
+	 */
+	public boolean statsSharingConsent = false;
 	// ==================================================
 	private BetterStatsServerPlayNetworkHandler(ServerPlayerEntity player) throws NullPointerException
 	{
@@ -54,8 +60,16 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	// --------------------------------------------------
 	public final ServerPlayerEntity getPlayer() { return this.player; }
 	// ==================================================
+	/**
+	 * Handles the {@link #player} joining event.
+	 * @apiNote Only executed once. No more, no less.
+	 */
 	public final void onPlayerConnected() { sendIHaveBss(); }
 	
+	/**
+	 * Handles the {@link #player} letting this server know
+	 * they have {@link BetterStats} installed.
+	 */
 	public final void onIHaveBss(PacketContext ctx)
 	{
 		//obtain data buffer and make sure data is present
@@ -70,13 +84,19 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 		this.hasBssInstalled = true;
 	}
 	
-	public final void onLiveStatsSetting(PacketContext ctx)
+	/**
+	 * Handles the {@link #player}'s preference changes for
+	 * things like the "live hud stats updates" feature.
+	 */
+	public final void onPreferences(PacketContext ctx)
 	{
-		//check if bss installed first, then update the setting
-		if(!this.hasBssInstalled) return;
-		this.enableLiveStats = ctx.getPacketBuffer().readBoolean();
+		this.enableLiveStats     = ctx.getPacketBuffer().readBoolean();
+		this.statsSharingConsent = ctx.getPacketBuffer().readBoolean();
 	}
 	// --------------------------------------------------
+	/**
+	 * Tells the {@link #player} that this server has {@link BetterStats} installed.
+	 */
 	public final void sendIHaveBss()
 	{
 		final var data = new PacketByteBuf(Unpooled.buffer());
@@ -84,6 +104,11 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 		CustomPayloadNetwork.sendS2C(this.player, S2C_I_HAVE_BSS, data);
 	}
 	
+	/**
+	 * Makes an attempt to send a live statistics update to the {@link #player}.
+	 * The attempt may fail if the {@link #player} does not have {@link BetterStats}
+	 * installed or if this method is being called too frequently.
+	 */
 	public final boolean sendLiveStatsAttepmt() //attempts to send live stats, if possible
 	{
 		//check prefs

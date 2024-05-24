@@ -2,8 +2,6 @@
 	"betterstats": "شاشة الإحصائيات الأفضل",
 	
 	"betterstats.translators.title": "المترجمون",
-	"betterstats.translators.tutorial": "قسم المترجمين في الأسفل بصيغة CSV. فقط ضع فاصلة (,) وكتابة اسم المستخدم الفريد لك على GitHub. مثال: 'TheCSDev, SomeOtherUser, AndSoOn'.",
-	"betterstats.translators": "openai:gpt-4, google:gemini",
 	
 	
 	"commands.statistics.edit.output": "تم تعديل الإحصائيات %s لـ %s لاعبين.",

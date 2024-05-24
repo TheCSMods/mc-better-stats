@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_CONSENT_WARNING;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_S3PS_TOOLTIP;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_TOGGLE_TOOLTIP;
 import static io.github.thecsdev.tcdcommons.TCDCommonsConfig.RESTRICTED_MODE;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
+import io.github.thecsdev.betterstats.api.client.gui.screen.ThirdPartyStatsBrowserScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
@@ -74,11 +76,10 @@ public final class ActionBarPanel extends BSComponentPanel
 				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
 		btn_bssNet.setOnClick(__ ->
 		{
-			//if turning off, send a packet indicating no more live updates
+			//if turning off, send a packet disabling all preferences
 			if(bssCpnh.bssNetworkConsent)
 			{
-				bssCpnh.sendLiveStatsSetting(false);
-				bssCpnh.bssNetworkConsent = false;
+				bssCpnh.sendAndRevokePreferences();
 				refresh();
 				return;
 			}
@@ -96,8 +97,28 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_bssNet.setEnabled(bssCpnh.serverHasBss && !MC_CLIENT.isInSingleplayer() && !bssCpnh.bssNetworkConsent);
 		addChild(btn_bssNet, false);
 		
+		//view another player's stats button
+		final var btn_searchPlayer = new TButtonWidget(btn_bssNet.getX() - 20, btn_bssNet.getY(), 20, 20);
+		btn_searchPlayer.setTooltip(Tooltip.of(TXT_S3PS_TOOLTIP));
+		btn_searchPlayer.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 60, 20, 20)));
+		btn_searchPlayer.setOnClick(__ -> MC_CLIENT.setScreen(new ThirdPartyStatsBrowserScreen(MC_CLIENT.currentScreen).getAsScreen()));
+		btn_searchPlayer.setEnabled(bssCpnh.comms());
+		addChild(btn_searchPlayer, false);
+		
+		//feedback form button
+		final var btn_ff = new TButtonWidget(getX() + 1, getY() + 1, 20, 20);
+		btn_ff.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 180, 60, 60)));
+		btn_ff.setTooltip(Tooltip.of(translatable("menu.sendFeedback").formatted(Formatting.YELLOW)));
+		btn_ff.setEnabled(false);
+		if(!RESTRICTED_MODE)
+		{
+			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_FEEDBACK, false));
+			btn_ff.setEnabled(true);
+			addChild(btn_ff, false);
+		}
+		
 		//credits button
-		final var btn_credits = new TButtonWidget(btn_bssNet.getX() - 20, btn_bssNet.getY(), 20, 20);
+		final var btn_credits = new TButtonWidget(btn_ff.getX() + 20, btn_ff.getY(), 20, 20);
 		btn_credits.setOnClick(btn -> this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CREDITS));
 		/*final var tt_credits = fLiteral("§e" + translatable("credits_and_attribution.button.credits").getString())
 				.append(fLiteral("§r\n\n§7# " + translatable("betterstats.translators.title").getString() + "§r\n"))
@@ -106,19 +127,6 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_credits.setTooltip(Tooltip.of(tt_credits));
 		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 60, 20, 20)));
 		addChild(btn_credits, false);
-		
-		//feedback form button
-		final var btn_ff = new TButtonWidget(getX() + 1, getY() + 1, 20, 20);
-		btn_ff.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 180, 60, 60)));
-		btn_ff.setTooltip(Tooltip.of(translatable("menu.sendFeedback").formatted(Formatting.YELLOW)));
-		btn_ff.setEnabled(false);
-		
-		if(!RESTRICTED_MODE)
-		{
-			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_FEEDBACK, false));
-			btn_ff.setEnabled(true);
-			addChild(btn_ff, false);
-		}
 	}
 	// --------------------------------------------------
 	/*private static final String getCreditsTranslatorNames()
