@@ -4,9 +4,11 @@ import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.C2S_I_HAVE_BSS;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.C2S_MCBS_REQUEST;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.C2S_PREFERENCES;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.NETWORK_VERSION;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -15,6 +17,9 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
+import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
+import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
+import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.events.client.MinecraftClientEvent;
 import io.github.thecsdev.tcdcommons.api.hooks.entity.EntityHooks;
 import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetwork;
@@ -37,9 +42,11 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 	private final ClientPlayerEntity player;
 	private final BetterStatsConfig  config;
 	// --------------------------------------------------
-	public boolean serverHasBss      = false;
-	public boolean bssNetworkConsent = false;
-	public boolean netPref_enableLiveStats   = false;
+	public boolean serverHasBss            = false;
+	public boolean bssNetworkConsent       = false;
+	public boolean netPref_enableLiveStats = false;
+	// --------------------------------------------------
+	private final HashMap<String, OtherClientPlayerStatsProvider> sessionPlayerStatStorage = new HashMap<>();
 	// ==================================================
 	private BetterStatsClientPlayNetworkHandler(ClientPlayerEntity player) throws NullPointerException
 	{
@@ -66,14 +73,14 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 	public final void onDisconnected()
 	{
 		//clear flags from the no-longer-valid session
-		this.serverHasBss      = false;
-		this.netPref_enableLiveStats   = false;
-		this.bssNetworkConsent = false;
+		this.serverHasBss            = false;
+		this.netPref_enableLiveStats = false;
+		this.bssNetworkConsent       = false;
+		this.sessionPlayerStatStorage.clear();
 	}
 	
 	/**
-	 * Handles the server telling the {@link #player} it has
-	 * {@link BetterStats} installed.
+	 * Handles the server telling the {@link #player} it has {@link BetterStats} installed.
 	 */
 	public final void onIHaveBss(PacketContext ctx)
 	{
@@ -100,6 +107,48 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 				sendIHaveBss(true);
 				sendPreferences();
 			});
+	}
+	
+	/**
+	 * Handles the server sending the {@link #player} an MCBS file.
+	 */
+	public final void onMcbs(PacketContext ctx)
+	{
+		//obtain the buffer
+		final var buffer = ctx.getPacketBuffer();
+		
+		//read the packet type
+		final int type = buffer.readInt();
+		if(type != 1) return; //ignore non-1s for now
+		
+		//read player name
+		final var playerName = buffer.readString();
+		
+		//read MCBS
+		final var statsProvider = new OtherClientPlayerStatsProvider(playerName);
+		try { StatsProviderIO.read(buffer, statsProvider); }
+		catch(Exception exc) {/*ignore failures to process the MCBS file*/}
+		
+		//store MCBS
+		if(!this.sessionPlayerStatStorage.containsKey(playerName))
+			this.sessionPlayerStatStorage.put(playerName, new OtherClientPlayerStatsProvider(playerName));
+		
+		final var spss = this.sessionPlayerStatStorage.get(playerName);
+		spss.setAll(statsProvider);
+		
+		//the following must be done on Minecraft's main thread
+		MC_CLIENT.executeSync(() ->
+		{
+			//if BSS is currently open, broadcast the info to it if applicable
+			if(MC_CLIENT.currentScreen instanceof TScreenWrapper<?> tsw &&
+					tsw.getTargetTScreen() instanceof BetterStatsScreen bss)
+			{
+				//check if the screen is related to the target player's stats provier,
+				//and if it is, refresh the screen
+				if(bss.getStatsProvider() == spss)
+					bss.refresh();
+			}
+		});
 	}
 	// --------------------------------------------------
 	/**
@@ -162,6 +211,30 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 		//assign new state value, and return true to indicate success
 		this.netPref_enableLiveStats   = false;
 		this.bssNetworkConsent = false;
+		return true;
+	}
+	
+	/**
+	 * Sends a third-party player statistics request to the server.
+	 * The server should respond by sending back the given player's
+	 * statistics, if said player consents to this.
+	 * @param The name of the other player whose statistics this client wishes to see.
+	 */
+	public final boolean sendMcbsRequest(String playerName)
+	{
+		//requirements
+		Objects.requireNonNull(playerName);
+		
+		//if communications are off, don't send
+		if(!comms()) return false;
+		
+		//construct and send
+		final var data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(1);             //write request type (1 = player)
+		data.writeString(playerName); //write player name
+		CustomPayloadNetwork.sendC2S(C2S_MCBS_REQUEST, data);
+		
+		//return true to indicate success
 		return true;
 	}
 	// ==================================================

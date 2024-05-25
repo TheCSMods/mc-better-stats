@@ -7,7 +7,9 @@ import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.network.PlayerBadgeNetworkListener;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IStatsListener;
 
-@Internal class BetterStatsScreenWrapper extends TScreenWrapper<BetterStatsScreen> implements IStatsListener, PlayerBadgeNetworkListener
+final @Internal class BetterStatsScreenWrapper
+	extends TScreenWrapper<BetterStatsScreen>
+	implements IStatsListener, PlayerBadgeNetworkListener
 {
 	// ==================================================
 	public BetterStatsScreenWrapper(BetterStatsScreen target) { super(target); }

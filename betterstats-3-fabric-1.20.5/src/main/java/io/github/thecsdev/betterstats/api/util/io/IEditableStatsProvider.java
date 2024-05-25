@@ -97,4 +97,20 @@ public interface IEditableStatsProvider extends IStatsProvider
 		setPlayerBadgeValue(Objects.requireNonNull(playerBadge.getId().orElse(null)), value);
 	}
 	// ==================================================
+	/**
+	 * Copies all statistics present in another {@link RAMStatsProvider},
+	 * and pastes them into this {@link IEditableStatsProvider}, overriding
+	 * existing statistics in the process.
+	 * @param from The {@link RAMStatsProvider} to copy stats from.
+	 * @throws NullPointerException If the argument is {@code null}.
+	 */
+	default void setAll(RAMStatsProvider from) throws NullPointerException
+	{
+		Objects.requireNonNull(from);
+		final var stm = from.getStatMap();
+		final var pbm = from.getPlayerBadgeStatMap();
+		stm.forEach((k, v) -> setStatValue(k, v));
+		pbm.forEach((k, v) -> setPlayerBadgeValue(k, v));
+	}
+	// ==================================================
 }

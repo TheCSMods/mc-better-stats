@@ -9,10 +9,10 @@ import java.util.Objects;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
-import io.github.thecsdev.betterstats.api.client.util.io.LocalThirdPartyStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
+import io.github.thecsdev.betterstats.client.network.OtherClientPlayerStatsProvider;
 import io.github.thecsdev.tcdcommons.api.client.gui.TElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TWidgetHudScreen;
@@ -74,7 +74,7 @@ public final class StatsHudMobEntry extends TWidgetHudScreen.WidgetEntry<TElemen
 	private final class Element extends TElement
 	{
 		private int overlayColor = (statsProvider instanceof IEditableStatsProvider) ?
-				((statsProvider instanceof LocalThirdPartyStatsProvider) ? 0x7700aaff : 0x55ff0000) :
+				((statsProvider instanceof OtherClientPlayerStatsProvider) ? 0x7700aaff : 0x55ff0000) :
 				0;
 		public Element()
 		{

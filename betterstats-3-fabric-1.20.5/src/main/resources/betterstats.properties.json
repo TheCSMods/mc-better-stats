@@ -7,6 +7,7 @@
 		
 		"curseforge": "${project.properties.modmenu_link_curseforge}",
 		"modrinth": "${project.properties.modmenu_link_modrinth}",
+		"website": "${project.properties.modmenu_link_website}",
 		"youtube": "${project.properties.modmenu_link_youtube}",
 		"kofi": "${project.properties.modmenu_link_kofi}",
 		"discord": "${project.properties.modmenu_link_discord}",

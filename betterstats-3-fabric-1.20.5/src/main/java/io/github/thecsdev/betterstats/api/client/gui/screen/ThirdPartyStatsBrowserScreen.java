@@ -31,7 +31,7 @@ public final class ThirdPartyStatsBrowserScreen extends TScreenPlus implements I
 	// ==================================================
 	protected final @Override void init()
 	{
-		//FIXME - Implement this section
+		//FIXME - Implement the browser GUI
 		throw new NotImplementedException();
 	}
 	// ==================================================

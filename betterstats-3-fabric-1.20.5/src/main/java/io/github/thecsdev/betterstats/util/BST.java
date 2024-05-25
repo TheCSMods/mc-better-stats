@@ -29,20 +29,21 @@ public final @Internal class BST
 	public static final MutableText stp_mc_killed()   { return translatable("betterstats.stattype_phrase.minecraft.killed"); }
 	public static final MutableText stp_mc_killedBy() { return translatable("betterstats.stattype_phrase.minecraft.killed_by"); }
 	// --------------------------------------------------
-	public static final MutableText menu_file()         { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file"); }
-	public static final MutableText menu_file_new()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new"); }
-	public static final MutableText menu_file_open()    { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open"); }
-	public static final MutableText menu_file_save()    { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save"); }
-	public static final MutableText menu_file_saveAs()  { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as"); }
-	public static final MutableText menu_view()         { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_view"); }
-	public static final MutableText menu_view_vStats()  { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats"); }
-	public static final MutableText menu_about()        { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about"); }
-	public static final MutableText menu_about_src()    { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source"); }
-	public static final MutableText menu_about_cf()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge"); }
-	public static final MutableText menu_about_mr()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth"); }
-	public static final MutableText menu_about_yt()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube"); }
-	public static final MutableText menu_about_kofi()   { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi"); }
-	public static final MutableText menu_about_dc()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord"); }
+	public static final MutableText menu_file()          { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file"); }
+	public static final MutableText menu_file_new()      { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new"); }
+	public static final MutableText menu_file_open()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open"); }
+	public static final MutableText menu_file_save()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save"); }
+	public static final MutableText menu_file_saveAs()   { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as"); }
+	public static final MutableText menu_view()          { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_view"); }
+	public static final MutableText menu_view_vStats()   { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats"); }
+	public static final MutableText menu_about()         { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about"); }
+	public static final MutableText menu_about_src()     { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source"); }
+	public static final MutableText menu_about_cf()      { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge"); }
+	public static final MutableText menu_about_mr()      { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth"); }
+	public static final MutableText menu_about_website() { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.website"); }
+	public static final MutableText menu_about_yt()      { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube"); }
+	public static final MutableText menu_about_kofi()    { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi"); }
+	public static final MutableText menu_about_dc()      { return translatable("betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord"); }
 	// --------------------------------------------------
 	public static final MutableText gpp_uuid() { return translatable("betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid"); }
 	// --------------------------------------------------

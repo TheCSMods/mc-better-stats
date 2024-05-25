@@ -4,6 +4,7 @@ import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_CURSEFORG
 import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_ISSUES;
 import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_MODRINTH;
 import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_SOURCES;
+import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_WEBSITE;
 import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_YOUTUBE;
 import static io.github.thecsdev.betterstats.api.client.registry.BSClientRegistries.STATS_TAB;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
@@ -171,17 +172,18 @@ public final class MenuBarPanel extends BSComponentPanel
 			final var cMenu = new TContextMenuPanel(btn);
 			
 			//url-s
-			cMenu.addButton(BST.menu_about_src(), __ -> showUrlPrompt(URL_SOURCES, false));
-			cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, false));
+			cMenu.addButton(BST.menu_about_src(), __ -> showUrlPrompt(URL_SOURCES, true));
+			cMenu.addButton(translatable("menu.reportBugs"), __ -> showUrlPrompt(URL_ISSUES, true));
 			cMenu.addSeparator();
-			cMenu.addButton(BST.menu_about_cf(), __ -> showUrlPrompt(URL_CURSEFORGE, false));
-			cMenu.addButton(BST.menu_about_mr(), __ -> showUrlPrompt(URL_MODRINTH, false));
+			cMenu.addButton(BST.menu_about_cf(), __ -> showUrlPrompt(URL_CURSEFORGE, true));
+			cMenu.addButton(BST.menu_about_mr(), __ -> showUrlPrompt(URL_MODRINTH, true));
 			if(!RESTRICTED_MODE)
 			{
 				cMenu.addSeparator();
-				cMenu.addButton(BST.menu_about_yt(), __ -> showUrlPrompt(URL_YOUTUBE, false));
-				//cMenu.addButton(BST.menu_about_kofi(), __ -> showUrlPrompt(URL_KOFI, false));
-				//cMenu.addButton(BST.menu_about_dc(), __ -> showUrlPrompt(URL_DISCORD, false));
+				cMenu.addButton(BST.menu_about_website(), __ -> showUrlPrompt(URL_WEBSITE, true));
+				cMenu.addButton(BST.menu_about_yt(), __ -> showUrlPrompt(URL_YOUTUBE, true));
+				//cMenu.addButton(BST.menu_about_kofi(), __ -> showUrlPrompt(URL_KOFI, true));
+				//cMenu.addButton(BST.menu_about_dc(), __ -> showUrlPrompt(URL_DISCORD, true));
 			}
 			
 			cMenu.addSeparator();

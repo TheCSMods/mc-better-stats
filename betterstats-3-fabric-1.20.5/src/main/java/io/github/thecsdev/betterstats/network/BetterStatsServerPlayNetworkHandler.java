@@ -3,6 +3,7 @@ package io.github.thecsdev.betterstats.network;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.NETWORK_VERSION;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.S2C_I_HAVE_BSS;
+import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.S2C_MCBS;
 
 import java.util.Objects;
 
@@ -10,11 +11,14 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.util.io.ServerPlayerStatsProvider;
+import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.tcdcommons.api.hooks.entity.EntityHooks;
 import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetwork;
 import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetworkReceiver.PacketContext;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -28,6 +32,7 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	public static final Identifier CUSTOM_DATA_ID = new Identifier(getModID(), "server_play_network_handler");
 	// ==================================================
 	private final ServerPlayerEntity player;
+	private final MinecraftServer    server;
 	// --------------------------------------------------
 	/**
 	 * When set to {@code true}, this should never be switched back to {@code false}.<br/>
@@ -56,6 +61,7 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	private BetterStatsServerPlayNetworkHandler(ServerPlayerEntity player) throws NullPointerException
 	{
 		this.player = Objects.requireNonNull(player);
+		this.server = Objects.requireNonNull(player.getServer());
 	}
 	// --------------------------------------------------
 	public final ServerPlayerEntity getPlayer() { return this.player; }
@@ -72,8 +78,10 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	 */
 	public final void onIHaveBss(PacketContext ctx)
 	{
-		//obtain data buffer and make sure data is present
+		//obtain the data buffer
 		final var buffer = ctx.getPacketBuffer();
+		
+		//older mod versions don't write the network version. this is now unsupported
 		if(buffer.readableBytes() == 0) return;
 		
 		//obtain network version and compare it
@@ -92,6 +100,34 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	{
 		this.netPref_enableLiveStats     = ctx.getPacketBuffer().readBoolean();
 		this.netPref_statsSharingConsent = ctx.getPacketBuffer().readBoolean();
+	}
+	
+	/**
+	 * Handles {@link #player}'s requests for MCBS files.
+	 */
+	public final void onMcbsRequest(PacketContext ctx)
+	{
+		//obtain the data buffer
+		final var buffer = ctx.getPacketBuffer();
+		
+		//read request type
+		final int reqType = buffer.readInt();
+		if(reqType != 1) return; //send nothing for non-1s for now
+		
+		//read requested player name
+		final var playerName = buffer.readString();
+		final @Nullable var targetPlayer = this.server.getPlayerManager().getPlayer(playerName);
+		if(targetPlayer == this.player)
+		{
+			//fallback handler, in case the player uses the BSS network protocol to
+			//request their own statistics, for some reason...
+			targetPlayer.getStatHandler().sendStats(targetPlayer);
+			return;
+		}
+		else if(targetPlayer == null) return; //send nothing if target player is offline
+		
+		//send the MCBS
+		sendPlayerMcbs(targetPlayer, false); //send nothing if target player does not consent
 	}
 	// --------------------------------------------------
 	/**
@@ -121,6 +157,30 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 		//update last time, and send stats
 		this.liveStatsLastUpdate = currentTime;
 		this.player.getStatHandler().sendStats(player);
+		return true;
+	}
+	
+	/**
+	 * Sends an MCBS file of a given {@link ServerPlayerEntity}, to the {@link #player}.
+	 * @param targetPlayer The {@link ServerPlayerEntity} whose MCBS is to be sent.
+	 * @param force When {@code true}, this will ignore the {@link ServerPlayerEntity} lack of consent.
+	 */
+	public final boolean sendPlayerMcbs(ServerPlayerEntity targetPlayer, boolean force)
+	{
+		//check for consent
+		Objects.requireNonNull(targetPlayer);
+		if(!force && !BetterStatsServerPlayNetworkHandler.of(targetPlayer).netPref_statsSharingConsent)
+			return false;
+		
+		//send
+		final var data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(1);                                     //write packet type (1 = player)
+		data.writeString(targetPlayer.getName().getString()); //write player name
+		StatsProviderIO.write(data, ServerPlayerStatsProvider.of(targetPlayer));
+		CustomPayloadNetwork.sendS2C(this.player, S2C_MCBS, data);
+		//FIXME - MAX PACKET SIZE IS A THING!!! THIS WILL EXCEEED IT!
+		
+		//return true to indicate success
 		return true;
 	}
 	// ==================================================

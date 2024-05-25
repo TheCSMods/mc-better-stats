@@ -16,7 +16,7 @@ public final class BetterStatsProperties
 	private static final JsonObject MOD_PROPERTIES;
 	// --------------------------------------------------
 	public static final String URL_SOURCES, URL_ISSUES, URL_CURSEFORGE, URL_MODRINTH;
-	public static final String URL_YOUTUBE, URL_FEEDBACK;
+	public static final String URL_YOUTUBE, URL_FEEDBACK, URL_WEBSITE;
 	// ==================================================
 	public static final void init() {/*calls static*/}
 	static
@@ -37,6 +37,7 @@ public final class BetterStatsProperties
 		URL_ISSUES     = links.get("issues").getAsString();
 		URL_CURSEFORGE = links.get("curseforge").getAsString();
 		URL_MODRINTH   = links.get("modrinth").getAsString();
+		URL_WEBSITE    = links.get("website").getAsString();
 		URL_YOUTUBE    = links.get("youtube").getAsString();
 		URL_FEEDBACK   = links.get("feedback").getAsString();
 	}
