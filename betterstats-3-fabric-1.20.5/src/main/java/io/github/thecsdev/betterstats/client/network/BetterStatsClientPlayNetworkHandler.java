@@ -27,6 +27,7 @@ import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetworkReceiver.Pa
 import io.github.thecsdev.tcdcommons.api.util.thread.TaskScheduler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
@@ -37,6 +38,10 @@ import net.minecraft.util.Identifier;
 public final @Internal class BetterStatsClientPlayNetworkHandler
 {
 	// ==================================================
+	/**
+	 * The unique {@link Identifier} for obtaining an instance of this network
+	 * handler for a given player entity, via {@link EntityHooks#getCustomData(Entity)}.
+	 */
 	public static final Identifier CUSTOM_DATA_ID = new Identifier(getModID(), "client_play_network_handler");
 	// ==================================================
 	private final ClientPlayerEntity player;

@@ -15,7 +15,6 @@ import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistry;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
-import io.github.thecsdev.tcdcommons.util.io.http.TcdBetterstatsWebApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -172,12 +171,6 @@ public final class BSRegistries
 				final var tKey = "betterstats.stattype_phrase." + stKey;
 				final var phrase = Text.translatable(tKey);
 				if(!Objects.equals(tKey, phrase.getString())) return phrase;
-			}
-			
-			//look in the STP container
-			{
-				final @Nullable var stp = TcdBetterstatsWebApi.getStpFromContainer(statType);
-				if(stp != null) return TextUtils.literal(stp);
 			}
 			
 			//return the id as a literal if nothing is found

@@ -53,23 +53,23 @@ public final @Internal class BetterStatsNetwork
 			s.apply(player).onPlayerConnected());
 		
 		//init network handlers
-		CustomPayloadNetwork.registerReceiver(NetworkSide.SERVERBOUND, C2S_I_HAVE_BSS, ctx ->
+		CustomPayloadNetwork.registerPlayReceiver(NetworkSide.SERVERBOUND, C2S_I_HAVE_BSS, ctx ->
 			s.apply(ctx.getPlayer()).onIHaveBss(ctx));
 		
-		CustomPayloadNetwork.registerReceiver(NetworkSide.SERVERBOUND, C2S_PREFERENCES, ctx ->
+		CustomPayloadNetwork.registerPlayReceiver(NetworkSide.SERVERBOUND, C2S_PREFERENCES, ctx ->
 			s.apply(ctx.getPlayer()).onPreferences(ctx));
 		
-		CustomPayloadNetwork.registerReceiver(NetworkSide.SERVERBOUND, C2S_MCBS_REQUEST, ctx ->
+		CustomPayloadNetwork.registerPlayReceiver(NetworkSide.SERVERBOUND, C2S_MCBS_REQUEST, ctx ->
 			s.apply(ctx.getPlayer()).onMcbsRequest(ctx));
 		
 		// ---------- PURE CLIENT-SIDE HANDLERS
 		if(BetterStats.isClient())
 		{
 			//init network handlers
-			CustomPayloadNetwork.registerReceiver(NetworkSide.CLIENTBOUND, S2C_I_HAVE_BSS, ctx ->
+			CustomPayloadNetwork.registerPlayReceiver(NetworkSide.CLIENTBOUND, S2C_I_HAVE_BSS, ctx ->
 				c.apply(ctx.getPlayer()).onIHaveBss(ctx));
 			
-			CustomPayloadNetwork.registerReceiver(NetworkSide.CLIENTBOUND, S2C_MCBS, ctx ->
+			CustomPayloadNetwork.registerPlayReceiver(NetworkSide.CLIENTBOUND, S2C_MCBS, ctx ->
 				c.apply(ctx.getPlayer()).onMcbs(ctx));
 		}
 	}

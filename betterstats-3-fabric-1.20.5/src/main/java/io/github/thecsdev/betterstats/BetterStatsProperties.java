@@ -4,7 +4,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import com.google.gson.JsonObject;
 
-import io.github.thecsdev.tcdcommons.util.io.http.TcdWebApi;
+import io.github.thecsdev.tcdcommons.TCDCommons;
 
 /**
  * Properties from the <code>betterstats.properties.json</code> file.
@@ -27,7 +27,7 @@ public final class BetterStatsProperties
 			final var propertiesStream = BetterStats.class.getResourceAsStream("/betterstats.properties.json");
 			final var propertiesJsonStr = new String(propertiesStream.readAllBytes());
 			propertiesStream.close();
-			MOD_PROPERTIES = TcdWebApi.GSON.fromJson(propertiesJsonStr, JsonObject.class);
+			MOD_PROPERTIES = TCDCommons.GSON.fromJson(propertiesJsonStr, JsonObject.class);
 		}
 		catch(Exception e) { throw new ExceptionInInitializerError(e); }
 		
