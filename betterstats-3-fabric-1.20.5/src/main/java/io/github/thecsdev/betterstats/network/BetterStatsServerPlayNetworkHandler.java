@@ -11,6 +11,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.util.interfaces.IThirdPartyStatsListener.TpslContext;
 import io.github.thecsdev.betterstats.api.util.io.ServerPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.tcdcommons.api.hooks.entity.EntityHooks;
@@ -115,24 +116,41 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 		//obtain the data buffer
 		final var buffer = ctx.getPacketBuffer();
 		
-		//read request type
-		final int reqType = buffer.readInt();
-		if(reqType != 1) return; //send nothing for non-1s for now
-		
-		//read requested player name
-		final var playerName = buffer.readString();
-		final @Nullable var targetPlayer = this.server.getPlayerManager().getPlayer(playerName);
-		if(targetPlayer == this.player)
+		//read and handle the packet type
+		switch(TpslContext.Type.of(buffer.readInt()))
 		{
-			//fallback handler, in case the player uses the BSS network protocol to
-			//request their own statistics, for some reason...
-			targetPlayer.getStatHandler().sendStats(targetPlayer);
-			return;
+			case SAME_SERVER_PLAYER:
+			{
+				//read requested player name, and obtain the player
+				final var playerName = buffer.readString();
+				final @Nullable var targetPlayer = this.server.getPlayerManager().getPlayer(playerName);
+				
+				//if for some reason, the client requested their own statistics using this network
+				//protocol, send them their statistics using the vanilla method
+				if(targetPlayer == this.player)
+				{
+					//send using vanilla way
+					targetPlayer.getStatHandler().sendStats(targetPlayer);
+					//and also send null stats via this protocol, so BSS
+					//can handle it on their end
+					sendNullPlayerMcbs(playerName);
+					return;
+				}
+				
+				//if the requested player is offline, send null MCBS
+				else if(targetPlayer == null)
+				{
+					sendNullPlayerMcbs(playerName);
+					return;
+				}
+				
+				//send the MCBS
+				if(!sendPlayerMcbs(targetPlayer, false)) //try to send target player's stats,
+					sendNullPlayerMcbs(playerName);      //but if it fails, send null stats
+			}
+			break;
+			default: break;
 		}
-		else if(targetPlayer == null) return; //send nothing if target player is offline
-		
-		//send the MCBS
-		sendPlayerMcbs(targetPlayer, false); //send nothing if target player does not consent
 	}
 	// --------------------------------------------------
 	/**
@@ -170,7 +188,7 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 	 * @param targetPlayer The {@link ServerPlayerEntity} whose MCBS is to be sent.
 	 * @param force When {@code true}, this will ignore the {@link ServerPlayerEntity} lack of consent.
 	 */
-	public final boolean sendPlayerMcbs(ServerPlayerEntity targetPlayer, boolean force)
+	public final boolean sendPlayerMcbs(ServerPlayerEntity targetPlayer, boolean force) throws NullPointerException
 	{
 		//check for consent
 		Objects.requireNonNull(targetPlayer);
@@ -179,14 +197,31 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 		
 		//send
 		final var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeInt(1);                                     //write packet type (1 = player)
-		data.writeString(targetPlayer.getName().getString()); //write player name
+		data.writeInt(TpslContext.Type.SAME_SERVER_PLAYER.getIntValue()); //write packet type (1 = player)
+		data.writeString(targetPlayer.getName().getString());             //write player name
 		StatsProviderIO.write(data, ServerPlayerStatsProvider.of(targetPlayer));
 		CustomPayloadNetwork.sendS2C(this.player, S2C_MCBS, data);
-		//FIXME - MAX PACKET SIZE IS A THING!!! THIS WILL EXCEEED IT!
 		
 		//return true to indicate success
 		return true;
+	}
+	
+	/**
+	 * Sends an indicator that the MCBS for a given player is "null". The purpose of
+	 * this is usually to let the client know that a given player's statistics cannot
+	 * be shared because said player is currently offline.
+	 * @see TpslContext.Type#SAME_SERVER_PLAYER_NOT_FOUND
+	 */
+	public final void sendNullPlayerMcbs(String playerName) throws NullPointerException
+	{
+		//requirements
+		Objects.requireNonNull(playerName);
+		
+		//send
+		final var data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(TpslContext.Type.SAME_SERVER_PLAYER_NOT_FOUND.getIntValue());
+		data.writeString(playerName);
+		CustomPayloadNetwork.sendS2C(this.player, S2C_MCBS, data);
 	}
 	// ==================================================
 	/**

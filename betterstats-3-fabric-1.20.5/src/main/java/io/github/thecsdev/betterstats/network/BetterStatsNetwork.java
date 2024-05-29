@@ -28,7 +28,7 @@ public final @Internal class BetterStatsNetwork
 	// --------------------------------------------------
 	public static final Text TXT_TOGGLE_TOOLTIP  = BST.net_toggleTooltip();
 	public static final Text TXT_CONSENT_WARNING = BST.net_consentWarning();
-	public static final Text TXT_S3PS_TOOLTIP    = BST.net_s3psTooltip();
+	public static final Text TXT_S3PS_TOOLTIP    = BST.net_s3psTooltip();    //v3.11+
 	//
 	public static final int NETWORK_VERSION = 3;
 	//

@@ -20,6 +20,11 @@ public interface IStatsProvider
 {
 	// ==================================================
 	/**
+	 * {@link EmptyStatsProvider} that always returns 0 for every single stat.
+	 */
+	public static final IStatsProvider EMPTY = new EmptyStatsProvider();
+	// ==================================================
+	/**
 	 * Returns a "visual"/"user friendly" display {@link Text} that will
 	 * be shown on the GUI screen as an indicator as to who the stats belong to.
 	 * @apiNote Does not have to follow any Minecraft account naming rules or even correspond to one.

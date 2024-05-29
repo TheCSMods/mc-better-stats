@@ -17,7 +17,9 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
-import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
+import io.github.thecsdev.betterstats.api.util.interfaces.IThirdPartyStatsListener;
+import io.github.thecsdev.betterstats.api.util.interfaces.IThirdPartyStatsListener.TpslContext;
+import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.events.client.MinecraftClientEvent;
@@ -122,38 +124,48 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 		//obtain the buffer
 		final var buffer = ctx.getPacketBuffer();
 		
-		//read the packet type
-		final int type = buffer.readInt();
-		if(type != 1) return; //ignore non-1s for now
-		
-		//read player name
-		final var playerName = buffer.readString();
-		
-		//read MCBS
-		final var statsProvider = new OtherClientPlayerStatsProvider(playerName);
-		try { StatsProviderIO.read(buffer, statsProvider); }
-		catch(Exception exc) {/*ignore failures to process the MCBS file*/}
-		
-		//store MCBS
-		if(!this.sessionPlayerStatStorage.containsKey(playerName))
-			this.sessionPlayerStatStorage.put(playerName, new OtherClientPlayerStatsProvider(playerName));
-		
-		final var spss = this.sessionPlayerStatStorage.get(playerName);
-		spss.setAll(statsProvider);
-		
-		//the following must be done on Minecraft's main thread
-		MC_CLIENT.executeSync(() ->
+		//read and handle the packet type
+		switch(TpslContext.Type.of(buffer.readInt()))
 		{
-			//if BSS is currently open, broadcast the info to it if applicable
-			if(MC_CLIENT.currentScreen instanceof TScreenWrapper<?> tsw &&
-					tsw.getTargetTScreen() instanceof BetterStatsScreen bss)
+			case TpslContext.Type.SAME_SERVER_PLAYER:
 			{
-				//check if the screen is related to the target player's stats provier,
-				//and if it is, refresh the screen
-				if(bss.getStatsProvider() == spss)
-					bss.refresh();
+				//read player name
+				final var playerName = buffer.readString();
+				
+				//read MCBS
+				final var tempStatsProvider = new OtherClientPlayerStatsProvider(playerName);
+				try { StatsProviderIO.read(buffer, tempStatsProvider); }
+				catch(Exception exc) {/*ignore failures to process the MCBS file*/}
+				
+				//store MCBS
+				if(!this.sessionPlayerStatStorage.containsKey(playerName))
+					this.sessionPlayerStatStorage.put(playerName, new OtherClientPlayerStatsProvider(playerName));
+				
+				final var spss = this.sessionPlayerStatStorage.get(playerName);
+				spss.setAll(tempStatsProvider);
+				
+				//the following must be done on Minecraft's main thread
+				MC_CLIENT.executeSync(() ->
+				{
+					@Nullable IThirdPartyStatsListener listener = null;
+					if(MC_CLIENT.currentScreen instanceof IThirdPartyStatsListener l)
+						listener = l;
+					else if(MC_CLIENT.currentScreen instanceof TScreenWrapper<?> tsw && tsw instanceof IThirdPartyStatsListener l)
+						listener = l;
+					
+					//if BSS is currently open, broadcast the info to it if applicable
+					if(listener != null)
+						listener.onStatsReady(new TpslContext()
+						{
+							public Type getType() { return TpslContext.Type.SAME_SERVER_PLAYER; }
+							public String getPlayerName() { return playerName; }
+							public IStatsProvider getStatsProvider() { return spss; }
+						});
+				});
 			}
-		});
+			break;
+			default: break;
+		}
 	}
 	// --------------------------------------------------
 	/**
@@ -235,8 +247,8 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 		
 		//construct and send
 		final var data = new PacketByteBuf(Unpooled.buffer());
-		data.writeInt(1);             //write request type (1 = player)
-		data.writeString(playerName); //write player name
+		data.writeInt(TpslContext.Type.SAME_SERVER_PLAYER.getIntValue()); //write request type (1 = player)
+		data.writeString(playerName);                                     //write player name
 		CustomPayloadNetwork.sendC2S(C2S_MCBS_REQUEST, data);
 		
 		//return true to indicate success
