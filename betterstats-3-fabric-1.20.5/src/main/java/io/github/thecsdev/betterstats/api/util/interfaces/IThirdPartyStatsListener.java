@@ -53,7 +53,7 @@ public interface IThirdPartyStatsListener
 			 * Indicates that the third-party statistics are about a player
 			 * that is present on the same server the client is connected to.
 			 */
-			SAME_SERVER_PLAYER(1),
+			SAME_SERVER_PLAYER(100),
 			
 			/**
 			 * Indicates that a request was made to retrieve statistics about
@@ -62,7 +62,7 @@ public interface IThirdPartyStatsListener
 			 * to having their statistics shared.
 			 * @apiNote {@link TpslContext#getStatsProvider()} should return {@code null}.
 			 */
-			SAME_SERVER_PLAYER_NOT_FOUND(-1);
+			SAME_SERVER_PLAYER_NOT_FOUND(101);
 			
 			private final int value;
 			private Type(int value) { this.value = value; }

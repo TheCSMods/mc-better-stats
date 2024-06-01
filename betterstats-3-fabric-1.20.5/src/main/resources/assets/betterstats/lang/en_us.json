@@ -92,5 +92,12 @@
 	"betterstats.util.stats.statannouncementsystem.first_death.hc1": "%s just died for their first time. On the bright side, it likely won't happen again.",
 	"betterstats.util.stats.statannouncementsystem.first_kill": "%s just killed a %s for their first time.",
 	"betterstats.util.stats.statannouncementsystem.first_death_to": "%s just died to a %s for their first time.",
-	"betterstats.util.stats.statannouncementsystem.custom": "%s just increased their '%s' stat value to %s."
+	"betterstats.util.stats.statannouncementsystem.custom": "%s just increased their '%s' stat value to %s.",
+	
+	"betterstats.gui.tpsbs": "Third-party stats browser",
+	"betterstats.gui.tpsbs.description": "A GUI interface that allows you to view statistics from other sources, such as for example other player's statistics.",
+	"betterstats.gui.tpsbs.tab.ssps": "Same-server player search",
+	"betterstats.gui.tpsbs.tab.ssps.description": "Allows you to browse players that are present on the server you are currently connected to, and request their statistics from the server.",
+	"betterstats.gui.tpsbs.tab.ssps.requirements": "This feature requires both you and the server, to have the latest (or better, the same) version of this mod installed.",
+	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "The server could not find a player with the name you requested.\n\nPlease ensure the following criteria are met before retrying:\n1. The name spelling and capitalization are correct\n2. The requested player is online\n3. The requested player has this mod installed\n4. The requested player enabled 'stats haring' in their config for this mod"
 }

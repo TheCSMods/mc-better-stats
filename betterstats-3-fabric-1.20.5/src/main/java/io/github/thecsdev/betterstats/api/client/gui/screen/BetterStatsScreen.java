@@ -19,6 +19,8 @@ import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.client.BetterStatsClient;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
+import io.github.thecsdev.betterstats.client.network.BetterStatsClientPlayNetworkHandler;
+import io.github.thecsdev.betterstats.client.network.OtherClientPlayerStatsProvider;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
@@ -35,9 +37,11 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	// ==================================================
 	private final @Nullable Screen parent;
 	// --------------------------------------------------
-	private final IStatsProvider statsProvider;
-	private @Nullable StatsTab selectedStatsTab = BSStatsTabs.GENERAL;
-	private final StatFilterSettings filterSettings = new StatFilterSettings();
+	private final     IStatsProvider     statsProvider;
+	private @Nullable StatsTab           selectedStatsTab = BSStatsTabs.GENERAL;
+	private final     StatFilterSettings filterSettings   = new StatFilterSettings();
+	// --------------------------------------------------
+	private boolean statsAlreadyRequested = false; //prevents duplicate requests and soft-locks
 	// --------------------------------------------------
 	private @Nullable BetterStatsPanel bsPanel;
 	// ==================================================
@@ -67,35 +71,30 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	// ==================================================
 	public final @Override boolean shouldPause() { return true; }
 	public final @Override boolean shouldRenderInGameHud() { return false; }
-	public final @Override void close()
-	{
-		//how it was prior to 1.20.5
-		{
-			//for non-pause-menu screens, set screen to parent
-			/*if(!(this.parent instanceof GameMenuScreen))
-				getClient().setScreen(this.parent);
-			//for the pause-menu screen, set screen to null for consistency
-			else super.close();*/
-		}
-		//how it is in 1.20.5
-		getClient().setScreen(this.parent);
-	}
+	public final @Override void close() { getClient().setScreen(this.parent); }
 	// --------------------------------------------------
 	protected final @Override void onOpened()
 	{
-		//update item groups display context
-		/*if(MC_CLIENT.world != null)
-			ItemGroups.updateDisplayContext(
-					FeatureSet.of(FeatureFlags.VANILLA),
-					true,
-					MC_CLIENT.world.getRegistryManager());*/
+		//prevent duplicate requests and soft-locks
+		if(this.statsAlreadyRequested) return;
+		this.statsAlreadyRequested = true;
 		
-		//do not send a statistics request packet if not viewing one's own stats
-		if(this.statsProvider != LocalPlayerStatsProvider.getInstance())
-			return;
-		
-		//send a statistics request packet otherwise
-		this.client.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(Mode.REQUEST_STATS));
+		//request the statistics
+		try
+		{
+			//return if the connection or the local player are not available
+			if(this.client.player == null || this.client.player.networkHandler == null)
+				return;
+			
+			//send a statistics request packet if the client is viewing their own stats
+			if(this.statsProvider == LocalPlayerStatsProvider.getInstance())
+				this.client.getNetworkHandler().sendPacket(new ClientStatusC2SPacket(Mode.REQUEST_STATS));
+			
+			//send a third-party statistics request if viewing another player's stats
+			else if(this.statsProvider instanceof OtherClientPlayerStatsProvider ssps)
+				BetterStatsClientPlayNetworkHandler.getInstance().sendMcbsRequest(ssps.getPlayerName());
+		}
+		catch(Exception exc) {/*ignore connectivity exceptions*/}
 	}
 	protected final @Override void onClosed()
 	{

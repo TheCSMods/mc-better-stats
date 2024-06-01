@@ -16,6 +16,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.ItemStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
+import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
@@ -139,6 +140,12 @@ public @Internal @Virtual class ItemStatsTab extends BSStatsTab<SUItemStat>
 	{
 		widget.eContextMenu.register((__, cMenu) ->
 		{
+			//do not add the "pin to hud" button if viewing third-party stats
+			//(because pinning 3rd party stats is not supported yet...)
+			if(!(widget.getStat().getStatsProvider() instanceof LocalPlayerStatsProvider))
+				return;
+			
+			//continue as usual otherwise...
 			cMenu.addButton(BST.hud_pinStat(), ___ ->
 			{
 				final var hud = BetterStatsHudScreen.getInstance();

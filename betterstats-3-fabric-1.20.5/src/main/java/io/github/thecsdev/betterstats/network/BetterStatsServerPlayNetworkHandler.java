@@ -125,20 +125,8 @@ public final @Internal class BetterStatsServerPlayNetworkHandler
 				final var playerName = buffer.readString();
 				final @Nullable var targetPlayer = this.server.getPlayerManager().getPlayer(playerName);
 				
-				//if for some reason, the client requested their own statistics using this network
-				//protocol, send them their statistics using the vanilla method
-				if(targetPlayer == this.player)
-				{
-					//send using vanilla way
-					targetPlayer.getStatHandler().sendStats(targetPlayer);
-					//and also send null stats via this protocol, so BSS
-					//can handle it on their end
-					sendNullPlayerMcbs(playerName);
-					return;
-				}
-				
 				//if the requested player is offline, send null MCBS
-				else if(targetPlayer == null)
+				if(targetPlayer == null)
 				{
 					sendNullPlayerMcbs(playerName);
 					return;

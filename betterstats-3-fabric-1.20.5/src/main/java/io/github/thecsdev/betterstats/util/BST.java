@@ -93,7 +93,6 @@ public final @Internal class BST
 	// --------------------------------------------------
 	public static final MutableText net_toggleTooltip()  { return translatable("betterstats.network.betterstatsnetworkhandler.toggle_tooltip"); }
 	public static final MutableText net_consentWarning() { return translatable("betterstats.network.betterstatsnetworkhandler.consent_warning"); }
-	public static final MutableText net_s3psTooltip()    { return translatable("betterstats.network.betterstatsnetworkhandler.s3ps_tooltip"); }
 	// --------------------------------------------------
 	public static final MutableText sas_firstMine(Text player, Text block)         { return translatable("betterstats.util.stats.statannouncementsystem.first_mine", player, block); }
 	public static final MutableText sas_firstCraft(Text player, Text item)         { return translatable("betterstats.util.stats.statannouncementsystem.first_craft", player, item); }
@@ -102,5 +101,12 @@ public final @Internal class BST
 	public static final MutableText sas_firstKill(Text player, Text entity)        { return translatable("betterstats.util.stats.statannouncementsystem.first_kill", player, entity); }
 	public static final MutableText sas_firstDeathTo(Text player, Text entity)     { return translatable("betterstats.util.stats.statannouncementsystem.first_death_to", player, entity); }
 	public static final MutableText sas_custom(Text player, Text stat, Text value) { return translatable("betterstats.util.stats.statannouncementsystem.custom", player, stat, value); }
+	// --------------------------------------------------
+	public static final MutableText gui_tpsbs()                     { return translatable("betterstats.gui.tpsbs"); }
+	public static final MutableText gui_tpsbs_description()         { return translatable("betterstats.gui.tpsbs.description"); }
+	public static final MutableText gui_tpsbs_ssps()                { return translatable("betterstats.gui.tpsbs.tab.ssps"); }
+	public static final MutableText gui_tpsbs_ssps_description()    { return translatable("betterstats.gui.tpsbs.tab.ssps.description"); }
+	public static final MutableText gui_tpsbs_ssps_requirements()   { return translatable("betterstats.gui.tpsbs.tab.ssps.requirements"); }
+	public static final MutableText gui_tpsbs_ssps_playerNotFound() { return translatable("betterstats.gui.tpsbs.tab.ssps.player_not_found"); }
 	// ==================================================
 }

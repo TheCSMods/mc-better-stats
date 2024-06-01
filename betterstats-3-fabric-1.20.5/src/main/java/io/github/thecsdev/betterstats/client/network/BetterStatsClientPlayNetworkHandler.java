@@ -8,12 +8,16 @@ import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.C2S_MCBS
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.C2S_PREFERENCES;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.NETWORK_VERSION;
 
-import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
@@ -28,6 +32,7 @@ import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetwork;
 import io.github.thecsdev.tcdcommons.api.network.CustomPayloadNetworkReceiver.PacketContext;
 import io.github.thecsdev.tcdcommons.api.util.thread.TaskScheduler;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
@@ -53,13 +58,17 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 	public boolean bssNetworkConsent       = false;
 	public boolean netPref_enableLiveStats = false;
 	// --------------------------------------------------
-	private final HashMap<String, OtherClientPlayerStatsProvider> sessionPlayerStatStorage = new HashMap<>();
+	private final Cache<String, OtherClientPlayerStatsProvider> sessionPlayerStatStorage;
 	// ==================================================
 	private BetterStatsClientPlayNetworkHandler(ClientPlayerEntity player) throws NullPointerException
 	{
 		//assign values
 		this.player = Objects.requireNonNull(player);
 		this.config = Objects.requireNonNull(BetterStats.getInstance().getConfig());
+		this.sessionPlayerStatStorage = CacheBuilder.newBuilder()
+				.expireAfterWrite(5, TimeUnit.MINUTES)
+				.build();
+		TaskScheduler.schedulePeriodicCacheCleanup(this.sessionPlayerStatStorage);
 		
 		//disconnection handler
 		//note: must execute only once. must unregister itself after execution
@@ -73,6 +82,23 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 	}
 	// --------------------------------------------------
 	public final ClientPlayerEntity getPlayer() { return this.player; }
+	// --------------------------------------------------
+	/**
+	 * Obtains the {@link OtherClientPlayerStatsProvider} from the
+	 * {@link #sessionPlayerStatStorage}, creating an instance if it doesn't exist yet.
+	 */
+	public final OtherClientPlayerStatsProvider getSessionPlayerStats(String otherPlayerName)
+		throws NullPointerException
+	{
+		Objects.requireNonNull(otherPlayerName);
+		@Nullable var stats = this.sessionPlayerStatStorage.getIfPresent(otherPlayerName);
+		if(stats == null)
+		{
+			stats = new OtherClientPlayerStatsProvider(otherPlayerName);
+			this.sessionPlayerStatStorage.put(otherPlayerName, stats);
+		}
+		return stats;
+	}
 	// ==================================================
 	/**
 	 * Handles the {@link #player} disconnecting from the server.
@@ -83,7 +109,7 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 		this.serverHasBss            = false;
 		this.netPref_enableLiveStats = false;
 		this.bssNetworkConsent       = false;
-		this.sessionPlayerStatStorage.clear();
+		this.sessionPlayerStatStorage.invalidateAll();;
 	}
 	
 	/**
@@ -124,9 +150,38 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 		//obtain the buffer
 		final var buffer = ctx.getPacketBuffer();
 		
+		//utility function for obtaining listener screens
+		//(NOTE: MUST be executed on the MAIN/RENDER thread!)
+		final Supplier<@Nullable IThirdPartyStatsListener> listenerSupplier = () ->
+		{
+			@Nullable IThirdPartyStatsListener listener = null;
+			if(MC_CLIENT.currentScreen instanceof IThirdPartyStatsListener l)
+				listener = l;
+			else if(MC_CLIENT.currentScreen instanceof TScreenWrapper<?> tsw &&
+					tsw.getTargetTScreen() instanceof IThirdPartyStatsListener l)
+				listener = l;
+			return listener;
+		};
+		
 		//read and handle the packet type
 		switch(TpslContext.Type.of(buffer.readInt()))
 		{
+			case NULL:
+			{
+				//the following must be done on Minecraft's main thread
+				MC_CLIENT.executeSync(() ->
+				{
+					@Nullable IThirdPartyStatsListener listener = listenerSupplier.get();
+					if(listener != null)
+						listener.onStatsReady(new TpslContext()
+						{
+							public Type getType() { return TpslContext.Type.NULL; }
+							public String getPlayerName() { return null; }
+							public IStatsProvider getStatsProvider() { return null; }
+						});
+				});
+			}
+			break;
 			case TpslContext.Type.SAME_SERVER_PLAYER:
 			{
 				//read player name
@@ -138,28 +193,38 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 				catch(Exception exc) {/*ignore failures to process the MCBS file*/}
 				
 				//store MCBS
-				if(!this.sessionPlayerStatStorage.containsKey(playerName))
-					this.sessionPlayerStatStorage.put(playerName, new OtherClientPlayerStatsProvider(playerName));
-				
-				final var spss = this.sessionPlayerStatStorage.get(playerName);
+				final var spss = getSessionPlayerStats(playerName);
 				spss.setAll(tempStatsProvider);
 				
 				//the following must be done on Minecraft's main thread
 				MC_CLIENT.executeSync(() ->
 				{
-					@Nullable IThirdPartyStatsListener listener = null;
-					if(MC_CLIENT.currentScreen instanceof IThirdPartyStatsListener l)
-						listener = l;
-					else if(MC_CLIENT.currentScreen instanceof TScreenWrapper<?> tsw && tsw instanceof IThirdPartyStatsListener l)
-						listener = l;
-					
-					//if BSS is currently open, broadcast the info to it if applicable
+					@Nullable IThirdPartyStatsListener listener = listenerSupplier.get();
 					if(listener != null)
 						listener.onStatsReady(new TpslContext()
 						{
 							public Type getType() { return TpslContext.Type.SAME_SERVER_PLAYER; }
 							public String getPlayerName() { return playerName; }
 							public IStatsProvider getStatsProvider() { return spss; }
+						});
+				});
+			}
+			break;
+			case SAME_SERVER_PLAYER_NOT_FOUND:
+			{
+				//read player name
+				final var playerName = buffer.readString();
+				
+				//the following must be done on Minecraft's main thread
+				MC_CLIENT.executeSync(() ->
+				{
+					@Nullable IThirdPartyStatsListener listener = listenerSupplier.get();
+					if(listener != null)
+						listener.onStatsReady(new TpslContext()
+						{
+							public Type getType() { return TpslContext.Type.SAME_SERVER_PLAYER_NOT_FOUND; }
+							public String getPlayerName() { return playerName; }
+							public @Nullable IStatsProvider getStatsProvider() { return null; }
 						});
 				});
 			}
@@ -270,6 +335,17 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 			cd.setProperty(CUSTOM_DATA_ID, cpnh);
 		}
 		return cpnh;
+	}
+	
+	/**
+	 * Returns an instance of {@link BetterStatsClientPlayNetworkHandler} for
+	 * {@link MinecraftClient#player}, or {@code null} if the client player is also {@code null}.
+	 */
+	public static final @Nullable BetterStatsClientPlayNetworkHandler getInstance()
+	{
+		final var player = MC_CLIENT.player;
+		final var network = MC_CLIENT.getNetworkHandler();
+		if(player == null || network == null) return null; else return of(player);
 	}
 	// ==================================================
 }

@@ -2,9 +2,9 @@ package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_CONSENT_WARNING;
-import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_S3PS_TOOLTIP;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_TOGGLE_TOOLTIP;
 import static io.github.thecsdev.tcdcommons.TCDCommonsConfig.RESTRICTED_MODE;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
@@ -12,11 +12,12 @@ import java.util.Objects;
 
 import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
-import io.github.thecsdev.betterstats.api.client.gui.screen.ThirdPartyStatsBrowserScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
+import io.github.thecsdev.betterstats.client.gui.screen.ThirdPartyStatsBrowserScreen;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientPlayNetworkHandler;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
@@ -99,9 +100,16 @@ public final class ActionBarPanel extends BSComponentPanel
 		
 		//view another player's stats button
 		final var btn_searchPlayer = new TButtonWidget(btn_bssNet.getX() - 20, btn_bssNet.getY(), 20, 20);
-		btn_searchPlayer.setTooltip(Tooltip.of(TXT_S3PS_TOOLTIP));
+		btn_searchPlayer.setTooltip(Tooltip.of(literal("")
+				.append(BST.gui_tpsbs()).append("\n")
+				.append(BST.gui_tpsbs_description().formatted(Formatting.GRAY))
+			));
 		btn_searchPlayer.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 60, 20, 20)));
-		btn_searchPlayer.setOnClick(__ -> MC_CLIENT.setScreen(new ThirdPartyStatsBrowserScreen(MC_CLIENT.currentScreen).getAsScreen()));
+		btn_searchPlayer.setOnClick(__ -> MC_CLIENT.setScreen(
+				new ThirdPartyStatsBrowserScreen(
+						MC_CLIENT.currentScreen,
+						GuiUtils.getParentScreen(MC_CLIENT.currentScreen))
+			.getAsScreen()));
 		btn_searchPlayer.setEnabled(bssCpnh.comms());
 		addChild(btn_searchPlayer, false);
 		
@@ -112,7 +120,7 @@ public final class ActionBarPanel extends BSComponentPanel
 		btn_ff.setEnabled(false);
 		if(!RESTRICTED_MODE)
 		{
-			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_FEEDBACK, false));
+			btn_ff.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_FEEDBACK, true));
 			btn_ff.setEnabled(true);
 			addChild(btn_ff, false);
 		}
@@ -120,34 +128,11 @@ public final class ActionBarPanel extends BSComponentPanel
 		//credits button
 		final var btn_credits = new TButtonWidget(btn_ff.getX() + 20, btn_ff.getY(), 20, 20);
 		btn_credits.setOnClick(btn -> this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_CREDITS));
-		/*final var tt_credits = fLiteral("§e" + translatable("credits_and_attribution.button.credits").getString())
-				.append(fLiteral("§r\n\n§7# " + translatable("betterstats.translators.title").getString() + "§r\n"))
-				.append(getCreditsTranslatorNames());*/
 		final var tt_credits = translatable("credits_and_attribution.button.credits").formatted(Formatting.YELLOW);
 		btn_credits.setTooltip(Tooltip.of(tt_credits));
 		btn_credits.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(220, 60, 20, 20)));
 		addChild(btn_credits, false);
 	}
-	// --------------------------------------------------
-	/*private static final String getCreditsTranslatorNames()
-	{
-		final String translators = translatable("betterstats.translators").getString();
-		if(StringUtils.isBlank(translators))
-			return "-";
-		
-		String[] names = translators.split(",");
-		StringBuilder output = new StringBuilder();
-		
-		for (String name : names)
-		{
-			//skip blank names
-			if(StringUtils.isBlank(name)) continue;
-			//append name
-			output.append("- " + name.trim()).append("\n");
-		}
-		
-		return output.toString().trim();
-	}*/
 	// ==================================================
 	public static interface ActionBarPanelProxy
 	{
