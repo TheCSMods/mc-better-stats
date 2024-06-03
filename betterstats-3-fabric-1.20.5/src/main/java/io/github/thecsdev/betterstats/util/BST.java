@@ -20,6 +20,7 @@ public final @Internal class BST
 	public static final MutableText bss()                    { return translatable("betterstats"); }
 	public static final MutableText bss_translators_title()  { return translatable("betterstats.translators.title"); }
 	public static final MutableText bss_contributors_title() { return translatable("betterstats.contributors.title"); }
+	public static final MutableText bss_comingSoon()         { return translatable("betterstats.coming_soon"); }
 	// --------------------------------------------------
 	public static final MutableText cmd_stats_edit_out(Text stat, Text affectedPlayerCount) { return translatable("commands.statistics.edit.output", stat, affectedPlayerCount); }
 	public static final MutableText cmd_stats_clear_kick()                                  { return translatable("commands.statistics.clear.kick"); }
@@ -104,9 +105,27 @@ public final @Internal class BST
 	// --------------------------------------------------
 	public static final MutableText gui_tpsbs()                     { return translatable("betterstats.gui.tpsbs"); }
 	public static final MutableText gui_tpsbs_description()         { return translatable("betterstats.gui.tpsbs.description"); }
+	public static final MutableText gui_tpsbs_fv()                  { return translatable("betterstats.gui.tpsbs.tab.fv"); }
+	public static final MutableText gui_tpsbs_fv_description()      { return translatable("betterstats.gui.tpsbs.tab.fv.description"); }
+	public static final MutableText gui_tpsbs_fv_summary()          { return translatable("betterstats.gui.tpsbs.tab.fv.summary"); }
+	public static final MutableText gui_tpsbs_fv_thanks()           { return translatable("betterstats.gui.tpsbs.tab.fv.thanks"); }
 	public static final MutableText gui_tpsbs_ssps()                { return translatable("betterstats.gui.tpsbs.tab.ssps"); }
 	public static final MutableText gui_tpsbs_ssps_description()    { return translatable("betterstats.gui.tpsbs.tab.ssps.description"); }
 	public static final MutableText gui_tpsbs_ssps_requirements()   { return translatable("betterstats.gui.tpsbs.tab.ssps.requirements"); }
 	public static final MutableText gui_tpsbs_ssps_playerNotFound() { return translatable("betterstats.gui.tpsbs.tab.ssps.player_not_found"); }
+	public static final MutableText gui_tpsbs_qs()                  { return translatable("betterstats.gui.tpsbs.tab.qs"); }
+	public static final MutableText gui_tpsbs_qs_description()      { return translatable("betterstats.gui.tpsbs.tab.qs.description"); }
+	// --------------------------------------------------
+	public static final MutableText gui_fvrs()                  { return translatable("betterstats.gui.fvrs"); }
+	public static final MutableText gui_fvrs_whatsThis()        { return translatable("betterstats.gui.fvrs.content.whats_this"); }
+	public static final MutableText gui_fvrs_whatsThis_a()      { return translatable("betterstats.gui.fvrs.content.whats_this.a"); }
+	public static final MutableText gui_fvrs_whyFullVersion()   { return translatable("betterstats.gui.fvrs.content.why_full_version"); }
+	public static final MutableText gui_fvrs_whyFullVersion_a() { return gui_tpsbs_fv_summary(); }
+	public static final MutableText gui_fvrs_isItFree()         { return translatable("betterstats.gui.fvrs.content.is_it_free"); }
+	public static final MutableText gui_fvrs_isItFree_a()       { return translatable("betterstats.gui.fvrs.content.is_it_free.a"); }
+	public static final MutableText gui_fvrs_whereToGet()       { return translatable("betterstats.gui.fvrs.content.where_to_get"); }
+	public static final MutableText gui_fvrs_whereToGet_a()     { return translatable("betterstats.gui.fvrs.content.where_to_get.a"); }
+	public static final MutableText gui_fvrs_notes()            { return translatable("betterstats.gui.fvrs.content.additional_notes"); }
+	public static final MutableText gui_fvrs_notes_a()          { return translatable("betterstats.gui.fvrs.content.additional_notes.a"); }
 	// ==================================================
 }

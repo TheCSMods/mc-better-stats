@@ -55,4 +55,5 @@ dependencies
 	
 	// All .jar files in 'src/main/resources/META-INF/jarjar'
 	modImplementation fileTree(dir: 'src/main/resources/META-INF/jarjar', include: '*.jar')
+	modImplementation fileTree(dir: 'src/main/resources/META-INF/jarjar-excluded', include: '*.jar')
 }

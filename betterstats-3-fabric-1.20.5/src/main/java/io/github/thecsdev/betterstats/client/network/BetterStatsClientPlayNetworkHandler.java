@@ -300,7 +300,7 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 	 * Sends a third-party player statistics request to the server.
 	 * The server should respond by sending back the given player's
 	 * statistics, if said player consents to this.
-	 * @param The name of the other player whose statistics this client wishes to see.
+	 * @param playerName The name of the other player whose statistics this client wishes to see.
 	 */
 	public final boolean sendMcbsRequest(String playerName)
 	{

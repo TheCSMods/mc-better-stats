@@ -36,37 +36,27 @@ java
 }
 
 /*
+ * This function helps the `jar` tasks with file exclusion.
+ */
+def processJarFile(fileCopyDetails)
+{
+	//obtain the relative file path string
+	def fileCopyDetails_relPath = fileCopyDetails.relativePath.pathString.replace('\\', '/');
+	
+	//exclude all `jarjar-excluded` jar files
+	if(fileCopyDetails_relPath.startsWith("META-INF/jarjar-excluded"))
+		fileCopyDetails.exclude();
+}
+
+/*
  * The 'jar' task is responsible for creating the exported/built mod jar archive file.
  * It packages your compiled Java code, along with any other resources, into a single JAR file.
  */
 jar
 {
-	//exclude all .class files outside of the maven group
-	def includeOnlyPackage = project.maven_group.replaceAll('\\.', '/')
-	eachFile { fileCopyDetails ->
-		if (fileCopyDetails.name.endsWith('.class') && !fileCopyDetails.relativePath.pathString.startsWith(includeOnlyPackage)) {
-			fileCopyDetails.exclude()
-		}
-	}
+	//iterate all files included in the jar file, and process them
+	eachFile { fileCopyDetails -> processJarFile(fileCopyDetails) }
 	
 	//include the license file
-	from("LICENSE");
+	from("LICENSE") { rename { fileName -> "LICENSE-${project.mod_id}" } }
 }
-
-/*
- *  This jar task will create an exact replica of the original jar file, except, it will
- *  have some minor tweaks done to it that make it be called the "full" version.
- */
-task jar_full(type: Jar)
-{
-	//define the archive's name (note: accrssing 'base.archivesName' does not work here for some reasoon)
-	archiveBaseName = "${project.mod_id}-${project.mod_version}-full".toString();
-	
-	//effectively "clone" the contents of the original jar
-	from sourceSets.main.output;
-	from("LICENSE");
-	
-	//additional tweaks go here
-	from("betterstats.full.txt");
-}
-build.finalizedBy(jar_full);

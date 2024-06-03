@@ -3,6 +3,7 @@
 	
 	"betterstats.translators.title": "Translators",
 	"betterstats.contributors.title": "Contributors",
+	"betterstats.coming_soon": "Coming soon...",
 	
 	
 	"commands.statistics.edit.output": "Edited the stat %s for %s player(s).",
@@ -96,8 +97,25 @@
 	
 	"betterstats.gui.tpsbs": "Third-party stats browser",
 	"betterstats.gui.tpsbs.description": "A GUI interface that allows you to view statistics from other sources, such as for example other player's statistics.",
+	"betterstats.gui.tpsbs.tab.fv": "Obtain full version",
+	"betterstats.gui.tpsbs.tab.fv.description": "Please click here to open this tab and view more info.",
+	"betterstats.gui.tpsbs.tab.fv.summary": "As you may or may not already know, developing and maintaining this mod as well as mods in general, costs a lot of time and effort, while also unfortunately offering very little in retun for most modders out there (myself included). This makes it very difficult for many modders out there to properly pursue their modding hobbies, as their returns are in some cases close-to-nothing, for huge amounts of time invested.\n\nTherefore, although I do not wish to inconvenience you, I would like to ask you for a favor before we continue with using the full version features.",
+	"betterstats.gui.tpsbs.tab.fv.thanks": "Thank you so much for your continued support! I hope that this mod as well as its features are helpful to you.",
 	"betterstats.gui.tpsbs.tab.ssps": "Same-server player search",
 	"betterstats.gui.tpsbs.tab.ssps.description": "Allows you to browse players that are present on the server you are currently connected to, and request their statistics from the server.",
 	"betterstats.gui.tpsbs.tab.ssps.requirements": "This feature requires both you and the server, to have the latest (or better, the same) version of this mod installed.",
-	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "The server could not find a player with the name you requested.\n\nPlease ensure the following criteria are met before retrying:\n1. The name spelling and capitalization are correct\n2. The requested player is online\n3. The requested player has this mod installed\n4. The requested player enabled 'stats haring' in their config for this mod"
+	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "The server could not find a player with the name you requested.\n\nPlease ensure the following criteria are met before retrying:\n1. The name spelling and capitalization are correct\n2. The requested player is online\n3. The requested player has this mod installed\n4. The requested player enabled 'stats sharing' in their config for this mod",
+	"betterstats.gui.tpsbs.tab.qs": "Quick share",
+	"betterstats.gui.tpsbs.tab.qs.description": "With just one click of a button, allows you to quickly share your statistics with anyone using this mod, regardless of where they are right now.",
+	
+	"betterstats.gui.fvrs": "Full version request screen",
+	"betterstats.gui.fvrs.content.whats_this": "What's this?",
+	"betterstats.gui.fvrs.content.whats_this.a": "You are reading this because you attempted to access a feature that is only available in the \"full version\" of this mod. Worry not however, as you are able to obtain the full version of this mod at any time, without any limitations or barriers.",
+	"betterstats.gui.fvrs.content.why_full_version": "Why even is there a \"full version\"?",
+	"betterstats.gui.fvrs.content.is_it_free": "Is this \"full version\" still free and open-source?",
+	"betterstats.gui.fvrs.content.is_it_free.a": "Of-course.",
+	"betterstats.gui.fvrs.content.where_to_get": "Where can I get the \"full version\"?",
+	"betterstats.gui.fvrs.content.where_to_get.a": "Simply follow the link below. If you have any issues obtaining it, feel free to reach out to me (the developer of this mod), and I'll try to help if possible.",
+	"betterstats.gui.fvrs.content.additional_notes": "Additional notes you should keep in mind, as a sidenote",
+	"betterstats.gui.fvrs.content.additional_notes.a": "Given the things mentioned above, here are some useful tips to keep in mind, that could further help the modding ecosystem:\n- Try to offer genuine unbiased feedback to modders. I for example, love it when people tell me how they feel about my mod(s), regardless of whether it be positive feedback or criticism.\n- If possible, try to contribute to your favorite mods. The simplest way could be for example helping translate your favorite mod(s) to your native language, helping mods become more accessible to a broader audience. Note that feedback and stuff like bug reports also count.\n- If possible, also try to offer incentives for developers to keep doing what they love. This could be something as simple as engagement, letting others know about your favorite mod(s), the things mentioned earlier, or it could even be something like helping fund your favorite mods (altho, not everyone is in a position where they could do something like this)."
 }
