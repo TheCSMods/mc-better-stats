@@ -165,7 +165,7 @@ public final class FullVersionRequestScreen extends TScreenPlus implements IPare
 			final var n3 = UILayout.nextChildVerticalRect(this.panel);
 			final var btn = new TButtonWidget(n3.x + (n3.width / 4), n3.y, n3.width / 2, 20);
 			btn.setText(CreditsTabPersonWidget.TEXT_OPEN_LINK);
-			btn.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_WEBSITE, true));
+			btn.setOnClick(__ -> GuiUtils.showUrlPrompt(BetterStatsProperties.URL_FV, true));
 			this.panel.addChild(btn, false);
 		}
 		separatorAppender.run();

@@ -1,0 +1,69 @@
+{
+	"betterstats": "Mejora de la pantalla de estadísticas",
+	
+	"betterstats.translators.title": "Traductores",
+	"betterstats.contributors.title": "Colaboradores",
+	
+	
+	"commands.statistics.edit.output": "Se editó la estadística %s para jugador(es) %s.",
+	"commands.statistics.clear.kick": "Se borraron tus estadísticas, lo que requiere que te desconectes y vuelvas a unirte.",
+	"commands.statistics.clear.output": "Se borraron las estadísticas de %s jugador(es).",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Asesinados",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Muerto por", 
+	"betterstats.stattype_phrase.morestats.damaged": "Daño infligido (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Daño recibido (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Tótems activados por",
+	
+	
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file": "Archivo",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.new": "Nuevo",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.open": "Abrir",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save": "Guardar",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_file.save_as": "Guardar como",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view": "Ver",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_view.vanilla_stats": "Mostrar estadísticas vanilla",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about": "Acerca de",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.source": "Código fuente",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.curseforge": "CurseForge",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.modrinth": "Modrinth",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.youtube": "YouTube",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.kofi": "Ko-Fi",
+	"betterstats.api.client.gui.stats.panel.menubarpanel.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Filtros",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Mostrar estadísticas vacías",
+	"betterstats.api.util.enumerations.filtergroupby.default": "Predeterminado",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Muertes",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Muertes",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Obtenido",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Valor",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Aún no hay estadísticas para mostrar...",
+	
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.debug_mode": "Modo de depuración",
+	"betterstats.api.client.gui.screen.betterstatsconfigscreen.gui_mob_follow_cursor": "Mobs del GUI siguen al cursor",
+	
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.title": "Dedicación",
+	"betterstats.api.client.registry.bsclientplayerbadges.dedication.description": "¡Has mostrado verdadera dedicación! Has jugado en este mundo durante al menos 12 días (288 horas).",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.title": "Lealtad",
+	"betterstats.api.client.registry.bsclientplayerbadges.loyalty.description": "Tu lealtad es encomiable. Has jugado en este mundo durante al menos 24 días (576 horas).",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.title": "La próxima generación",
+	"betterstats.api.client.registry.bsclientplayerbadges.the_next_generation.description": "Has sostenido el símbolo del triunfo supremo: el Huevo de Dragón.",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.title": "Viajero aventurero",
+	"betterstats.api.client.registry.bsclientplayerbadges.adventurous_traveler.description": "A través de montañas altas y valles bajos, has viajado lejos, con mucho que mostrar. Buscando una vista, una historia sin contar, la medida de un viaje en bloques de oro. Y entonces lo viste...\n\nHas viajado al menos 727.000 bloques.",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.title": "Superviviente perenne",
+	"betterstats.api.client.registry.bsclientplayerbadges.perennial_survivor.description": "Has logrado engañar a la muerte, por ahora. ¿Seguirás evitando lo inevitable?\n\nHas sobrevivido al menos 12 horas.",
+	
+	"betterstats.client.gui.screen.hud.betterstatshudscreen": "Estadísticas en la pantalla",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.pin_stat": "Anclar a la pantalla",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_1": "Haz clic derecho en una estadística ([Shift]+RMB) para agregarla aquí.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_2": "Haz clic derecho en una entrada de la pantalla para modificarla o eliminarla.",
+	"betterstats.client.gui.screen.hud.betterstatshudscreen.tutorial_3": "Presiona Esc (ESC) para cerrar esta pantalla.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Alternar conexión al servidor 'betterstats'",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "IMPORTANTE:\nAl habilitar esta función, el servidor averiguará que estás utilizando un cliente modificado con 'betterstats' instalado. Para proteger tu privacidad, no utilices esta función en servidores que no permitan clientes modificados o este mod.\n\nHabilitar esta característica agrega algunas funciones adicionales que están disponibles cuando el mod está instalado en el servidor también."
+}
