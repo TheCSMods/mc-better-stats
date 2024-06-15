@@ -17,8 +17,8 @@ import io.github.thecsdev.tcdcommons.api.events.client.gui.screen.GameMenuScreen
 import io.github.thecsdev.tcdcommons.api.events.item.ItemGroupEvent;
 import io.github.thecsdev.tcdcommons.api.hooks.client.gui.widget.ButtonWidgetHooks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.item.ItemGroups;
 
 public final class BetterStatsClient extends BetterStats
 {
@@ -68,7 +68,10 @@ public final class BetterStatsClient extends BetterStats
 			final var useOp = //Important: Must copy the exact values used by CreativeInventoryScreen
 					client.player.isCreativeLevelTwoOp() &&
 					MC_CLIENT.options.getOperatorItemsTab().getValue();
-			ItemGroups.updateDisplayContext(world.getEnabledFeatures(), useOp, world.getRegistryManager());
+			
+			//create an instance of the creative inventory, as it is the one that updates
+			//item groups and the search item group (in other words, let the game do it)
+			new CreativeInventoryScreen(client.player, world.getEnabledFeatures(), useOp);
 		});
 	}
 	// ==================================================
