@@ -43,6 +43,8 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 	private static final BetterStatsHudScreen INSTANCE = new BetterStatsHudScreen();
 	// --------------------------------------------------
 	private @Nullable Screen parent;
+	private @Nullable TButtonWidget btn_done;
+	private @Nullable TButtonWidget btn_toggleRealtime;
 	//
 	private float requestTimer = 0;
 	private final int requestDelay = 20 * 10;
@@ -51,6 +53,13 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 	// --------------------------------------------------
 	protected final @Override TScreenWrapper<?> createScreenWrapper() { return new BetterStatsHudScreenWrapper(this); }
 	// ==================================================
+	protected final @Override void onClosed()
+	{
+		super.onClosed();
+		if(this.btn_done != null) removeChild(this.btn_done);
+		if(this.btn_toggleRealtime != null) removeChild(this.btn_toggleRealtime);
+	}
+	// --------------------------------------------------
 	protected final @Override void init()
 	{
 		//if the hud screen is opened, add some extra widgets to it
@@ -60,36 +69,36 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 			final var bssCpnh = BetterStatsClientPlayNetworkHandler.of(MC_CLIENT.player);
 			
 			//add the done button, that closes the screen, and shows the tutorial
-			final var btn_done = new TButtonWidget(
+			this.btn_done = new TButtonWidget(
 					(getWidth() / 2) - 50, (getHeight() / 2) - 10,
 					100, 20,
 					translatable("gui.done"));
-			btn_done.setTooltip(Tooltip.of(literal("") //must create new Text instance
+			this.btn_done.setTooltip(Tooltip.of(literal("") //must create new Text instance
 					.append(TEXT_TUTORIAL_1).append("\n")
 					.append(TEXT_TUTORIAL_2).append("\n")
 					.append(TEXT_TUTORIAL_3)
 				));
-			btn_done.setOnClick(__ -> close());
-			addChild(btn_done, false);
+			this.btn_done.setOnClick(__ -> close());
+			addChild(this.btn_done, false);
 			
 			//add a "realtime stats" toggle button
 			if(bssCpnh.bssNetworkConsent && bssCpnh.serverHasBss)
 			{
-				final var btn_toggleRealtime = new TButtonWidget(
+				this.btn_toggleRealtime = new TButtonWidget(
 						btn_done.getEndX() + 5, btn_done.getY(),
 						20, 20);
-				btn_toggleRealtime.setTooltip(Tooltip.of(TEXT_LIVE_TOGGLE));
-				btn_toggleRealtime.setIcon(bssCpnh.netPref_enableLiveStats ?
+				this.btn_toggleRealtime.setTooltip(Tooltip.of(TEXT_LIVE_TOGGLE));
+				this.btn_toggleRealtime.setIcon(bssCpnh.netPref_enableLiveStats ?
 						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 80, 20, 20)) :
 						new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(0, 80, 20, 20)));
-				btn_toggleRealtime.setOnClick(__ ->
+				this.btn_toggleRealtime.setOnClick(__ ->
 				{
 					//toggle live stats, and send updated preferences
 					bssCpnh.netPref_enableLiveStats = !bssCpnh.netPref_enableLiveStats;
 					bssCpnh.sendPreferences();
 					refresh();
 				});
-				addChild(btn_toggleRealtime, false);
+				addChild(this.btn_toggleRealtime, false);
 			}
 		}
 		
