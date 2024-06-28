@@ -4,7 +4,6 @@ import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_CONSENT_WARNING;
 import static io.github.thecsdev.betterstats.network.BetterStatsNetwork.TXT_TOGGLE_TOOLTIP;
 import static io.github.thecsdev.tcdcommons.TCDCommonsConfig.RESTRICTED_MODE;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
@@ -14,10 +13,8 @@ import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
-import io.github.thecsdev.betterstats.client.gui.screen.ThirdPartyStatsBrowserScreen;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientPlayNetworkHandler;
-import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
@@ -97,21 +94,6 @@ public final class ActionBarPanel extends BSComponentPanel
 		});
 		btn_bssNet.setEnabled(bssCpnh.serverHasBss && !MC_CLIENT.isInSingleplayer() && !bssCpnh.bssNetworkConsent);
 		addChild(btn_bssNet, false);
-		
-		//view another player's stats button
-		final var btn_searchPlayer = new TButtonWidget(btn_bssNet.getX() - 20, btn_bssNet.getY(), 20, 20);
-		btn_searchPlayer.setTooltip(Tooltip.of(literal("")
-				.append(BST.gui_tpsbs()).append("\n")
-				.append(BST.gui_tpsbs_description().formatted(Formatting.GRAY))
-			));
-		btn_searchPlayer.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 60, 20, 20)));
-		btn_searchPlayer.setOnClick(__ -> MC_CLIENT.setScreen(
-				new ThirdPartyStatsBrowserScreen(
-						MC_CLIENT.currentScreen,
-						GuiUtils.getParentScreen(MC_CLIENT.currentScreen))
-			.getAsScreen()));
-		btn_searchPlayer.setEnabled(bssCpnh.comms());
-		addChild(btn_searchPlayer, false);
 		
 		//feedback form button
 		final var btn_ff = new TButtonWidget(getX() + 1, getY() + 1, 20, 20);

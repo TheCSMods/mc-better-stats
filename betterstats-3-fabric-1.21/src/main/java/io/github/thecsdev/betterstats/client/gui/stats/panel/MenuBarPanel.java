@@ -37,7 +37,9 @@ import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooser
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.explorer.TFileChooserScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.GuiUtils;
 import net.minecraft.client.gui.screen.StatsScreen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 /**
@@ -193,6 +195,14 @@ public final class MenuBarPanel extends BSComponentPanel
 			//open the context menu
 			cMenu.open();
 		});
+		
+		menu.addButton(
+				BSStatsTabs.BSS_STATS_SHARING.getName(),
+				btn -> this.proxy.setSelectedStatsTab(BSStatsTabs.BSS_STATS_SHARING))
+			.setTooltip(Tooltip.of(literal("")
+				.append(BST.gui_tpsbs()).append("\n")
+				.append(BST.gui_tpsbs_description().formatted(Formatting.GRAY))
+			));
 		
 		//invoke the menu bar event here, so other mods can add their options
 		BetterStatsGUIEvent.MENU_BAR_INITIALIZED.invoker().invoke(menu);

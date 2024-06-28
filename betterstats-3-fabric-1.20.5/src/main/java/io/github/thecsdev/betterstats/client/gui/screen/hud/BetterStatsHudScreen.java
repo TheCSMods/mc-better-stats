@@ -56,8 +56,8 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 	protected final @Override void onClosed()
 	{
 		super.onClosed();
-		if(this.btn_done != null) removeChild(this.btn_done);
-		if(this.btn_toggleRealtime != null) removeChild(this.btn_toggleRealtime);
+		if(this.btn_done != null) { removeChild(this.btn_done); this.btn_done = null; }
+		if(this.btn_toggleRealtime != null) { removeChild(this.btn_toggleRealtime); this.btn_toggleRealtime = null; }
 	}
 	// --------------------------------------------------
 	protected final @Override void init()

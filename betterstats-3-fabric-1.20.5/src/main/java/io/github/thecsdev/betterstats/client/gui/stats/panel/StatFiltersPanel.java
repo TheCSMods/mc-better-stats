@@ -1,28 +1,21 @@
 package io.github.thecsdev.betterstats.client.gui.stats.panel;
 
-import java.awt.Rectangle;
 import java.util.Objects;
 
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
-import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.gui.widget.ScrollBarWidget;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab.FiltersInitContext;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel.BetterStatsPanelProxy;
 import io.github.thecsdev.betterstats.util.BST;
-import io.github.thecsdev.tcdcommons.api.client.gui.other.TTextureElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
-import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
-import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import net.minecraft.text.Text;
 
 public final class StatFiltersPanel extends BSComponentPanel
 {
 	// ==================================================
-	public static final Text TXT_FILTERS    = BST.filters();
-	public static final Text TXT_NO_FILTERS = BST.filter_noFiltersQuestion();
-	public static final UITexture TEX_NO_FILTERS = new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(180, 180, 64, 64));
+	public static final Text TXT_FILTERS = BST.filters();
 	// --------------------------------------------------
 	private final StatFiltersPanelProxy proxy;
 	// ==================================================
@@ -66,27 +59,6 @@ public final class StatFiltersPanel extends BSComponentPanel
 			public StatsTab getSelectedStatsTab() { return statsTab; }
 			public void setSelectedStatsTab(StatsTab statsTab) { StatFiltersPanel.this.proxy.setSelectedStatsTab(statsTab); }
 		});
-		
-		//an indicator that there's no filters for the current stats tab
-		if(panel.getChildren().size() == 0)
-			init_noFilters(panel);
-	}
-	// --------------------------------------------------
-	private final void init_noFilters(TPanelElement panel)
-	{
-		//calculate image coordinates and size
-		final int size = (int)(Math.min(getWidth(), getHeight()) * 0.3f);
-		final int x = (getWidth() / 2) - (size / 2);
-		final int y = (getHeight() / 2) - (size / 2);
-		
-		//add image
-		final var img = new TTextureElement(x, y - 10, size, size, TEX_NO_FILTERS);
-		panel.addChild(img, true);
-		
-		//add text
-		final var label = StatsTabUtils.initGroupLabel(panel, TXT_NO_FILTERS);
-		label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-		label.setTextColor(0xFFFFFFFF);
 	}
 	// ==================================================
 	/**

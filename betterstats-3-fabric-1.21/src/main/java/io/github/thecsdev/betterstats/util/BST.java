@@ -45,6 +45,7 @@ public final @Internal class BST
 	public static final MutableText menu_about_yt()      { return translatable("betterstats.gui.menu_bar.menu_about.youtube"); }
 	public static final MutableText menu_about_kofi()    { return translatable("betterstats.gui.menu_bar.menu_about.kofi"); }
 	public static final MutableText menu_about_dc()      { return translatable("betterstats.gui.menu_bar.menu_about.discord"); }
+	public static final MutableText menu_statsSharing()  { return translatable("betterstats.gui.menu_bar.menu_stats_sharing"); }
 	// --------------------------------------------------
 	public static final MutableText gpp_uuid() { return translatable("betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid"); }
 	// --------------------------------------------------
@@ -115,6 +116,11 @@ public final @Internal class BST
 	public static final MutableText gui_tpsbs_ssps_playerNotFound() { return translatable("betterstats.gui.tpsbs.tab.ssps.player_not_found"); }
 	public static final MutableText gui_tpsbs_qs()                  { return translatable("betterstats.gui.tpsbs.tab.qs"); }
 	public static final MutableText gui_tpsbs_qs_description()      { return translatable("betterstats.gui.tpsbs.tab.qs.description"); }
+	public static final MutableText gui_tpsbs_qs_tosnotice()        { return translatable("betterstats.gui.tpsbs.tab.qs.tos_notice"); }
+	public static final MutableText gui_tpsbs_qs_abusenotice()      { return translatable("betterstats.gui.tpsbs.tab.qs.abuse_notice"); }
+	public static final MutableText gui_tpsbs_qs_step1()            { return translatable("betterstats.gui.tpsbs.tab.qs.step_1"); }
+	public static final MutableText gui_tpsbs_qs_step2()            { return translatable("betterstats.gui.tpsbs.tab.qs.step_2"); }
+	public static final MutableText gui_tpsbs_qs_step2_entrqscode() { return translatable("betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode"); }
 	// --------------------------------------------------
 	public static final MutableText gui_fvrs()                  { return translatable("betterstats.gui.fvrs"); }
 	public static final MutableText gui_fvrs_whatsThis()        { return translatable("betterstats.gui.fvrs.content.whats_this"); }

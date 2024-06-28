@@ -11,7 +11,8 @@
 		"youtube": "${project.properties.modmenu_link_youtube}",
 		
 		"feedback": "${project.properties.link_feedback}",
-		"full_version": "${project.properties.link_fv}"
+		"full_version": "${project.properties.link_fv}",
+		"quickshare_legal": "https://thecsdev.github.io/ref/bss_qs_legal"
 	},
 	
 	"contributors":
@@ -65,12 +66,20 @@
 	"special_thanks":
 	[
 		{
+			"name": "You",
+			"contact": { "homepage": "https://thecsdev.github.io/ref/thank_you" }
+		},
+		{
 			"name": "FabricMC",
 			"contact": { "homepage": "https://fabricmc.net/" }
 		},
 		{
 			"name": "Sinytra",
 			"contact": { "homepage": "https://sinytra.org/" }
+		},
+		{
+			"name": "Sternschnaube",
+			"contact": { "homepage": "https://github.com/sternschnaube" }
 		}
 	]
 }
