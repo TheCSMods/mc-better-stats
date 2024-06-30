@@ -1,74 +1,127 @@
 {
-	"betterstats": "更好的統計畫面 Better Statistics Screen",
-	
-	"betterstats.translators.title": "Translators",
-	
-	
-	"commands.statistics.edit.output": "已為 %s 玩家修改 %s 統計資訊。",
-	"commands.statistics.clear.kick": "你的統計資訊已被清除，你需要中斷連接並重新加入。",
-	"commands.statistics.clear.output": "已清除 %s 玩家的統計資訊。",
-	
-	
-	"betterstats.stattype_phrase.minecraft.killed": "擊殺數",
-	"betterstats.stattype_phrase.minecraft.killed_by": "被...擊殺",
-	"betterstats.stattype_phrase.morestats.damaged": "造成的傷害 (x10)",
-	"betterstats.stattype_phrase.morestats.damaged_by": "受到的傷害 (x10)",
-	"betterstats.stattype_phrase.morestats.totem_popped_by": "被...觸發的圖騰",
-	
-	
-	"betterstats.gui.menu_bar.menu_file": "檔案",
-	"betterstats.gui.menu_bar.menu_file.new": "新增",
-	"betterstats.gui.menu_bar.menu_file.open": "開啟",
-	"betterstats.gui.menu_bar.menu_file.save": "儲存",
-	"betterstats.gui.menu_bar.menu_file.save_as": "另存為",
-	"betterstats.gui.menu_bar.menu_view": "檢視",
-	"betterstats.gui.menu_bar.menu_view.vanilla_stats": "顯示原版統計資訊",
-	"betterstats.gui.menu_bar.menu_about": "關於",
-	"betterstats.gui.menu_bar.menu_about.source": "原始碼",
-	"betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
-	"betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
-	"betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
-	"betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
-	"betterstats.gui.menu_bar.menu_about.discord": "Discord",
+  "betterstats": "更好的統計畫面 Better Statistics Screen",
 
-	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",	
-	
-	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "篩選器",
-	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "顯示空白統計資訊",
-	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "沒有篩選器？",
+  "betterstats.translators.title": "翻譯者",
+  "betterstats.contributors.title": "貢獻者",
+  "betterstats.coming_soon": "即將推出...",
 
-	"betterstats.api.util.enumerations.filtergroupby.default": "預設",
-	"betterstats.api.util.enumerations.filtergroupby.mod": "模組",
-	
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "擊殺數",
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "死亡數",
-	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "已取得",
-	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "數值",
-	
-	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "這裡似乎沒有統計資訊可以顯示...",
-	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "種子（SHA-256）",
-	
-	"betterstats.config.debug_mode": "除錯模式",
-	"betterstats.config.gui_mob_follow_cursor": "在介面中生物跟隨游標",
 
-	"betterstats.player_badge.dedication.title": "貢獻",
-	"betterstats.player_badge.dedication.description": "您展現了真正的貢獻精神！您已在這個世界遊玩了至少 12 天（288 小時）。",
-	"betterstats.player_badge.loyalty.title": "忠誠",
-	"betterstats.player_badge.loyalty.description": "您的忠誠值得稱讚！您已在這個世界遊玩了至少 24 天（576 小時）。",
-	"betterstats.player_badge.the_next_generation.title": "新世代",
-	"betterstats.player_badge.the_next_generation.description": "您曾持有象徵最終勝利的物品 — 龍蛋。",
-	"betterstats.player_badge.adventurous_traveler.title": "冒險旅者",
-	"betterstats.player_badge.adventurous_traveler.description": "穿越高山峻嶺和幽谷深壑，您跋涉了遙遠的距離，並留下了許多足跡。您尋求奇景、未被告知的故事，以及以金塊計算的旅程長度。然後您看到了它...\n\n您至少旅行了 727,000 個方塊。",
-	"betterstats.player_badge.perennial_survivor.title": "長青倖存者",
-	"betterstats.player_badge.perennial_survivor.description": "您設法暫時躲過了死亡。您會繼續逃避不可避免的命運嗎？\n\n您至少存活了 12 小時。",
-	
-	
-	"betterstats.gui.hud_screen.betterstatshudscreen": "統計 HUD",
-	"betterstats.gui.hud_screen.betterstatshudscreen.pin_stat": "釘選至 HUD",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_1": "對統計數據點擊右鍵（[Shift] + 右鍵）將其新增至此處。",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_2": "對 HUD 項目點擊右鍵以進行修改或移除。",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_3": "按下 Esc 鍵以關閉此畫面。",
-	
-	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切換「betterstats」伺服器連線",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改用戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。"
+  "commands.statistics.edit.output": "已為 %s 玩家修改 %s 統計資訊。",
+  "commands.statistics.clear.kick": "你的統計資訊已被清除，你需要中斷連接並重新加入。",
+  "commands.statistics.clear.output": "已清除 %s 玩家的統計資訊。",
+  "commands.statistics.query.output": "%s 的 %s 統計值是 %s。",
+
+
+  "betterstats.stattype_phrase.minecraft.killed": "擊殺數",
+  "betterstats.stattype_phrase.minecraft.killed_by": "被...擊殺",
+  "betterstats.stattype_phrase.morestats.damaged": "造成的傷害 (x10)",
+  "betterstats.stattype_phrase.morestats.damaged_by": "受到的傷害 (x10)",
+  "betterstats.stattype_phrase.morestats.totem_popped_by": "被...觸發的圖騰",
+
+
+  "betterstats.gui.menu_bar.menu_file": "檔案",
+  "betterstats.gui.menu_bar.menu_file.new": "新增",
+  "betterstats.gui.menu_bar.menu_file.open": "開啟",
+  "betterstats.gui.menu_bar.menu_file.save": "儲存",
+  "betterstats.gui.menu_bar.menu_file.save_as": "另存為",
+  "betterstats.gui.menu_bar.menu_view": "檢視",
+  "betterstats.gui.menu_bar.menu_view.vanilla_stats": "顯示原版統計資訊",
+  "betterstats.gui.menu_bar.menu_about": "關於",
+  "betterstats.gui.menu_bar.menu_about.source": "原始碼",
+  "betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
+  "betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
+  "betterstats.gui.menu_bar.menu_about.website": "TheCSDev",
+  "betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
+  "betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
+  "betterstats.gui.menu_bar.menu_about.discord": "Discord",
+  "betterstats.gui.menu_bar.menu_stats_sharing": "統計數據分享",
+
+  "betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
+
+  "betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "篩選器",
+  "betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "顯示空白統計資訊",
+  "betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "沒有篩選器？",
+
+  "betterstats.api.util.enumerations.filtergroupby.default": "預設",
+  "betterstats.api.util.enumerations.filtergroupby.mod": "模組",
+
+  "betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "擊殺數",
+  "betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "死亡數",
+  "betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "已取得",
+  "betterstats.api.client.gui.stats.widget.generalstatwidget.value": "數值",
+
+  "betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "這裡似乎沒有統計資訊可以顯示...",
+  "betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "種子（SHA-256）",
+
+  "betterstats.config.debug_mode": "除錯模式",
+  "betterstats.config.gui_smooth_scroll": "啟用圖形介面平滑滾動",
+  "betterstats.config.gui_smooth_scroll.tooltip": "啟用後，滾動統計面板將會平滑動畫。如果您使用低端設備或者滑鼠滾輪無法正常工作，請禁用此功能。",
+  "betterstats.config.gui_mob_follow_cursor": "在介面中生物跟隨游標",
+  "betterstats.config.trust_all_servers_bss_net": "自動切換 「betterstats」 網路",
+  "betterstats.config.trust_all_servers_bss_net.tooltip": "當此模組安裝在伺服器上時，它提供更多功能。「betterstats」 網路協議是 「betterstats」 伺服器與 「betterstats」 客戶端通訊的方式。啟用此功能後，當適用時客戶端將自動告知伺服器已安裝了 「betterstats」。禁用此功能則需要每次加入伺服器時手動執行此操作。",
+  "betterstats.config.allow_stats_sharing": "允許統計數據分享",
+  "betterstats.config.allow_stats_sharing.tooltip": "允許伺服器與第三方（例如伺服器上的其他玩家）分享您的統計數據。請注意，任何運行伺服器的人都可以以一種忽略此偏好的方式修改伺服器。儘管這不應該發生，但我希望通知您這是可能的。",
+  "betterstats.config.register_commands": "註冊指令",
+  "betterstats.config.enable_sas": "啟用統計數據宣布系統",
+
+  "betterstats.player_badge.dedication.title": "貢獻",
+  "betterstats.player_badge.dedication.description": "您展現了真正的貢獻精神！您已在這個世界遊玩了至少 12 天（288 小時）。",
+  "betterstats.player_badge.loyalty.title": "忠誠",
+  "betterstats.player_badge.loyalty.description": "您的忠誠值得稱讚！您已在這個世界遊玩了至少 24 天（576 小時）。",
+  "betterstats.player_badge.the_next_generation.title": "新世代",
+  "betterstats.player_badge.the_next_generation.description": "您曾持有象徵最終勝利的物品 — 龍蛋。",
+  "betterstats.player_badge.adventurous_traveler.title": "冒險旅者",
+  "betterstats.player_badge.adventurous_traveler.description": "穿越高山峻嶺和幽谷深壑，您跋涉了遙遠的距離，並留下了許多足跡。您尋求奇景、未被告知的故事，以及以金塊計算的旅程長度。然後您看到了它...\n\n您至少旅行了 727,000 個方塊。",
+  "betterstats.player_badge.perennial_survivor.title": "長青倖存者",
+  "betterstats.player_badge.perennial_survivor.description": "您設法暫時躲過了死亡。您會繼續逃避不可避免的命運嗎？\n\n您至少存活了 12 小時。",
+
+  
+  "betterstats.gui.hud_screen": "統計 HUD",
+  "betterstats.gui.hud_screen.pin_stat": "釘選至 HUD",
+  "betterstats.gui.hud_screen.live_stats_toggle": "切換即時 HUD 統計更新",
+  "betterstats.gui.hud_screen.tutorial_1": "對統計數據點擊右鍵（[Shift] + 右鍵）將其新增至此處。",
+  "betterstats.gui.hud_screen.tutorial_2": "對 HUD 項目點擊右鍵以進行修改或移除。",
+  "betterstats.gui.hud_screen.tutorial_3": "按下 Esc 鍵以關閉此畫面。",
+
+  "betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切換「betterstats」伺服器連線",
+  "betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改用戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。",
+  "betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "查看來自其他來源的統計數據",
+
+  "betterstats.sas.first_mine": "%s 剛剛挖掘了他們的第一個 %s。",
+  "betterstats.sas.first_craft": "%s 剛剛製作了他們的第一個 %s。",
+  "betterstats.sas.first_death": "%s 剛剛死亡了，這是他們的第一次。",
+  "betterstats.sas.first_death.hc1": "%s 剛剛死亡了，這是他們的第一次。好消息是，這可能不會再次發生。",
+  "betterstats.sas.first_kill": "%s 剛剛殺死了一個 %s，這是他們的第一次。",
+  "betterstats.sas.first_death_to": "%s 剛剛第一次死於 %s。",
+  "betterstats.sas.custom": "%s 剛剛將他們的 「%s」 統計值增加到 %s。",
+
+  "betterstats.gui.tpsbs": "第三方統計瀏覽器",
+  "betterstats.gui.tpsbs.description": "一個 GUI 介面，允許您查看來自其他來源的統計數據，例如其他玩家的統計數據。",
+  "betterstats.gui.tpsbs.tab.fv": "獲取完整版本",
+  "betterstats.gui.tpsbs.tab.fv.description": "請點擊此處打開此分頁並查看更多信息。",
+  "betterstats.gui.tpsbs.tab.fv.summary": "此選單允許您查看來自其他來源的統計數據，例如來自其他玩家的統計數據。\n\n在我們繼續使用此功能之前，我想向您求個好處。\n\n按下 'Escape' (ESC) 取消並離開此選單。",
+  "betterstats.gui.tpsbs.tab.fv.thanks": "非常感謝您的持續支持！希望這個模組及其功能對您有幫助。",
+  "betterstats.gui.tpsbs.tab.ssps": "同服玩家搜索",
+  "betterstats.gui.tpsbs.tab.ssps.description": "允許您瀏覽當前連接的伺服器上存在的玩家，並從伺服器請求他們的統計數據。",
+  "betterstats.gui.tpsbs.tab.ssps.requirements": "此功能要求您和伺服器都安裝了最新（或更好是相同）版本的此模組。",
+  "betterstats.gui.tpsbs.tab.ssps.player_not_found": "伺服器找不到您請求的玩家名稱。\n\n請確保在重試之前符合以下條件：\n1. 確保名稱拼寫和大小寫正確\n2. 請求的玩家在線\n3. 請求的玩家安裝了此模組\n4. 請求的玩家在其模組配置中啟用了 「允許統計數據分享」",
+  "betterstats.gui.tpsbs.tab.qs": "快速分享",
+  "betterstats.gui.tpsbs.tab.qs.description": "僅需點擊一個按鈕，即可快速與使用此模組的任何人分享您的統計數據，無論他們現在身在何處。",
+  "betterstats.gui.tpsbs.tab.qs.tos_notice": "快速分享是一個利用我（模組開發者）的伺服器運作的功能。因此，它適用於我的服務條款和隱私政策。",
+  "betterstats.gui.tpsbs.tab.qs.abuse_notice": "為防止垃圾郵件和濫用，可能會適用速率限制和其他限制。",
+  "betterstats.gui.tpsbs.tab.qs.step_1": "§e第一步:\n§7點擊按鈕快速分享您當前查看的統計文件。分享完成後，您將獲得一個 「快速分享代碼」。",
+  "betterstats.gui.tpsbs.tab.qs.step_2": "§e第二步:\n§7接收方輸入 「快速分享代碼」，並點擊按鈕下載和查看分享的統計數據。",
+  "betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "在此輸入快速分享代碼",
+
+  "betterstats.gui.fvrs": "完整版本請求畫面",
+  "betterstats.gui.fvrs.content.whats_this": "這是什麼？",
+  "betterstats.gui.fvrs.content.whats_this.a": "基於以下原因，現在有一個名為「完整版本」的模組版本。您正在閱讀此信息，因為您嘗試訪問僅在該「完整版本」中提供的功能。該模組的完整版本可能包含額外的功能和實用工具（除了現有功能外），可能對您有用。\n\n請不用擔心，您隨時可以獲取這個模組的完整版本，沒有任何限制或障礙。",
+  "betterstats.gui.fvrs.content.why_full_version": "為什麼會有「完整版本」？",
+  "betterstats.gui.fvrs.content.why_full_version.a": "您可能已經知道或不知道，開發和維護這個模組以及其他模組，耗費了大量時間和精力，但對大多數模組開發者（包括我在內）來說，回報甚微。這使得許多模組開發者很難正確追求他們的模組愛好，因為他們的回報在某些情況下幾乎為零，而他們卻投入了大量的時間和精力。\n\n因此，儘管我不希望給您帶來不便，但在我們繼續使用完整版本功能之前，我想請求您的一個好處。",
+  "betterstats.gui.fvrs.content.is_it_free": "這個「完整版本」仍然是免費和開源的嗎？",
+  "betterstats.gui.fvrs.content.is_it_free.a": "當然。唯一的區別應該在您從哪裡下載它。這就是全部。",
+  "betterstats.gui.fvrs.content.where_to_get": "我可以在哪裡獲取「完整版本」？",
+  "betterstats.gui.fvrs.content.where_to_get.a": "這就是我想要向您請求的好處所在。我希望您只需點擊下面的鏈接，即可前往下載此模組的完整版本（可能是我的個人網站）。\n如果您在下載模組時遇到任何問題，請隨時聯繫我（模組開發者），我將盡力提供幫助。",
+  "betterstats.gui.fvrs.content.additional_notes": "作為一個附註，您應該牢記以下信息",
+  "betterstats.gui.fvrs.content.additional_notes.a": "鑒於上述提到的事情，這裡有一些有用的提示，可以進一步幫助模組生態系統：\n- 嘗試給予開發者真正無偏見的反饋。例如，我很高興當人們告訴我他們對我的模組的感受，無論是積極的反饋還是批評。\n- 如果可能的話，嘗試為您喜歡的模組做出貢獻。最簡單的方式可能是幫助將您喜歡的模組翻譯成您的母語，幫助模組變得更加容易被廣泛接受。請注意，反饋和像是錯誤報告這樣的事情也算。\n- 如果可能的話，還請努力為開發者提供持續做他們所愛的事情的動力。這可以是參與度，讓他人知道您喜歡的模組，前面提到的事情，或者甚至是幫助資助您喜歡的模組（雖然不是每個人都有能力這樣做）。"
 }
