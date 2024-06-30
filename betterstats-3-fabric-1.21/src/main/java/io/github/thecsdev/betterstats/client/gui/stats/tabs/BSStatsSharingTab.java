@@ -16,6 +16,8 @@ import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
+import io.github.thecsdev.betterstats.client.gui.screen.QuickShareDownloadScreen;
+import io.github.thecsdev.betterstats.client.gui.screen.QuickShareUploadScreen;
 import io.github.thecsdev.betterstats.client.network.BetterStatsClientPlayNetworkHandler;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
@@ -164,6 +166,12 @@ public class BSStatsSharingTab extends StatsTab
 		btn_qs.setText(BST.gui_tpsbs_qs());
 		btn_qs.setTooltip(Tooltip.of(BST.gui_tpsbs_qs_step1()));
 		btn_qs.setEnabled(LEGAL_QS_CONSENT);
+		btn_qs.setOnClick(__ ->
+			MC_CLIENT.setScreen(
+				new QuickShareUploadScreen(
+						MC_CLIENT.currentScreen,
+						initContext.getStatsProvider())
+				.getAsScreen()));
 		panel.addChild(btn_qs, false);
 	}
 	
@@ -185,6 +193,12 @@ public class BSStatsSharingTab extends StatsTab
 		btn_submit.setIcon(new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(20, 60, 20, 20)));
 		btn_submit.setTooltip(Tooltip.of(BST.gui_tpsbs_qs_step2()));
 		btn_submit.setEnabled(LEGAL_QS_CONSENT);
+		btn_submit.setOnClick(__ ->
+		{
+			final var input = in_qscode.getInput().trim();
+			if(StringUtils.isBlank(input)) return;
+			MC_CLIENT.setScreen(new QuickShareDownloadScreen(MC_CLIENT.currentScreen, input).getAsScreen());
+		});
 		panel.addChild(btn_submit, false);
 	}
 	// ==================================================

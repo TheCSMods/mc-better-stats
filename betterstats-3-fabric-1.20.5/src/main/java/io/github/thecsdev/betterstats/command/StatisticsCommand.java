@@ -18,6 +18,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
+import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import io.github.thecsdev.tcdcommons.mixin.hooks.AccessorStatHandler;
@@ -27,6 +28,7 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.argument.RegistryEntryReferenceArgumentType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.command.ServerCommandSource;
@@ -48,11 +50,13 @@ public final class StatisticsCommand
 		final var statistics = literal("statistics").requires(scs -> scs.hasPermissionLevel(2))
 				.then(statistics_edit(cra))
 				.then(statistics_clear())
-				.then(statistics_query(cra));
+				.then(statistics_query(cra))
+				.then(statistics_populateAll(cra));
 		final var stats = literal("stats").requires(scs -> scs.hasPermissionLevel(2))
 				.then(statistics_edit(cra))
 				.then(statistics_clear())
-				.then(statistics_query(cra));
+				.then(statistics_query(cra))
+				.then(statistics_populateAll(cra));
 		
 		//register the command
 		dispatcher.register(statistics);
@@ -95,6 +99,13 @@ public final class StatisticsCommand
 										)
 								)
 					);
+	}
+	private static ArgumentBuilder<ServerCommandSource, ?> statistics_populateAll(CommandRegistryAccess cra)
+	{
+		return literal("danger_zone_populate_all_stats").requires(scs -> BetterStatsConfig.DEBUG_MODE)
+				.then(argument("target", EntityArgumentType.player())
+						.executes(ctx -> execute_populateAll(ctx))
+						);
 	}
 	// --------------------------------------------------
 	/**
@@ -226,6 +237,39 @@ public final class StatisticsCommand
 					TextUtils.literal(Integer.toString(statValue))
 				), false);
 			return statValue;
+		}
+		catch(CommandSyntaxException e)
+		{
+			handleError(context, e);
+			return -1;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	private static int execute_populateAll(CommandContext<ServerCommandSource> context)
+	{
+		try
+		{
+			//get parameter values
+			final var arg_target = EntityArgumentType.getPlayer(context, "target");
+			if(arg_target == null) throw new SimpleCommandExceptionType(TextUtils.literal("Player not found.")).create();
+			
+			//obtain stats provider and populate
+			int affected = 0;
+			final var sp = arg_target.getStatHandler();
+			for(final var statType : (Registry<StatType<Object>>)(Object)Registries.STAT_TYPE)
+			{
+				for(final var stat : (Registry<Object>)statType.getRegistry())
+				{
+					final var s = statType.getOrCreateStat(stat);
+					if(sp.getStat(s) != 0) continue;
+					sp.setStat(arg_target, s, 1);
+					affected++;
+				}
+			}
+			
+			//output and return
+			context.getSource().sendFeedback(() -> TextUtils.translatable("gui.done"), false);
+			return affected;
 		}
 		catch(CommandSyntaxException e)
 		{

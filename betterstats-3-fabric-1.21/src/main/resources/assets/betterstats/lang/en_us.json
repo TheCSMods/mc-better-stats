@@ -96,33 +96,19 @@
 	"betterstats.sas.first_death_to": "%s just died to a %s for their first time.",
 	"betterstats.sas.custom": "%s just increased their '%s' stat value to %s.",
 	
+	
 	"betterstats.gui.tpsbs": "Third-party stats browser",
 	"betterstats.gui.tpsbs.description": "A GUI interface that allows you to view statistics from other sources, such as for example other player's statistics.",
-	"betterstats.gui.tpsbs.tab.fv": "Obtain full version",
-	"betterstats.gui.tpsbs.tab.fv.description": "Please click here to open this tab and view more info.",
-	"betterstats.gui.tpsbs.tab.fv.summary": "This menu allows you to view statistics from other sources, such as for example from other players.\n\nBefore we continue with using this feature however, I would like to ask you for a favor.\n\nPress 'Escape' (ESC) to cancel and leave this menu.",
-	"betterstats.gui.tpsbs.tab.fv.thanks": "Thank you so much for your continued support! I hope that this mod as well as its features are helpful to you.",
 	"betterstats.gui.tpsbs.tab.ssps": "Same-server player search",
 	"betterstats.gui.tpsbs.tab.ssps.description": "Allows you to browse players that are present on the server you are currently connected to, and request their statistics from the server.",
 	"betterstats.gui.tpsbs.tab.ssps.requirements": "This feature requires both you and the server, to have the latest (or better, the same) version of this mod installed.",
 	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "The server could not find a player with the name you requested.\n\nPlease ensure the following criteria are met before retrying:\n1. The name spelling and capitalization are correct\n2. The requested player is online\n3. The requested player has this mod installed\n4. The requested player enabled 'stats sharing' in their config for this mod",
+	
 	"betterstats.gui.tpsbs.tab.qs": "Quick share",
 	"betterstats.gui.tpsbs.tab.qs.description": "With just one click of a button, allows you to quickly share your statistics with anyone using this mod, regardless of where they are right now.",
 	"betterstats.gui.tpsbs.tab.qs.tos_notice": "Quick-share is a feature that works by using my (the mod developer's) servers. As such, it is subject to my TOS and Privacy Policy.",
 	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "To prevent spam and abuse, rate-limits and other limitations may apply.",
 	"betterstats.gui.tpsbs.tab.qs.step_1": "§eStep 1:\n§7Click the button to quickly share the statistics file you are currently viewing. After that, the stats get uploaded, and you are given a 'quick-share code'.",
 	"betterstats.gui.tpsbs.tab.qs.step_2": "§eStep 2:\n§7The person intended to view the shared statistics then types in the 'quick-share code', and clicks on the button to download and view the shared statistics.",
-	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "Enter the quick-share code here",
-	
-	"betterstats.gui.fvrs": "Full version request screen",
-	"betterstats.gui.fvrs.content.whats_this": "What's this?",
-	"betterstats.gui.fvrs.content.whats_this.a": "Due to reasons outlined below, there is now a separate version of this mod called \"full version\". You are reading this because you attempted to access a feature that is only available in that \"full version\" of this mod. That version of this mod may include additional features and utilities (alongside the existing features) that may be useful to you.\n\nWorry not however, as you are able to obtain the full version of this mod at any time, without any limitations or barriers.",
-	"betterstats.gui.fvrs.content.why_full_version": "Why even is there a \"full version\"?",
-	"betterstats.gui.fvrs.content.why_full_version.a": "As you may or may not already know, developing and maintaining this mod as well as mods in general, costs a lot of time and effort, while also unfortunately offering very little in retun for most modders out there (myself included). This makes it very difficult for many modders out there to properly pursue their modding hobbies, as their returns are in some cases close to nothing, for huge amounts of time and effort invested.\n\nTherefore, although I do not wish to inconvenience you, I would like to ask you for a favor before we continue with using the full version features.",
-	"betterstats.gui.fvrs.content.is_it_free": "Is this \"full version\" still free and open-source?",
-	"betterstats.gui.fvrs.content.is_it_free.a": "Of-course. The only difference should be where you're downloading it from. That's all.",
-	"betterstats.gui.fvrs.content.where_to_get": "Where can I get the \"full version\"?",
-	"betterstats.gui.fvrs.content.where_to_get.a": "This is where we get to the favor I'd like to ask you for. I would like you to simply follow the link below, that will then take you to where you can download the full version of this mod (likely my personal website).\nIf you have any issues downloading the mod, feel free to reach out to me (the developer of this mod), and I'll try to help as best I can.",
-	"betterstats.gui.fvrs.content.additional_notes": "Additional notes you should keep in mind, as a sidenote",
-	"betterstats.gui.fvrs.content.additional_notes.a": "Given the things mentioned above, here are some useful tips to keep in mind, that could further help the modding ecosystem:\n- Try to offer genuine unbiased feedback to modders. I for example, love it when people tell me how they feel about my mod(s), regardless of whether it be positive feedback or criticism.\n- If possible, try to contribute to your favorite mods. The simplest way could be for example helping translate your favorite mod(s) to your native language, helping mods become more accessible to a broader audience. Note that feedback and stuff like bug reports also count.\n- If possible, also try to offer incentives for developers to keep doing what they love. This could be something as simple as engagement, letting others know about your favorite mod(s), the things mentioned earlier, or it could even be something like helping fund your favorite mods (altho, not everyone is in a position where they could do something like this)."
+	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "Enter the quick-share code here"
 }
