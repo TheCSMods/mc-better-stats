@@ -117,5 +117,19 @@ public final @Internal class BST
 	public static final MutableText gui_tpsbs_qs_step1()            { return translatable("betterstats.gui.tpsbs.tab.qs.step_1"); }
 	public static final MutableText gui_tpsbs_qs_step2()            { return translatable("betterstats.gui.tpsbs.tab.qs.step_2"); }
 	public static final MutableText gui_tpsbs_qs_step2_entrqscode() { return translatable("betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode"); }
+	// --------------------------------------------------
+	public static final MutableText gui_qsscreen_upload_title()             { return translatable("betterstats.gui.qs_screen.upload.title"); }
+	public static final MutableText gui_qsscreen_upload_stage0()            { return translatable("betterstats.gui.qs_screen.upload.stage_0"); }
+	public static final MutableText gui_qsscreen_upload_stage1()            { return translatable("betterstats.gui.qs_screen.upload.stage_1"); }
+	public static final MutableText gui_qsscreen_upload_stage2()            { return translatable("betterstats.gui.qs_screen.upload.stage_2"); }
+	public static final MutableText gui_qsscreen_upload_stage3()            { return translatable("betterstats.gui.qs_screen.upload.stage_3"); }
+	public static final MutableText gui_qsscreen_upload_stage4(Text qsCode) { return translatable("betterstats.gui.qs_screen.upload.stage_4", qsCode); }
+	//
+	public static final MutableText gui_qsscreen_download_title()   { return translatable("betterstats.gui.qs_screen.download.title"); }
+	public static final MutableText gui_qsscreen_download_stage0()  { return translatable("betterstats.gui.qs_screen.download.stage_0"); }
+	public static final MutableText gui_qsscreen_download_stage1()  { return translatable("betterstats.gui.qs_screen.download.stage_1"); }
+	public static final MutableText gui_qsscreen_download_stage2()  { return translatable("betterstats.gui.qs_screen.download.stage_2"); }
+	public static final MutableText gui_qsscreen_download_stage3()  { return translatable("betterstats.gui.qs_screen.download.stage_3"); }
+	public static final MutableText gui_qsscreen_download_stage4()  { return translatable("betterstats.gui.qs_screen.download.stage_4"); }
 	// ==================================================
 }

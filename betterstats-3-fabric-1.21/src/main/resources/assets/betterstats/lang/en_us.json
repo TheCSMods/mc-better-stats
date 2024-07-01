@@ -110,5 +110,20 @@
 	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "To prevent spam and abuse, rate-limits and other limitations may apply.",
 	"betterstats.gui.tpsbs.tab.qs.step_1": "§eStep 1:\n§7Click the button to quickly share the statistics file you are currently viewing. After that, the stats get uploaded, and you are given a 'quick-share code'.",
 	"betterstats.gui.tpsbs.tab.qs.step_2": "§eStep 2:\n§7The person intended to view the shared statistics then types in the 'quick-share code', and clicks on the button to download and view the shared statistics.",
-	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "Enter the quick-share code here"
+	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "Enter the quick-share code here",
+	
+	
+	"betterstats.gui.qs_screen.upload.title": "Uploading quick-share statistics...",
+	"betterstats.gui.qs_screen.upload.stage_0": "Preparting to upload the statistics...",
+	"betterstats.gui.qs_screen.upload.stage_1": "Fetching better-stats API endpoint URLs...",
+	"betterstats.gui.qs_screen.upload.stage_2": "Fetching cloud upload API endpoint URL...",
+	"betterstats.gui.qs_screen.upload.stage_3": "Uploading statistics to the cloud...",
+	"betterstats.gui.qs_screen.upload.stage_4": "Done. Your quick-share code is: %s",
+	
+	"betterstats.gui.qs_screen.download.title": "Downloading quick-share statistics...",
+	"betterstats.gui.qs_screen.download.stage_0": "Preparting to download the statistics...",
+	"betterstats.gui.qs_screen.download.stage_1": "Fetching better-stats API endpoint URLs...",
+	"betterstats.gui.qs_screen.download.stage_2": "Fetching cloud download API endpoint URL...",
+	"betterstats.gui.qs_screen.download.stage_3": "Downloading statistics from the cloud...",
+	"betterstats.gui.qs_screen.download.stage_4": "Done. Loading the downloaded statistics..."
 }

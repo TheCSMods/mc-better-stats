@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils.GSON;
@@ -12,6 +14,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
 import org.apache.http.client.HttpResponseException;
@@ -28,8 +31,11 @@ import com.google.gson.JsonObject;
 
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils;
-import io.github.thecsdev.tcdcommons.api.util.TextUtils;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResourceManager;
@@ -38,6 +44,7 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.thread.ThreadExecutor;
 
@@ -56,7 +63,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 	public QuickShareUploadScreen(@Nullable Screen parent, IStatsProvider stats)
 			throws NullPointerException
 	{
-		super(parent, TextUtils.translatable("betterstats.gui.qs_screen.upload.title"));
+		super(parent, BST.gui_qsscreen_upload_title());
 		this.stats = Objects.requireNonNull(stats);
 	}
 	// ==================================================
@@ -65,7 +72,34 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		//start the operation
 		__start__stage1();
 		
-		//FIXME - IMPLEMENT GUI
+		//the primary label
+		final var lbl = new TLabelElement(0, 0, getWidth(), getHeight());
+		lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
+		lbl.setTextColor(0xffffff00);
+		addChild(lbl, false);
+		
+		//the primary label text
+		switch(this.__stage)
+		{
+			case 0: lbl.setText(BST.gui_qsscreen_upload_stage0()); break;
+			case 1: lbl.setText(BST.gui_qsscreen_upload_stage1()); break;
+			case 2: lbl.setText(BST.gui_qsscreen_upload_stage2()); break;
+			case 3: lbl.setText(BST.gui_qsscreen_upload_stage3()); break;
+			case 4:
+				//set final stage label text
+				final var codeStr = StringUtils.removeEnd("" + this.__quickShareCode, QSC_SUFFIX)
+					.toUpperCase(Locale.ENGLISH);
+				final var codeTxt = literal(codeStr).formatted(Formatting.WHITE);
+				lbl.setText(BST.gui_qsscreen_upload_stage4(codeTxt));
+				
+				//add a "Done" button
+				final var btn_done = new TButtonWidget((getWidth() / 2) - 75, getHeight() - 30, 150, 20);
+				btn_done.setText(translatable("gui.done"));
+				btn_done.setOnClick(__ -> close());
+				addChild(btn_done, false);
+				break;
+			default: break;
+		}
 	}
 	// ==================================================
 	private @Internal void __start_onError(@Nullable Exception exception)
@@ -98,7 +132,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		
 		//fetch the upload link
 		CachedResourceManager.getResourceAsync(
-				Identifier.of(getModID(), "quick_share/upload_url.json"),
+				Identifier.of(getModID(), "quick_share/latest_upload_url.json"),
 				new IResourceFetchTask<JsonObject>()
 		{
 			public ThreadExecutor<?> getMinecraftClientOrServer() { return MC_CLIENT; }

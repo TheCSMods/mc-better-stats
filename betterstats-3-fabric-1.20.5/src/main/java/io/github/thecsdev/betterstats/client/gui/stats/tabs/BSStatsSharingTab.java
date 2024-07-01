@@ -11,7 +11,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsProperties;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
@@ -33,7 +32,6 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TTextFieldWidget;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 public class BSStatsSharingTab extends StatsTab
 {
@@ -43,12 +41,7 @@ public class BSStatsSharingTab extends StatsTab
 	// --------------------------------------------------
 	private static boolean LEGAL_QS_CONSENT = false;
 	// ==================================================
-	public final @Override Text getName()
-	{
-		final var txt = BST.menu_statsSharing();
-		return BetterStats.getInstance().getConfig().isFullVersion() ?
-				txt : txt.formatted(Formatting.YELLOW);
-	}
+	public final @Override Text getName() { return BST.menu_statsSharing(); }
 	public final boolean isAvailable() { return false; }
 	// ==================================================
 	public final @Override void initFilters(FiltersInitContext initContext)
@@ -101,7 +94,7 @@ public class BSStatsSharingTab extends StatsTab
 		
 		//the input and submit widgets
 		final var n1 = UILayout.nextChildVerticalRect(panel); n1.y += 3;
-		final var a  = BetterStats.getInstance().getConfig().isFullVersion() && cpnh.isPresent() && cpnh.get().comms();
+		final var a  = cpnh.isPresent() && cpnh.get().comms();
 		
 		final var in_name = new TTextFieldWidget(n1.x, n1.y, n1.width - 25, 20);
 		in_name.setPlaceholderText(translatable("gui.abuseReport.type.name"));
@@ -197,7 +190,11 @@ public class BSStatsSharingTab extends StatsTab
 		{
 			final var input = in_qscode.getInput().trim();
 			if(StringUtils.isBlank(input)) return;
-			MC_CLIENT.setScreen(new QuickShareDownloadScreen(MC_CLIENT.currentScreen, input).getAsScreen());
+			MC_CLIENT.setScreen(new QuickShareDownloadScreen(
+					GuiUtils.getCurrentScreenParent(),
+					MC_CLIENT.currentScreen,
+					input
+				).getAsScreen());
 		});
 		panel.addChild(btn_submit, false);
 	}

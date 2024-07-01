@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -24,8 +25,10 @@ import com.google.gson.JsonObject;
 
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
+import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils;
-import io.github.thecsdev.tcdcommons.api.util.TextUtils;
+import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResourceManager;
@@ -39,16 +42,18 @@ import net.minecraft.util.thread.ThreadExecutor;
 public class QuickShareDownloadScreen extends QuickShareScreen
 {
 	// ==================================================
-	private @Internal final String quickShareCode;
+	private @Nullable Screen bssParent;
+	private final String quickShareCode;
 	// --------------------------------------------------
 	private @Internal volatile boolean   __started = false;
 	private @Internal volatile int       __stage   = 0;
 	private @Internal volatile Throwable __error   = null;
 	// ==================================================
-	public QuickShareDownloadScreen(@Nullable Screen parent, String quickShareCode)
+	public QuickShareDownloadScreen(@Nullable Screen bssParent, @Nullable Screen parent, String quickShareCode)
 		throws NullPointerException
 	{
-		super(parent, TextUtils.translatable("betterstats.gui.qs_screen.download.title"));
+		super(parent, BST.gui_qsscreen_download_title());
+		this.bssParent = bssParent;
 		Objects.requireNonNull(quickShareCode);
 		quickShareCode = quickShareCode.toLowerCase(Locale.ENGLISH);
 		if(!quickShareCode.endsWith(QSC_SUFFIX)) quickShareCode += QSC_SUFFIX;
@@ -60,7 +65,22 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		//start the operation
 		__start__stage1();
 		
-		//FIXME - IMPLEMENT GUI
+		//the primary label
+		final var lbl = new TLabelElement(0, 0, getWidth(), getHeight());
+		lbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
+		lbl.setTextColor(0xffffff00);
+		addChild(lbl, false);
+		
+		//the primary label text
+		switch(this.__stage)
+		{
+			case 0: lbl.setText(BST.gui_qsscreen_download_stage0()); break;
+			case 1: lbl.setText(BST.gui_qsscreen_download_stage1()); break;
+			case 2: lbl.setText(BST.gui_qsscreen_download_stage2()); break;
+			case 3: lbl.setText(BST.gui_qsscreen_download_stage3()); break;
+			case 4: lbl.setText(BST.gui_qsscreen_download_stage4()); break;
+			default: break;
+		}
 	}
 	// ==================================================
 	private @Internal void __start_onError(@Nullable Exception exception)
@@ -82,12 +102,11 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		
 		//fetch the API links
 		BetterStatsWebApiUtils.fetchBssApiLinksAsync(MC_CLIENT,
-				json -> __start__stage2(json),
+				json -> __start__stage2and3(json),
 				error -> __start_onError(error));
 	}
 	
-
-	private @Internal void __start__stage2(final JsonObject links)
+	private @Internal void __start__stage2and3(final JsonObject links)
 	{
 		//prepare
 		this.__stage = 2;
@@ -106,47 +125,79 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 			public final @Override CachedResource<byte[]> fetchResourceSync() throws Exception
 			{
 				//fetch the download link
-				@Nullable JsonObject            downloadUrlData = null;
-				@Nullable CloseableHttpResponse response        = null;
-				try
+				final AtomicReference<JsonObject> du_ready = new AtomicReference<JsonObject>();
+				final AtomicReference<Exception>  du_error = new AtomicReference<Exception>();
+				CachedResourceManager.getResourceSync( //NOTE: MUST BE SYNCHRONOUS!
+						Identifier.of(
+								getModID(),
+								"quick_share/download_urls/" +
+								QuickShareDownloadScreen.this.quickShareCode + ".json"),
+						new IResourceFetchTask<JsonObject>()
 				{
-					//perform the http request
-					response = fetchSync(links.get("quickshare_gdu").getAsString(), new FetchOptions()
+					public final @Override ThreadExecutor<?> getMinecraftClientOrServer() { return MC_CLIENT; }
+					public final @Override Class<JsonObject> getResourceType() { return JsonObject.class; }
+					public final @Override CachedResource<JsonObject> fetchResourceSync() throws Exception
 					{
-						public final @Override String method() { return "POST"; }
-						public final @Override Object body()
+						//check if the API is available
+						if(!links.has("quickshare_gdu"))
+							throw new NullPointerException("Quick-share download API is unavailable.");
+						
+						//perform the request
+						@Nullable CloseableHttpResponse response = null;
+						try
 						{
-							final var json = new JsonObject();
-							json.addProperty("file", QuickShareDownloadScreen.this.quickShareCode);
-							return json;
+							response = fetchSync(links.get("quickshare_gdu").getAsString(), new FetchOptions()
+							{
+								public final @Override String method() { return "POST"; }
+								public final @Override Object body()
+								{
+									final var json = new JsonObject();
+									json.addProperty("file", QuickShareDownloadScreen.this.quickShareCode);
+									return json;
+								}
+							});
+							
+							//collect the response message
+							String responseMessage = "";
+							if(response.getEntity() != null)
+								responseMessage = EntityUtils.toString(response.getEntity());
+							
+							//handle the response status code
+							final var statusCode = response.getStatusLine().getStatusCode();
+							final var statusMessage = response.getStatusLine().getReasonPhrase();
+							if(statusCode != 200)
+								throw new HttpException(
+									"BSS API server response message:\n----------\n" + responseMessage + "\n----------",
+									new HttpResponseException(statusCode, statusMessage));
+							
+							//parse the response
+							final var json = GSON.fromJson(responseMessage, JsonObject.class);
+							@Nullable Instant expires = null;
+							try { expires = Instant.parse(json.get("expires").getAsString()); }
+							catch(Exception parseExc) { expires = Instant.now().plusSeconds(30); }
+							
+							//return the response json
+							return new CachedResource<JsonObject>(json, responseMessage.length(), expires);
 						}
-					});
-					
-					//collect the response message
-					String responseMessage = "";
-					if(response.getEntity() != null)
-						responseMessage = EntityUtils.toString(response.getEntity());
-					
-					//handle the response status code
-					final var statusCode = response.getStatusLine().getStatusCode();
-					final var statusMessage = response.getStatusLine().getReasonPhrase();
-					if(statusCode != 200)
-						throw new HttpException(
-							"BSS API server response message:\n----------\n" + responseMessage + "\n----------",
-							new HttpResponseException(statusCode, statusMessage));
-					
-					//parse the response json
-					downloadUrlData = GSON.fromJson(responseMessage, JsonObject.class);
-				}
-				finally { if(response != null) IOUtils.closeQuietly(response); }
+						finally { if(response != null) IOUtils.closeQuietly(response); }
+					}
+					public final @Override void onError(Exception error) { du_error.set(error); }
+					public final @Override void onReady(JsonObject result) { du_ready.set(result); }
+				});
+				
+				//handle the download link fetch outcome
+				if(du_error.get() != null)
+					throw du_error.get();
+				else if(du_ready.get() == null)
+					throw new NullPointerException("Failed to obtain quick-share download URL.");
 				
 				//prepare to download the MCBS file
 				QuickShareDownloadScreen.this.__stage = 3;
 				QuickShareDownloadScreen.this.refresh();
 				
+				final var downloadUrlData = du_ready.get();
 				final var url     = downloadUrlData.get("url").getAsString();
-				final var method  = downloadUrlData.get("method").getAsString();
-				//final var expires = Instant.parse(downloadUrlData.get("expires").getAsString()); -- download url expiration is ignored for now
+				final var method  = downloadUrlData.get("method").getAsString().toUpperCase(Locale.ENGLISH);
 				final var headers = downloadUrlData.get("headers").getAsJsonObject()
 						.entrySet().stream()
 						.map(entry -> new BasicHeader(entry.getKey(), entry.getValue().getAsString()))
@@ -158,6 +209,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 							" to download the quick-share file, but I only support HTTP GET.");
 				
 				//perform the download
+				@Nullable CloseableHttpResponse response = null;
 				try
 				{
 					//fetch
@@ -193,24 +245,26 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 					//finally, conclude
 					@Nullable Instant expires_file = null;
 					try { expires_file = Instant.parse(downloadUrlData.get("expires_file").getAsString()); }
-					catch(Exception parseExc) { expires_file = Instant.now().plus(Duration.ofHours(48)); }
+					catch(Exception parseExc) { expires_file = Instant.now().plus(Duration.ofDays(1)); }
 					
 					return new CachedResource<byte[]>(responseBody, responseBody.length, expires_file);
 				}
 				finally { if(response != null) IOUtils.closeQuietly(response); }
 			}
 			public final @Override void onError(Exception error) { __start_onError(error); }
-			public final @Override void onReady(byte[] result) { __start__stage3(result); }
+			public final @Override void onReady(byte[] result) { __start__stage4(result); }
 		});
 	}
 	
-	private @Internal void __start__stage3(final byte[] mcbs)
+	private @Internal void __start__stage4(final byte[] mcbs)
 	{
+		this.__stage = 4;
+		refresh();
 		try
 		{
 			final var buffer = new PacketByteBuf(Unpooled.wrappedBuffer(mcbs));
 			final var stats  = new RAMStatsProvider(buffer, true);
-			final var bss    = new BetterStatsScreen(null, stats);
+			final var bss    = new BetterStatsScreen(this.bssParent, stats);
 			MC_CLIENT.setScreen(bss.getAsScreen());
 		}
 		catch(Exception exc) { __start_onError(exc); }

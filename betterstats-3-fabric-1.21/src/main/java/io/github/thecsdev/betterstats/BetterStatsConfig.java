@@ -8,8 +8,6 @@ import io.github.thecsdev.tcdcommons.api.config.annotation.SerializedAs;
 public class BetterStatsConfig extends AutoConfig
 {
 	// ==================================================
-	private static @NonSerialized boolean FULL_VERSION = false;
-	// ==================================================
 	public static @NonSerialized boolean DEBUG_MODE = false;
 	// --------------------------------------------------
 	public @SerializedAs("common-forceFullVersion")      boolean forceFullVersion          = false; //v3.11+
@@ -22,20 +20,5 @@ public class BetterStatsConfig extends AutoConfig
 	public @SerializedAs("server-sasConfig")             SASConfig sasConfig = new SASConfig();
 	// ==================================================
 	public BetterStatsConfig(String name) { super(name); }
-	static
-	{
-		//check for the "full version" file's presence
-		try
-		{
-			final var s = BetterStats.class.getResourceAsStream("/betterstats.full.txt");
-			if(s != null) { s.close(); FULL_VERSION = true; }
-		}
-		catch(Exception e) { FULL_VERSION = true; }
-	}
-	// ==================================================
-	/**
-	 * Returns {@code true} if all features should always be available.
-	 */
-	public final boolean isFullVersion() { return FULL_VERSION || this.forceFullVersion; }
 	// ==================================================
 }

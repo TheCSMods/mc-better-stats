@@ -32,9 +32,14 @@ abstract class QuickShareScreen extends TScreenPlus implements IParentScreenProv
 	}
 	// --------------------------------------------------
 	public final @Override Screen getParentScreen() { return this.parent; }
+	public @Virtual @Override void close() { MC_CLIENT.setScreen(getParentScreen()); }
 	// ==================================================
 	protected final void refresh() { MC_CLIENT.executeSync(() -> { if(!isOpen()) return; clearChildren(); init(); }); }
 	// --------------------------------------------------
-	public @Virtual @Override void renderBackground(TDrawContext pencil) { pencil.drawTFill(COLOR_BACKGROUND); }
+	public @Virtual @Override void renderBackground(TDrawContext pencil)
+	{
+		super.renderBackground(pencil);
+		pencil.drawTFill(COLOR_BACKGROUND);
+	}
 	// ==================================================
 }
