@@ -34,6 +34,7 @@ import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.screen.TStackTraceScreen;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
@@ -106,8 +107,12 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 	{
 		this.__stage = -1;
 		this.__error = exception;
-		new Exception("Failed to quick-share an MCBS file.", exception).printStackTrace();
-		refresh();
+		if(!isOpen()) return; //break the operation if the user closed the screen
+		
+		final var exc = new Exception("Failed to quick-share an MCBS file.", exception);
+		exc.printStackTrace();
+		MC_CLIENT.setScreen(new TStackTraceScreen(getParentScreen(), exc).getAsScreen());
+		//refresh();
 	}
 	// --------------------------------------------------
 	private @Internal void __start__stage1()
@@ -116,6 +121,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		if(this.__started) return;
 		this.__started = true;
 		this.__stage = 1;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		//note: do not call `refresh()` here
 		
 		//fetch the API links
@@ -128,6 +134,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 	{
 		//prepare
 		this.__stage = 2;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
 		
 		//fetch the upload link
@@ -186,6 +193,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 	{
 		//prepare
 		this.__stage = 3;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
 		
 		//perform the upload
@@ -291,6 +299,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 	private @Internal void __start__stage4()
 	{
 		this.__stage = 4;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
 	}
 	// ==================================================

@@ -28,6 +28,7 @@ import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
+import io.github.thecsdev.tcdcommons.api.client.gui.screen.TStackTraceScreen;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
@@ -87,9 +88,13 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 	{
 		this.__stage = -1;
 		this.__error = exception;
-		new Exception("Failed to retrieve a quick-shared MCBS file '" +
-				this.quickShareCode + "'", exception).printStackTrace();
-		refresh();
+		if(!isOpen()) return; //break the operation if the user closed the screen
+		
+		final var exc = new Exception("Failed to download a quick-shared MCBS file '" +
+								this.quickShareCode + "'", exception);
+		exc.printStackTrace();
+		MC_CLIENT.setScreen(new TStackTraceScreen(getParentScreen(), exc).getAsScreen());
+		//refresh();
 	}
 	// --------------------------------------------------
 	private @Internal void __start__stage1()
@@ -98,6 +103,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		if(this.__started) return;
 		this.__started = true;
 		this.__stage = 1;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		//note: do not call `refresh()` here
 		
 		//fetch the API links
@@ -110,6 +116,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 	{
 		//prepare
 		this.__stage = 2;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
 		
 		//parse the user-input identifier
@@ -259,6 +266,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 	private @Internal void __start__stage4(final byte[] mcbs)
 	{
 		this.__stage = 4;
+		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
 		try
 		{
