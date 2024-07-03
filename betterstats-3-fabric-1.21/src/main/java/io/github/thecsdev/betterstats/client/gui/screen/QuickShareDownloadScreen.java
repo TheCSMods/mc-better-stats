@@ -5,6 +5,7 @@ import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils.GSON;
 import static io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.fetchSync;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Locale;
@@ -13,7 +14,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
-import org.apache.http.HttpException;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.message.BasicHeader;
@@ -173,7 +173,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 							final var statusCode = response.getStatusLine().getStatusCode();
 							final var statusMessage = response.getStatusLine().getReasonPhrase();
 							if(statusCode != 200)
-								throw new HttpException(
+								throw new IOException(
 									"BSS API server response message:\n----------\n" + responseMessage + "\n----------",
 									new HttpResponseException(statusCode, statusMessage));
 							
@@ -237,7 +237,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 							responseBody = EntityUtils.toString(response.getEntity());
 						
 						//throw the exception
-						throw new HttpException(
+						throw new IOException(
 								"Cloud server response message:\n----------\n" +
 									responseBody + "\n----------",
 								new HttpResponseException(statusCode, statusMessage));
@@ -247,7 +247,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 					final byte[] responseBody = (response.getEntity() != null) ?
 							EntityUtils.toByteArray(response.getEntity()) : null;
 					if(responseBody == null)
-						throw new HttpException("Cloud server responded with an empty file with no data inside of it.");
+						throw new IOException("Cloud server responded with an empty file with no data inside of it.");
 					
 					//finally, conclude
 					@Nullable Instant expires_file = null;

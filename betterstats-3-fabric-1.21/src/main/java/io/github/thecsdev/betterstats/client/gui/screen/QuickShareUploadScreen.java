@@ -1,10 +1,10 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
-import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils.GSON;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
+import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 import static io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.fetchSync;
 
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.util.Objects;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
-import org.apache.http.HttpException;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.ContentType;
@@ -163,13 +162,13 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 				{
 					//read the response body as string
 					final @Nullable var httpResultEntity = httpResult.getEntity();
-					if(httpResultEntity == null) throw new HttpException("Missing HTTP response body.");
+					if(httpResultEntity == null) throw new IOException("Missing HTTP response body.");
 					httpResultStr = EntityUtils.toString(httpResultEntity);
 					
 					//throw an exception if the server does not respond with status 200
 					final int statusCode = httpResult.getStatusLine().getStatusCode();
 					if(statusCode != 200)
-						throw new HttpException(
+						throw new IOException(
 							"BSS API server response message:\n----------\n" + httpResultStr + "\n----------",
 							new HttpResponseException(statusCode, httpResult.getStatusLine().getReasonPhrase()));
 				}
@@ -268,7 +267,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 					final var statusCode = response.getStatusLine().getStatusCode();
 					final var statusReason = response.getStatusLine().getReasonPhrase();
 					if(statusCode < 200 || statusCode > 299)
-						throw new HttpException(
+						throw new IOException(
 							"Cloud server response message:\n----------\n" +
 								responseBody + "\n----------",
 							new HttpResponseException(statusCode, statusReason));
