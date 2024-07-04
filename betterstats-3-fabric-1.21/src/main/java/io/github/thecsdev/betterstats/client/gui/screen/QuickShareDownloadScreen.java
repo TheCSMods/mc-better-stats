@@ -27,9 +27,12 @@ import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.util.io.RAMStatsProvider;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UIListLayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
-import io.github.thecsdev.tcdcommons.api.client.gui.screen.TStackTraceScreen;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.TStackTracePanel;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.Axis2D;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.VerticalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResourceManager;
@@ -64,7 +67,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 	protected final @Override void init()
 	{
 		//start the operation
-		__start__stage1();
+		__start__stage1and2and3();
 		
 		//the primary label
 		final var lbl = new TLabelElement(0, 0, getWidth(), getHeight());
@@ -75,6 +78,17 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		//the primary label text
 		switch(this.__stage)
 		{
+			case -1:
+				removeChild(lbl, false);
+				int w = (int) ((float) this.getWidth() * 0.6F);
+				if (w < 300) w = 300; if (w > this.getWidth()) w = this.getWidth();
+				final var panel_st = new TStackTracePanel(0, 0, w, this.getHeight() - 50, this.__error);
+				panel_st.setCloseAction(() -> close());
+				panel_st.setTitle(BST.gui_qsscreen_download_stageN1().getString());
+				panel_st.setDescription(this.__error.getMessage());
+				addChild(panel_st, false);
+				new UIListLayout(Axis2D.Y, VerticalAlignment.CENTER, HorizontalAlignment.CENTER).apply(this);
+				break;
 			case 0: lbl.setText(BST.gui_qsscreen_download_stage0()); break;
 			case 1: lbl.setText(BST.gui_qsscreen_download_stage1()); break;
 			case 2: lbl.setText(BST.gui_qsscreen_download_stage2()); break;
@@ -89,15 +103,10 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		this.__stage = -1;
 		this.__error = exception;
 		if(!isOpen()) return; //break the operation if the user closed the screen
-		
-		final var exc = new Exception("Failed to download a quick-shared MCBS file '" +
-								this.quickShareCode + "'", exception);
-		exc.printStackTrace();
-		MC_CLIENT.setScreen(new TStackTraceScreen(getParentScreen(), exc).getAsScreen());
-		//refresh();
+		refresh();
 	}
 	// --------------------------------------------------
-	private @Internal void __start__stage1()
+	private @Internal void __start__stage1and2and3()
 	{
 		//prepare
 		if(this.__started) return;
@@ -106,31 +115,49 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		if(!isOpen()) return; //break the operation if the user closed the screen
 		//note: do not call `refresh()` here
 		
-		//fetch the API links
-		BetterStatsWebApiUtils.fetchBssApiLinksAsync(MC_CLIENT,
-				json -> __start__stage2and3(json),
-				error -> __start_onError(error));
-	}
-	
-	private @Internal void __start__stage2and3(final JsonObject links)
-	{
-		//prepare
-		this.__stage = 2;
-		if(!isOpen()) return; //break the operation if the user closed the screen
-		refresh();
-		
 		//parse the user-input identifier
-		@Nullable Identifier id = null;
-		try { id = Identifier.of(getModID(), "quick_share/downloads/" + this.quickShareCode); }
+		@Nullable Identifier mcbsCachedId = null;
+		try { mcbsCachedId = Identifier.of(getModID(), "quick_share/downloads/" + this.quickShareCode); }
 		catch(Exception e) { __start_onError(e); return; }
 		
 		//fetch
-		CachedResourceManager.getResourceAsync(id, new IResourceFetchTask<byte[]>()
+		CachedResourceManager.getResourceAsync(mcbsCachedId, new IResourceFetchTask<byte[]>()
 		{
 			public final @Override ThreadExecutor<?> getMinecraftClientOrServer() { return MC_CLIENT; }
 			public final @Override Class<byte[]> getResourceType() { return byte[].class; }
 			public final @Override CachedResource<byte[]> fetchResourceSync() throws Exception
 			{
+				//fetch the API URLs
+				final AtomicReference<JsonObject> au_ready = new AtomicReference<JsonObject>();
+				final AtomicReference<Exception>  au_error = new AtomicReference<Exception>();
+				BetterStatsWebApiUtils.fetchBssApiLinks(
+						false, MC_CLIENT,
+						json -> au_ready.set(json),
+						error -> au_error.set(error));
+				
+				//handle the API URL fetch outcome
+				if(au_error.get() != null)
+				{
+					if(au_error.get() instanceof HttpResponseException hre)
+					{
+						final var msg = "HTTP " + hre.getStatusCode() + " " + hre.getReasonPhrase();
+						final var txt = BST.gui_qsscreen_err_cmmn_fau_httpN200(msg).getString();
+						throw new IOException(txt, au_error.get());
+					}
+					else
+					{
+						final var txt = BST.gui_qsscreen_err_cmmn_fau_generic().getString();
+						throw new IOException(txt, au_error.get());
+					}
+				}
+				else if(au_ready.get() == null) throw new NullPointerException("This shouldn't happen.");
+				
+				//go from stage 1 into stage 2
+				QuickShareDownloadScreen.this.__stage = 2;
+				if(!QuickShareDownloadScreen.this.isOpen())
+					throw new RuntimeException("Aborted."); //break the operation if the user closed the screen
+				QuickShareDownloadScreen.this.refresh();
+				
 				//fetch the download link
 				final AtomicReference<JsonObject> du_ready = new AtomicReference<JsonObject>();
 				final AtomicReference<Exception>  du_error = new AtomicReference<Exception>();
@@ -146,6 +173,7 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 					public final @Override CachedResource<JsonObject> fetchResourceSync() throws Exception
 					{
 						//check if the API is available
+						final var links = au_ready.get();
 						if(!links.has("quickshare_gdu"))
 							throw new NullPointerException("Quick-share download API is unavailable.");
 						
@@ -158,9 +186,10 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 								public final @Override String method() { return "POST"; }
 								public final @Override Object body()
 								{
-									final var json = new JsonObject();
-									json.addProperty("file", QuickShareDownloadScreen.this.quickShareCode);
-									return json;
+									final var bodyJson = new JsonObject();
+									addTelemetryData(bodyJson);
+									bodyJson.addProperty("file", QuickShareDownloadScreen.this.quickShareCode);
+									return bodyJson;
 								}
 							});
 							
@@ -174,7 +203,9 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 							final var statusMessage = response.getStatusLine().getReasonPhrase();
 							if(statusCode != 200)
 								throw new IOException(
-									"BSS API server response message:\n----------\n" + responseMessage + "\n----------",
+									BST.gui_qsscreen_err_dwnl_gdu_httpN200(
+											"HTTP " + statusCode + " " + statusMessage + "\n" + responseMessage
+										).getString(),
 									new HttpResponseException(statusCode, statusMessage));
 							
 							//parse the response
@@ -193,15 +224,16 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 				});
 				
 				//handle the download link fetch outcome
-				if(du_error.get() != null)
-					throw du_error.get();
-				else if(du_ready.get() == null)
-					throw new NullPointerException("Failed to obtain quick-share download URL.");
+				if(du_error.get() != null) throw du_error.get();
+				else if(du_ready.get() == null) throw new NullPointerException("This shouldn't happen.");
 				
-				//prepare to download the MCBS file
+				//go from stage 2 into stage 3
 				QuickShareDownloadScreen.this.__stage = 3;
+				if(!QuickShareDownloadScreen.this.isOpen())
+					throw new RuntimeException("Aborted."); //break the operation if the user closed the screen
 				QuickShareDownloadScreen.this.refresh();
 				
+				//prepare to download the MCBS file
 				final var downloadUrlData = du_ready.get();
 				final var url     = downloadUrlData.get("url").getAsString();
 				final var method  = downloadUrlData.get("method").getAsString().toUpperCase(Locale.ENGLISH);
@@ -238,8 +270,9 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 						
 						//throw the exception
 						throw new IOException(
-								"Cloud server response message:\n----------\n" +
-									responseBody + "\n----------",
+								BST.gui_qsscreen_err_dwnl_act_httpN200(
+										"HTTP " + statusCode + " " + statusMessage + "\n" + responseBody
+									).getString(),
 								new HttpResponseException(statusCode, statusMessage));
 					}
 					

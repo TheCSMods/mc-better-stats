@@ -5,12 +5,13 @@ import static io.github.thecsdev.betterstats.BetterStatsProperties.URL_REMOTE_AP
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.fetchSync;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.Consumer;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpException;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.util.EntityUtils;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +45,21 @@ public final class BetterStatsWebApiUtils
 			Consumer<JsonObject> onReady,
 			Consumer<Exception> onError) throws NullPointerException
 	{
-		CachedResourceManager.getResourceAsync(Identifier.of(getModID(), "links.json"), new IResourceFetchTask<JsonObject>()
+		fetchBssApiLinks(true, minecraftClientOrServer, onReady, onError);
+	}
+	
+	/**
+	 * Fetches {@link BetterStats}'s API URLs.
+	 */
+	public static final void fetchBssApiLinks(
+			boolean isAsync,
+			ThreadExecutor<?> minecraftClientOrServer,
+			Consumer<JsonObject> onReady,
+			Consumer<Exception> onError) throws NullPointerException
+	{
+		//prepare to fetch
+		final var crId = Identifier.of(getModID(), "links.json");
+		final var irft = new IResourceFetchTask<JsonObject>()
 		{
 			public final @Override ThreadExecutor<?> getMinecraftClientOrServer() { return MC_CLIENT; }
 			public final @Override Class<JsonObject> getResourceType() { return JsonObject.class; }
@@ -58,34 +73,28 @@ public final class BetterStatsWebApiUtils
 					//throw an exception if the server does not respond with status 200
 					final int statusCode = httpResult.getStatusLine().getStatusCode();
 					if(statusCode != 200)
-						throw new IOException("Failed to obtain BSS API links because the server responded with: " +
-								"HTTP " + statusCode + " " + httpResult.getStatusLine().getReasonPhrase());
+						throw new HttpResponseException(statusCode, httpResult.getStatusLine().getReasonPhrase());
 					
 					//read the response body as string
 					final @Nullable var httpResultEntity = httpResult.getEntity();
-					if(httpResultEntity == null)
-						throw new IOException("Failed to obtain BSS API links because the server did not "
-								+ "include a response body.");;
+					if(httpResultEntity == null) throw new HttpException("Missing HTTP response body.");
 					httpResultStr = EntityUtils.toString(httpResultEntity);
 				}
 				finally { IOUtils.closeQuietly(httpResult); }
 				
-				//parse the http response into json
-				@Nullable JsonObject result = null;
-				try { result = GSON.fromJson(httpResultStr, JsonObject.class); }
-				catch(Exception e)
-				{
-					throw new IOException("Failed to obtain BSS API links because the JSON data "
-							+ "could not be parsed.", e);
-				}
-				
 				//return the result
-				final var expiration = Instant.now().plus(Duration.ofMinutes(42));
-				return new CachedResource<JsonObject>(result, httpResultStr.length(), expiration);
+				return new CachedResource<JsonObject>(
+						GSON.fromJson(httpResultStr, JsonObject.class),
+						httpResultStr.length(),
+						Instant.now().plus(Duration.ofMinutes(42)));
 			}
 			public final @Override void onReady(JsonObject result) { onReady.accept(result); }
 			public final @Override void onError(Exception error) { onError.accept(error); }
-		});
+		};
+		
+		//fetch
+		if(isAsync) CachedResourceManager.getResourceAsync(crId, irft);
+		else CachedResourceManager.getResourceSync(crId, irft);
 	}
 	// ==================================================
 }

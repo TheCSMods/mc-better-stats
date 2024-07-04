@@ -32,10 +32,13 @@ import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.StatsProviderIO;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils;
+import io.github.thecsdev.tcdcommons.api.client.gui.layout.UIListLayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
-import io.github.thecsdev.tcdcommons.api.client.gui.screen.TStackTraceScreen;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.TStackTracePanel;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.Axis2D;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
+import io.github.thecsdev.tcdcommons.api.util.enumerations.VerticalAlignment;
 import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResourceManager;
@@ -81,6 +84,17 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		//the primary label text
 		switch(this.__stage)
 		{
+			case -1:
+				removeChild(lbl, false);
+				int w = (int) ((float) this.getWidth() * 0.6F);
+				if (w < 300) w = 300; if (w > this.getWidth()) w = this.getWidth();
+				final var panel_st = new TStackTracePanel(0, 0, w, this.getHeight() - 50, this.__error);
+				panel_st.setCloseAction(() -> close());
+				panel_st.setTitle(BST.gui_qsscreen_upload_stageN1().getString());
+				panel_st.setDescription(this.__error.getMessage());
+				addChild(panel_st, false);
+				new UIListLayout(Axis2D.Y, VerticalAlignment.CENTER, HorizontalAlignment.CENTER).apply(this);
+				break;
 			case 0: lbl.setText(BST.gui_qsscreen_upload_stage0()); break;
 			case 1: lbl.setText(BST.gui_qsscreen_upload_stage1()); break;
 			case 2: lbl.setText(BST.gui_qsscreen_upload_stage2()); break;
@@ -107,11 +121,7 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		this.__stage = -1;
 		this.__error = exception;
 		if(!isOpen()) return; //break the operation if the user closed the screen
-		
-		final var exc = new Exception("Failed to quick-share an MCBS file.", exception);
-		exc.printStackTrace();
-		MC_CLIENT.setScreen(new TStackTraceScreen(getParentScreen(), exc).getAsScreen());
-		//refresh();
+		refresh();
 	}
 	// --------------------------------------------------
 	private @Internal void __start__stage1()
@@ -126,7 +136,20 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		//fetch the API links
 		BetterStatsWebApiUtils.fetchBssApiLinksAsync(MC_CLIENT,
 				json -> __start__stage2(json),
-				error -> __start_onError(error));
+				error ->
+				{
+					if(error instanceof HttpResponseException hre)
+					{
+						final var msg = "HTTP " + hre.getStatusCode() + " " + hre.getReasonPhrase();
+						final var txt = BST.gui_qsscreen_err_cmmn_fau_httpN200(msg).getString();
+						__start_onError(new IOException(txt, error));
+					}
+					else
+					{
+						final var txt = BST.gui_qsscreen_err_cmmn_fau_generic().getString();
+						__start_onError(new IOException(txt, error));
+					}
+				});
 	}
 	
 	private @Internal void __start__stage2(final JsonObject links)
@@ -153,9 +176,13 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 				//send an http request to the endpoint
 				final var httpResult = fetchSync(endpoint, new FetchOptions()
 				{
-					public final @Override String   method() { return "POST"; }
-					public final @Override Header[] headers() { return new Header[] { new BasicHeader("Content-Type", "application/json") }; }
-					public final @Override Object   body() { return "{}"; }
+					public final @Override String method() { return "POST"; }
+					public final @Override Object body()
+					{
+						final var bodyJson = new JsonObject();
+						addTelemetryData(bodyJson);
+						return bodyJson;
+					}
 				});
 				@Nullable String httpResultStr = null;
 				try
@@ -167,9 +194,12 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 					
 					//throw an exception if the server does not respond with status 200
 					final int statusCode = httpResult.getStatusLine().getStatusCode();
+					final var statusMessage = httpResult.getStatusLine().getReasonPhrase();
 					if(statusCode != 200)
 						throw new IOException(
-							"BSS API server response message:\n----------\n" + httpResultStr + "\n----------",
+							BST.gui_qsscreen_err_upld_guu_httpN200(
+									"HTTP " + statusCode + " " + statusMessage + "\n" + httpResultStr
+								).getString(),
 							new HttpResponseException(statusCode, httpResult.getStatusLine().getReasonPhrase()));
 				}
 				finally { IOUtils.closeQuietly(httpResult); }
@@ -268,8 +298,9 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 					final var statusReason = response.getStatusLine().getReasonPhrase();
 					if(statusCode < 200 || statusCode > 299)
 						throw new IOException(
-							"Cloud server response message:\n----------\n" +
-								responseBody + "\n----------",
+							BST.gui_qsscreen_err_upld_act_httpN200(
+									"HTTP " + statusCode + " " + statusReason + "\n" + responseBody
+								).getString(),
 							new HttpResponseException(statusCode, statusReason));
 					
 					//finally, conclude

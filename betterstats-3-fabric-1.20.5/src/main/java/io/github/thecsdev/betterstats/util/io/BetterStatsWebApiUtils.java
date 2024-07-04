@@ -45,7 +45,21 @@ public final class BetterStatsWebApiUtils
 			Consumer<JsonObject> onReady,
 			Consumer<Exception> onError) throws NullPointerException
 	{
-		CachedResourceManager.getResourceAsync(Identifier.of(getModID(), "links.json"), new IResourceFetchTask<JsonObject>()
+		fetchBssApiLinks(true, minecraftClientOrServer, onReady, onError);
+	}
+	
+	/**
+	 * Fetches {@link BetterStats}'s API URLs.
+	 */
+	public static final void fetchBssApiLinks(
+			boolean isAsync,
+			ThreadExecutor<?> minecraftClientOrServer,
+			Consumer<JsonObject> onReady,
+			Consumer<Exception> onError) throws NullPointerException
+	{
+		//prepare to fetch
+		final var crId = Identifier.of(getModID(), "links.json");
+		final var irft = new IResourceFetchTask<JsonObject>()
 		{
 			public final @Override ThreadExecutor<?> getMinecraftClientOrServer() { return MC_CLIENT; }
 			public final @Override Class<JsonObject> getResourceType() { return JsonObject.class; }
@@ -76,7 +90,11 @@ public final class BetterStatsWebApiUtils
 			}
 			public final @Override void onReady(JsonObject result) { onReady.accept(result); }
 			public final @Override void onError(Exception error) { onError.accept(error); }
-		});
+		};
+		
+		//fetch
+		if(isAsync) CachedResourceManager.getResourceAsync(crId, irft);
+		else CachedResourceManager.getResourceSync(crId, irft);
 	}
 	// ==================================================
 }
