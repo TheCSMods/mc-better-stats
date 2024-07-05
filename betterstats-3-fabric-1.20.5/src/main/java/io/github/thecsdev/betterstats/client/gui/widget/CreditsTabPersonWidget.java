@@ -55,7 +55,7 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 		addChild(icon, true);
 		
 		final var nameLabel = new TLabelElement(25, 0, getWidth(), 20, literal(this.person.getName()));
-		nameLabel.setTextScale(0.8f);
+		nameLabel.setTextScale(0.9f);
 		addChild(nameLabel, true);
 		
 		final @Nullable URL visitUrl = this.person.getContact().getHomepageUrl();
@@ -64,7 +64,7 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 			final var visitBtnLbl = new TLabelElement(0, 0, visitBtn.getWidth(), visitBtn.getHeight());
 			visitBtnLbl.setText(TEXT_OPEN_LINK);
 			visitBtnLbl.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-			visitBtnLbl.setTextScale(0.7f);
+			visitBtnLbl.setTextScale(0.9f);
 			visitBtn.addChild(visitBtnLbl, true);
 		}
 		visitBtn.setEnabled(visitUrl != null);

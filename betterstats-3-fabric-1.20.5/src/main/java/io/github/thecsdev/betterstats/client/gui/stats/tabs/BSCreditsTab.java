@@ -68,7 +68,7 @@ public final class BSCreditsTab extends StatsTab
 				text);
 		lbl.setTextHorizontalAlignment(HorizontalAlignment.LEFT);
 		lbl.setTextColor(0xffffff00);
-		lbl.setTextScale(0.8f);
+		lbl.setTextScale(0.9f);
 		panel_tGroup.addChild(lbl);
 	}
 	// --------------------------------------------------

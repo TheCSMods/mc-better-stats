@@ -169,9 +169,15 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 			public CachedResource<JsonObject> fetchResourceSync() throws Exception
 			{
 				//obtain the API url
-				@Nullable String endpoint = null;
+				String endpoint = null;
 				try { endpoint = links.get("quickshare_guu").getAsString(); }
-				catch(Exception e) { throw new IOException("Failed to parse BSS API url.", e); }
+				catch(Exception e)
+				{
+					var additionalNote = "-";
+					if(links.has("quickshare_notice") && links.get("quickshare_notice").isJsonPrimitive())
+						additionalNote = links.get("quickshare_notice").getAsString();
+					throw new IOException(BST.gui_qsscreen_err_cmmn_fau_mssngUrl(additionalNote).getString(), e);
+				}
 				
 				//send an http request to the endpoint
 				final var httpResult = fetchSync(endpoint, new FetchOptions()

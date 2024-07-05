@@ -9,6 +9,7 @@ import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
+import io.github.thecsdev.betterstats.client.gui.stats.panel.impl.BetterStatsPanel;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.config.TConfigPanelBuilder;
 import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
@@ -53,6 +54,10 @@ public final class BSConfigTab extends StatsTab
 			//save and close
 			this.config_builder.saveChanges();
 			initContext.setSelectedStatsTab(BSStatsTabs.GENERAL);
+			
+			//refresh the BSP in the event gui-related settings were changed
+			final @Nullable var bsp = (BetterStatsPanel)panel.findParent(p -> p instanceof BetterStatsPanel);
+			if(bsp != null) bsp.refresh();
 		});
 		panel.addChild(btn_done, false);
 		
@@ -128,6 +133,20 @@ public final class BSConfigTab extends StatsTab
 				config.netPref_allowStatsSharing,
 				checkbox -> config.netPref_allowStatsSharing = checkbox.getChecked());
 		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_allowStatsSharing_tooltip()));
+		
+		//wide stats panel
+		configBuilder.addCheckbox(
+				BST.config_wideStatsPanel(),
+				config.wideStatsPanel,
+				checkbox -> config.wideStatsPanel = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_wideStatsPanel_tooltip()));
+		
+		//centered stats panel
+		configBuilder.addCheckbox(
+				BST.config_centeredStatsPanel(),
+				config.centeredStatsPanel,
+				checkbox -> config.centeredStatsPanel = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_centeredStatsPanel_tooltip()));
 	}
 	
 	private static final void initConfigGui_serverSide(BetterStatsConfig config, TConfigPanelBuilder<?> configBuilder)

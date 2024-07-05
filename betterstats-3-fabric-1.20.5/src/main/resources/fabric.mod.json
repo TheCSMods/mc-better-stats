@@ -32,7 +32,7 @@
 		"minecraft": "${project.properties.mod_depends_minecraft}",
 		"java": ">=21",
 		"fabric-api": "*",
-		"tcdcommons": "*"
+		"tcdcommons": ">=3.12"
 	},
 	
 	"custom":

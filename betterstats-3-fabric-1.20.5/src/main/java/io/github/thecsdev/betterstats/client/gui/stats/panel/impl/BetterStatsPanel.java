@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
@@ -16,6 +17,7 @@ import io.github.thecsdev.betterstats.client.gui.stats.panel.MenuBarPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatFiltersPanel.StatFiltersPanelProxy;
 import io.github.thecsdev.betterstats.client.gui.stats.panel.StatsTabPanel;
+import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 
 /**
  * A {@link BSComponentPanel} that usually goes on the {@link BetterStatsScreen}.<p>
@@ -59,37 +61,59 @@ public final class BetterStatsPanel extends BSComponentPanel
 	protected final @Override void init()
 	{
 		//calculate dimensions and stuff
-		final int gap = 5;
-		final int panelX = (getWidth() / 18), panelW = (getWidth() - (panelX * 2));
-		final int panelY = (MenuBarPanel.HEIGHT + gap), panelH = (getHeight() - (panelY + gap));
+		final int gap = 4;
+		
+		//calculations
+		final var config = BetterStats.getInstance().getConfig();
+		int rootX = getWidth() / 18;
+		int rootY = 0;
+		int rootW = getWidth() - (getWidth() / 9);
+		int rootH = getHeight() - gap;
+		
+		if(config.centeredStatsPanel) { rootH -= gap; rootY = gap; }
+		if(config.wideStatsPanel)
+		{
+			rootX = 0; rootW = getWidth();
+			rootY = 0; rootH = getHeight();
+		}
+		
+		//the "root" panel
+		final var root = new TPanelElement(rootX, rootY, rootW, rootH);
+		root.setScrollFlags(0);
+		root.setScrollPadding(0);
+		root.setBackgroundColor(0);
+		root.setOutlineColor(0);
+		addChild(root, false);
 		
 		//add panels
-		this.panel_menu = new MenuBarPanel(
-				panelX, 0,
-				panelW,
-				new MenuBarPanelProxyImpl(this));
-		addChild(this.panel_menu, true);
+		this.panel_menu = new MenuBarPanel(0, 0, root.getWidth(), new MenuBarPanelProxyImpl(this));
+		root.addChild(this.panel_menu, true);
 		
 		this.panel_filters = new StatFiltersPanel(
-				panelX, panelY,
-				(panelW / 3) - gap, panelH - (ActionBarPanel.HEIGHT + gap),
+				0,
+				MenuBarPanel.HEIGHT + gap,
+				(root.getWidth() / 3) - gap,
+				root.getHeight() - (MenuBarPanel.HEIGHT + gap) - (ActionBarPanel.HEIGHT + gap),
 				new StatFiltersPanelProxyImpl(this));
-		addChild(this.panel_filters, true);
+		root.addChild(this.panel_filters, true);
 		
 		this.panel_actionBar = new ActionBarPanel(
-				panelX, panelY + panelH - ActionBarPanel.HEIGHT,
+				this.panel_filters.getX(),
+				this.panel_filters.getEndY() + gap,
 				this.panel_filters.getWidth(),
 				new ActionBarPanelProxy()
 				{
 					public void setSelectedStatsTab(StatsTab statsTab) { BetterStatsPanel.this.proxy.setSelectedStatsTab(statsTab); }
 				});
-		addChild(this.panel_actionBar, true);
+		root.addChild(this.panel_actionBar, false);
 		
 		this.panel_stats = new StatsTabPanel(
-				panelX + this.panel_filters.getWidth() + gap, panelY,
-				panelW - (this.panel_filters.getWidth() + gap), panelH,
+				this.panel_filters.getEndX() + gap,
+				this.panel_menu.getEndY() + gap,
+				root.getWidth() - (this.panel_filters.getWidth() + 5),
+				root.getHeight() - (this.panel_menu.getHeight() + gap),
 				new StatsTabPanelProxyImpl(this));
-		addChild(this.panel_stats, true);
+		root.addChild(this.panel_stats, false);
 	}
 	// ==================================================
 	/**

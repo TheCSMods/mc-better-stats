@@ -172,16 +172,25 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 					public final @Override Class<JsonObject> getResourceType() { return JsonObject.class; }
 					public final @Override CachedResource<JsonObject> fetchResourceSync() throws Exception
 					{
-						//check if the API is available
-						final var links = au_ready.get();
-						if(!links.has("quickshare_gdu"))
-							throw new NullPointerException("Quick-share download API is unavailable.");
-						
 						//perform the request
+						final     JsonObject            links    = au_ready.get();
 						@Nullable CloseableHttpResponse response = null;
 						try
 						{
-							response = fetchSync(links.get("quickshare_gdu").getAsString(), new FetchOptions()
+							//obtain the endpoint url
+							String endpoint = null;
+							try { endpoint = links.get("quickshare_gdu").getAsString(); }
+							catch(Exception exc)
+							{
+								var additionalNote = "-";
+								if(links.has("quickshare_notice") && links.get("quickshare_notice").isJsonPrimitive())
+									additionalNote = links.get("quickshare_notice").getAsString();
+								throw new IOException(BST.gui_qsscreen_err_cmmn_fau_mssngUrl(additionalNote).getString(), exc);
+							}
+							
+							
+							//send a request to the endpoint url
+							response = fetchSync(endpoint, new FetchOptions()
 							{
 								public final @Override String method() { return "POST"; }
 								public final @Override Object body()
