@@ -1,12 +1,15 @@
 {
 	"betterstats": "更好的統計畫面 Better Statistics Screen",
-	
-	"betterstats.translators.title": "Translators",
-	
-	
+   
+	"betterstats.translators.title": "翻譯者",
+	"betterstats.contributors.title": "貢獻者",
+	"betterstats.coming_soon": "即將推出...",
+   
+   
 	"commands.statistics.edit.output": "已為 %s 玩家修改 %s 統計資訊。",
 	"commands.statistics.clear.kick": "你的統計資訊已被清除，你需要中斷連接並重新加入。",
 	"commands.statistics.clear.output": "已清除 %s 玩家的統計資訊。",
+	"commands.statistics.query.output": "%s 的 %s 統計值是 %s。",
 	
 	
 	"betterstats.stattype_phrase.minecraft.killed": "擊殺數",
@@ -27,16 +30,18 @@
 	"betterstats.gui.menu_bar.menu_about.source": "原始碼",
 	"betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
 	"betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
+	"betterstats.gui.menu_bar.menu_about.website": "TheCSDev",
 	"betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
 	"betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
 	"betterstats.gui.menu_bar.menu_about.discord": "Discord",
-
-	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",	
+	"betterstats.gui.menu_bar.menu_stats_sharing": "統計數據分享",
+	
+	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
 	
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "篩選器",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "顯示空白統計資訊",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "沒有篩選器？",
-
+	
 	"betterstats.api.util.enumerations.filtergroupby.default": "預設",
 	"betterstats.api.util.enumerations.filtergroupby.mod": "模組",
 	
@@ -46,11 +51,23 @@
 	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "數值",
 	
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "這裡似乎沒有統計資訊可以顯示...",
-	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "種子（SHA-256）",
+	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "（SHA-256）種子",
 	
 	"betterstats.config.debug_mode": "除錯模式",
+	"betterstats.config.gui_smooth_scroll": "啟用圖形介面平滑滾動",
+	"betterstats.config.gui_smooth_scroll.tooltip": "啟用後，滾動統計面板將會平滑動畫。如果您使用低端設備或者滑鼠滾輪無法正常工作，請停用此功能。",
 	"betterstats.config.gui_mob_follow_cursor": "在介面中生物跟隨游標",
-
+	"betterstats.config.trust_all_servers_bss_net": "自動切換「betterstats」網路",
+	"betterstats.config.trust_all_servers_bss_net.tooltip": "當此模組安裝在伺服器上時，它提供更多功能。「betterstats」網路協議是「betterstats」伺服器與「betterstats」用戶端通訊的方式。啟用此功能後，當適用時用戶端將自動告知伺服器已安裝了「betterstats」。停用此功能則需要每次加入伺服器時手動執行此操作。",
+	"betterstats.config.allow_stats_sharing": "允許統計數據分享",
+	"betterstats.config.allow_stats_sharing.tooltip": "允許伺服器與第三方（例如伺服器上的其他玩家）分享您的統計數據。請注意，任何運行伺服器的人都可以以一種忽略此偏好的方式修改伺服器。儘管這不應該發生，但我希望通知您這是可能的。",
+	"betterstats.config.register_commands": "註冊指令",
+	"betterstats.config.enable_sas": "啟用統計數據宣布系統",
+	"betterstats.config.wide_stats_panel": "寬統計面板",
+	"betterstats.config.wide_stats_panel.tooltip": "我花錢買了整個螢幕，我會用到整個螢幕。",
+	"betterstats.config.centered_stats_panel": "居中統計面板",
+	"betterstats.config.centered_stats_panel.tooltip": "啟用時，統計面板（即整個 GUI）會居中顯示在螢幕上。\n如果「寬統計面板」已啟用，此選項無效且無作用。",
+  
 	"betterstats.player_badge.dedication.title": "貢獻",
 	"betterstats.player_badge.dedication.description": "您展現了真正的貢獻精神！您已在這個世界遊玩了至少 12 天（288 小時）。",
 	"betterstats.player_badge.loyalty.title": "忠誠",
@@ -63,12 +80,64 @@
 	"betterstats.player_badge.perennial_survivor.description": "您設法暫時躲過了死亡。您會繼續逃避不可避免的命運嗎？\n\n您至少存活了 12 小時。",
 	
 	
-	"betterstats.gui.hud_screen.betterstatshudscreen": "統計 HUD",
-	"betterstats.gui.hud_screen.betterstatshudscreen.pin_stat": "釘選至 HUD",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_1": "對統計數據點擊右鍵（[Shift] + 右鍵）將其新增至此處。",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_2": "對 HUD 項目點擊右鍵以進行修改或移除。",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_3": "按下 Esc 鍵以關閉此畫面。",
+	"betterstats.gui.hud_screen": "統計 HUD",
+	"betterstats.gui.hud_screen.pin_stat": "釘選至 HUD",
+	"betterstats.gui.hud_screen.live_stats_toggle": "切換即時 HUD 統計更新",
+	"betterstats.gui.hud_screen.tutorial_1": "對統計數據點擊右鍵（[Shift] + 右鍵）將其新增至此處。",
+	"betterstats.gui.hud_screen.tutorial_2": "對 HUD 項目點擊右鍵以進行修改或移除。",
+	"betterstats.gui.hud_screen.tutorial_3": "按下 Esc 鍵以關閉此畫面。",
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切換「betterstats」伺服器連線",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改用戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。"
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改用戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。",
+	"betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "查看來自其他來源的統計數據",
+	
+  
+	"betterstats.sas.first_mine": "%s 剛剛挖出了他們的第一個 %s。",
+	"betterstats.sas.first_craft": "%s 剛剛製作了他們的第一個 %s。",
+	"betterstats.sas.first_death": "%s 剛剛死亡了，這是他們的第一次。",
+	"betterstats.sas.first_death.hc1": "%s 剛剛死亡了，這是他們的第一次。好消息是，這可能不會再次發生。",
+	"betterstats.sas.first_kill": "%s 剛剛殺死了一個 %s，這是他們的第一次。",
+	"betterstats.sas.first_death_to": "%s 剛剛第一次死於 %s。",
+	"betterstats.sas.custom": "%s 剛剛將他們的 「%s」 統計值增加到 %s。",
+	
+  
+	"betterstats.gui.tpsbs": "第三方統計瀏覽器",
+	"betterstats.gui.tpsbs.description": "一個 GUI 介面，允許您查看來自其他來源的統計數據，例如其他玩家的統計數據。",
+	"betterstats.gui.tpsbs.tab.ssps": "同服玩家搜尋",
+	"betterstats.gui.tpsbs.tab.ssps.description": "允許您瀏覽當前連接的伺服器上存在的玩家，並從伺服器請求他們的統計數據。",
+	"betterstats.gui.tpsbs.tab.ssps.requirements": "此功能要求您和伺服器都安裝了最新（或更好是相同）版本的此模組。",
+	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "伺服器找不到您請求的玩家名稱。\n\n請確保在重試之前符合以下條件：\n1. 確保名稱拼寫和大小寫正確\n2. 請求的玩家在線上\n3. 請求的玩家安裝了此模組\n4. 請求的玩家在其模組配置中啟用了 「允許統計數據分享」",
+	
+	"betterstats.gui.tpsbs.tab.qs": "快速分享",
+	"betterstats.gui.tpsbs.tab.qs.description": "僅需點擊一個按鈕，即可快速與使用此模組的任何人分享您的統計數據，無論他們現在身在何處。",
+	"betterstats.gui.tpsbs.tab.qs.tos_notice": "快速分享是一個利用我（模組開發者）的伺服器運作的功能。因此，它適用於我的服務條款和隱私政策。",
+	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "為防止垃圾郵件和濫用，可能會適用速率限制和其他限制。",
+	"betterstats.gui.tpsbs.tab.qs.step_1": "§e第一步:\n§7點擊按鈕快速分享您當前查看的統計文件。分享完成後，您將獲得一個 「快速分享代碼」。",
+	"betterstats.gui.tpsbs.tab.qs.step_2": "§e第二步:\n§7接收方輸入 「快速分享代碼」，並點擊按鈕下載和查看分享的統計數據。",
+	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "在此輸入快速分享代碼",
+	
+	
+	"betterstats.gui.qs_screen.upload.title": "正在上傳快速分享的統計數據...",
+	"betterstats.gui.qs_screen.upload.stage_n1": "上傳統計數據失敗",
+	"betterstats.gui.qs_screen.upload.stage_0": "準備上傳統計數據...",
+	"betterstats.gui.qs_screen.upload.stage_1": "正在獲取 better-stats API 端點網址...",
+	"betterstats.gui.qs_screen.upload.stage_2": "正在獲取雲端上傳 API 端點網址...",
+	"betterstats.gui.qs_screen.upload.stage_3": "正在將統計數據上傳至雲端...",
+	"betterstats.gui.qs_screen.upload.stage_4": "完成。您的快速分享碼是: %s",
+  
+	"betterstats.gui.qs_screen.download.title": "正在下載快速分享的統計數據...",
+	"betterstats.gui.qs_screen.download.stage_n1": "下載統計數據失敗",
+	"betterstats.gui.qs_screen.download.stage_0": "準備下載統計數據...",
+	"betterstats.gui.qs_screen.download.stage_1": "正在獲取 better-stats API 端點網址...",
+	"betterstats.gui.qs_screen.download.stage_2": "正在獲取雲端下載 API 端點網址...",
+	"betterstats.gui.qs_screen.download.stage_3": "正在從雲端下載統計數據...",
+	"betterstats.gui.qs_screen.download.stage_4": "完成。正在載入下載的統計數據...",
+  
+	"betterstats.gui.qs_screen.err.cmmn.fau.generic": "無法獲取 BSS API 網址。",
+	"betterstats.gui.qs_screen.err.cmmn.fau.missing_網址": "目前 BSS API 網址 未定義或缺失。\n其他註釋如下（僅限 en_us）:\n%s",
+	"betterstats.gui.qs_screen.err.cmmn.fau.http_non200": "因伺服器回應為：\n%s\n無法獲取 BSS API 網址。",
+	"betterstats.gui.qs_screen.err.upld.guu.http_non200": "因伺服器回應為：\n%s\n無法生成統計數據上傳網址。",
+	"betterstats.gui.qs_screen.err.upld.act.http_non200": "因伺服器回應為：\n%s\n無法上傳統計數據文件。",
+	"betterstats.gui.qs_screen.err.dwnl.gdu.http_non200": "因伺服器回應為：\n%s\n無法生成統計數據下載網址。",
+	"betterstats.gui.qs_screen.err.dwnl.act.http_non200": "因伺服器回應為：\n%s\n無法下載統計數據文件。"
 }

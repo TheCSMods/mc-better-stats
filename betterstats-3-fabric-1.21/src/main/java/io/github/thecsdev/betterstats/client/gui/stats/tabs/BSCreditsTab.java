@@ -86,7 +86,7 @@ public final class BSCreditsTab extends StatsTab
 			
 			//create gui elements
 			final var n1 = UILayout.nextChildVerticalRect(panel);
-			final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, contributor, iteration <= 10);
+			final var ctpw = new CreditsTabPersonWidget(n1.x, n1.y, n1.width, contributor, iteration <= 15);
 			ctpw.setBackgroundColor(highlight ? 0x44000000 : 0x22000000);
 			panel.addChild(ctpw, false);
 		}
