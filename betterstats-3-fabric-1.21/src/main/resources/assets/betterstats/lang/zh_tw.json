@@ -51,20 +51,21 @@
 	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "數值",
 	
 	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "這裡似乎沒有統計資訊可以顯示...",
-	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "（SHA-256）種子",
+ 	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "種子 (SHA-256)",
 	
 	"betterstats.config.debug_mode": "除錯模式",
 	"betterstats.config.gui_smooth_scroll": "啟用圖形介面平滑捲動",
-	"betterstats.config.gui_smooth_scroll.tooltip": "啟用後，捲動統計面板將會使用「平滑動態效果」。如果您使用低階設備或者滑鼠滾輪無法正常運作，請停用此功能。",
+	"betterstats.config.gui_smooth_scroll.tooltip": "啟用後，捲動統計面板將使用「平滑動態效果」。如果你使用的裝置效能較低或者滑鼠滾輪無法正常運作，請停用這項功能。",
 	"betterstats.config.gui_mob_follow_cursor": "在介面中生物跟隨游標",
 	"betterstats.config.trust_all_servers_bss_net": "自動切換「betterstats」網路",
-	"betterstats.config.trust_all_servers_bss_net.tooltip": "當此模組安裝在伺服器上時，它提供更多功能。「betterstats」網路協定是「betterstats」伺服器與「betterstats」用戶端通訊的方式。啟用此功能後，當適用時用戶端將自動告知伺服器已安裝了「betterstats」。停用此功能則需要每次加入伺服器時手動執行此操作。",
+	"betterstats.config.trust_all_servers_bss_net.tooltip": "當這個模組安裝在伺服器上時，會提供更多功能。「betterstats」網路協定是「betterstats」伺服器與「betterstats」用戶端通訊的方式。啟用這項選項後，用戶端將自動告知伺服器已安裝「betterstats」。停用這項選項時，每次加入伺服器時需手動啟用。",
 	"betterstats.config.allow_stats_sharing": "允許統計資訊分享",
-	"betterstats.config.allow_stats_sharing.tooltip": "允許伺服器與第三方（例如伺服器上的其他玩家）分享您的統計資訊。請注意，任何執行伺服器的人都可以以一種忽略此偏好的方式修改伺服器。儘管這不應該發生，但我希望通知您這是可能的。",
-	"betterstats.config.register_commands": "註冊指令",
-	"betterstats.config.enable_sas": "啟用統計資訊宣布系統",
+	"betterstats.config.allow_stats_sharing.tooltip": "允許伺服器將分享你的統計資訊與其他玩家分享。請注意，任何執行伺服器的人都可以修改伺服器來忽略這項偏好設定。儘管這不應該發生，但仍有可能。",
+	"betterstats.config.register_commands": "登錄指令",
+
+	"betterstats.config.enable_sas": "啟用統計資訊公告系統",
 	"betterstats.config.wide_stats_panel": "寬統計面板",
-	"betterstats.config.wide_stats_panel.tooltip": "我花錢買了整個螢幕，我會用到整個螢幕。",
+	"betterstats.config.wide_stats_panel.tooltip": "我買了整個螢幕，就要用整個螢幕。",
 	"betterstats.config.centered_stats_panel": "置中統計面板",
 	"betterstats.config.centered_stats_panel.tooltip": "啟用時，統計面板（即整個 GUI）會置中顯示在螢幕上。\n如果「寬統計面板」已啟用，此選項無效且無作用。",
   
@@ -83,19 +84,24 @@
 	"betterstats.gui.hud_screen": "統計 HUD",
 	"betterstats.gui.hud_screen.pin_stat": "釘選至 HUD",
 	"betterstats.gui.hud_screen.live_stats_toggle": "切換即時 HUD 統計更新",
-	"betterstats.gui.hud_screen.tutorial_1": "對統計資訊點選右鍵（[Shift] + 右鍵）將其新增至此處。",
-	"betterstats.gui.hud_screen.tutorial_2": "對 HUD 項目點選右鍵以進行修改或移除。",
-	"betterstats.gui.hud_screen.tutorial_3": "按下 Esc 鍵以關閉此畫面。",
+	"betterstats.gui.hud_screen.tutorial_1": "對統計資訊按下右鍵（[Shift] + 右鍵）將其新增至這裡。",
+
+	"betterstats.gui.hud_screen.tutorial_2": "在 HUD 項目上按下右鍵以進行修改或移除。",
+
+	"betterstats.gui.hud_screen.tutorial_3": "按下 Esc 以關閉這個畫面。",
+
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切換「betterstats」伺服器連線",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要：\n啟用此功能後，伺服器將會發現您正在使用安裝了「betterstats」的修改用戶端。為了保護您的隱私，請勿在可能不允許修改用戶端或此模組的伺服器上使用此功能。\n\n啟用此功能會新增一些額外功能，這些功能僅在模組也安裝在伺服器上時可用。",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要事項：\n啟用這項功能後，伺服器將知道你使用的是安裝了「betterstats」的模組用戶端。為保護你的隱私，請勿在可能不允許模組用戶端或這個模組的伺服器上使用這項功能。\n\n啟用這項功能後，如果伺服器也安裝了該模組，將有額外功能可用。",
+
 	"betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "查看來自其他來源的統計資訊",
 	
   
 	"betterstats.sas.first_mine": "%s 剛剛挖出了他們的第一個 %s。",
 	"betterstats.sas.first_craft": "%s 剛剛製作了他們的第一個 %s。",
 	"betterstats.sas.first_death": "%s 剛剛死亡了，這是他們的第一次。",
-	"betterstats.sas.first_death.hc1": "%s 剛剛死亡了，這是他們的第一次。好消息是，這可能不會再次發生。",
+	"betterstats.sas.first_death.hc1": "%s 剛剛第一次死亡。好消息是，這可能不會再次發生。",
+
 	"betterstats.sas.first_kill": "%s 剛剛殺死了一個 %s，這是他們的第一次。",
 	"betterstats.sas.first_death_to": "%s 剛剛第一次死於 %s。",
 	"betterstats.sas.custom": "%s 剛剛將他們的「%s」統計值增加到 %s。",
@@ -104,17 +110,26 @@
 	"betterstats.gui.tpsbs": "第三方統計瀏覽器",
 	"betterstats.gui.tpsbs.description": "一個 GUI 介面，允許您查看來自其他來源的統計資訊，例如其他玩家的統計資訊。",
 	"betterstats.gui.tpsbs.tab.ssps": "同服玩家搜尋",
-	"betterstats.gui.tpsbs.tab.ssps.description": "允許您瀏覽當前連接的伺服器上存在的玩家，並從伺服器請求他們的統計資訊。",
-	"betterstats.gui.tpsbs.tab.ssps.requirements": "此功能要求您和伺服器都安裝了最新（或更好是相同）版本的此模組。",
-	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "伺服器找不到您請求的玩家名稱。\n\n請確保在重試之前符合以下條件：\n1. 確保名稱拼字和大小寫正確\n2. 請求的玩家在線上\n3. 請求的玩家安裝了此模組\n4. 請求的玩家在其模組設定中啟用了「允許統計資訊分享」",
+	"betterstats.gui.tpsbs.tab.ssps.description": "讓你瀏覽目前伺服器上的玩家，並請求伺服器提供他們的統計資訊。",
+
+	"betterstats.gui.tpsbs.tab.ssps.requirements": "這項功能要求你和伺服器都安裝了這個模組的最新版本（或更好是相同版本）。",
+
+	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "伺服器找不到你請求的玩家名稱。\n\n請確保滿足下列條件後再重試：\n1. 名稱拼字和大小寫正確\n2. 請求的玩家在線上\n3. 請求的玩家已安裝這個模組\n4. 請求的玩家已在這個模組的設置中啟用「統計資訊分享」",
+
 	
 	"betterstats.gui.tpsbs.tab.qs": "快速分享",
-	"betterstats.gui.tpsbs.tab.qs.description": "僅需點選一個按鈕，即可快速與使用此模組的任何人分享您的統計資訊，無論他們現在身在何處。",
-	"betterstats.gui.tpsbs.tab.qs.tos_notice": "快速分享是一個利用我（模組開發者）的伺服器運作的功能。因此，它適用於我的服務條款和隱私權政策。",
-	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "為防止垃圾訊息和濫用，可能會適用速率限制和其他限制。",
-	"betterstats.gui.tpsbs.tab.qs.step_1": "§e第一步：\n§7點選按鈕快速分享您當前查看的統計檔案。分享完成後，您將獲得一個「快速分享代碼」。",
-	"betterstats.gui.tpsbs.tab.qs.step_2": "§e第二步：\n§7接收方輸入「快速分享代碼」，並點選按鈕下載和查看分享的統計資訊。",
-	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "在此輸入快速分享代碼",
+	"betterstats.gui.tpsbs.tab.qs.description": "只需點選一個按鈕，即可快速與使用這個模組的任何人分享你的統計資訊，無論他們身在何處。",
+
+	"betterstats.gui.tpsbs.tab.qs.tos_notice": "快速分享功能使用我的（模組開發者的）伺服器。因此，需要遵守我的《服務條款》和《隱私權政策》。",
+
+	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "為防止垃圾訊息和濫用，可能會有速率限制以及其他限制。",
+
+	"betterstats.gui.tpsbs.tab.qs.step_1": "§e第一步：\n§7點選按鈕快速分享你目前查看的統計檔案。之後，會上傳統計資訊，你會取得「快速分享碼」。",
+
+	"betterstats.gui.tpsbs.tab.qs.step_2": "§e第二步：\n§7需要查看共享統計資訊的人輸入「快速分享碼」，然後點選按鈕下載並查看共用的統計資訊。",
+
+	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "在這裡輸入快速分享碼",
+
 	
 	
 	"betterstats.gui.qs_screen.upload.title": "正在上傳快速分享的統計資訊...",
@@ -123,7 +138,7 @@
 	"betterstats.gui.qs_screen.upload.stage_1": "正在取得 better-stats API 端點網址...",
 	"betterstats.gui.qs_screen.upload.stage_2": "正在取得雲端上傳 API 端點網址...",
 	"betterstats.gui.qs_screen.upload.stage_3": "正在將統計資訊上傳至雲端...",
-	"betterstats.gui.qs_screen.upload.stage_4": "完成。您的快速分享碼是: %s",
+ 	"betterstats.gui.qs_screen.upload.stage_4": "完成。您的快速分享碼是：%s",
   
 	"betterstats.gui.qs_screen.download.title": "正在下載快速分享的統計資訊...",
 	"betterstats.gui.qs_screen.download.stage_n1": "下載統計資訊失敗",
@@ -134,7 +149,7 @@
 	"betterstats.gui.qs_screen.download.stage_4": "完成。正在載入下載的統計資訊...",
   
 	"betterstats.gui.qs_screen.err.cmmn.fau.generic": "無法取得 BSS API 網址。",
-	"betterstats.gui.qs_screen.err.cmmn.fau.missing_url": "BSS API 的 網址 目前未定義或缺失。\n以下為額外註釋（僅限 en_us）：\n%s",
+	"betterstats.gui.qs_screen.err.cmmn.fau.missing_url": "BSS API 網址目前未定義或遺漏。\n以下為額外註釋（僅限 en_us）：\n%s",
 	"betterstats.gui.qs_screen.err.cmmn.fau.http_non200": "無法取得 BSS API 網址，因為伺服器回應了以下訊息：\n%s",
 	"betterstats.gui.qs_screen.err.upld.guu.http_non200": "無法生成統計資訊上傳的網址，因為伺服器回應了以下訊息：\n%s",
 	"betterstats.gui.qs_screen.err.upld.act.http_non200": "無法上傳統計資訊檔案，因為伺服器回應了以下訊息：\n%s",
