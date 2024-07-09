@@ -6,24 +6,24 @@
 	"betterstats.coming_soon": "即將推出...",
    
    
-	"commands.statistics.edit.output": "已為 %s 玩家修改 %s 統計資訊。",
-	"commands.statistics.clear.kick": "你的統計資訊已被清除，你需要中斷連接並重新加入。",
-	"commands.statistics.clear.output": "已清除 %s 玩家的統計資訊。",
-	"commands.statistics.query.output": "%s 的 %s 統計值是 %s。",
+    "commands.statistics.edit.output": "已修改 %2$s 個玩家的  %1$s 統計資訊。",
+    "commands.statistics.clear.kick": "已清除你的統計資訊，你需要中斷連線並重新加入。",
+    "commands.statistics.clear.output": "已清除 %s 個玩家的統計資訊。",
+    "commands.statistics.query.output": "%s 的 %s 統計值是 %s。",
 	
 	
 	"betterstats.stattype_phrase.minecraft.killed": "擊殺數",
-	"betterstats.stattype_phrase.minecraft.killed_by": "被...擊殺",
-	"betterstats.stattype_phrase.morestats.damaged": "造成的傷害 (x10)",
-	"betterstats.stattype_phrase.morestats.damaged_by": "受到的傷害 (x10)",
-	"betterstats.stattype_phrase.morestats.totem_popped_by": "被...觸發的圖騰",
+	"betterstats.stattype_phrase.minecraft.killed_by": "被擊殺數",
+	"betterstats.stattype_phrase.morestats.damaged": "造成的傷害（×10）",
+	"betterstats.stattype_phrase.morestats.damaged_by": "受到的傷害（×10）",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "被觸發的不死圖騰數",
 	
 	
 	"betterstats.gui.menu_bar.menu_file": "檔案",
 	"betterstats.gui.menu_bar.menu_file.new": "新增",
 	"betterstats.gui.menu_bar.menu_file.open": "開啟",
 	"betterstats.gui.menu_bar.menu_file.save": "儲存",
-	"betterstats.gui.menu_bar.menu_file.save_as": "另存為",
+	"betterstats.gui.menu_bar.menu_file.save_as": "另存新檔",
 	"betterstats.gui.menu_bar.menu_view": "檢視",
 	"betterstats.gui.menu_bar.menu_view.vanilla_stats": "顯示原版統計資訊",
 	"betterstats.gui.menu_bar.menu_about": "關於",
@@ -70,15 +70,15 @@
 	"betterstats.config.centered_stats_panel.tooltip": "啟用時，統計面板（即整個 GUI）會置中顯示在螢幕上。\n如果「寬統計面板」已啟用，此選項無效且無作用。",
   
 	"betterstats.player_badge.dedication.title": "貢獻",
-	"betterstats.player_badge.dedication.description": "您展現了真正的貢獻精神！您已在這個世界遊玩了至少 12 天（288 小時）。",
+	"betterstats.player_badge.dedication.description": "你展現了真正的貢獻精神！你已在這個世界遊玩了至少 12 天（288 小時）。",
 	"betterstats.player_badge.loyalty.title": "忠誠",
-	"betterstats.player_badge.loyalty.description": "您的忠誠值得稱讚！您已在這個世界遊玩了至少 24 天（576 小時）。",
+	"betterstats.player_badge.loyalty.description": "你的忠誠度得稱讚！你已在這個世界遊玩了至少 24 天（576 小時）。",
 	"betterstats.player_badge.the_next_generation.title": "新世代",
-	"betterstats.player_badge.the_next_generation.description": "您曾持有象徵最終勝利的物品 — 龍蛋。",
+	"betterstats.player_badge.the_next_generation.description": "你曾持有象徵最終勝利的物品 — 龍蛋。",
 	"betterstats.player_badge.adventurous_traveler.title": "冒險旅者",
-	"betterstats.player_badge.adventurous_traveler.description": "穿越高山峻嶺和幽谷深壑，您跋涉了遙遠的距離，並留下了許多足跡。您尋求奇景、未被告知的故事，以及以金塊計算的旅程長度。然後您看到了它...\n\n您至少旅行了 727,000 個方塊。",
+	"betterstats.player_badge.adventurous_traveler.description": "穿越高山峻嶺和幽谷深壑，你跋涉了遙遠的距離，並留下了許多足跡。你尋求奇景、未被告知的故事，以及以金塊計算的旅程長度。然後你看到了它...\n\n你至少旅行了 727,000 個方塊。",
 	"betterstats.player_badge.perennial_survivor.title": "長青倖存者",
-	"betterstats.player_badge.perennial_survivor.description": "您設法暫時躲過了死亡。您會繼續逃避不可避免的命運嗎？\n\n您至少存活了 12 小時。",
+	"betterstats.player_badge.perennial_survivor.description": "你設法暫時躲過了死亡。你會繼續逃避不可避免的命運嗎？\n\n你至少存活了 12 小時。",
 	
 	
 	"betterstats.gui.hud_screen": "統計 HUD",
@@ -99,7 +99,7 @@
   
 	"betterstats.sas.first_mine": "%s 剛剛挖出了他們的第一個 %s。",
 	"betterstats.sas.first_craft": "%s 剛剛製作了他們的第一個 %s。",
-	"betterstats.sas.first_death": "%s 剛剛死亡了，這是他們的第一次。",
+	"betterstats.sas.first_death": "%s 剛剛第一次死亡。",
 	"betterstats.sas.first_death.hc1": "%s 剛剛第一次死亡。好消息是，這可能不會再次發生。",
 
 	"betterstats.sas.first_kill": "%s 剛剛殺死了一個 %s，這是他們的第一次。",
