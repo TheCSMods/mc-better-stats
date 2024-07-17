@@ -6,6 +6,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
+import io.github.thecsdev.betterstats.client.gui.stats.tabs.AdvancementsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSConfigTab;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSCreditsTab;
 import io.github.thecsdev.betterstats.client.gui.stats.tabs.BSStatsSharingTab;
@@ -42,6 +43,7 @@ public final class BSStatsTabs
 	public static final StatsTab MONSTERS_HUNTED   = new MonstersHuntedStatsTab();
 	public static final StatsTab PLAYER_BADGES     = new PlayerBadgeStatsTab();
 	public static final StatsTab BSS_STATS_SHARING = new BSStatsSharingTab();
+	public static final StatsTab ADVANCEMENTS      = new AdvancementsTab();
 	// ==================================================
 	/**
 	 * Registers the {@link BSStatsTabs} to the {@link BSClientRegistries#STATS_TAB} registry.
@@ -51,15 +53,16 @@ public final class BSStatsTabs
 	static
 	{
 		final String modId = getModID();
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "bss_credits"),       BSS_CREDITS);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "bss_config"),        BSS_CONFIG);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "general"),           GENERAL);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "items"),             ITEMS);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "entities"),          ENTITIES);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "food_stuffs"),       FOOD_STUFFS);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "monsters_hunted"),   MONSTERS_HUNTED);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "player_badges"),     PLAYER_BADGES);
-		BSClientRegistries.STATS_TAB.register(new Identifier(modId, "bss_stats_sharing"), BSS_STATS_SHARING);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "bss_credits"),       BSS_CREDITS);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "bss_config"),        BSS_CONFIG);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "general"),           GENERAL);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "items"),             ITEMS);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "entities"),          ENTITIES);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "food_stuffs"),       FOOD_STUFFS);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "monsters_hunted"),   MONSTERS_HUNTED);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "player_badges"),     PLAYER_BADGES);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "bss_stats_sharing"), BSS_STATS_SHARING);
+		BSClientRegistries.STATS_TAB.register(Identifier.of(modId, "advancements"),      ADVANCEMENTS);
 	}
 	// ==================================================
 }

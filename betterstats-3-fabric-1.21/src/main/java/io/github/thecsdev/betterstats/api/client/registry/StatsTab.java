@@ -2,6 +2,7 @@ package io.github.thecsdev.betterstats.api.client.registry;
 
 import java.util.Optional;
 
+import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.gui.widget.SelectStatsTabWidget;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
@@ -46,7 +47,7 @@ public abstract class StatsTab extends Object
 	 * Use this to initialize the {@link StatFilterSettings} GUI.
 	 * @param initContext The {@link FiltersInitContext}.
 	 */
-	public @Virtual void initFilters(FiltersInitContext initContext) {/*no filters by default*/}
+	public @Virtual void initFilters(FiltersInitContext initContext) { StatsTabUtils.initDefaultFilters(initContext); }
 	
 	/**
 	 * Returns an {@link Optional} containing the unique {@link Identifier}
