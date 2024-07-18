@@ -3,6 +3,7 @@
 	
 	"betterstats.translators.title": "翻译员",
 	"betterstats.contributors.title": "贡献者",
+	"betterstats.coming_soon": "即将到来...",
 	
 	
 	"commands.statistics.edit.output": "编辑了%2$s位玩家的%1$s信息。",
@@ -29,18 +30,20 @@
 	"betterstats.gui.menu_bar.menu_about.source": "查看源代码",
 	"betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
 	"betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
+	"betterstats.gui.menu_bar.menu_about.website": "TheCSDev",
 	"betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
 	"betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
 	"betterstats.gui.menu_bar.menu_about.discord": "Discord",
+	"betterstats.gui.menu_bar.menu_stats_sharing": "统计信息共享",
 	
 	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
 	
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "筛选",
 	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "显示空的统计信息",
-	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "No filters?",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "没有筛选器？",
 	
 	"betterstats.api.util.enumerations.filtergroupby.default": "默认",
-	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "模组",
 	
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "击杀数",
 	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "被击杀数",
@@ -55,9 +58,15 @@
 	"betterstats.config.gui_smooth_scroll.tooltip": "启用时，滚动统计信息面板将拥有平滑的动画。\n这可能会在低端设备上造成性能负担。",
 	"betterstats.config.gui_mob_follow_cursor": "生物跟随光标",
 	"betterstats.config.trust_all_servers_bss_net": "自动切换 'betterstats' 连接",
-	"betterstats.config.trust_all_servers_bss_net.tooltip": "启用该功能时客户端将自动告诉服务器已安装此mod，若服务器也安装此mod会拥有更多功能。禁用该功能则每次加入服务器必须手动建立连接。",
+	"betterstats.config.trust_all_servers_bss_net.tooltip": "启用该功能时客户端将自动告诉服务器已安装此模组，若服务器也安装此模组会拥有更多功能。禁用该功能则每次加入服务器必须手动建立连接。",
+	"betterstats.config.allow_stats_sharing": "允许统计信息共享",
+	"betterstats.config.allow_stats_sharing.tooltip": "允许服务器与第三方（例如服务器上的其他玩家）共享您的统计信息。请注意，运行服务器的任何人都可以以忽略此偏好的方式修改服务器。虽然这种情况不应该发生，但我还是希望通知您这是可能发生的。",
 	"betterstats.config.register_commands": "注册命令",
 	"betterstats.config.enable_sas": "统计信息公告",
+	"betterstats.config.wide_stats_panel": "宽统计面板",
+	"betterstats.config.wide_stats_panel.tooltip": "这台显示器是我花钱买的，所以我要使用整个屏幕。",
+	"betterstats.config.centered_stats_panel": "统计面板居中",
+	"betterstats.config.centered_stats_panel.tooltip": "启用后，统计面板（即整个 GUI）将位于屏幕中央。\n当启用“宽统计面板”时，此选项无效。",
 	
 	"betterstats.player_badge.dedication.title": "奉献",
 	"betterstats.player_badge.dedication.description": "你表现出了真正的奉献精神！你已在这个世界游玩了至少12天（288小时）。",
@@ -70,23 +79,65 @@
 	"betterstats.player_badge.perennial_survivor.title": "常年生存者",
 	"betterstats.player_badge.perennial_survivor.description": "你已成功逃脱了死亡，至少现在如此。 你还会继续逃避这不可避免之事吗？\n\n你已存活至少12小时。",
 	
-	
-	"betterstats.gui.hud_screen.betterstatshudscreen": "统计信息HUD",
-	"betterstats.gui.hud_screen.betterstatshudscreen.pin_stat": "添加到HUD",
-	"betterstats.gui.hud_screen.betterstatshudscreen.live_stats_toggle": "切换HUD实时更新",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_1": "右键点击一条信息添加到此处",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_2": "右键点击一条信息可以修改或删除",
-	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_3": "按Esc关闭此界面",
+
+	"betterstats.gui.hud_screen": "统计信息HUD",
+	"betterstats.gui.hud_screen.pin_stat": "固定到HUD",
+	"betterstats.gui.hud_screen.live_stats_toggle": "切换统计HUD实是否时更新",
+	"betterstats.gui.hud_screen.tutorial_1": "右键单击统计信息（[Shift]+RMB）将它添加到此处。",
+	"betterstats.gui.hud_screen.tutorial_2": "右键单击 HUD 条目以修改或删除它。",
+	"betterstats.gui.hud_screen.tutorial_3": "按 Escape (ESC) 键关闭此屏幕。",
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切换'betterstats'服务器连接",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要提示：\n启用该功能后服务器会知道您正在使用betterstats，请勿在可能不允许修改客户端或使用此mod的服务器上启用该功能！\n\n当服务器也安装此mod时，启用该功能会添加一些额外功能。",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要提示：\n启用该功能后服务器会知道您正在使用betterstats，请勿在可能不允许修改客户端或使用此模组的服务器上启用该功能！\n\n当服务器也安装此模组时，启用该功能会添加一些额外功能。",
+	"betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "查看其他来源的统计信息",
 	
 	
-	"betterstats.sas.first_mine": "%s挖掘了第一个%s。",
-	"betterstats.sas.first_craft": "%s制作了第一个%s。",
+	"betterstats.sas.first_mine": "%s第一次挖掘了%s。",
+	"betterstats.sas.first_craft": "%s第一次制作了%s。",
 	"betterstats.sas.first_death": "%s达成了第一次死亡。",
 	"betterstats.sas.first_death.hc1": "%s达成了第一次死亡。往好处想，这种情况可能不会再发生了。",
 	"betterstats.sas.first_kill": "%s第一次杀死了%s。",
 	"betterstats.sas.first_death_to": "%s第一次死于%s。",
-	"betterstats.sas.custom": "%s将'%s'增加到了%s。"
+	"betterstats.sas.custom": "%s将'%s'增加到了%s。",
+	
+	
+	"betterstats.gui.tpsbs": "第三方统计信息浏览器",
+	"betterstats.gui.tpsbs.description": "一个 GUI 界面，允许您查看来自其他来源的统计信息，例如其他玩家的统计信息。",
+	"betterstats.gui.tpsbs.tab.ssps": "同服玩家搜索",
+	"betterstats.gui.tpsbs.tab.ssps.description": "允许您浏览当前连接到的服务器的玩家，并向服务器发送请求以获取他们的统计信息。",
+	"betterstats.gui.tpsbs.tab.ssps.requirements": "此功能要求您和服务器都安装此模组的最新（或更好的、相同的）版本。",
+	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "服务器找不到你所请求的玩家。\n\n请确保：\n1. 名称拼写和大小写正确\n2. 请求的玩家在线\n3. 请求的玩家已安装本模组\n4. 请求的玩家已经在其配置中启用了本模组的“统计共享”",
+	
+	"betterstats.gui.tpsbs.tab.qs": "快速分享",
+	"betterstats.gui.tpsbs.tab.qs.description": "只需单击此按钮，您就可以与使用此模组的人分享您的统计信息，无论他们现在在哪个服务器中。",
+	"betterstats.gui.tpsbs.tab.qs.tos_notice": "快速分享功能需要使用我的（模组开发者）服务器才能运行。因此，它受我的服务条款和隐私政策的约束。",
+	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "为了防止垃圾邮件和滥用，可能会限制带宽和其他东西。",
+	"betterstats.gui.tpsbs.tab.qs.step_1": "§e步骤 1:\n§7点击按钮，快速分享您当前正在查看的统计文件。之后，统计信息将上传到服务器，您将获得一个“快速分享代码”。",
+	"betterstats.gui.tpsbs.tab.qs.step_2": "§步骤2:\n§7 想要查看分享统计信息的人只需输入“快速分享代码”，然后点击按钮即可下载并查看分享的统计信息。",
+	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "在此处输入快速分享代码",
+	
+	
+	"betterstats.gui.qs_screen.upload.title": "上传快速分享统计信息中...",
+	"betterstats.gui.qs_screen.upload.stage_n1": "无法上传统计信息",
+	"betterstats.gui.qs_screen.upload.stage_0": "准备上传统计信息...",
+	"betterstats.gui.qs_screen.upload.stage_1": "获取 better-stats API 端点 URL...",
+	"betterstats.gui.qs_screen.upload.stage_2": "获取云上传 API 端点 URL...",
+	"betterstats.gui.qs_screen.upload.stage_3": "正在将统计信息上传至云端...",
+	"betterstats.gui.qs_screen.upload.stage_4": "上传完毕。您的快速分享代码是：%s",
+	
+	"betterstats.gui.qs_screen.download.title": "下载快速分享统计信息中...",
+	"betterstats.gui.qs_screen.download.stage_n1": "无法下载统计信息",
+	"betterstats.gui.qs_screen.download.stage_0": "准备下载统计信息...",
+	"betterstats.gui.qs_screen.download.stage_1": "获取 better-stats API 端点 URL...",
+	"betterstats.gui.qs_screen.download.stage_2": "获取云下载 API 端点 URL...",
+	"betterstats.gui.qs_screen.download.stage_3": "正在从云端下载统计信息...",
+	"betterstats.gui.qs_screen.download.stage_4": "下载完毕。正在加载下载的统计信息...",
+	
+	"betterstats.gui.qs_screen.err.cmmn.fau.generic": "无法获取 更好的统计信息界面API 的 URL。",
+	"betterstats.gui.qs_screen.err.cmmn.fau.missing_url": "更好的统计信息界面API 的 URL 目前未定义或缺失。\n更多说明（只有英文）：\n%s",
+	"betterstats.gui.qs_screen.err.cmmn.fau.http_non200": "无法获取 更好的统计信息界面API 的 URL，服务器响应码：\n%s",
+	"betterstats.gui.qs_screen.err.upld.guu.http_non200": "无法生成统计信息上传 URL，服务器响应码：\n%s",
+	"betterstats.gui.qs_screen.err.upld.act.http_non200": "无法上传统计信息文件，服务器响应码：\n%s",
+	"betterstats.gui.qs_screen.err.dwnl.gdu.http_non200": "无法生成统计信息下载 URL，服务器响应码：\n%s",
+	"betterstats.gui.qs_screen.err.dwnl.act.http_non200": "无法下载统计信息文件，服务器响应码：\n%s"
 }
