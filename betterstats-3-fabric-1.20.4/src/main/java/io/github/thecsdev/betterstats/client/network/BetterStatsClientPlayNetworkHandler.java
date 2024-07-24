@@ -182,7 +182,7 @@ public final @Internal class BetterStatsClientPlayNetworkHandler
 				});
 			}
 			break;
-			case TpslContext.Type.SAME_SERVER_PLAYER:
+			case SAME_SERVER_PLAYER:
 			{
 				//read player name
 				final var playerName = buffer.readString();
