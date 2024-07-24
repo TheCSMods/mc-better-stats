@@ -1,0 +1,69 @@
+{
+	"betterstats": "더 나은 통계 스크린",
+	
+	"betterstats.translators.title": "번역가",
+	
+	
+	"commands.statistics.edit.output": "%s 통계를 %s 플레이어에게 수정했습니다.",
+	"commands.statistics.clear.kick": "당신의 통계가 지워졌습니다, 다시 접속하고 가입해야 합니다.",
+	"commands.statistics.clear.output": "%s 플레이어의 통계를 지웠습니다.",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "처치한 수",
+	"betterstats.stattype_phrase.minecraft.killed_by": "(~(으)로 인해) 사망",
+	"betterstats.stattype_phrase.morestats.damaged": "입힌 피해 (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "받은 피해 (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "(~에 의해) 발동된 토템",
+	
+	
+	"betterstats.gui.menu_bar.menu_file": "파일",
+	"betterstats.gui.menu_bar.menu_file.new": "새로 만들기",
+	"betterstats.gui.menu_bar.menu_file.open": "열기",
+	"betterstats.gui.menu_bar.menu_file.save": "저장",
+	"betterstats.gui.menu_bar.menu_file.save_as": "다른 이름으로 저장",
+	"betterstats.gui.menu_bar.menu_view": "보기",
+	"betterstats.gui.menu_bar.menu_view.vanilla_stats": "바닐라 통계 보기",
+	"betterstats.gui.menu_bar.menu_about": "정보",
+	"betterstats.gui.menu_bar.menu_about.source": "소스 코드",
+	"betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
+	"betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
+	"betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
+	"betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
+	"betterstats.gui.menu_bar.menu_about.discord": "Discord",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "필터",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "빈 통계 보기",
+	"betterstats.api.util.enumerations.filtergroupby.default": "기본",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "모드",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "살인",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "사망",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "얻음",
+	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "값",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "아직 보여줄 통계가 없습니다...",
+	
+	"betterstats.config.debug_mode": "디버그 모드",
+	"betterstats.config.gui_mob_follow_cursor": "GUI 몬스터가 커서를 따라갑니다",
+	
+	"betterstats.player_badge.dedication.title": "헌신",
+	"betterstats.player_badge.dedication.description": "진정한 헌신을 보였습니다! 이 세상에서 적어도 12일 (288시간) 동안 플레이했습니다.",
+	"betterstats.player_badge.loyalty.title": "충성",
+	"betterstats.player_badge.loyalty.description": "귀하의 충성스러움은 칭찬 받을 만합니다! 이 세상에서 적어도 24일 (576시간) 동안 플레이했습니다.",
+	"betterstats.player_badge.the_next_generation.title": "다음 세대",
+	"betterstats.player_badge.the_next_generation.description": "당신은 최종 승리의 상징인 드래곤 알을 소유했습니다.",
+	"betterstats.player_badge.adventurous_traveler.title": "모험가 여행자",
+	"betterstats.player_badge.adventurous_traveler.description": "높은 산과 낮은 계곡을 통해, 당신은 먼 곳으로 여행했습니다, 많은 것을 보여주었습니다. 미지의 풍경을 찾아, 금 블록으로 이루어진 여행의 정도를 찾아. 그리고 당신은 그것을 보았습니다...\n\n당신은 적어도 727,000 블록을 여행했습니다.",
+	"betterstats.player_badge.perennial_survivor.title": "영원한 생존자",
+	"betterstats.player_badge.perennial_survivor.description": "당신은 지금까지 죽음을 피해 왔습니다. 당신은 불가피한 것을 계속 피할 수 있을까요?\n\n당신은 적어도 12시간 동안 생존했습니다.",
+	
+	
+	"betterstats.gui.hud_screen.betterstatshudscreen": "통계 HUD",
+	"betterstats.gui.hud_screen.betterstatshudscreen.pin_stat": "HUD에 고정",
+	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_1": "통계를 우클릭하면([Shift]+RMB) 이곳에 추가할 수 있습니다.",
+	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_2": "HUD 항목을 우클릭하여 수정하거나 제거합니다.",
+	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_3": "이 스크린을 닫으려면 Escape (ESC)를 누르십시오.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "'betterstats' 서버 연결 토글",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "중요:\n이 기능을 활성화하면, 서버는 당신이 'betterstats'가 설치된 수정된 클라이언트를 사용하고 있다는 사실을 알게 될 것입니다. 당신의 개인 정보를 보호하기 위해, 수정된 클라이언트나 이 모드를 허용하지 않는 서버에서는 이 기능을 사용하지 마십시오.\n\n이 기능을 활성화하면, 모드가 서버에도 설치되어 있을 때 사용할 수 있는 몇 가지 추가 기능이 추가됩니다."
+}

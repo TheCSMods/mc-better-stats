@@ -1,0 +1,69 @@
+{
+	"betterstats": "Better Statistics экраны",
+	"modmenu.summaryTranslation.betterstats": "Яхшыртылган һәм файдалырак статистика экраны.",
+	"modmenu.descriptionTranslation.betterstats": "Статистика экранын яхшырта һәм аны файдалы итә.",
+	
+	"betterstats.translators.title": "Тәрҗемәчеләр",
+
+
+	"commands.statistics.edit.output": "%2$s уенчы өчен %1$s статистикасы үзгәртелде.",
+	"commands.statistics.clear.kick": "Сезнең статистика чистартылды, шуңа күрә Сезгә сүндерергә һәм яңадан кушылырга кирәк.",
+	"commands.statistics.clear.output": "%s уенчы статистикасы чистарылды.",
+	
+	
+	"betterstats.gui.menu_bar.menu_file": "Файл",
+	"betterstats.gui.menu_bar.menu_file.new": "Яңа",
+	"betterstats.gui.menu_bar.menu_file.open": "Ачу",
+	"betterstats.gui.menu_bar.menu_file.save": "Саклау",
+	"betterstats.gui.menu_bar.menu_file.save_as": "Саклау рәвеше",
+	"betterstats.gui.menu_bar.menu_view": "Карау",
+	"betterstats.gui.menu_bar.menu_view.vanilla_stats": "Ванила статистикасын күрсәтү",
+	"betterstats.gui.menu_bar.menu_about": "Мод турында",
+	"betterstats.gui.menu_bar.menu_about.source": "Чыганак",
+	"betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
+	"betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
+	"betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
+	"betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
+	"betterstats.gui.menu_bar.menu_about.discord": "Discord",
+
+	"betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
+	
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Фильтрлар",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Буш статистиканы күрсәтү",
+	"betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "Фильтрларсызмы?",
+
+
+	"betterstats.api.util.enumerations.filtergroupby.default": "Беренчел",
+	"betterstats.api.util.enumerations.filtergroupby.mod": "Мод буенча",
+	
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Үтерүләр саны",
+	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Үлемнәр саны",
+	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Табылган",
+	
+	"betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Күрсәтү өчен статистика юк әле...",
+	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Генератор ачкычы (SHA-256)",
+	
+	"betterstats.config.debug_mode": "Төзәтү шарты",
+	"betterstats.config.gui_mob_follow_cursor": "Интерфейстагы асыллар күрсәткечне күзәтә",
+	
+	"betterstats.player_badge.dedication.title": "Бирелгәнлек",
+	"betterstats.player_badge.dedication.description": "Сез дөрес бирелгәнлекне күрсәттегез! Сез бу дөньяда кимендә 12 көн (288 сәгать) буена уйнадыгыз.",
+	"betterstats.player_badge.loyalty.title": "Тугрылык",
+	"betterstats.player_badge.loyalty.description": "Сезнең тугрылык мактаулы! Сез бу дөньяда кимендә 24 көн (576 сәгать) буена уйнадыгыз.",
+	"betterstats.player_badge.the_next_generation.title": "Яңа буын",
+	"betterstats.player_badge.the_next_generation.description": "Сез соңгы тантана символын тоттыгыз — аҗдаһа йомыркасы.",
+	"betterstats.player_badge.adventurous_traveler.title": "Маҗаралы сәяхәтче",
+	"betterstats.player_badge.adventurous_traveler.description": "Сез бик таулар һәм түбән үзәнлекләр аша озын сәяхәт итте, күрсәтү өчен күп әйберләрне белән. Күренешне, әйтелмәгән сөйләкне, алтын блокларда сәяхәтнең чарасын эзләү. Һәм Сез ул вакытта аны күрдегез...\n\nСез кимендә 727000 блок бардыгыз.",
+	"betterstats.player_badge.perennial_survivor.title": "Күпьеллык яшәүче",
+	"betterstats.player_badge.perennial_survivor.description": "Сез Әҗәлне алдадыгыз, бу юлы. Сез котылгысыздан качырга дәвам итәсезме?\n\nСез кимендә 12 сәгать буена яшәдегез.",
+	
+	
+	"betterstats.gui.hud_screen.betterstatshudscreen": "Статистиканың HUD",
+	"betterstats.gui.hud_screen.betterstatshudscreen.pin_stat": "HUD-та беркетү",
+	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_1": "Статистика монда өстәү өчен аңа уң төймәгә ([Shift] + уң төймә) басыгыз.",
+	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_2": "HUD элементын үзгәртү яки бетерү өчен уң төймәгә басыгыз.",
+	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_3": "Бу экранны ябу өчен Escape (ESC) басыгыз.",
+	
+	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "«betterstats» сервер тоташуын күчерү",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "МӨҺИМ:\nБу көйләүне кабызып, сервер Сезнең «betterstats» утыртылган белән үзгәртелгән клиентны куллануыгызны ачыклаячак. Сезнең хосусыйлыгыгызны саклау өчен, үзгәртелгән клиентларны яки шушы модны рөхсәт итмәс серверларда бу көйләүне кулланмагыз.\n\nБу көйләүне кушу модны серверга шулай ук утыртылган кулланышлы кайбер артык функцияләрне өсти."
+}

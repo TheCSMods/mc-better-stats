@@ -1,0 +1,10 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Ubijeno",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Poginuo/la od",
+	"betterstats.stattype_phrase.morestats.damaged": "Nanijeta šteta (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Primljena šteta (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Totemi aktivirani od"
+}

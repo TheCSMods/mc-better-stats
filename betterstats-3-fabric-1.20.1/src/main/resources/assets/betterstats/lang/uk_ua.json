@@ -1,0 +1,143 @@
+{
+  "betterstats": "Покращений екран статистики",
+
+  "betterstats.translators.title": "Перекладачі",
+  "betterstats.contributors.title": "Дописувачі",
+  "betterstats.coming_soon": "Скоро буде...",
+
+
+  "commands.statistics.edit.output": "Відредаговано статистику %s для %s гравця(ів).",
+  "commands.statistics.clear.kick": "Вашу статистику очищено, що потребує від вас від'єднання та повторного приєднання.",
+  "commands.statistics.clear.output": "Очищено статистику %s гравця(ів).",
+  "commands.statistics.query.output": "Значення %s для статистики %s становить %s.",
+
+
+  "betterstats.stattype_phrase.minecraft.killed": "Вбито",
+  "betterstats.stattype_phrase.minecraft.killed_by": "Загинув від",
+  "betterstats.stattype_phrase.morestats.damaged": "Завдано шкоди (x10)",
+  "betterstats.stattype_phrase.morestats.damaged_by": "Отримано шкоди (x10)",
+  "betterstats.stattype_phrase.morestats.totem_popped_by": "Активованих тотемів",
+
+
+  "betterstats.gui.menu_bar.menu_file": "Файл",
+  "betterstats.gui.menu_bar.menu_file.new": "Створити",
+  "betterstats.gui.menu_bar.menu_file.open": "Відкрити",
+  "betterstats.gui.menu_bar.menu_file.save": "Зберегти",
+  "betterstats.gui.menu_bar.menu_file.save_as": "Зберегти як",
+  "betterstats.gui.menu_bar.menu_view": "Вигляд",
+  "betterstats.gui.menu_bar.menu_view.vanilla_stats": "Ванільна статистика",
+  "betterstats.gui.menu_bar.menu_about": "Про мод",
+  "betterstats.gui.menu_bar.menu_about.source": "Вихідний код",
+  "betterstats.gui.menu_bar.menu_about.curseforge": "CurseForge",
+  "betterstats.gui.menu_bar.menu_about.modrinth": "Modrinth",
+  "betterstats.gui.menu_bar.menu_about.website": "TheCSDev",
+  "betterstats.gui.menu_bar.menu_about.youtube": "YouTube",
+  "betterstats.gui.menu_bar.menu_about.kofi": "Ko-Fi",
+  "betterstats.gui.menu_bar.menu_about.discord": "Discord",
+  "betterstats.gui.menu_bar.menu_stats_sharing": "Обмін статистикою",
+
+  "betterstats.api.client.gui.stats.panel.gameprofilepanel.uuid": "UUID",
+
+  "betterstats.api.client.gui.stats.panel.statfilterspanel.filters": "Фільтри",
+  "betterstats.api.client.gui.stats.panel.statfilterspanel.show_empty_stats": "Показувати порожню статистику",
+  "betterstats.api.client.gui.stats.panel.statfilterspanel.no_filters_question": "Без фільтрів?",
+
+  "betterstats.api.util.enumerations.filtergroupby.default": "За замовчуванням",
+  "betterstats.api.util.enumerations.filtergroupby.mod": "За модами",
+
+  "betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Вбивств",
+  "betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Смертей",
+  "betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Отримано",
+  "betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Значення",
+
+  "betterstats.client.gui.stats.panel.statstabpanel.no_stats_yet": "Поки що нічого показати...",
+  "betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "Ключ (SHA-256)",
+
+  "betterstats.config.debug_mode": "Режим налагодження",
+  "betterstats.config.gui_smooth_scroll": "Плавна прокрутка",
+  "betterstats.config.gui_smooth_scroll.tooltip": "Плавна анімація прокручування панелей статистики. Не рекомендується для низькобюджетних пристоїв, або якщо прокручування за допомогою коліщатка миші не доступне.",
+  "betterstats.config.gui_mob_follow_cursor": "GUI моби слідкують за курсором",
+  "betterstats.config.trust_all_servers_bss_net": "Автоматичне з'єднання з 'betterstats' мережею",
+  "betterstats.config.trust_all_servers_bss_net.tooltip": "Мод надає додаткові можливості, коли його встановлено на сервері. Мережевий протокол 'betterstats' це те, як сервер 'betterstats' спілкується з 'betterstats' клієнтом. При активації, клієнт автоматично буде інформувати сервер про наявність 'betterstats'. В іншому випадку, це доведеться робити вручну кожного разу при під'єднанні до серверу.",
+  "betterstats.config.allow_stats_sharing": "Дозвіл обміну статистикою",
+  "betterstats.config.allow_stats_sharing.tooltip": "Дозволяє серверу ділитися вашою статистикою з третіми сторонами, наприклад, з іншими гравцями. Увага, власник серверу має можливість модифікувати сервер для ігноруваня цього параметру. Хоча цього не повинно статися, я хотів повідомити, що це можливо.",
+  "betterstats.config.register_commands": "Реєстрація команд",
+  "betterstats.config.enable_sas": "Активувація системи сповіщень про статистику",
+  "betterstats.config.wide_stats_panel": "Широка панель статистики",
+  "betterstats.config.wide_stats_panel.tooltip": "Я заплатив за весь монітор, я буду використовувати весь монітор.",
+  "betterstats.config.centered_stats_panel": "Відцентрована панель статистики",
+  "betterstats.config.centered_stats_panel.tooltip": "Відцентрування панелі статистики (всього інтерфейсу). Не матиме ефекту при активації \"Широка панель статистики\".",
+
+  "betterstats.player_badge.dedication.title": "Відданість",
+  "betterstats.player_badge.dedication.description": "Ви продемонстрували справжню відданість! Ви граєте в цьому світі принаймні 12 днів (288 годин).",
+  "betterstats.player_badge.loyalty.title": "Вірність",
+  "betterstats.player_badge.loyalty.description": "Ваша вірність гідна похвали! Ви граєте в цьому світі принаймні 24 дні (576 годин).",
+  "betterstats.player_badge.the_next_generation.title": "Наступне покоління",
+  "betterstats.player_badge.the_next_generation.description": "Ви змогли доторкнутися до символу остаточного тріумфу — Яйця Дракона.",
+  "betterstats.player_badge.adventurous_traveler.title": "Авантюрний мандрівник",
+  "betterstats.player_badge.adventurous_traveler.description": "Пройшовши крізь гори високі та долини широкі, побувавши дуже далеко, вам є про що повідати. У пошуках видовищ, незлічених історій та скарбів. У подорожах, виміряних в блоках золота, ви побачили...\n\nВи пройшли щонайменше 727 000 блоків.",
+  "betterstats.player_badge.perennial_survivor.title": "Багаторічний виживший",
+  "betterstats.player_badge.perennial_survivor.description": "Вам вдалося обдурити смерть, поки що. Чи будете ви продовжувати уникати неминучого?\n\nВи вижили щонайменше 12 годин.",
+
+
+  "betterstats.gui.hud_screen": "Статистичний HUD",
+  "betterstats.gui.hud_screen.pin_stat": "Закріпити на HUD",
+  "betterstats.gui.hud_screen.live_stats_toggle": "Оновлення в реальному часі",
+  "betterstats.gui.hud_screen.tutorial_1": "Клацніть правою кнопкою миші по статистиці ([Shift]+ПКМ) для її додавання на екран.",
+  "betterstats.gui.hud_screen.tutorial_2": "Клацніть правою кнопкою миші по елементу HUD для його редагування або видалення.",
+  "betterstats.gui.hud_screen.tutorial_3": "Натисність Escape (ESC) для того щоб закрити це вікно.",
+
+  "betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "Перемкнути з'єднання 'betterstats' з сервером",
+  "betterstats.network.betterstatsnetworkhandler.consent_warning": "ВАЖЛИВО:\nУвімкнувши цю функцію, сервер дізнається, що ви використовуєте модифікований клієнт зі встановленим 'betterstats'. Для захисту вашої конфіденційності, не використовуйте це на серверах, де можуть бути заборонені модифіковані клієнти чи цей мод.\n\nУвімкнення цієї функції надає додаткові можливості, які доступні при встановленні цього моду на сервері.",
+  "betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "Переглянути статистику з інших джерел",
+
+
+  "betterstats.sas.first_mine": "%s вперше вскопав %s.",
+  "betterstats.sas.first_craft": "%s вперше створив %s.",
+  "betterstats.sas.first_death": "%s зустрів свою першу смерть.",
+  "betterstats.sas.first_death.hc1": "%s зустрів свою першу смерть. З хорошої сторони, цього більше не повториться.",
+  "betterstats.sas.first_kill": "%s вперше вбив %s.",
+  "betterstats.sas.first_death_to": "%s вперше вмер від %s.",
+  "betterstats.sas.custom": "%s збільшив своє значення статистики '%s' до %s.",
+
+
+  "betterstats.gui.tpsbs": "Перегляд сторонньої статистики",
+  "betterstats.gui.tpsbs.description": "Інтерфейс, що дозволяє перегляд статистики з інших джерел, наприклад, статистика інших гравців.",
+  "betterstats.gui.tpsbs.tab.ssps": "Пошук гравців",
+  "betterstats.gui.tpsbs.tab.ssps.description": "Перегляд та запит статистики гравців, що присутні на сервері, до якого ви під'єднані.",
+  "betterstats.gui.tpsbs.tab.ssps.requirements": "Клієнт та сервер повинні мати останню (або, краще, однакову) версію цього моду.",
+  "betterstats.gui.tpsbs.tab.ssps.player_not_found": "Сервер не зміг знайти гравця за запрошеним іменем.\n\nБудь ласка, перевірте чи виконуються такі критерії:\n1. Написання імені та регістр правильні\n2. Запрошений гравець присутній на сервері\n3. У запрошеного гравця встановлено цей мод\n4. Запрошений гравець активував 'Обмін статистики' в своїй конфігурації",
+
+  "betterstats.gui.tpsbs.tab.qs": "Швидкий обмін",
+  "betterstats.gui.tpsbs.tab.qs.description": "Дозволяє швидко поширити вашу статистики з будь-ким, хто використовує цей мод, незалежно від того, де вони зараз перебувають.",
+  "betterstats.gui.tpsbs.tab.qs.tos_notice": "Швидкий обмін - це функція, що працює за допомогою серверів розробника цього моду і вона підпадає під дію моїх Ліцензійної угоди та Політики конфіденційності.",
+  "betterstats.gui.tpsbs.tab.qs.abuse_notice": "Для запобігання спаму та зловживанням, можуть застосовуватися ліміти на швидкість та інші обмеження.",
+  "betterstats.gui.tpsbs.tab.qs.step_1": "§eКрок 1:\n§7Натисніть кнопку для швидкого обміну статистикою, яку ви зараз переглядаєте. Після вивантаження, ви отримаєте 'код швидкого обміну'.",
+  "betterstats.gui.tpsbs.tab.qs.step_2": "§eКрок 2:\n§7Гравець, який має намір переглянути статистику, вводить 'код швидкого обміну' і натискає на кнопку для завантаження і перегляду статистики.",
+  "betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "Введіть код швидкого обміну тут",
+
+
+  "betterstats.gui.qs_screen.upload.title": "Вивантаження статистики...",
+  "betterstats.gui.qs_screen.upload.stage_n1": "Сталася помилка при вивантаженні статистики",
+  "betterstats.gui.qs_screen.upload.stage_0": "Підготовка до вивантаження статистики...",
+  "betterstats.gui.qs_screen.upload.stage_1": "Отримання адрес better-stats API...",
+  "betterstats.gui.qs_screen.upload.stage_2": "Отримання адреси вивантаження від хмари...",
+  "betterstats.gui.qs_screen.upload.stage_3": "Вивантаження статистики до хмари...",
+  "betterstats.gui.qs_screen.upload.stage_4": "Готово. Ваш код швидкого обміну: %s",
+
+  "betterstats.gui.qs_screen.download.title": "Завантаження статистики...",
+  "betterstats.gui.qs_screen.download.stage_n1": "Сталася помилка при завантаженні статистики",
+  "betterstats.gui.qs_screen.download.stage_0": "Підготовка до завантаження статистики...",
+  "betterstats.gui.qs_screen.download.stage_1": "Отримання адрес від better-stats API...",
+  "betterstats.gui.qs_screen.download.stage_2": "Отримання адреси завантаження з хмари...",
+  "betterstats.gui.qs_screen.download.stage_3": "Завантаження статистики з хмари...",
+  "betterstats.gui.qs_screen.download.stage_4": "Готово. Обробка завантаженої статистики...",
+
+  "betterstats.gui.qs_screen.err.cmmn.fau.generic": "Сталася помилка при підключенні до BSS API.",
+  "betterstats.gui.qs_screen.err.cmmn.fau.missing_url": "Адреси BSS API на даний момент відсутні.\nДодаткова інформація наведена нижче: (англійською):\n%s",
+  "betterstats.gui.qs_screen.err.cmmn.fau.http_non200": "Не вдалося отримати адреси BSS API, оскільки сервер відповів:\n%s",
+  "betterstats.gui.qs_screen.err.upld.guu.http_non200": "Не вдалося згенерувати адресу вивантаження, оскільки сервер відповів:\n%s",
+  "betterstats.gui.qs_screen.err.upld.act.http_non200": "Не вдалося вивантажити статистику, оскільки сервер відповів:\n%s",
+  "betterstats.gui.qs_screen.err.dwnl.gdu.http_non200": "Не вдалося згенерувати адресу завантаження, оскільки сервер відповів:\n%s",
+  "betterstats.gui.qs_screen.err.dwnl.act.http_non200": "Не вдалося завантажити статистику, оскільки сервер відповів:\n%s"
+}
