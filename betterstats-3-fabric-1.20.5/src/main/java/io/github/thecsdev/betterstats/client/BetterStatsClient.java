@@ -17,6 +17,7 @@ import io.github.thecsdev.tcdcommons.api.events.client.gui.screen.GameMenuScreen
 import io.github.thecsdev.tcdcommons.api.events.item.ItemGroupEvent;
 import io.github.thecsdev.tcdcommons.api.hooks.client.gui.widget.ButtonWidgetHooks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
@@ -50,9 +51,14 @@ public final class BetterStatsClient extends BetterStats
 				if(ogStatsBtn == null) return;
 				
 				//replace its function
+				final var ogStatsBtn_onPress = ButtonWidgetHooks.getOnPress(ogStatsBtn);
 				ButtonWidgetHooks.setOnPress(
-						ogStatsBtn,
-						btn -> MC_CLIENT.setScreen(new BetterStatsScreen(MC_CLIENT.currentScreen).getAsScreen()));
+					ogStatsBtn,
+					btn ->
+					{
+						if(Screen.hasShiftDown()) ogStatsBtn_onPress.onPress(ogStatsBtn);
+						else MC_CLIENT.setScreen(new BetterStatsScreen(MC_CLIENT.currentScreen).getAsScreen());
+					});
 			});
 		});
 		

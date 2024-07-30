@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils.GSON;
@@ -104,6 +105,11 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		this.__error = exception;
 		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
+		
+		//log
+		LOGGER.error(
+				"[Quick-Share] Failed to download quick-shared statistics using the code; " + this.quickShareCode,
+				exception);
 	}
 	// --------------------------------------------------
 	private @Internal void __start__stage1and2and3()
@@ -114,6 +120,9 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 		this.__stage = 1;
 		if(!isOpen()) return; //break the operation if the user closed the screen
 		//note: do not call `refresh()` here
+		
+		//log
+		LOGGER.info("[Quick-Share] Downloading quick-shared statistics using the code; " + this.quickShareCode);
 		
 		//parse the user-input identifier
 		@Nullable Identifier mcbsCachedId = null;
@@ -316,6 +325,9 @@ public class QuickShareDownloadScreen extends QuickShareScreen
 			final var stats  = new RAMStatsProvider(buffer, true);
 			final var bss    = new BetterStatsScreen(this.bssParent, stats);
 			MC_CLIENT.setScreen(bss.getAsScreen());
+			
+			//log
+			LOGGER.info("[Quick-Share] Succesfully downloaded quick-shared statistics using the code; " + this.quickShareCode);
 		}
 		catch(Exception exc) { __start_onError(exc); }
 	}

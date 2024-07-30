@@ -1,5 +1,6 @@
 package io.github.thecsdev.betterstats.client.gui.screen;
 
+import static io.github.thecsdev.betterstats.BetterStats.LOGGER;
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.betterstats.util.io.BetterStatsWebApiUtils.GSON;
@@ -12,6 +13,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +45,9 @@ import io.github.thecsdev.tcdcommons.api.util.io.HttpUtils.FetchOptions;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResourceManager;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.IResourceFetchTask;
+import io.github.thecsdev.tcdcommons.api.util.math.Tuple2;
 import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.network.PacketByteBuf;
@@ -122,6 +126,12 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		this.__error = exception;
 		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
+		
+		//log
+		LOGGER.error(
+				"[Quick-share] Failed to upload quick-share statistics." +
+				(this.__quickShareCode != null ? " The quick-share code is: " + this.__quickShareCode : ""),
+				exception);
 	}
 	// --------------------------------------------------
 	private @Internal void __start__stage1()
@@ -132,6 +142,9 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		this.__stage = 1;
 		if(!isOpen()) return; //break the operation if the user closed the screen
 		//note: do not call `refresh()` here
+		
+		//log
+		LOGGER.info("[Quick-share] Uploading quick-share statistics...");
 		
 		//fetch the API links
 		BetterStatsWebApiUtils.fetchBssApiLinksAsync(MC_CLIENT,
@@ -271,12 +284,16 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 						httpBody.writeBytes(str.getBytes(Charsets.UTF_8));
 					}
 					{
+						final var statsBytes = exportStatsBytes();
 						final var str = "--" + multipartBoundary + CRLF +
 							"Content-Disposition: form-data; name=\"file\"; filename=\"" + filename + "\"" + CRLF +
-							"Content-Type: application/octet-stream" + CRLF + CRLF;
+							"Content-Type: application/octet-stream" + CRLF +
+							"Cache-Control: no-transform" + CRLF +
+							(statsBytes.Item2 ? "Content-Encoding: gzip" + CRLF : "") +
+							CRLF;
 						httpBody.writeBytes(str.getBytes(Charsets.UTF_8));
-						StatsProviderIO.write(httpBody, QuickShareUploadScreen.this.stats);
-						httpBody.writeBytes(CRLF.getBytes(Charsets.UTF_8));
+						httpBody.writeBytes(statsBytes.Item1);
+						httpBody.writeBytes(CRLF.getBytes(Charsets.UTF_8));	
 					}
 					httpBody.writeBytes(("--" + multipartBoundary + "--" + CRLF).getBytes(Charsets.UTF_8));
 					
@@ -337,6 +354,54 @@ public final class QuickShareUploadScreen extends QuickShareScreen
 		this.__stage = 4;
 		if(!isOpen()) return; //break the operation if the user closed the screen
 		refresh();
+		
+		//log
+		LOGGER.info("[Quick-share] Succesfully uploaded quick-share statistics. The code is: " + this.__quickShareCode);
+	}
+	// ==================================================
+	/**
+	 * Exports the {@link #stats} bytes, in either GZip compressed or
+	 * uncompressed format, whichever takes up less space.
+	 * 
+	 * @apiNote May result in duplicate data in-RAM as the compression takes place,
+	 * but the duplicate data is erased from RAM shortly after.
+	 */
+	private @Internal Tuple2<byte[], Boolean> exportStatsBytes()
+	{
+		//prepare
+		byte[] raw        = null;
+		byte[] compressed = null;
+		
+		//obtain the raw statistics
+		final var rawBuffer = new PacketByteBuf(Unpooled.buffer());
+		try
+		{
+			StatsProviderIO.write(rawBuffer, this.stats);
+			raw = new byte[rawBuffer.readableBytes()];
+			rawBuffer.readBytes(raw);
+		}
+		finally { rawBuffer.release(); } //Note: Always release to avoid memory leaks.
+		
+		//obtain the compressed statistics
+		final var compressedBuffer = new PacketByteBuf(Unpooled.buffer());
+		try
+		{
+			final var outputStream = new ByteBufOutputStream(compressedBuffer);
+			try (var gzipOutputStream = new GZIPOutputStream(outputStream)) { gzipOutputStream.write(raw); }
+			catch (IOException e) { throw new RuntimeException("Error during GZip compression of MCBS data", e); }
+			
+			compressed = new byte[compressedBuffer.readableBytes()];
+			compressedBuffer.readBytes(compressed);
+		}
+		finally { compressedBuffer.release(); } //Note: Always release to avoid memory leaks.
+		
+		//log
+		LOGGER.info("[Quick-share] Attempting to compress quick-share MCBS data using GZip. Raw file size is " +
+				raw.length + ", and compressed file size is " + compressed.length + ".");
+		
+		//return the shortest outcome
+		if(compressed.length < raw.length) return new Tuple2<>(compressed, true);
+		else return new Tuple2<>(raw, false);
 	}
 	// ==================================================
 }

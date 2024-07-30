@@ -24,6 +24,7 @@ import io.github.thecsdev.betterstats.client.network.OtherClientPlayerStatsProvi
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenPlus;
 import io.github.thecsdev.tcdcommons.api.client.gui.screen.TScreenWrapper;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
+import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
@@ -71,7 +72,14 @@ public final class BetterStatsScreen extends TScreenPlus implements IParentScree
 	// ==================================================
 	public final @Override boolean shouldPause() { return true; }
 	public final @Override boolean shouldRenderInGameHud() { return false; }
-	public final @Override void close() { getClient().setScreen(this.parent); }
+	public final @Override void close()
+	{
+		//for non-pause-menu screens, set screen to parent
+		if(!(this.parent instanceof GameMenuScreen))
+			getClient().setScreen(this.parent);
+		//for the pause-menu screen, set screen to null for consistency
+		else super.close();
+	}
 	// --------------------------------------------------
 	protected final @Override void onOpened()
 	{
