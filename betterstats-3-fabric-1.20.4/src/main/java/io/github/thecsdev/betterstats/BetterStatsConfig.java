@@ -18,7 +18,7 @@ public class BetterStatsConfig extends AutoConfig
 	public @SerializedAs("client-wideStatsPanel")        boolean wideStatsPanel            = false; //v3.12+
 	public @SerializedAs("client-centeredStatsPanel")    boolean centeredStatsPanel        = false; //v3.12+
 	public @SerializedAs("server-registerCommands")      boolean registerCommands          = true;
-	public @SerializedAs("server-enableSAS")             boolean enableServerSAS           = true;
+	public @SerializedAs("server-enableSAS")             boolean enableServerSAS           = false;
 	public @SerializedAs("server-sasConfig")             SASConfig sasConfig = new SASConfig();
 	// ==================================================
 	public BetterStatsConfig(String name) { super(name); }
