@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.client.gui.stats.tabs;
 
+import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.FILTER_ID_FORMAT_DISTANCE;
+import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.FILTER_ID_FORMAT_TIME;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.FILTER_ID_SORT_CUSTOMS;
 import static io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils.GAP;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
@@ -22,9 +24,11 @@ import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortCustomsBy;
+import io.github.thecsdev.betterstats.api.util.formatters.StatValueFormatter;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.BetterStatsHudScreen;
 import io.github.thecsdev.betterstats.client.gui.screen.hud.entry.StatsHudGeneralEntry;
+import io.github.thecsdev.betterstats.mixin.hooks.AccessorStat;
 import io.github.thecsdev.betterstats.util.BST;
 import io.github.thecsdev.tcdcommons.api.client.gui.layout.UILayout;
 import io.github.thecsdev.tcdcommons.api.client.gui.other.TFillColorElement;
@@ -32,6 +36,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.other.TLabelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
+import net.minecraft.stat.StatFormatter;
 import net.minecraft.text.Text;
 
 public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
@@ -52,13 +57,17 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		final var groupBy = filterSettings.getPropertyOrDefault(StatsTabUtils.FILTER_ID_GROUP, FilterGroupBy.DEFAULT);
 		final var sortBy = filterSettings.getProperty(FILTER_ID_SORT_CUSTOMS, FilterSortCustomsBy.DEFAULT);
 		
+		final var timeFormat = filterSettings.getPropertyOrDefault(FILTER_ID_FORMAT_TIME, StatValueFormatter.TIME);
+		final var distanceFormat = filterSettings.getPropertyOrDefault(FILTER_ID_FORMAT_DISTANCE, StatValueFormatter.DISTANCE);
+		
 		// ---------- initialize gui
 		//game profile panel
 		final var panel_gp = new GameProfilePanel(sp, sp, panel.getWidth() - (sp*2), statsProvider);
 		panel.addChild(panel_gp, true);
 		
 		// ---------- "debug mode"-specific statistics
-		if(BetterStatsConfig.DEBUG_MODE) initDebugInfo(panel); 
+		if(BetterStatsConfig.DEBUG_MODE && statsProvider instanceof LocalPlayerStatsProvider)
+			initDebugInfo(panel); 
 		
 		// ---------- general statistics
 		//player stats label
@@ -77,7 +86,16 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		{
 			final var group = statGroup.getKey();
 			StatsTabUtils.initGroupLabel(panel, group != null ? group : literal("*"));
-			initStats(panel, statGroup.getValue(), widget -> processWidget(widget));
+			initStats(panel, statGroup.getValue(), widget ->
+			{
+				//process the widget, as usual
+				processWidget(widget);
+				
+				//experimental action going on here (v3.13)...
+				final var statFormat = ((AccessorStat)widget.getStat().getGeneralStat()).getFormatter();
+				if(statFormat == StatFormatter.TIME) widget.setFormatter(timeFormat);
+				else if(statFormat == StatFormatter.DISTANCE) widget.setFormatter(distanceFormat);
+			});
 		}
 		else //init "no stats" label
 		{
@@ -101,6 +119,8 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 	{
 		StatsTabUtils.initGroupByFilter(initContext);
 		StatsTabUtils.initSortCustomsByFilter(initContext);
+		StatsTabUtils.initTimeFormatFilter(initContext);
+		StatsTabUtils.initDistanceFormatFilter(initContext);
 	}
 	// ==================================================
 	/**
@@ -155,7 +175,7 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 			{
 				final var hud = BetterStatsHudScreen.getInstance();
 				hud.setParentScreen(MC_CLIENT.currentScreen);
-				hud.addEntry(new StatsHudGeneralEntry(widget.getStat()));
+				hud.addEntry(new StatsHudGeneralEntry(widget.getStat(), widget.getFormatter()));
 				MC_CLIENT.setScreen(hud.getAsScreen());
 			});
 			cMenu.addButton(translatable("mco.selectServer.close"), ___ -> {});

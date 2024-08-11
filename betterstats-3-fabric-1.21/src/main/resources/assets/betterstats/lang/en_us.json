@@ -45,8 +45,6 @@
 	"betterstats.api.util.enumerations.filtergroupby.default": "Default",
 	"betterstats.api.util.enumerations.filtergroupby.mod": "Mod",
 	
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "Killed",
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "Died to",
 	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "Obtained",
 	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "Value",
 	

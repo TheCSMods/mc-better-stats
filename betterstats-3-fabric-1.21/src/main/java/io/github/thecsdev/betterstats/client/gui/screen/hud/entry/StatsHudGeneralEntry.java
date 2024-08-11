@@ -5,8 +5,11 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.ApiStatus.Experimental;
+
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
 import io.github.thecsdev.betterstats.api.client.util.io.LocalPlayerStatsProvider;
+import io.github.thecsdev.betterstats.api.util.formatters.StatValueFormatter;
 import io.github.thecsdev.betterstats.api.util.io.IEditableStatsProvider;
 import io.github.thecsdev.betterstats.api.util.io.IStatsProvider;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
@@ -27,15 +30,21 @@ public class StatsHudGeneralEntry extends TWidgetHudScreen.WidgetEntry<TElement>
 	protected IStatsProvider statsProvider;
 	protected final Identifier generalStat;
 	protected StatType<Identifier> mode = Stats.CUSTOM;
+	//
+	protected final @Experimental StatValueFormatter formatter; //since v3.13
 	// ==================================================
-	public StatsHudGeneralEntry(SUGeneralStat stat) throws NullPointerException {
-		this(stat.getStatsProvider(), stat.getGeneralStat().getValue());
+	public StatsHudGeneralEntry(SUGeneralStat stat, StatValueFormatter formatter) throws NullPointerException {
+		this(stat.getStatsProvider(), stat.getGeneralStat().getValue(), formatter);
 	}
-	public StatsHudGeneralEntry(IStatsProvider statsProvider, Identifier generalStat) throws NullPointerException
+	public StatsHudGeneralEntry(
+			IStatsProvider statsProvider,
+			Identifier generalStat,
+			StatValueFormatter formatter) throws NullPointerException
 	{
 		super(0.5, 0.25);
 		this.statsProvider = Objects.requireNonNull(statsProvider);
 		this.generalStat = Objects.requireNonNull(generalStat);
+		this.formatter = Objects.requireNonNull(formatter);
 	}
 	// ==================================================
 	public final @Override TElement createWidget()
@@ -71,7 +80,7 @@ public class StatsHudGeneralEntry extends TWidgetHudScreen.WidgetEntry<TElement>
 			var left = (mode == Stats.CUSTOM) ?
 					SUGeneralStat.getGeneralStatText(mode.getOrCreateStat(generalStat)) :
 					literal("<Unsupported stat>");
-			var right = literal(mode.getOrCreateStat(generalStat).format(rightVar));
+			var right = StatsHudGeneralEntry.this.formatter.format(rightVar);
 			
 			//update width
 			this.setSize(this.width + getTextRenderer().getWidth(left), this.height);

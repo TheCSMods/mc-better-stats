@@ -9,8 +9,11 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.awt.Rectangle;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -22,10 +25,12 @@ import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab;
 import io.github.thecsdev.betterstats.api.client.registry.StatsTab.FiltersInitContext;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
+import io.github.thecsdev.betterstats.api.registry.BSRegistries;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterGroupBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortCustomsBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortItemsBy;
 import io.github.thecsdev.betterstats.api.util.enumerations.FilterSortMobsBy;
+import io.github.thecsdev.betterstats.api.util.formatters.StatValueFormatter;
 import io.github.thecsdev.betterstats.api.util.stats.SUGeneralStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUItemStat;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
@@ -37,6 +42,7 @@ import io.github.thecsdev.tcdcommons.api.client.gui.panel.TPanelElement;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.UITexture;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TCheckboxWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectEnumWidget;
+import io.github.thecsdev.tcdcommons.api.client.gui.widget.TSelectWidget;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TTextFieldWidget;
 import io.github.thecsdev.tcdcommons.api.util.collections.GenericProperties;
 import io.github.thecsdev.tcdcommons.api.util.enumerations.HorizontalAlignment;
@@ -110,6 +116,22 @@ public final class StatsTabUtils
 	 * @see GenericProperties#getPropertyOrDefault(Object, Object)
 	 */
 	public static final Identifier FILTER_ID_SORT_MOBS = Identifier.of(getModID(), "sort_mobs_by");
+	
+	/**
+	 * The {@link Identifier} of the filter for time-based general-stat value formatting.
+	 * <p>
+	 * <b>Filter type:</b> {@link StatValueFormatter}
+	 * @since 3.13
+	 */
+	public static final Identifier FILTER_ID_FORMAT_TIME = Identifier.of(getModID(), "sfv_time");
+	
+	/**
+	 * The {@link Identifier} of the filter for time-based general-stat value formatting.
+	 * <p>
+	 * <b>Filter type:</b> {@link StatValueFormatter}
+	 * @since 3.13
+	 */
+	public static final Identifier FILTER_ID_FORMAT_DISTANCE = Identifier.of(getModID(), "sfv_distance");
 	// ==================================================
 	/**
 	 * Initializes the GUI for the most basic filters such as the
@@ -262,6 +284,96 @@ public final class StatsTabUtils
 			filterSettings.setProperty(filterId, newValue.getEnumValue());
 			initContext.refreshStatsTab();
 		});
+		panel.addChild(sel, false);
+	}
+	// ==================================================
+	/**
+	 * Initializes a {@link TSelectWidget} filter for time-based {@link StatValueFormatter}s.
+	 * @param initContext The {@link FiltersInitContext}.
+	 * @since 3.13
+	 */
+	public static void initTimeFormatFilter(FiltersInitContext initContext)
+	{
+		initStatValueFormatFilter(
+				initContext,
+				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(40, 0, 20, 20)),
+				FILTER_ID_FORMAT_TIME,
+				StreamSupport.stream(BSRegistries.STAT_TIME_FORMATTER.spliterator(), false)
+					.map(Map.Entry::getValue)
+					.collect(Collectors.toList()),
+				StatValueFormatter.TIME);
+	}
+	
+	/**
+	 * Initializes a {@link TSelectWidget} filter for distance-based {@link StatValueFormatter}s.
+	 * @param initContext The {@link FiltersInitContext}.
+	 * @since 3.13
+	 */
+	public static void initDistanceFormatFilter(FiltersInitContext initContext)
+	{
+		initStatValueFormatFilter(
+				initContext,
+				new UITexture(BS_WIDGETS_TEXTURE, new Rectangle(40, 20, 20, 20)),
+				FILTER_ID_FORMAT_DISTANCE,
+				StreamSupport.stream(BSRegistries.STAT_DISTANCE_FORMATTER.spliterator(), false)
+					.map(Map.Entry::getValue)
+					.collect(Collectors.toList()),
+				StatValueFormatter.DISTANCE);
+	}
+	// --------------------------------------------------
+	/**
+	 * Initializes a {@link TSelectWidget} filter for a collection of {@link StatValueFormatter}s.
+	 * @param initContext The {@link FiltersInitContext}.
+	 * @param icon An optional icon that will be shown beside the {@link TSelectWidget}.
+	 * @param filterId The filter's unique {@link Identifier} used for getting and setting the filter's value.
+	 * @param formats The collection of {@link StatValueFormatter}s to feature in the {@link TSelectWidget}.
+	 * @param defaultValue The default filter value.
+	 * @since 3.13
+	 */
+	public static void initStatValueFormatFilter(FiltersInitContext initContext,
+			final @Nullable UITexture icon,
+			final Identifier filterId,
+			Iterable<StatValueFormatter> formats,
+			StatValueFormatter defaultValue)
+	{
+		//requirements
+		Objects.requireNonNull(initContext);
+		Objects.requireNonNull(filterId);
+		Objects.requireNonNull(formats);
+		Objects.requireNonNull(defaultValue);
+		
+		//obtain important stuff
+		final var filterSettings = initContext.getFilterSettings();
+		final var panel          = initContext.getFiltersPanel();
+		final int gap            = GAP * (panel.getChildren().size() == 0 ? 0 : 1);
+
+		//obtain the next placement coordinates
+		final var n1 = nextChildVerticalRect(panel);
+		n1.y += gap;
+		if(icon != null)
+		{
+			final int i = n1.height + GAP;
+			n1.x += i;
+			n1.width -= i;
+			
+			//init the icon
+			final var ico = new TTextureElement(n1.x - i, n1.y, n1.height, n1.height, icon);
+			panel.addChild(ico, false);
+		}
+		
+		//init the select widget
+		final var sel = new TSelectWidget<TSelectWidget.SimpleEntry>(n1.x, n1.y, n1.width, n1.height);
+		final var val = filterSettings.getPropertyOrDefault(filterId, defaultValue);
+		formats.forEach(format ->
+		{
+			final var entry = new TSelectWidget.SimpleEntry(format.getDisplayName(), () ->
+			{
+				filterSettings.setProperty(filterId, format);
+				initContext.refreshStatsTab();
+			});
+			sel.addEntry(entry);
+		});
+		sel.setText(val.getDisplayName());
 		panel.addChild(sel, false);
 	}
 	// ==================================================

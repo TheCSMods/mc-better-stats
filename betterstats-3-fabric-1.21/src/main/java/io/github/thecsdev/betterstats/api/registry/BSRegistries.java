@@ -8,11 +8,14 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Function;
 
+import org.jetbrains.annotations.ApiStatus.Experimental;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.api.util.formatters.StatValueFormatter;
 import io.github.thecsdev.betterstats.api.util.stats.SUMobStat;
 import io.github.thecsdev.betterstats.util.BST;
+import io.github.thecsdev.tcdcommons.api.registry.TMutableRegistry;
 import io.github.thecsdev.tcdcommons.api.registry.TRegistry;
 import io.github.thecsdev.tcdcommons.api.util.TextUtils;
 import net.minecraft.entity.Entity;
@@ -76,6 +79,20 @@ public final class BSRegistries
 	 * - and so on...
 	 */
 	public static final Map<StatType<EntityType<?>>, Text> ENTITY_STAT_PHRASE;
+	// --------------------------------------------------
+	/**
+	 * Formatters for formatting time-based statistic values.
+	 * @since 3.13
+	 */
+	@Experimental
+	public static final TMutableRegistry<StatValueFormatter> STAT_TIME_FORMATTER = new TMutableRegistry<>();
+	
+	/**
+	 * Formatters for formatting distance-based statistic values.
+	 * @since 3.13
+	 */
+	@Experimental
+	public static final TMutableRegistry<StatValueFormatter> STAT_DISTANCE_FORMATTER = new TMutableRegistry<>();
 	// --------------------------------------------------
 	static
 	{
