@@ -62,7 +62,7 @@ public @Virtual class ItemStatWidget extends AbstractStatWidget<SUItemStat>
 			final var stStat = ((StatType)st).getOrCreateStat(stRegIsItem ? stat.getItem() : stat.getBlock());
 			
 			//use the Stat instance to obtain the Stat value
-			final int val = stat.getStatsProvider().getStatValue(stStat);
+			final String val = stStat.format(stat.getStatsProvider().getStatValue(stStat));
 			
 			//append the stat value to the final Tooltip text
 			tttb.append("§e-§r ");

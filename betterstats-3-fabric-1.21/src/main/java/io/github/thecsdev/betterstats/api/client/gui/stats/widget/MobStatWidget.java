@@ -64,8 +64,10 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 			{
 				@SuppressWarnings("unchecked")
 				final var statTypeE = (StatType<EntityType<?>>)statType;
-				final var stVal = stat.getStatsProvider().getStatValue(statTypeE, stat.getEntityType());
-				ttt.append("\n§e-§r ").append(getEntityStatTypePhrase(statTypeE)).append(": " + stVal);
+				final int stVal = stat.getStatsProvider().getStatValue(statTypeE, stat.getEntityType());
+				ttt.append("\n§e-§r ")
+					.append(getEntityStatTypePhrase(statTypeE))
+					.append(": " + statTypeE.getOrCreateStat(stat.getEntityType()).format(stVal));
 			}
 		}
 		setTooltip(this.defaultTooltip = Tooltip.of(ttt));

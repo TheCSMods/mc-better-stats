@@ -10,9 +10,6 @@
 		"website": "${project.properties.modmenu_link_website}",
 		"youtube": "${project.properties.modmenu_link_youtube}",
 		
-		"feedback": "${project.properties.link_feedback}",
-		"full_version": "${project.properties.link_fv}",
-		
 		"quickshare_legal": "https://thecsdev.github.io/ref/bss_qs_legal",
 		"remote_api_links": "https://thecsdev.github.io/api/links/betterstats.json"
 	},
