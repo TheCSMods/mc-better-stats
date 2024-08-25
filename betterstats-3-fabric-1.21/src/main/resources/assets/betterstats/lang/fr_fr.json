@@ -53,8 +53,9 @@
 	"betterstats.player_badge.the_next_generation.description": "Vous avez tenu le symbole du triomphe ultime - l'Oeuf de Dragon.",
 	"betterstats.player_badge.adventurous_traveler.title": "Voyageur Aventureux",
 	"betterstats.player_badge.adventurous_traveler.description": "À travers les montagnes hautes et les vallées basses, vous avez voyagé loin, avec beaucoup à montrer. Cherchant une vue, une histoire inédite, la mesure d'un voyage en blocs d'or. Et puis vous l'avez vu...\n\nVous avez voyagé pour au moins 727,000 blocs.",
-	"betterstats.player_badge.perennial_survivor.title": "Survi
- 
+	"betterstats.player_badge.perennial_survivor.title": "Survivant pérenne",
+	"betterstats.player_badge.perennial_survivor.description": "Vous avez réussi à tromper la mort, pour l'instant. Allez-vous continuer à échapper à l'inévitable ?\n\nVous avez survécu pendant au moins 12 heures.",
+	
 	"betterstats.gui.hud_screen.betterstatshudscreen": "HUD de statistiques",
 	"betterstats.gui.hud_screen.betterstatshudscreen.pin_stat": "Épingler à l'HUD",
 	"betterstats.gui.hud_screen.betterstatshudscreen.tutorial_1": "Cliquer droit sur une statistique ([Shift]+RMB) pour l'ajouter ici.",
