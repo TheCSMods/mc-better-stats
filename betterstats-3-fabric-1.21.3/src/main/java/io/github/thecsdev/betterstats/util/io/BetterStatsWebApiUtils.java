@@ -20,9 +20,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import io.github.thecsdev.betterstats.BetterStats;
+import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResource;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.CachedResourceManager;
 import io.github.thecsdev.tcdcommons.api.util.io.cache.IResourceFetchTask;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.thread.ThreadExecutor;
 
@@ -33,9 +35,20 @@ import net.minecraft.util.thread.ThreadExecutor;
 public final class BetterStatsWebApiUtils
 {
 	// ==================================================
-	public static final @Internal Gson GSON = new Gson();
+	public  static final @Internal Gson       GSON                     = new Gson();
+	private static final           JsonObject DEBUG_API_LINK_OVERRIDES = new JsonObject();
 	// ==================================================
 	private BetterStatsWebApiUtils() {}
+	static
+	{
+		//Note: Feel free to remove this code on non-Fabric platforms.
+		//      It's just for testing purposes anyways.
+		if(FabricLoader.getInstance().isDevelopmentEnvironment())
+		{
+			DEBUG_API_LINK_OVERRIDES.addProperty("quickshare_gdu", "http://localhost:8080/api-s/betterstats/quick-share/generate-download-url/");
+			DEBUG_API_LINK_OVERRIDES.addProperty("quickshare_guu", "http://localhost:8080/api-s/betterstats/quick-share/generate-upload-url/");
+		}
+	}
 	// ==================================================
 	/**
 	 * Asynchronously fetches {@link BetterStats}'s API URLs.
@@ -88,7 +101,12 @@ public final class BetterStatsWebApiUtils
 						httpResultStr.length(),
 						Instant.now().plus(Duration.ofMinutes(42)));
 			}
-			public final @Override void onReady(JsonObject result) { onReady.accept(result); }
+			public final @Override void onReady(JsonObject result)
+			{
+				if(BetterStatsConfig.DEBUG_MODE)
+					result.asMap().putAll(DEBUG_API_LINK_OVERRIDES.asMap());
+				onReady.accept(result);
+			}
 			public final @Override void onError(Exception error) { onError.accept(error); }
 		};
 		
