@@ -8,7 +8,9 @@ import io.github.thecsdev.tcdcommons.api.config.annotation.SerializedAs;
 public class BetterStatsConfig extends AutoConfig
 {
 	// ==================================================
-	public static @NonSerialized boolean DEBUG_MODE = false;
+	// Temporary configurations bound to the current game session
+	public static @NonSerialized boolean DEBUG_MODE      = false;
+	public static @NonSerialized boolean SHOW_HUD_SCREEN = true;  //client-sided
 	// --------------------------------------------------
 	public @SerializedAs("common-forceFullVersion")      boolean forceFullVersion          = false; //v3.11+
 	public @SerializedAs("client-guiSmoothScroll")       boolean guiSmoothScroll           = true;

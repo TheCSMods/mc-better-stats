@@ -30,6 +30,8 @@ public final @Internal class BST
 	public static final MutableText stp_mc_killed()   { return translatable("betterstats.stattype_phrase.minecraft.killed"); }
 	public static final MutableText stp_mc_killedBy() { return translatable("betterstats.stattype_phrase.minecraft.killed_by"); }
 	// --------------------------------------------------
+	public static final String keybind_toggleHud() { return "betterstats.key_binding.toggle_hud_screen"; }
+	// --------------------------------------------------
 	public static final MutableText menu_file()          { return translatable("betterstats.gui.menu_bar.menu_file"); }
 	public static final MutableText menu_file_new()      { return translatable("betterstats.gui.menu_bar.menu_file.new"); }
 	public static final MutableText menu_file_open()     { return translatable("betterstats.gui.menu_bar.menu_file.open"); }
@@ -131,7 +133,7 @@ public final @Internal class BST
 	public static final MutableText gui_qsscreen_upload_stage4(Text qsCode) { return translatable("betterstats.gui.qs_screen.upload.stage_4", qsCode); }
 	//
 	public static final MutableText gui_qsscreen_download_title()   { return translatable("betterstats.gui.qs_screen.download.title"); }
-	public static final MutableText gui_qsscreen_download_stageN1()  { return translatable("betterstats.gui.qs_screen.download.stage_n1"); }
+	public static final MutableText gui_qsscreen_download_stageN1() { return translatable("betterstats.gui.qs_screen.download.stage_n1"); }
 	public static final MutableText gui_qsscreen_download_stage0()  { return translatable("betterstats.gui.qs_screen.download.stage_0"); }
 	public static final MutableText gui_qsscreen_download_stage1()  { return translatable("betterstats.gui.qs_screen.download.stage_1"); }
 	public static final MutableText gui_qsscreen_download_stage2()  { return translatable("betterstats.gui.qs_screen.download.stage_2"); }

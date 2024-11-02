@@ -1,5 +1,7 @@
 package io.github.thecsdev.betterstats.api.client.gui.stats.widget;
 
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
+
 import java.util.Objects;
 
 import io.github.thecsdev.betterstats.api.util.stats.SUStat;
@@ -8,6 +10,8 @@ import io.github.thecsdev.tcdcommons.api.client.gui.util.TDrawContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.util.TInputContext;
 import io.github.thecsdev.tcdcommons.api.client.gui.widget.TClickableWidget;
 import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.sound.SoundEvents;
 
 /**
  * A GUI widget that displays stats information from a given {@link SUStat}.
@@ -72,8 +76,16 @@ public abstract class AbstractStatWidget<S extends SUStat<?>> extends TClickable
 	public @Virtual @Override void render(TDrawContext pencil) { pencil.drawTFill(this.backgroundColor); }
 	public @Virtual @Override void postRender(TDrawContext pencil)
 	{
+		//render the borders
 		if(isFocusedOrHovered()) pencil.drawTBorder(this.focusOutlineColor);
 		else pencil.drawTBorder(this.outlineColor);
+		
+		//a neat little on-hover sound
+		if(isHovered() && !isFocused() && !this.__wasHovered)
+			MC_CLIENT.getSoundManager().play(PositionedSoundInstance.master(
+					SoundEvents.BLOCK_NOTE_BLOCK_HAT.value(), 1.8f, 0.05f));
+		this.__wasHovered = isHovered();
 	}
+	private boolean __wasHovered = false;
 	// ==================================================
 }

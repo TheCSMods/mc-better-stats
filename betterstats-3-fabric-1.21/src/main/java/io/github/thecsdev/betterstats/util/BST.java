@@ -30,6 +30,8 @@ public final @Internal class BST
 	public static final MutableText stp_mc_killed()   { return translatable("betterstats.stattype_phrase.minecraft.killed"); }
 	public static final MutableText stp_mc_killedBy() { return translatable("betterstats.stattype_phrase.minecraft.killed_by"); }
 	// --------------------------------------------------
+	public static final String keybind_toggleHud() { return "betterstats.key_binding.toggle_hud_screen"; }
+	// --------------------------------------------------
 	public static final MutableText menu_file()          { return translatable("betterstats.gui.menu_bar.menu_file"); }
 	public static final MutableText menu_file_new()      { return translatable("betterstats.gui.menu_bar.menu_file.new"); }
 	public static final MutableText menu_file_open()     { return translatable("betterstats.gui.menu_bar.menu_file.open"); }

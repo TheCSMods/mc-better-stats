@@ -1,7 +1,9 @@
 package io.github.thecsdev.betterstats.client.gui.screen.hud;
 
 import static io.github.thecsdev.betterstats.BetterStats.getModID;
+import static io.github.thecsdev.betterstats.BetterStatsConfig.SHOW_HUD_SCREEN;
 import static io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel.BS_WIDGETS_TEXTURE;
+import static io.github.thecsdev.betterstats.client.BetterStatsClient.KEYBIND_TOGGLE_HUD;
 import static io.github.thecsdev.betterstats.client.BetterStatsClient.MC_CLIENT;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.literal;
 import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
@@ -21,8 +23,10 @@ import io.github.thecsdev.tcdcommons.api.client.gui.widget.TButtonWidget;
 import io.github.thecsdev.tcdcommons.api.client.util.interfaces.IParentScreenProvider;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -65,6 +69,9 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 		//if the hud screen is opened, add some extra widgets to it
 		if(isOpen())
 		{
+			//reset the "show hud screen" flag here
+			SHOW_HUD_SCREEN = true;
+			
 			//obtain the better-stats's client play network handler
 			final var bssCpnh = BetterStatsClientPlayNetworkHandler.of(MC_CLIENT.player);
 			
@@ -108,6 +115,18 @@ public final class BetterStatsHudScreen extends TWidgetHudScreen implements IPar
 	// --------------------------------------------------
 	public final @Override void render(TDrawContext pencil)
 	{
+		// ---------- handle key-bindings
+		if(KEYBIND_TOGGLE_HUD.wasPressed() && !isOpen())
+		{
+			SHOW_HUD_SCREEN = !SHOW_HUD_SCREEN;
+			MC_CLIENT.getSoundManager().play(PositionedSoundInstance.master(
+					SoundEvents.BLOCK_NOTE_BLOCK_HAT,
+					SHOW_HUD_SCREEN ? 2 : 1.8f));
+		}
+		
+		// ---------- handle rendering
+		if(!SHOW_HUD_SCREEN && !isOpen()) return;
+		
 		//render super
 		super.render(pencil); //super must be called here
 		

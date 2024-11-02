@@ -19,6 +19,9 @@
 	"betterstats.stattype_phrase.morestats.totem_popped_by": "Totems popped by",
 	
 	
+	"betterstats.key_binding.toggle_hud_screen": "Toggle statistics HUD",
+		
+	
 	"betterstats.gui.menu_bar.menu_file": "File",
 	"betterstats.gui.menu_bar.menu_file.new": "New",
 	"betterstats.gui.menu_bar.menu_file.open": "Open",

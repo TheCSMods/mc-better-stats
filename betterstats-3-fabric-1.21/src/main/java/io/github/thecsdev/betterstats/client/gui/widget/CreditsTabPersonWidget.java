@@ -48,7 +48,6 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 		this.fetchGitHubInfo = fetchGitHubInfo;
 	}
 	// ==================================================
-	@SuppressWarnings("deprecation")
 	protected final @Override void init()
 	{
 		final var icon = new TTextureElement(2, 2, 16, 16);
@@ -121,7 +120,6 @@ public final class CreditsTabPersonWidget extends TRefreshablePanelElement
 	 * Constructs a "display name" {@link Text} from a {@link RepositoryUserInfo}.
 	 * @param userInfo The {@link RepositoryUserInfo}.
 	 */
-	@SuppressWarnings("deprecation")
 	public static final Text getDisplayNameFromGHUser(RepositoryUserInfo userInfo) throws NullPointerException
 	{
 		final @Nullable var name = userInfo.getAccountName();
