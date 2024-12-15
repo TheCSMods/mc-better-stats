@@ -20,10 +20,10 @@ import io.github.thecsdev.tcdcommons.api.hooks.client.gui.widget.ButtonWidgetHoo
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.item.ItemGroups;
 
 public final class BetterStatsClient extends BetterStats
 {
@@ -86,14 +86,17 @@ public final class BetterStatsClient extends BetterStats
 		MinecraftClientEvent.JOINED_WORLD.register((client, world) ->
 		{
 			//when the client joins a world, update the item group display context
-			//right away, so as to avoid lag spikes when opening inventory later
-			final var useOp = //Important: Must copy the exact values used by CreativeInventoryScreen
-					client.player.isCreativeLevelTwoOp() &&
-					MC_CLIENT.options.getOperatorItemsTab().getValue();
+			//right away, so as to avoid lag spikes when opening inventory later.
+			//this is also here so this mod can display properly grouped items right away
+			final var features     = world.getEnabledFeatures();
+			final var lookup       = world.getRegistryManager();
+			final var opTabEnabled = //Important: Must copy the exact values used by CreativeInventoryScreen
+					client.options.getOperatorItemsTab().getValue() &&
+					((client.player != null) ? client.player.isCreativeLevelTwoOp() : false);
 			
-			//create an instance of the creative inventory, as it is the one that updates
-			//item groups and the search item group (in other words, let the game do it)
-			new CreativeInventoryScreen(client.player, world.getEnabledFeatures(), useOp);
+			if(features != null && lookup != null)
+				ItemGroups.updateDisplayContext(features, opTabEnabled, lookup);
+			//Credit: https://github.com/TheCSMods/mc-better-stats/issues/143
 		});
 	}
 	// ==================================================
