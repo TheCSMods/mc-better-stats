@@ -4,6 +4,7 @@ import static io.github.thecsdev.tcdcommons.api.util.TextUtils.translatable;
 
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Random;
 
 import io.github.thecsdev.betterstats.BetterStats;
@@ -22,6 +23,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.search.SearchManager;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemGroups;
 
@@ -85,18 +87,31 @@ public final class BetterStatsClient extends BetterStats
 		//pre-load dynamic content when joining worlds
 		MinecraftClientEvent.JOINED_WORLD.register((client, world) ->
 		{
+			// ----------
+			//do not do this if this feature is disabled
+			if(!getConfig().updateItemGroupsOnJoin)
+				return;
+			// ----------
 			//when the client joins a world, update the item group display context
 			//right away, so as to avoid lag spikes when opening inventory later.
 			//this is also here so this mod can display properly grouped items right away
-			final var features     = world.getEnabledFeatures();
-			final var lookup       = world.getRegistryManager();
-			final var opTabEnabled = //Important: Must copy the exact values used by CreativeInventoryScreen
-					client.options.getOperatorItemsTab().getValue() &&
-					((client.player != null) ? client.player.isCreativeLevelTwoOp() : false);
+			// ----------
+			//update display context for items
+			// From -> net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen @ lines 130, 170.
+			ItemGroups.updateDisplayContext(
+					client.world.getEnabledFeatures(),
+					client.options.getOperatorItemsTab().getValue() && client.player.isCreativeLevelTwoOp(),
+					world.getRegistryManager());
 			
-			if(features != null && lookup != null)
-				ItemGroups.updateDisplayContext(features, opTabEnabled, lookup);
-			//Credit: https://github.com/TheCSMods/mc-better-stats/issues/143
+			//update the "Search" item group
+			// From -> net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen @ line 173.
+			if(client.player.networkHandler.getSearchManager() instanceof SearchManager sm)
+			{
+				final var list = List.copyOf(ItemGroups.getSearchGroup().getDisplayStacks());
+				sm.addItemTooltipReloader(world.getRegistryManager(), list);
+				sm.addItemTagReloader(list);
+			}
+			// ----------
 		});
 	}
 	// ==================================================

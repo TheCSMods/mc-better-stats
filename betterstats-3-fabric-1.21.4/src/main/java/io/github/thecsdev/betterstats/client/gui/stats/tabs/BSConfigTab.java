@@ -147,6 +147,13 @@ public final class BSConfigTab extends StatsTab
 				config.centeredStatsPanel,
 				checkbox -> config.centeredStatsPanel = checkbox.getChecked());
 		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_centeredStatsPanel_tooltip()));
+		
+		//update (item groups / display context) on join
+		configBuilder.addCheckbox(
+				BST.config_updDspCtxOnJoin(),
+				config.updateItemGroupsOnJoin,
+				checkbox -> config.updateItemGroupsOnJoin = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_updDspCtxOnJoin_tooltip()));
 	}
 	
 	private static final void initConfigGui_serverSide(BetterStatsConfig config, TConfigPanelBuilder<?> configBuilder)
