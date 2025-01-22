@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.api.client.gui.panel.BSComponentPanel;
 import io.github.thecsdev.betterstats.api.client.gui.screen.BetterStatsScreen;
 import io.github.thecsdev.betterstats.api.client.registry.BSStatsTabs;
@@ -211,21 +212,24 @@ public final class MenuBarPanel extends BSComponentPanel
 		addChild(menu, true);
 		
 		//add the display name label
-		final var statsProvider = this.proxy.getStatsProvider();
-		final boolean isESP = (statsProvider instanceof IEditableStatsProvider);
-		
-		@Nullable Text displayName = (statsProvider != null) ? statsProvider.getDisplayName() : null;
-		if(displayName == null) displayName = literal("-"); //both conditions above can return null
-		
-		final int displayNameW = getTextRenderer().getWidth(displayName);
-		
-		final int menuSP = menu.getScrollPadding();
-		final var lbl_displayName = new TLabelElement(
-				menu.getEndX() - (menuSP + displayNameW + getTextRenderer().fontHeight), menu.getY() + menuSP,
-				displayNameW, menu.getHeight() - (menuSP*2),
-				displayName);
-		lbl_displayName.setTextColor(isESP ? 0xFFFFFFFF : BSStatsTabs.COLOR_SPECIAL);
-		addChild(lbl_displayName, false);
+		if(!BetterStats.getInstance().getConfig().hidePlayerInfo)
+		{
+			final var statsProvider = this.proxy.getStatsProvider();
+			final boolean isESP = (statsProvider instanceof IEditableStatsProvider);
+			
+			@Nullable Text displayName = (statsProvider != null) ? statsProvider.getDisplayName() : null;
+			if(displayName == null) displayName = literal("-"); //both conditions above can return null
+			
+			final int displayNameW = getTextRenderer().getWidth(displayName);
+			
+			final int menuSP = menu.getScrollPadding();
+			final var lbl_displayName = new TLabelElement(
+					menu.getEndX() - (menuSP + displayNameW + getTextRenderer().fontHeight), menu.getY() + menuSP,
+					displayNameW, menu.getHeight() - (menuSP*2),
+					displayName);
+			lbl_displayName.setTextColor(isESP ? 0xFFFFFFFF : BSStatsTabs.COLOR_SPECIAL);
+			addChild(lbl_displayName, false);
+		}
 	}
 	// ==================================================
 	/**

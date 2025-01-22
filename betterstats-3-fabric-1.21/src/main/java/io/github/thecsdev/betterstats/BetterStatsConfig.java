@@ -19,6 +19,7 @@ public class BetterStatsConfig extends AutoConfig
 	public @SerializedAs("client-wideStatsPanel")         boolean wideStatsPanel            = false; //v3.12+
 	public @SerializedAs("client-centeredStatsPanel")     boolean centeredStatsPanel        = false; //v3.12+
 	public @SerializedAs("client-updateItemGroupsOnJoin") boolean updateItemGroupsOnJoin    = true;  //3.13.6
+	public @SerializedAs("client-hidePlayerInfo")         boolean hidePlayerInfo            = false; //3.13.7
 	public @SerializedAs("server-registerCommands")       boolean registerCommands          = true;
 	public @SerializedAs("server-enableSAS")              boolean enableServerSAS           = false;
 	public @SerializedAs("server-sasConfig")              SASConfig sasConfig = new SASConfig();

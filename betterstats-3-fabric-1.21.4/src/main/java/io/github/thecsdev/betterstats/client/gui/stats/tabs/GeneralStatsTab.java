@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import io.github.thecsdev.betterstats.BetterStats;
 import io.github.thecsdev.betterstats.BetterStatsConfig;
 import io.github.thecsdev.betterstats.api.client.gui.stats.panel.GameProfilePanel;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.CustomStatElement;
@@ -62,8 +63,11 @@ public final @Internal class GeneralStatsTab extends BSStatsTab<SUGeneralStat>
 		
 		// ---------- initialize gui
 		//game profile panel
-		final var panel_gp = new GameProfilePanel(sp, sp, panel.getWidth() - (sp*2), statsProvider);
-		panel.addChild(panel_gp, true);
+		if(!BetterStats.getInstance().getConfig().hidePlayerInfo)
+		{
+			final var panel_gp = new GameProfilePanel(sp, sp, panel.getWidth() - (sp*2), statsProvider);
+			panel.addChild(panel_gp, true);
+		}
 		
 		// ---------- "debug mode"-specific statistics
 		if(BetterStatsConfig.DEBUG_MODE && statsProvider instanceof LocalPlayerStatsProvider)

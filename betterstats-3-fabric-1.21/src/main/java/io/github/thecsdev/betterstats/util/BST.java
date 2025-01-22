@@ -82,6 +82,8 @@ public final @Internal class BST
 	public static final MutableText config_centeredStatsPanel_tooltip()    { return translatable("betterstats.config.centered_stats_panel.tooltip"); }
 	public static final MutableText config_updDspCtxOnJoin()               { return translatable("betterstats.config.update_itemgroups_onjoin"); }
 	public static final MutableText config_updDspCtxOnJoin_tooltip()       { return translatable("betterstats.config.update_itemgroups_onjoin.tooltip"); }
+	public static final MutableText config_hidePlayerInfo()                { return translatable("betterstats.config.hide_player_info"); }
+	public static final MutableText config_hidePlayerInfo_tooltip()        { return translatable("betterstats.config.hide_player_info.tooltip"); }
 	// --------------------------------------------------
 	public static final MutableText pbadge_dedication_title()       { return translatable("betterstats.player_badge.dedication.title"); }
 	public static final MutableText pbadge_dedication_description() { return translatable("betterstats.player_badge.dedication.description"); }

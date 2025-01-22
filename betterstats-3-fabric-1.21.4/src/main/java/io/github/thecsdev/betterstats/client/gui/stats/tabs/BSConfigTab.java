@@ -154,6 +154,13 @@ public final class BSConfigTab extends StatsTab
 				config.updateItemGroupsOnJoin,
 				checkbox -> config.updateItemGroupsOnJoin = checkbox.getChecked());
 		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_updDspCtxOnJoin_tooltip()));
+		
+		//hide player info
+		configBuilder.addCheckbox(
+				BST.config_hidePlayerInfo(),
+				config.hidePlayerInfo,
+				checkbox -> config.hidePlayerInfo = checkbox.getChecked());
+		configBuilder.getLastAddedElement().setTooltip(Tooltip.of(BST.config_hidePlayerInfo_tooltip()));
 	}
 	
 	private static final void initConfigGui_serverSide(BetterStatsConfig config, TConfigPanelBuilder<?> configBuilder)
