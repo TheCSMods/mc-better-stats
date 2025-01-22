@@ -19,6 +19,9 @@
 	"betterstats.stattype_phrase.morestats.totem_popped_by": "被觸發的不死圖騰數",
 	
 	
+	"betterstats.key_binding.toggle_hud_screen": "切換統計資訊抬頭顯示器",
+
+
 	"betterstats.gui.menu_bar.menu_file": "檔案",
 	"betterstats.gui.menu_bar.menu_file.new": "新增",
 	"betterstats.gui.menu_bar.menu_file.open": "開啟",
@@ -44,9 +47,7 @@
 	
 	"betterstats.api.util.enumerations.filtergroupby.default": "預設",
 	"betterstats.api.util.enumerations.filtergroupby.mod": "模組",
-	
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.kills": "擊殺數",
-	"betterstats.api.client.gui.stats.widget.mobstatwidget.deaths": "死亡數",
+
 	"betterstats.api.client.gui.stats.widget.playerbadgestatwidget.obtained": "已取得",
 	"betterstats.api.client.gui.stats.widget.generalstatwidget.value": "數值",
 	
@@ -62,13 +63,16 @@
 	"betterstats.config.allow_stats_sharing": "允許統計資訊分享",
 	"betterstats.config.allow_stats_sharing.tooltip": "允許伺服器將分享你的統計資訊與其他玩家分享。請注意，任何執行伺服器的人都可以修改伺服器來忽略這項偏好設定。儘管這不應該發生，但仍有可能。",
 	"betterstats.config.register_commands": "登錄指令",
-
 	"betterstats.config.enable_sas": "啟用統計資訊公告系統",
 	"betterstats.config.wide_stats_panel": "寬統計面板",
 	"betterstats.config.wide_stats_panel.tooltip": "我買了整個螢幕，就要用整個螢幕。",
 	"betterstats.config.centered_stats_panel": "置中統計面板",
 	"betterstats.config.centered_stats_panel.tooltip": "啟用時，統計面板（即整個 GUI）會置中顯示在螢幕上。\n如果「寬統計面板」已啟用，此選項無效且無作用。",
-  
+	"betterstats.config.update_itemgroups_onjoin": "加入時更新物品群組",
+	"betterstats.config.update_itemgroups_onjoin.tooltip": "基於效能和物品分組的考量，此模組預設在你加入遊戲時自動更新物品群組。否則，遊戲會在每次你開啟物品欄時執行此動作。\n\n如果不希望此行為發生或造成相容性問題，請停用此選項。停用此選項可能會導致物品在統計畫面中未分組顯示。",
+	"betterstats.config.hide_player_info": "隱藏玩家資訊",
+	"betterstats.config.hide_player_info.tooltip": "在統計畫面中隱藏玩家資訊。",
+
 	"betterstats.player_badge.dedication.title": "貢獻",
 	"betterstats.player_badge.dedication.description": "你展現了真正的貢獻精神！你已在這個世界遊玩了至少 12 天（288 小時）。",
 	"betterstats.player_badge.loyalty.title": "忠誠",
@@ -85,15 +89,11 @@
 	"betterstats.gui.hud_screen.pin_stat": "釘選至 HUD",
 	"betterstats.gui.hud_screen.live_stats_toggle": "切換即時 HUD 統計更新",
 	"betterstats.gui.hud_screen.tutorial_1": "對統計資訊按下右鍵（[Shift] + 右鍵）將其新增至這裡。",
-
 	"betterstats.gui.hud_screen.tutorial_2": "在 HUD 項目上按下右鍵以進行修改或移除。",
-
 	"betterstats.gui.hud_screen.tutorial_3": "按下 Esc 以關閉這個畫面。",
 
-	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切換「betterstats」伺服器連線",
 	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要事項：\n啟用這項功能後，伺服器將知道你使用的是安裝了「betterstats」的模組用戶端。為保護你的隱私，請勿在可能不允許模組用戶端或這個模組的伺服器上使用這項功能。\n\n啟用這項功能後，如果伺服器也安裝了該模組，將有額外功能可用。",
-
 	"betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "查看來自其他來源的統計資訊",
 	
   
@@ -101,7 +101,6 @@
 	"betterstats.sas.first_craft": "%s 剛剛製作了他們的第一個 %s。",
 	"betterstats.sas.first_death": "%s 剛剛第一次死亡。",
 	"betterstats.sas.first_death.hc1": "%s 剛剛第一次死亡。好消息是，這可能不會再次發生。",
-
 	"betterstats.sas.first_kill": "%s 剛剛殺死了一個 %s，這是他們的第一次。",
 	"betterstats.sas.first_death_to": "%s 剛剛第一次死於 %s。",
 	"betterstats.sas.custom": "%s 剛剛將他們的「%s」統計值增加到 %s。",
@@ -111,27 +110,18 @@
 	"betterstats.gui.tpsbs.description": "一個 GUI 介面，允許您查看來自其他來源的統計資訊，例如其他玩家的統計資訊。",
 	"betterstats.gui.tpsbs.tab.ssps": "同服玩家搜尋",
 	"betterstats.gui.tpsbs.tab.ssps.description": "讓你瀏覽目前伺服器上的玩家，並請求伺服器提供他們的統計資訊。",
-
 	"betterstats.gui.tpsbs.tab.ssps.requirements": "這項功能要求你和伺服器都安裝了這個模組的最新版本（或更好是相同版本）。",
-
 	"betterstats.gui.tpsbs.tab.ssps.player_not_found": "伺服器找不到你請求的玩家名稱。\n\n請確保滿足下列條件後再重試：\n1. 名稱拼字和大小寫正確\n2. 請求的玩家在線上\n3. 請求的玩家已安裝這個模組\n4. 請求的玩家已在這個模組的設置中啟用「統計資訊分享」",
-
 	
 	"betterstats.gui.tpsbs.tab.qs": "快速分享",
 	"betterstats.gui.tpsbs.tab.qs.description": "只需點選一個按鈕，即可快速與使用這個模組的任何人分享你的統計資訊，無論他們身在何處。",
-
 	"betterstats.gui.tpsbs.tab.qs.tos_notice": "快速分享功能使用我的（模組開發者的）伺服器。因此，需要遵守我的《服務條款》和《隱私權政策》。",
-
 	"betterstats.gui.tpsbs.tab.qs.abuse_notice": "為防止垃圾訊息和濫用，可能會有速率限制以及其他限制。",
-
 	"betterstats.gui.tpsbs.tab.qs.step_1": "§e第一步：\n§7點選按鈕快速分享你目前查看的統計檔案。之後，會上傳統計資訊，你會取得「快速分享碼」。",
-
 	"betterstats.gui.tpsbs.tab.qs.step_2": "§e第二步：\n§7需要查看共享統計資訊的人輸入「快速分享碼」，然後點選按鈕下載並查看共用的統計資訊。",
-
 	"betterstats.gui.tpsbs.tab.qs.step_2.enter_qscode": "在這裡輸入快速分享碼",
 
-	
-	
+
 	"betterstats.gui.qs_screen.upload.title": "正在上傳快速分享的統計資訊...",
 	"betterstats.gui.qs_screen.upload.stage_n1": "上傳統計資訊失敗",
 	"betterstats.gui.qs_screen.upload.stage_0": "準備上傳統計資訊...",
@@ -139,7 +129,7 @@
 	"betterstats.gui.qs_screen.upload.stage_2": "正在取得雲端上傳 API 端點網址...",
 	"betterstats.gui.qs_screen.upload.stage_3": "正在將統計資訊上傳至雲端...",
  	"betterstats.gui.qs_screen.upload.stage_4": "完成。您的快速分享碼是：%s",
-  
+
 	"betterstats.gui.qs_screen.download.title": "正在下載快速分享的統計資訊...",
 	"betterstats.gui.qs_screen.download.stage_n1": "下載統計資訊失敗",
 	"betterstats.gui.qs_screen.download.stage_0": "準備下載統計資訊...",
@@ -147,7 +137,7 @@
 	"betterstats.gui.qs_screen.download.stage_2": "正在取得雲端下載 API 端點網址...",
 	"betterstats.gui.qs_screen.download.stage_3": "正在從雲端下載統計資訊...",
 	"betterstats.gui.qs_screen.download.stage_4": "完成。正在載入下載的統計資訊...",
-  
+
 	"betterstats.gui.qs_screen.err.cmmn.fau.generic": "無法取得 BSS API 網址。",
 	"betterstats.gui.qs_screen.err.cmmn.fau.missing_url": "BSS API 網址目前未定義或遺漏。\n以下為額外註釋（僅限 en_us）：\n%s",
 	"betterstats.gui.qs_screen.err.cmmn.fau.http_non200": "無法取得 BSS API 網址，因為伺服器回應了以下訊息：\n%s",
