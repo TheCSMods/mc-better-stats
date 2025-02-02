@@ -20,7 +20,7 @@
 	"betterstats.stattype_phrase.morestats.totem_popped_by": "被触发的不死图腾数",
 
 
-	"betterstats.key_binding.toggle_hud_screen": "切换统计信息HUD",
+	"betterstats.key_binding.toggle_hud_screen": "切换统计信息 HUD",
 	
 	"betterstats.gui.menu_bar.menu_file": "文件",
 	"betterstats.gui.menu_bar.menu_file.new": "新建",
@@ -57,7 +57,7 @@
 	"betterstats.client.gui.stats.panel.statstabpanel.seed_sha256": "种子 (SHA-256)",
 	
 	"betterstats.config.debug_mode": "调试模式",
-	"betterstats.config.gui_smooth_scroll": "GUI平滑滚动",
+	"betterstats.config.gui_smooth_scroll": "GUI 平滑滚动",
 	"betterstats.config.gui_smooth_scroll.tooltip": "启用时，滚动统计信息面板将拥有平滑的动画。\n这可能会在低端设备上造成性能负担。",
 	"betterstats.config.gui_mob_follow_cursor": "生物跟随光标",
 	"betterstats.config.trust_all_servers_bss_net": "自动切换 'betterstats' 连接",
@@ -87,15 +87,15 @@
 	"betterstats.player_badge.perennial_survivor.description": "你已成功逃脱了死亡，至少现在如此。 你还会继续逃避这不可避免之事吗？\n\n你已存活至少12小时。",
 	
 
-	"betterstats.gui.hud_screen": "统计信息HUD",
-	"betterstats.gui.hud_screen.pin_stat": "固定到HUD",
-	"betterstats.gui.hud_screen.live_stats_toggle": "切换统计HUD实是否时更新",
+	"betterstats.gui.hud_screen": "统计信息 HUD",
+	"betterstats.gui.hud_screen.pin_stat": "固定到 HUD",
+	"betterstats.gui.hud_screen.live_stats_toggle": "切换统计 HUD 实是否时更新",
 	"betterstats.gui.hud_screen.tutorial_1": "右键单击统计信息（[Shift]+RMB）将它添加到此处。",
 	"betterstats.gui.hud_screen.tutorial_2": "右键单击 HUD 条目以修改或删除它。",
 	"betterstats.gui.hud_screen.tutorial_3": "按 Escape (ESC) 键关闭此屏幕。",
 	
 	"betterstats.network.betterstatsnetworkhandler.toggle_tooltip": "切换'betterstats'服务器连接",
-	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要提示：\n启用该功能后服务器会知道您正在使用betterstats，请勿在可能不允许修改客户端或使用此模组的服务器上启用该功能！\n\n当服务器也安装此模组时，启用该功能会添加一些额外功能。",
+	"betterstats.network.betterstatsnetworkhandler.consent_warning": "重要提示：\n启用该功能后服务器会知道您正在使用 betterstats，请勿在可能不允许修改客户端或使用此模组的服务器上启用该功能！\n\n当服务器也安装此模组时，启用该功能会添加一些额外功能。",
 	"betterstats.network.betterstatsnetworkhandler.s3ps_tooltip": "查看其他来源的统计信息",
 	
 	
