@@ -4,7 +4,7 @@
 plugins
 {
 	id 'groovy'
-	id 'fabric-loom' version '1.7-SNAPSHOT'
+	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
