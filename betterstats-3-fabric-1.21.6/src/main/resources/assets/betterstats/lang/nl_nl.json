@@ -1,0 +1,10 @@
+{
+	"betterstats": "Better Statistics Screen",
+	
+	
+	"betterstats.stattype_phrase.minecraft.killed": "Gedood",
+	"betterstats.stattype_phrase.minecraft.killed_by": "Overleden door",
+	"betterstats.stattype_phrase.morestats.damaged": "Schade toegebracht (x10)",
+	"betterstats.stattype_phrase.morestats.damaged_by": "Schade geleden (x10)",
+	"betterstats.stattype_phrase.morestats.totem_popped_by": "Totems geactiveerd door"
+}
