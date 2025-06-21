@@ -44,33 +44,7 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 		super(x, y, size, size, stat);
 		this.entityType = stat.getEntityType();
 		
-		//prepare the tooltip text
-		final MutableText ttt = literal("") //MUST create new text instance
-				.append(literal("").append(stat.getStatLabel()).formatted(Formatting.YELLOW))
-				.append("\n§7" + stat.getStatID())
-				.append("\n§r");
-		
-		//iterate all registered stat types, to append their values to the tooltip text
-		for(final var statType : Registries.STAT_TYPE)
-		{
-			//ignore all registry types except ENTITY_TYPE; also ignore the two vanilla stat types
-			if(statType.getRegistry() != Registries.ENTITY_TYPE) continue;
-			
-			//obtain the text formatter for this stat type
-			@SuppressWarnings("removal")
-			final @Nullable var textFormatter = BSRegistries.ENTITY_STAT_TEXT_FORMATTER.get(statType);
-			if(textFormatter != null) ttt.append("\n§e-§r ").append(textFormatter.apply(stat));
-			else
-			{
-				@SuppressWarnings("unchecked")
-				final var statTypeE = (StatType<EntityType<?>>)statType;
-				final int stVal = stat.getStatsProvider().getStatValue(statTypeE, stat.getEntityType());
-				ttt.append("\n§e-§r ")
-					.append(getEntityStatTypePhrase(statTypeE))
-					.append(": " + statTypeE.getOrCreateStat(stat.getEntityType()).format(stVal));
-			}
-		}
-		setTooltip(this.defaultTooltip = Tooltip.of(ttt));
+		setTooltip(this.defaultTooltip = Tooltip.of(createTooltipText(stat)));
 		
 		this.entityRenderer = new TEntityRendererElement(x, y, size, size, this.entityType);
 		this.entityRenderer.setFollowsCursor(BSS_CONFIG.guiMobsFollowCursor);
@@ -105,6 +79,44 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 		
 		//return super
 		return super.input(inputContext);
+	}
+	// ==================================================
+	/**
+	 * Creates a {@link Text} instance for a tooltip belonging to a mob stat element.
+	 * @param stat The {@link SUMobStat}.
+	 * @throws NullPointerException If an argument is {@code null}.
+	 */
+	public static final Text createTooltipText(SUMobStat stat) throws NullPointerException
+	{
+		//prepare the tooltip text
+		final MutableText ttt = literal("") //MUST create new text instance
+				.append(literal("").append(stat.getStatLabel()).formatted(Formatting.YELLOW))
+				.append("\n§7" + stat.getStatID())
+				.append("\n§r");
+		
+		//iterate all registered stat types, to append their values to the tooltip text
+		for(final var statType : Registries.STAT_TYPE)
+		{
+			//ignore all registry types except ENTITY_TYPE; also ignore the two vanilla stat types
+			if(statType.getRegistry() != Registries.ENTITY_TYPE) continue;
+			
+			//obtain the text formatter for this stat type
+			@SuppressWarnings("removal")
+			final @Nullable var textFormatter = BSRegistries.ENTITY_STAT_TEXT_FORMATTER.get(statType);
+			if(textFormatter != null) ttt.append("\n§e-§r ").append(textFormatter.apply(stat));
+			else
+			{
+				@SuppressWarnings("unchecked")
+				final var statTypeE = (StatType<EntityType<?>>)statType;
+				final int stVal = stat.getStatsProvider().getStatValue(statTypeE, stat.getEntityType());
+				ttt.append("\n§e-§r ")
+					.append(getEntityStatTypePhrase(statTypeE))
+					.append(": " + statTypeE.getOrCreateStat(stat.getEntityType()).format(stVal));
+			}
+		}
+		
+		//return the result
+		return ttt;
 	}
 	// ==================================================
 }

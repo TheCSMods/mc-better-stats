@@ -15,6 +15,7 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 
+import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatTextWidget;
 import io.github.thecsdev.betterstats.api.client.gui.stats.widget.MobStatWidget;
 import io.github.thecsdev.betterstats.api.client.gui.util.StatsTabUtils;
 import io.github.thecsdev.betterstats.api.client.util.StatFilterSettings;
@@ -34,7 +35,8 @@ import net.minecraft.text.Text;
 public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 {
 	// ==================================================
-	private static final int ITEMS_PER_PAGE = 125;
+	private static final int     ITEMS_PER_PAGE = 125;
+	private static final boolean IS_VISUAL      = false; //if true, GUI mobs are displayed visually
 	// ==================================================
 	public @Virtual @Override Text getName() { return translatable("stat.mobsButton"); }
 	// --------------------------------------------------
@@ -119,15 +121,29 @@ public @Internal @Virtual class MobStatsTab extends BSStatsTab<SUMobStat>
 		
 		for(final SUMobStat stat : stats)
 		{
-			final var statElement = new MobStatWidget(nextX, nextY, stat);
-			panel.addChild(statElement, true);
-			if(processWidget != null)
-				processWidget.accept(statElement);
-			
-			nextX += SIZE + GAP;
-			if(nextX + SIZE >= wmp)
+			//for visually rendered GUI mobs
+			if(IS_VISUAL)
 			{
-				nextX = panel.getScrollPadding();
+				final var statElement = new MobStatWidget(nextX, nextY, stat);
+				panel.addChild(statElement, true);
+				if(processWidget != null)
+					processWidget.accept(statElement);
+				
+				nextX += SIZE + GAP;
+				if(nextX + SIZE >= wmp)
+				{
+					nextX = panel.getScrollPadding();
+					nextY = (UILayout.nextChildBottomY(panel) - panel.getY()) + GAP;
+				}
+			}
+			
+			//for non-visual GUI mob stats, aka general-statistics-like mob stats
+			else
+			{
+				final var statElement = new MobStatTextWidget(
+						nextX, nextY, panel.getWidth() - (panel.getScrollPadding() * 2), stat);
+				panel.addChild(statElement, true);
+				
 				nextY = (UILayout.nextChildBottomY(panel) - panel.getY()) + GAP;
 			}
 		}
