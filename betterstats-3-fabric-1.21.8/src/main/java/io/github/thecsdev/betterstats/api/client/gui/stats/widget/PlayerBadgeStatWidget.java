@@ -19,6 +19,7 @@ import io.github.thecsdev.tcdcommons.api.util.annotations.Virtual;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 
+@Deprecated(since = "3.13.9")
 public @Virtual class PlayerBadgeStatWidget extends AbstractStatWidget<SUPlayerBadgeStat>
 {
 	// ==================================================

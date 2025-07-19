@@ -23,6 +23,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+@Deprecated(since = "3.13.9")
 public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 {
 	// ==================================================
@@ -101,7 +102,6 @@ public @Virtual class MobStatWidget extends AbstractStatWidget<SUMobStat>
 			if(statType.getRegistry() != Registries.ENTITY_TYPE) continue;
 			
 			//obtain the text formatter for this stat type
-			@SuppressWarnings("removal")
 			final @Nullable var textFormatter = BSRegistries.ENTITY_STAT_TEXT_FORMATTER.get(statType);
 			if(textFormatter != null) ttt.append("\n§e-§r ").append(textFormatter.apply(stat));
 			else

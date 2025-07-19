@@ -17,6 +17,7 @@ public @Virtual class MobStatTextWidget extends AbstractStatWidget<SUMobStat>
 	protected final Text txt_label;
 	protected final Text txt_value;
 	// ==================================================
+	@SuppressWarnings("deprecation")
 	public MobStatTextWidget(int x, int y, int width, SUMobStat stat) throws NullPointerException
 	{
 		super(x, y, width, GeneralStatWidget.HEIGHT, stat);

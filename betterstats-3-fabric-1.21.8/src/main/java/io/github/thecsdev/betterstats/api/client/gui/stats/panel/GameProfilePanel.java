@@ -39,6 +39,7 @@ public final class GameProfilePanel extends BSComponentPanel
 		this.statsProvider = Objects.requireNonNull(statsProvider);
 	}
 	// ==================================================
+	@SuppressWarnings("deprecation")
 	protected final @Override void init()
 	{
 		//calculations

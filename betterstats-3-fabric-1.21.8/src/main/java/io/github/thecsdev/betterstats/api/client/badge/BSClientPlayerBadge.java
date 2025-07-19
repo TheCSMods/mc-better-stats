@@ -15,6 +15,7 @@ import net.minecraft.text.Text;
 /**
  * {@link BetterStats}'s implementation of {@link ClientPlayerBadge}.
  */
+@Deprecated(since = "3.13.9")
 public @Virtual class BSClientPlayerBadge extends ClientPlayerBadge
 {
 	// ==================================================

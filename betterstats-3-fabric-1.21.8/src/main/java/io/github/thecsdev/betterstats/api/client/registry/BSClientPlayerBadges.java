@@ -17,6 +17,7 @@ import net.minecraft.item.Items;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 
+@Deprecated(since = "3.13.9")
 public final class BSClientPlayerBadges
 {
 	// ==================================================
